@@ -44,7 +44,7 @@ int project(void)
 	
 	for (i=0;i<10;i++)
 	{
-		gameinfo.huge_engineering[i]=0;
+		gameinfo.huge_engineering[i].lock=0;
 	}
 	/*
 	这里预留空间通过文件读取操作访问存档
@@ -55,7 +55,6 @@ int project(void)
 	p1=create_nodebq();
 	clrmous(MouseX,MouseY); 
 	delay(100); 
-	
 	cleardevice();
 	
 	while (1)
@@ -96,7 +95,7 @@ int proj_fun1(struct GameInfo* gameinfop)
 	draw_main_toolbotton_activate(234,0xBD32,"地图","显示");
 	draw_all_leftbuttons(2,65,s);
 	draw_map(300,105,954,759,7,7,gameinfop);
-	
+	draw_map2(300,105,954,759,7,7,gameinfop);
 	while (1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);

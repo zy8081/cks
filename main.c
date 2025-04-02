@@ -29,10 +29,10 @@ void main()
 				break;
 			case 3:
 				MouseS=1;
-				page=start();
+				//page=start();
 				break;
 			case 4:
-				page=wrkmng_main();
+			   //	page=wrkmng_main();
 				break;
 			case 5:
 				MouseS=1;

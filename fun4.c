@@ -217,25 +217,36 @@ int have_researched(struct GameInfo* gameinfop)
 	int flag1=0;
 	int i,j;
 	int maxpage;
+	int len;
 	int oldpage=1,newpage=1;
 	tree* p1=create_techtree1();
 	tree* p2=create_techtree2();
 	tree* p3=create_techtree3();
 	nodet *pp1=create_nodet();
+	nodet *temp;
 	
-	nodet *pp2;
 	
 	generate_technode2(p1,pp1);
 	generate_technode2(p2,pp1);
 	generate_technode2(p3,pp1);
 	
-	maxpage=calculate_nodet_len(pp1)/6+1;
-	
+	len=calculate_nodet_len(pp1);
+	maxpage=len/6+1;
 	
 	draw_have_researched(newpage,pp1);
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
+		
+		if (newpage!=oldpage)
+		{
+			clrmous(MouseX,MouseY); 
+			clear_right_all();
+			clear_main_all2(1);
+			draw_have_researched(newpage,pp1);
+			oldpage=newpage;
+		}
+		
 		if(main_toolbotton_mouse_press(1)==1)
         {
             clrmous(MouseX,MouseY); 
@@ -283,6 +294,39 @@ int have_researched(struct GameInfo* gameinfop)
             page=5;
             break;
         }
+		
+		if (mouse_press(60,350,180,400)==1)
+		{
+			if (newpage>1)
+			{
+				newpage--;
+			}
+		}
+		else if (mouse_press(60,420,180,470)==1)
+		{
+			if (newpage<maxpage)
+			{
+				newpage++;
+			}
+		}
+		
+		for (i=(newpage-1)*6+1;i<= ((newpage)*6 <= len ? (newpage)*6 : len) ;i++)
+		{
+			if (mouse_press(900,120+(i-((newpage-1)*6)-1)*100,1000,200+(i-((newpage-1)*6)-1)*100)==1)
+			{
+				temp=pp1;
+				for (j=0;j<i;j++)
+				{
+					temp=temp->next;
+				}
+				clrmous(MouseX,MouseY); 
+				clear_main_all2(1);
+				clear_right_all();
+				page=display_tech_txt(temp->type,temp->id);
+				oldpage=0;
+				break;
+			}
+		}
 	}
 	
 	free_tree(p1);
@@ -299,13 +343,25 @@ void draw_have_researched(int page,nodet *pp1)
 	int i;
 	int index=(page-1)*6+1;
 	char name[50]={'\0'};
+	char str[20]={'\0'};
 	nodet *temp=pp1;
 	for (i=0;i<index;i++)
 	{
 		temp=temp->next;
 	}
+	sprintf(str,"%d/%d页",page,length/6+1);
+	put_hz24_asc32(80,300,str,1,"HZK\\Hzk24k");
+	bar(60,350,180,400,0xFE00);
+	puthz(60,350,"上一页",24,24,1);
+	bar(60,420,180,470,0xFE00);
+	puthz(60,420,"下一页",24,24,1);
+	
 	for (i=0;i<6;i++)
 	{
+		if (temp==NULL)
+		{
+			break;
+		}
 		bar(250,120+(i)*100,900,200+(i)*100,0xBDBD);
 		bar(900,120+(i)*100,1000,200+(i)*100,0xFE00);
 		//puthz(900,165+(i)*100,"研究",32,32,1);
@@ -314,7 +370,7 @@ void draw_have_researched(int page,nodet *pp1)
 		
 		//puthz(630,170+(i)*100,"所需科研点：",24,24,1);
 		put_asc16_number_size(780,170+(i)*100,2,2,temp->point,1);
-		get_tech_name(temp,name);
+		get_tech_name(temp->type,temp->id,name);
 		puthz(270,120+(i)*100,name,24,24,1);
 		
 		//put_asc16_number_size(950,170+(i)*100,2,2,temp->type,1);
@@ -325,6 +381,57 @@ void draw_have_researched(int page,nodet *pp1)
 		//put_hz24_asc32(820,200+(location-1)*130,str,1000,"HZK\\Hzk24k");
 	
 	}
+}
+
+
+int display_tech_txt(int type,int id)
+{
+	int i;
+	char *txt[10];
+	char name[50]={'\0'};
+	char effect[50]={'\0'};
+
+	int line;
+	for (i=0;i<10;i++)
+	{
+		txt[i]=(char *)malloc(100);
+	}
+	
+	line=get_tech_txt(type,id,txt);
+	
+	
+	
+	get_tech_name(type,id,name);
+	puthz(250,120,name,48,48,1);
+	
+	bar(100,300,200,350,0xFF19);
+	puthz(100,300,"返回",24,24,1);
+	
+	puthz(250,200,"已激活效果：",32,32,1);
+	get_tech_effect(type,id,effect);
+	put_hz24_asc32(440,200,effect,1,"HZK\\Hzk24k");
+
+	puthz(250,250,"简介：",32,32,1);
+	
+	for (i=0;i<line;i++)
+	{
+		puthz(250,290+i*30,txt[i],24,24,1);
+	}
+	while(1)
+	{
+		mouse_renew(&MouseX,&MouseY,&press);
+		if (mouse_press(100,300,200,350)==1)
+		{
+			break;
+		}
+		
+	}
+
+	for (i=0;i<10;i++)
+	{
+		free(txt[i]);
+	}
+	return 4;
 }
 
 void start_research_tech(nodet *pp2,int i,struct GameInfo *gameinfop)
@@ -349,6 +456,7 @@ void draw_techlist0(nodet *pp2)
 	int len=calculate_nodet_len(pp2);
 	int i,j;
 	char name[50]={'\0'};
+	char effect[50]={'\0'};
 	nodet *temp=pp2->next;
 	for (i=0;i<len;i++)
 	{
@@ -357,8 +465,13 @@ void draw_techlist0(nodet *pp2)
 		puthz(900,165+(i)*180,"研究",32,32,1);
 
 		puthz(630,170+(i)*180,"所需科研点：",24,24,1);
+
+		puthz(260,200+(i)*180,"效果：",32,32,1);
+		get_tech_effect(temp->type,temp->id,effect);
+		put_hz24_asc32(340,200+(i)*180,effect,1,"HZK\\Hzk24k");
+
 		put_asc16_number_size(780,170+(i)*180,2,2,temp->point,1);
-		get_tech_name(temp,name);
+		get_tech_name(temp->type,temp->id,name);
 		puthz(270,150+(i)*180,name,48,48,1);
 		
 		put_asc16_number_size(950,170+(i)*180,2,2,temp->type,1);
@@ -375,12 +488,20 @@ void draw_techlist1(struct GameInfo *gameinfop)
 	char str[30]={'\0'};
 	char name[50]={'\0'};
 	char effect[100]={'\0'};
+	char *txt[10];
+	int i;
+	int line;
+	for (i=0;i<10;i++)
+	{
+		txt[i]=(char *)malloc(100);
+	}
 	//bar(250,150,900,310,0xBDBD);
 	puthz(250,120,"正在研究：",48,48,1);
 	get_tech_name2(gameinfop,name);
 	puthz(480,120,name,48,48,1);
 	puthz(250,200,"科研点：",32,32,1);
-	
+	line=get_tech_txt(gameinfop->gametech.type,gameinfop->gametech.id,txt);
+
 	sprintf(str,"%d/%d",gameinfop->gametech.havepoints,gameinfop->gametech.totalpoints);
 	put_hz24_asc32(370,205,str,1,"HZK\\Hzk24k");
 	
@@ -389,13 +510,19 @@ void draw_techlist1(struct GameInfo *gameinfop)
 	put_hz24_asc32(400,255,effect,1,"HZK\\Hzk24k");
 	
 	puthz(250,300,"简介：",32,32,1);
+	for (i=0;i<line;i++)
+	{
+		puthz(250,335+i*30,txt[i],24,24,1);
+	}
+	for (i=0;i<10;i++)
+	{
+		free(txt[i]);
+	}
 }
 
-void get_tech_name(nodet *temp,char* name)
+void get_tech_name(int type,int id,char* name)
 {
 	FILE *file=fopen("./data/tech.txt","r");
-	int type=temp->type;
-	int id=temp->id;
 	int i;
 	char c;
 	if (file==NULL)
@@ -565,8 +692,41 @@ void change_techflag(int type,int id)
     rename("./data/techt.txt", "./data/tech.txt");
 }
 
-
-
+int get_tech_txt(int type,int id,char **txt)
+{
+	FILE *file=fopen("./data/tech2.txt","r");
+	char c;
+	int i;
+	if (file==NULL)
+	{
+		printf("open file error\n");
+		return;
+	}
+	
+	for (i=0;i<type;i++)
+	{
+		while ((c=fgetc(file))!='#');
+	}
+	while ((c=fgetc(file))!='\n');
+	
+	for (i=0;i<id;i++)
+	{
+		while ((c=fgetc(file))!='$');
+	}
+	while ((c=fgetc(file))!='\n');
+	//exit(0);
+	i=0;
+	while ((c=fgetc(file))!='$')
+	{
+		fseek(file,-1,SEEK_CUR);
+		fgets(txt[i],100,file);
+		txt[i][strlen(txt[i])-1]='\0';
+		i++;
+	}
+	
+	fclose(file);
+	return i;
+}
 
 tree *create_tree(int type)
 {

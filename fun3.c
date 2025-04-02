@@ -5,7 +5,9 @@
 #include "fun4.h"
 
 
-
+/*
+点击"建造显示"按键后的界面
+*/
 int proj_fun3(struct GameInfo *gameinfop,nodebq *p)
 {
 	int page=3;
@@ -30,7 +32,6 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p)
             clear_main_all();
 			clear_right_all();
             return 1;
-            
         }
         else if(main_toolbotton_mouse_press(2)==1)
         {
@@ -86,97 +87,15 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p)
             return page;   
 		}
 		
-		//else if (left_toolbotton_mouse_press(3) == 1) //左栏被点中的情况
-        //{
-        //    clrmous(MouseX,MouseY);
-        //    clear_main_all(); 
-        //    draw_left_toolbotton_activate(95 , l, s[1]);//激活新的
-        //    clear_right_all();
-        //    page=huge_engineer(gameinfop,p);
-        //    return page;   
-		//}
 	}
 }
 
-int huge_engineer(struct GameInfo *gameinfop)
-{
-	int page=3;
-	int flag=0;
-	int l=65;
-	
-	char *s[3]={"新建建筑","建造队列","大型工程"};
-	while (1)
-	{
-		mouse_renew(&MouseX,&MouseY,&press);
-		
-		if(main_toolbotton_mouse_press(1)==1)//now==66防止与下面主栏返回键被点中的情况冲突
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 1;
-            
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 2;
-
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 3;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 4;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 5;
-        }
-		
-		
-        
-		
-	}
-}
-
-void draw_huge_engineer(struct GameInfo *gameinfop,int page)
-{
-	
-}
-
-int cal_huge_engineer(struct GameInfo *gameinfop)
-{
-	int count=0;
-	int i;
-	for (i=0;i<HUGE_ENG_NUM;i++)
-	{
-		if (gameinfop->huge_engineering[i]==1)
-		{
-			count++;
-		}
-	}
-	return count;
-}
-
+/*private函数
+进入“建造队列”界面
+实现机理：
+形参p即为储存建造队列的链表，
+它和地图上的数据是独立开的
+*/
 int build_queue(struct GameInfo *gameinfop,nodebq *p)
 {
 	int i,j,k;
@@ -193,7 +112,7 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 	draw_left_toolbotton(95+65*2,65,"终止建造");
 	
 	draw_buildqueue(newpage,gameinfop,p,func);
-	
+
 	sprintf(str,"第%d页",newpage);
 	put_hz24_asc32(80,500,str,1,"HZK\\Hzk24k");
 	sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
@@ -205,7 +124,7 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
-		
+
 		if (newpage!=oldpage)
 		{
 			clear_main_all2(3);
@@ -482,6 +401,9 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 	}
 }
 
+/*private函数
+根据页面来draw建造队列对应的建筑
+*/
 void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func)
 {
 	char str[30]={'\0'};
@@ -543,6 +465,9 @@ void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func)
 	
 }
 
+/*public函数
+画大地图
+*/
 void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop)
 {
 	int dx=x2-x1;
@@ -582,6 +507,9 @@ void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *
 	}
 }
 
+/*public函数
+画红色的大地图
+*/
 void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop)
 {
 	int i,j;
@@ -593,22 +521,34 @@ void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo 
 			{
 				bar(300+j*92,105+i*92,390+j*92,195+i*92,0xA000);
 			}
+			else if(gameinfop->m_info[i][j].building.id!=0)
+			{
+				draw_map_building(i,j,atoi(gameinfop->m_info[i][j].building.pic_path));
+			}
 		}
 	}
+	//huge_engineer
 }
+
+void draw_map_building(int i,int j,int n)
+{
+	char path[50];
+	sprintf(path,"PICTURE\\build\\%d.bmp",n);
+	Readbmp64k(300+j*92,105+i*92,path);
+}
+/*public函数
+点击地图上的对应点，i对应行，j对应列
+*/
 int mouse_press_map(int i,int j)
 {
 	//draw_map(300,105,954,759,7,7);
 	return mouse_press(300+j*90,105+i*90,390+j*90,195+i*90);
 }
-void draw_binfo(void)
-{
-	bar(0,0,100,768,0xFE00);
-	
-	bar(20,45,80,79,1);
-	put_hz24(26,50,"建造",0xffff,"HZK\\Hzk24k",1);
-}
 
+/*private函数
+进入建造界面的中心函数
+-1到-5是相应的page
+*/
 int build(struct GameInfo *gameinfop,nodebq *p)
 {
 	int page2=-1;
@@ -640,6 +580,10 @@ int build(struct GameInfo *gameinfop,nodebq *p)
 	return page2;
 }
 
+/*private函数
+形参： x为对应的page，p1是建造队列链表头（一旦新建建筑就插入链表）
+本函数实现功能：建造建筑功能
+*/
 int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1)
 {
 	nodeb *p[3][5];
@@ -652,6 +596,9 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1)
 	struct Building building[5];
 	int nodeflag[5]={0};
 	
+	/*p链表为nodeb链表
+	
+	*/
 	for (i=0;i<3;i++)
 	{
 		for (j=0;j<5;j++)
@@ -671,8 +618,8 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1)
 	put_hz24_asc32(80,300,str,1,"HZK\\Hzk24k");
 	bar(100,400,200,450,0x7C00);
 	bar(100,600,200,650,0x7C00);
-	puthz(100,400,"上一页",32,32,1);
-	puthz(100,600,"下一页",32,32,1);
+	puthz(100,400,"上一页",24,24,1);
+	puthz(100,600,"下一页",24,24,1);
 	
 	while(1)
 	{
@@ -889,7 +836,9 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	put_hz24(820,170+(location-1)*130,"时长：",1,"HZK\\Hzk24k",0);
 	sprintf(str,"%d个月",building->bui_time);
 	put_hz24_asc32(820,200+(location-1)*130,str,1000,"HZK\\Hzk24k");
-	
+
+	sprintf(str,"PICTURE\\build\\%d.bmp",building->pic_path);
+	Readbmp64k(700,120+(location-1)*130,str);
 	j=0;
 	while(str[j]!='\0')
 	{
@@ -955,6 +904,11 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	//put_asc16_size(430,135+(location-1)*130,2,2,str,1);
 }
 
+/*private函数
+根据形参id，在文件中寻找相应位置，并读取建筑信息存到*building里
+请注意，由于科技功能解锁建筑的加入，这个id变成了第id个建筑的意思，并非对应建筑的id
+详细可参考data文件夹中的building.txt文件
+*/
 int get_building_info(int id,struct Building* building)
 {
 	int total;
@@ -1136,8 +1090,13 @@ int get_building_info(int id,struct Building* building)
 
 
 
-
-//以下为链表操作函数
+/*private函数
+nodeb（单个建筑的链表）创建链表函数
+nodeb链表只是显示仅仅一个建筑的基础信息而创建的
+例如，在点击“新建建筑”后的界面里，你可以看到五个建筑
+这五个建筑就对应了5个nodeb链表
+nodebq链表节点存储的就是建造花费，月收益，月维护中的数值
+*/
 nodeb* create_nodeb(void)
 {
 	nodeb *p=(nodeb*)malloc(sizeof(nodeb));
@@ -1145,7 +1104,9 @@ nodeb* create_nodeb(void)
 	return p;
 }
 
-//获得建筑建造花费的资源的名字，数值
+/*private函数
+nodeb（单个建筑的链表）头插法插入 建筑花费数值 的节点
+*/
 void headinsert1_cost_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop)
 {
 	nodeb *temp;
@@ -1184,6 +1145,10 @@ void headinsert1_cost_nodeb(nodeb *p,struct Building building,struct GameInfo *g
 	}
 }
 
+/*private函数
+nodeb（单个建筑的链表）头插法插入 建筑月收益 数值 的节点
+其中，收益的数字将会标为绿色
+*/
 void headinsert1_add_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop)
 {
 	nodeb *temp;
@@ -1213,6 +1178,9 @@ void headinsert1_add_nodeb(nodeb *p,struct Building building,struct GameInfo *ga
 	}
 }
 
+/*private函数
+nodeb（单个建筑的链表）头插法插入 建筑月维护 数值 的节点
+*/
 void headinsert1_maintfee_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop)
 {
 	nodeb *temp;
@@ -1243,6 +1211,9 @@ void headinsert1_maintfee_nodeb(nodeb *p,struct Building building,struct GameInf
 	
 }
 
+/*private函数
+nodeb（单个建筑的链表）free函数
+*/
 void free_nodeb(nodeb *p)
 {
 	nodeb *temp;
@@ -1254,6 +1225,11 @@ void free_nodeb(nodeb *p)
 	}
 }
 
+/*private函数
+nodebq（建造队列链表）链表创建函数
+赋予i初值1
+nodebq链表只记录 代建造建筑 的地图位置i，j
+*/
 nodebq* create_nodebq(void)
 {
 	nodebq *p=(nodebq*)malloc(sizeof(nodebq));
@@ -1262,6 +1238,9 @@ nodebq* create_nodebq(void)
 	return p;
 }
 
+/*private函数
+nodebq（建造队列链表）尾插法
+*/
 void lastinsert_nodebq(nodebq *p,int i,int j)
 {
 	nodebq *temp=(nodebq*)malloc(sizeof(nodebq));
@@ -1275,6 +1254,9 @@ void lastinsert_nodebq(nodebq *p,int i,int j)
 	temp->next=NULL;
 }
 
+/*private函数
+nodebq（建造队列链表）计算存储多少个数据节点
+*/
 int calculate_nodebq_len(nodebq *p)
 {
 	nodebq *temp;
@@ -1288,6 +1270,9 @@ int calculate_nodebq_len(nodebq *p)
 	return i;
 }
 
+/*private函数
+nodebq（建造队列链表）在头部删除节点
+*/
 void headremove_nodebq(nodebq *p)
 {
 	nodebq *temp;
@@ -1297,6 +1282,10 @@ void headremove_nodebq(nodebq *p)
 	p->next=temp;
 }
 
+/*private函数
+nodebq（建造队列链表）交换两个位置的数据
+以实现建造队列建造顺序的切换
+*/
 void exchange_nodebq(nodebq *p,int x1,int x2)
 {
 	nodebq *p1=p,*p2=p;
@@ -1328,6 +1317,10 @@ void exchange_nodebq(nodebq *p,int x1,int x2)
 	free(temp);
 }
 
+/*private函数
+nodebq（建造队列链表）删除对应位值的链表节点
+以实现建造队列的删除建筑
+*/
 void delete_nodebq(nodebq *p,int x)
 {
 	int i;
@@ -1342,6 +1335,9 @@ void delete_nodebq(nodebq *p,int x)
 	p->next=temp;
 }
 
+/*private函数
+nodebq（建造队列链表）获得链表x位置上存储的建筑位置信息
+*/
 void getdata_nodebq(nodebq *p,int x,int *i,int *j)
 {
 	int k;
@@ -1353,6 +1349,9 @@ void getdata_nodebq(nodebq *p,int x,int *i,int *j)
 	*j=p->j;
 }
 
+/*private函数
+nodebq（建造队列链表）free函数
+*/
 void free_nodebq(nodebq *p)
 {
 	nodebq *temp;
@@ -1364,6 +1363,10 @@ void free_nodebq(nodebq *p)
 	}
 }
 
+/*private函数
+删除建造队列（nodebq）的节点时，并未改变地图上已加载的数据，
+此函数用以初始化地图相应位置的数据
+*/
 void clear_map_building_data(struct GameInfo *gameinfop,int i,int j)
 {
 	char str[30]={'\0'};

@@ -212,7 +212,6 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 			change_techflag(gameinfop->gametech.type,gameinfop->gametech.id);
 			gameinfop->gametech.research_flag=0;
 			give_research_effect(gameinfop->gametech.type,gameinfop->gametech.id,gameinfop,p);
-			//give_research_effect();
 		}
 	}
 	

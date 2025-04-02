@@ -183,3 +183,33 @@ void clear_time(void)
 {
 	bar(0,0,230,85,0xFFFFFF);
 }
+
+void LoadBMP2(int x1, int y1, int x2, int y2, char *path,int n)     //加载图像
+{
+	int i = 0, j = 0;
+	int height = y2 - y1, width = x2 - x1;
+	int color = 0;
+	FILE *fp = NULL;
+	int r,g,b;
+	char path2[50]={'\0'};
+	sprintf(path2,"%s\\%d.bmp",path,n);
+
+	if((fp=fopen(path2,"rb"))==NULL)
+	{
+		fclose(fp);
+		//puthz_coverd2(400,400,"当前位置并没有储存路径！",12,32,34,0x000000,0xBDBD);
+		exit(1);
+	}
+	else
+	{
+		for (i = 0; i<=height; i++)
+		{
+			for (j = 0; j<=width; j++)
+			{
+				fread(&color, sizeof(int), 1, fp);
+				Putpixel64k(x1 + j, y1 + i, color);
+			}
+		}
+		fclose(fp);
+	}
+}
