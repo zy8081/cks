@@ -23,10 +23,13 @@ void draw_have_researched(int page,nodet *pp1);
 
 void draw_techlist0(nodet *pp2);
 void draw_techlist1(struct GameInfo *gameinfop);
-void get_tech_name(nodet *temp,char* name);
+void get_tech_name(int type,int id,char* name);
 void get_tech_name2(struct GameInfo *gameinfop,char* name);
 void get_tech_effect(int type, int id,char *effect);
 void change_techflag(int type,int id);
+int get_tech_txt(int type,int id,char **txt);
+int display_tech_txt(int type,int id);
+
 void start_research_tech(nodet *pp2,int i,struct GameInfo *gameinfop);
 
 

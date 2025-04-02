@@ -50,6 +50,12 @@ struct technologydata
 	int totalpoints;
 };
 
+struct hugeengineer
+{
+	int lock;
+	int time;
+};
+
 struct GameInfo
 {
 	struct MapInfo m_info[7][7];
@@ -58,12 +64,8 @@ struct GameInfo
 	int techpoint;
 	int year;
 	int month;
-	int huge_engineering[HUGE_ENG_NUM];
+	struct hugeengineer huge_engineering[HUGE_ENG_NUM];
 };
-
-
-
-
 
 int project(void);
 int proj_fun1(struct GameInfo* gameinfop);
@@ -71,8 +73,6 @@ int proj_fun2(struct GameInfo *gameinfo);
 void proj_fun2_1(struct GameInfo *gameinfop);
 void get_all_resourceinfo(struct GameInfo *gameinfop);
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data);
-
-
 
 int proj_origin(struct GameInfo* gameinfop);
 

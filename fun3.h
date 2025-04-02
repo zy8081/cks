@@ -18,7 +18,7 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p);
 void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func);
 void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop);
 void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop);
-void draw_binfo(void);
+void draw_map_building(int i,int j,int n);
 
 int build(struct GameInfo *gameinfop,nodebq *p);
 int buildlist(int x,struct GameInfo *gameinfop,nodebq *p);

@@ -21,3 +21,5 @@ void clear_main_all2(int x);
 void clear_right_all(void);
 void clear_time(void);
 void draw_time(struct GameInfo *gameinfop);
+
+void LoadBMP2(int x1, int y1, int x2, int y2, char *path,int n);
