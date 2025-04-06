@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "fun3.h": "c",
+        "fun5.h": "c",
+        "fun4.h": "c",
+        "common.h": "c",
+        "fun3_2.h": "c",
+        "ordfuns.h": "c",
+        "game.h": "c",
+        "fun3_3.h": "c",
+        "START.C": "cpp",
+        "WRKMNG.C": "cpp",
+        "wrkmng.h": "c",
+        "wrkplc.h": "c",
+        "event.h": "c",
+        "main.h": "c",
+        "login.h": "c"
+    }
+}

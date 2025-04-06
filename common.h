@@ -8,7 +8,8 @@
 #include"mouse.h"
 #include<conio.h>
 #include"hz.h"
-
-
+#include<time.h>
+#include"draw.h"
+#include<io.h>
 
 #endif

@@ -147,7 +147,8 @@ void save_bk_mou(int mx,int my)//存鼠标背景
 		}
 	}
 }
-void clrmous(int mx,int my)//清除鼠标 覆盖背景图
+//清除鼠标 覆盖背景图
+void clrmous(int mx,int my)
 {
 	if(flag==1)
 	{
@@ -156,6 +157,7 @@ void clrmous(int mx,int my)//清除鼠标 覆盖背景图
 		{
 			for (j = 0; j < W; j++)
 			{
+				
 				Putpixel64k(mx + j, my + i, mouse_bk[i][j]);   //画出原鼠标覆盖区
 			}
 		}
@@ -253,16 +255,16 @@ int mouse_press(int x1, int y1, int x2, int y2)
 
 
 /***得到鼠标位置，按键状态***/
-//int MouseGet(MOUSE * mouse)
-//{ 
-//	union REGS regs;
-//	regs.x.ax = 3;
-//	int86(0x33, &regs, &regs);
-//	mouse->x = regs.x.cx;
-//	mouse->y = regs.x.dx;
-//	mouse->key = regs.x.bx;
-//	return mouse->key;
-//}
+int MouseGet()
+{ 
+	union REGS regs;
+	regs.x.ax = 3;
+	int86(0x33, &regs, &regs);
+	//mouse->x = regs.x.cx;
+	//mouse->y = regs.x.dx;
+	press = regs.x.bx;
+	return press;
+}
 //
 ///***设置鼠标显示位置***/
 //void MouseSet(int x,int y)
