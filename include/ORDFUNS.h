@@ -1,23 +1,24 @@
 #ifndef ORDFUNS_H
 #define ORDFUNS_H
 
-typedef struct btnbar//方形按钮定义
+/*typedef struct btnbar//锟斤拷锟轿帮拷钮锟斤拷锟斤拷
 {
-    char* inf;  //按钮显示的文字内容
-    int xinf;   //文字输入的坐标
+    char* inf;  //锟斤拷钮锟斤拷示锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+    int xinf;   //锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟?
     int yinf;
 
-    int x1;     //左上及右下角位置点的坐标
+    int x1;     //锟斤拷锟较硷拷锟斤拷锟铰斤拷位锟矫碉拷锟斤拷锟斤拷锟?
     int y1;
     int x2;
     int y2; 
-}BTN_BAR;
+}BTN_BAR;*/
 
-void btn_bar_Draw(BTN_BAR b);
-void btn_bar_Draw0(BTN_BAR b);//画按钮，无数字为普通，0为选中，1为无法选中
-void hzplace(BTN_BAR *pb,int nx,int ny);//确定文字居中放置位置
-
-void show_gb(int x,int y);
-void Getinfo(int x1,int y1,char *name,int num,int a1,int b1,int c1,int d1);
+void btn_bar_Draw(int x1,int y1,int x2,int y2);
+void btn_bar_Draw0(int x1,int y1,int x2,int y2);
+void btn_bar_Draw1(int x1,int y1,int x2,int y2);
+//void hzplace(BTN_BAR *pb,int nx,int ny);//确锟斤拷锟斤拷锟街撅拷锟叫凤拷锟斤拷位锟斤拷
+void inputs(int x ,int y ,char *content);
+void draw_toast(void);
+void clear_toast(void);
 
 #endif

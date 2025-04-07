@@ -5,8 +5,8 @@ typedef struct Nodesave
 	int j;
 }nodes;
 
-int proj_fun5(struct GameInfo* gameinfop,nodebq *p);
-int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p);
+int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int (*events)[2]);
+int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2]);
 void draw_fun5_1(void);
 void time_flow(struct GameInfo *gameinfop,nodebq *p);
 int save(struct GameInfo *gameinfop);

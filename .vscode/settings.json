@@ -14,6 +14,12 @@
         "wrkplc.h": "c",
         "event.h": "c",
         "main.h": "c",
-        "login.h": "c"
+        "login.h": "c",
+        "drawwork.h": "c",
+        "map.h": "c",
+        "debug.h": "c",
+        "fun1.h": "c",
+        "nodet.h": "c",
+        "change.h": "c"
     }
 }

@@ -1,3 +1,4 @@
+#define HUGE_ENG_NUM 10
 struct Resource
 {
 	int nanomaterial;
@@ -32,6 +33,7 @@ struct Building
 	struct Resource res_cost;
 	struct Resource res_add;
 	int bui_time;
+	int lock;
 };
 
 struct MapInfo
@@ -49,31 +51,31 @@ struct technologydata
 	int totalpoints;
 };
 
+struct hugeengineer
+{
+	int lock;
+	int time;
+};
+
 struct GameInfo
 {
-	struct MapInfo m_info[7][7];
+	struct MapInfo m_info[15][15];
 	struct ResAllInfo r_info;
 	struct technologydata gametech;
 	int techpoint;
 	int year;
 	int month;
+    struct hugeengineer huge_engineering[HUGE_ENG_NUM];
 };
 
+int project(struct workfile w,int*page);
 
 
-
-
-int project(void);
-int proj_fun1(struct GameInfo* gameinfop);
-int proj_fun2(struct GameInfo *gameinfo);
-void proj_fun2_1(struct GameInfo *gameinfop);
 void get_all_resourceinfo(struct GameInfo *gameinfop);
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data);
-
-
 
 int proj_origin(struct GameInfo* gameinfop);
 
 
 
-//void judge_press_mainbutton(int flag);
+int judge_press_mainbutton(int flag,int *page);

@@ -1,27 +1,42 @@
 #ifndef WRKMNG_H
 #define WRKMNG_H
 
-#include<ORDFUNS.h>
-#include<WRKADD.h>
 
-enum landname{OlymMon=1,MariVal,ArabTer,UtopPla,ElysPla};//定义枚举确定项目地点
+enum landname{OlymMon=1,MariVal,ArabTer,UtopPla,ElysPla};
 
-typedef struct workfile//定义文件
+typedef struct workfile
 {
-    char name[11];//项目名
-    int place;//项目地点
-    char path_bas[30];//.bas文件储存路径,用于储存基本信息
-    char path_dat[30];//.dat文件储存路径，用于储存部署情况等
+    char name[20];
+    int place;
+    char path_bas[50];
+    char path_dat[50];
+    int select;
+    char path_his[50];
+    char path[50];
 }WORKFILE;
 
-int wrkmng_main();//仿照MAIN实现项目管理换页
-int wrkmng_menu();//项目管理菜单部分
-void title1prt();//画标题
-void backprt(BTN_BAR* pbackbtn);//画返回按钮
-void menu1prt();//画菜单
-void addprt(BTN_BAR* paddbtn);//画新建项目按钮
-void openprt(BTN_BAR* popenbtn,int form);//画打开项目按钮
-void dltprt(BTN_BAR* pdltbtn,int form);//画删除部项目按钮
-void exchprt(BTN_BAR* pexchbtn,int form);//画换序按钮
+typedef struct timework
+{
+    struct GameInfo gameinft;
+    int event[2];
+}  TIMEWORK;
 
+void wrkmng_main(int *fpage,char*user,WORKFILE* pwork);
+void wrkmng_menu(int *fpage1,char*user,WORKFILE* pwork);
+void title1prt();
+void backprt();
+void menu1prt();
+void addprt();
+void openprt(int form);
+void dltprt(int form);
+void exchprt(int form);
+void lastprt(int form);
+void nextprt(int form);
+void pageselprt(int workpage,int n);
+void pageprt(int page,int pagemax);
+void test(void);
+void wrkdelete(int page,int n,char*user);
+void dltfile(int page,int n,char*user);
+void hiscreate(char* pathhis);
+void wrkopen_path(int page,int n,char*user,char**pdat);
 #endif

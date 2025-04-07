@@ -1,4 +1,4 @@
-#ifndef START_h
-#define START_h
-int start(void);
+#ifndef START_H
+#define START_H
+void start(int*);
 #endif

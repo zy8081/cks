@@ -1,5 +1,6 @@
 #include "hz.h"
 #include "login.h"
 #include "game.h"
-#include "ORDFUNS.h"
-#include "WRKMNG.h"
+#include "START.h"
+#include"WRKMNG.h"
+#include"WRKPLC.h"
