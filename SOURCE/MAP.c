@@ -1,10 +1,5 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
+#include<ALLFUNS.h>
+
 void draw_block(int x,int y,struct MapInfo mi,int form)
 {
     int x1=300+x*92;
@@ -45,19 +40,19 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
             put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"4",1,"HZK\\Hzk24k");
             break;
         case 5:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_5",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"5",1,"HZK\\Hzk24k");
             break;
         case 6:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_6",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"6",1,"HZK\\Hzk24k");
             break;
         case 7:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_7",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"7",1,"HZK\\Hzk24k");
             break;
         case 8:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_8",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"8",1,"HZK\\Hzk24k");
             break;
         case 9:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_9",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"9",1,"HZK\\Hzk24k");
             break;
     }
 }
@@ -70,7 +65,7 @@ void draw_mainmap(struct GameInfo gf,int xsel,int ysel)
     {
         for(j=0;j<7;j++)
         {
-            draw_block(j,i,gf.m_info[ysel+i][xsel+j],0);
+            draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
         }
     }
 }
@@ -84,9 +79,9 @@ void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
         for(j=0;j<7;j++)
         {
             if(gf.m_info[xsel+i][ysel+j].building.id==0)
-                draw_block(j,i,gf.m_info[ysel+i][xsel+j],0);
+                draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
             else
-                draw_block(j,i,gf.m_info[ysel+i][xsel+j],1);
+                draw_block(i,j,gf.m_info[xsel+i][ysel+j],1);
         }
     }
 }
@@ -94,6 +89,8 @@ void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
 int renew_map(int* pxsel,int*pysel)
 {
     char temp=0;
+    //while(bioskey(1))clean=bioskey(0);
+
     if(bioskey(1)!=0)
     {
         temp=bioskey(0);
@@ -129,6 +126,12 @@ int renew_map(int* pxsel,int*pysel)
     return 0;
 }
 
+void cleankey()
+{
+    char clean;
+    while(bioskey(1))clean=bioskey(0);
+}
+
 void draw_minimap(struct GameInfo gf,int xsel,int ysel)
 {
     int i,j;
@@ -152,9 +155,9 @@ void draw_minimap(struct GameInfo gf,int xsel,int ysel)
         for(j=0;j<15;j++)
         {
             if(gf.m_info[i][j].building.id==0)
-                bar(j*15+5,i*15+400,(j+1)*15+4,(i+1)*15+400,64526);
+                bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,64526);
             else
-                bar(j*15+5,i*15+400,(j+1)*15+4,(i+1)*15+400,38770);
+                bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,38770);
         }
     }
     line_thick(xl1, yl1, xl2, yl1, 1,65535);

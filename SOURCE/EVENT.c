@@ -1,11 +1,5 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
-#include <EVENT.h>
+#include<ALLFUNS.h>
+
 void eventsc(int (*events)[2])
 {
     time_t t;
