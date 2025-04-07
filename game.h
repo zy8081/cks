@@ -65,13 +65,12 @@ struct GameInfo
 	int techpoint;
 	int year;
 	int month;
-	struct hugeengineer huge_engineering[HUGE_ENG_NUM];
+    struct hugeengineer huge_engineering[HUGE_ENG_NUM];
 };
 
 int project(struct workfile w,int*page);
 
-int proj_fun2(struct GameInfo *gameinfo);
-void proj_fun2_1(struct GameInfo *gameinfop);
+
 void get_all_resourceinfo(struct GameInfo *gameinfop);
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data);
 
