@@ -27,48 +27,10 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
 		
-		if(main_toolbotton_mouse_press(1)==1)//now==66防止与下面主栏返回键被点中的情况冲突
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 1;
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 2;
-
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 3;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 4;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 5;
-        }
-		
+		if (judge_press_mainbutton(3,&page))
+		{
+			return page;
+		}
 		
         if (left_toolbotton_mouse_press(1) == 1) //左栏被点中的情况
         {
@@ -268,11 +230,11 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 		nodeflag[i]=dlist_building(5*(x-1)+i+1,i+1,p[0][i],p[1][i],p[2][i],gameinfop,&building[i]);
 		delay(20);
 	}
-	
+	//0x7C00
 	sprintf(str,"第%d页",x);
 	put_hz24_asc32(80,300,str,1,"HZK\\Hzk24k");
-	bar(100,400,200,450,0x7C00);
-	bar(100,600,200,650,0x7C00);
+	btn_bar_Draw(100,400,200,450);
+	btn_bar_Draw(100,600,200,650);
 	puthz(100,400,"上一页",24,24,1);
 	puthz(100,600,"下一页",24,24,1);
 	
@@ -280,51 +242,10 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
 		
-		if(main_toolbotton_mouse_press(1)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-			page=1;
-			break;    
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            page=2;
-			break; 
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            page=3;
-			break; 
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            page=4;
-			break; 
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            page=5;
-			break; 
-        }
+		if (judge_press_mainbutton(3,&page))
+		{
+			return page;
+		}
 		
 		if (mouse_press(100,400,200,450)==1)
 		{
@@ -490,10 +411,10 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	{
 		return 1;
 	}
-	
+	//,0xFE00
 	//btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
-	bar(240,120+(location-1)*130,920,230+(location-1)*130,0xBDBD);
-	bar(920,120+(location-1)*130,1000,230+(location-1)*130,0xFE00);
+	btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
+	btn_bar_Draw(920,120+(location-1)*130,1000,230+(location-1)*130);
 
 	put_hz24(920,135+(location-1)*130,"建造",1,"HZK\\Hzk24k",0);
 
@@ -563,7 +484,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	
 	
 	//sprintf(str,"%d",building.res_cost.nanomaterial);
-	puthz(250,125+(location-1)*130,building->name,32,32,1);
+	puthz2(250,125+(location-1)*130,32,32,1,building->name);
 	return 0;
 	//put_asc16_size(430,135+(location-1)*130,2,2,str,1);
 }

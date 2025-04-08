@@ -6,10 +6,11 @@
 #include <fun5.h>
 #include <fun4.h>
 #include <nodet.h>
+#include <ORDFUNS.h>
 int proj_fun4(struct GameInfo* gameinfop)
 {
 	int page=4;
-	char *s[3]={"科技树","建设科技","生产科技"};
+	char *s[3]={"民生科技","建设科技","生产科技"};
 	draw_main_toolbotton_activate(708,0xFF19,"科技","研究");
 	
 	draw_all_leftbuttons(3,65,s);
@@ -19,48 +20,10 @@ int proj_fun4(struct GameInfo* gameinfop)
 	while (1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
-		if(main_toolbotton_mouse_press(1)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            return 1;
-            
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            return 2;
-
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            return 3;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            return 4;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            return 5;
-        }
+		if (judge_press_mainbutton(4,&page))
+		{
+			return page;
+		}
 		
 		if (left_toolbotton_mouse_press(1) == 1) //左栏被点中的情况
         {
@@ -68,7 +31,7 @@ int proj_fun4(struct GameInfo* gameinfop)
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , 65, s[0]);//激活新的
             clear_right_all();
-            page=research_tech(gameinfop);
+            page=research_lifetech(gameinfop);
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
@@ -92,21 +55,190 @@ int proj_fun4(struct GameInfo* gameinfop)
 	}
 }
 
-int research_tech(struct GameInfo *gameinfop)
+int research_lifetech(struct GameInfo *gameinfop)
 {
 	int page=4;
-	tree* p=create_techtree();
-	nodet *pt=create_nodet_list(3);
-	traverse_tree_to_nodetlist(p,pt,3);
-	printf_nodet_list(pt,3);
-	//draw_leaves(p,2);
+	int i;
+	int location[10][2];
+	tree* p=create_lifetech_tree();
+	for (i=0;i<10;i++)
+	{
+		id_find_xy_lifetech(p,i+1,location);
+	}
+	draw_lifetech_line(p);
+	draw_lifetech_tree(p);
+	
+
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
 		if (judge_press_mainbutton(4,&page))
 		{
-			return page;
+			break;
 		}
+		for (i=0;i<10;i++)
+		{
+			if (mouse_press(location[i][0]-20,location[i][1]-20,location[i][0]+20,location[i][1]+20)==1)
+			{
+				clrmous(MouseX,MouseY); 
+				draw_lifetech_toast(p,i+1);
+				delay(400);
+				while(1)
+				{
+					mouse_renew(&MouseX,&MouseY,&press);
+					if (mouse_press(0,0,1024,768)==1)
+					{
+						clrmous(MouseX,MouseY); 
+						load_lifetech_toast();
+						break;
+					}
+				}
+			}
+		}
+	}
+	free_tree(p);
+	return page;
+}
+
+tree *create_lifetech_tree(void)
+{
+	int i;
+	tree *p=create_tree(1);
+	tree *temp;
+	p->id=1;
+	get_tech_basic_info(p,p->type,p->id);
+	temp=p;
+	for (i=2;i<5;i++)
+	{
+		insert_simple_leaf(temp,1,i,0);
+		temp=temp->child[0];
+	}
+	temp=p;
+	insert_simple_leaf(temp,1,5,1);
+	temp=temp->child[1];
+	insert_simple_leaf(temp,1,6,0);
+	insert_simple_leaf(temp,1,7,1);
+	temp=p;
+	for (i=8;i<11;i++)
+	{
+		insert_simple_leaf(temp,1,i,2);
+		temp=temp->child[2];
+	}
+	return p;
+}
+
+void id_find_xy_lifetech(tree *p,int id,int (*arr)[2])
+{
+	int i;
+	if (p==NULL)
+	{
+		return;
+	}
+	if (p->id==id)
+	{
+		arr[id-1][0]=p->x;
+		arr[id-1][1]=p->y;
+	}
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		id_find_xy_lifetech(p->child[i],id,arr);
+	}
+}
+
+void id_find_baseinfo_lifetech(tree *p,tree *temp,int id)
+{
+	int i;
+	if (p==NULL)
+	{
+		return;
+	}
+	if (p->id==id)
+	{
+		temp->id=p->id;
+		temp->type=p->type;
+		temp->point=p->point;
+		temp->parent=p->parent;
+		temp->flag=p->flag;
+		strcpy(temp->name,p->name);
+	}
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		id_find_baseinfo_lifetech(p->child[i],temp,id);
+	}
+}
+
+void draw_lifetech_tree(tree *p)
+{
+	int i;
+	if (p==NULL)
+	{
+		return;
+	}
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		draw_lifetech_tree(p->child[i]);
+	}
+	if (p->flag==1)
+	{
+		bar(p->x-20,p->y-20,p->x+20,p->y+20,1000);
+	}
+	else
+	{
+		btn_bar_Draw(p->x-20,p->y-20,p->x+20,p->y+20);
+	}
+	
+}
+
+void draw_lifetech_toast(tree *p,int id)
+{
+	tree temp;
+	char str[30];
+	id_find_baseinfo_lifetech(p,&temp,id);
+	SaveBMP(300,500,800,700,0);
+	btn_bar_Draw(300,500,800,700);
+	puthz2(300,500,32,32,1,temp.name);
+	if (temp.parent->flag==0)
+	{
+		puthz2(300,550,32,32,1,"前置科技未解锁");
+	}
+	if (temp.flag==0)
+	{
+		puthz(500,500,"未研究",32,32,1);
+	}
+	sprintf(str,"%d",temp.point);
+	put_hz24_asc32(300,600,str,1,"HZK\\HZK24");
+}
+
+void load_lifetech_toast(void)
+{
+	LoadBMP(300,500,800,700,0);
+}
+
+void draw_lifetech_line(tree *leaf)
+{
+	int i;
+	if (leaf==NULL)
+	{
+		return;
+	}
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		if (leaf->child[i]!=NULL)
+		{
+			if (leaf->flag==1)
+			{
+				line_thick(leaf->x,leaf->y,leaf->child[i]->x,leaf->child[i]->y,4,3000);
+			}
+			else
+			{
+				line_thick(leaf->x,leaf->y,leaf->child[i]->x,leaf->child[i]->y,4,1);
+			}
+		}
+	}
+	
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		draw_lifetech_line(leaf->child[i]);
 	}
 }
 
@@ -150,13 +282,6 @@ void cal_nodet_list_pos(int num,int *initpos,int *apart)
 	*initpos=235+(*apart);
 }
 
-void draw_tree(tree *p,int floor)
-{
-	if (floor==1)
-	{
-
-	}
-}
 
 void draw_leaves(tree *p,int floor)
 {
@@ -180,256 +305,256 @@ tree p1 p2 p3是不同科技树的指针
 pp1是递归出的未研究科技的链表
 pp2是从pp1中随机抽取的科技
 */
-int research(struct GameInfo* gameinfop)
-{
-	int page=4;
-	int flag1=0;
-	int i,j;
+// int research(struct GameInfo* gameinfop)
+// {
+// 	int page=4;
+// 	int flag1=0;
+// 	int i,j;
 	
-	tree* p1=create_techtree1();
-	tree* p2=create_techtree2();
-	tree* p3=create_techtree3();
-	nodet *pp1=create_nodet();
+// 	tree* p1=create_techtree1();
+// 	tree* p2=create_techtree2();
+// 	tree* p3=create_techtree3();
+// 	nodet *pp1=create_nodet();
 	
-	nodet *pp2;
-	
-	
-	generate_technode(p1,pp1);
-	generate_technode(p2,pp1);
-	generate_technode(p3,pp1);
-	
-	pp2=extract_nodet(pp1,3);
+// 	nodet *pp2;
 	
 	
-	if (gameinfop->gametech.research_flag==1)
-	{
-		draw_techlist1(gameinfop);
-	}
-	else
-	{
-		draw_techlist0(pp2);
-	}
+// 	generate_technode(p1,pp1);
+// 	generate_technode(p2,pp1);
+// 	generate_technode(p3,pp1);
+	
+// 	pp2=extract_nodet(pp1,3);
 	
 	
-	
-	printf_nodet(pp2);
+// 	if (gameinfop->gametech.research_flag==1)
+// 	{
+// 		draw_techlist1(gameinfop);
+// 	}
+// 	else
+// 	{
+// 		draw_techlist0(pp2);
+// 	}
 	
 	
 	
-	puthz(20,200,"每月科研点：",24,24,1);
-	put_asc16_number_size(160,200,2,2,gameinfop->techpoint,1);
+// 	printf_nodet(pp2);
 	
-	while(1)
-	{
-		mouse_renew(&MouseX,&MouseY,&press);
-		if(main_toolbotton_mouse_press(1)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-			page=1;
-            break;
+	
+	
+// 	puthz(20,200,"每月科研点：",24,24,1);
+// 	put_asc16_number_size(160,200,2,2,gameinfop->techpoint,1);
+	
+// 	while(1)
+// 	{
+// 		mouse_renew(&MouseX,&MouseY,&press);
+// 		if(main_toolbotton_mouse_press(1)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+// 			page=1;
+//             break;
             
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=2;
-            break;
+//         }
+//         else if(main_toolbotton_mouse_press(2)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=2;
+//             break;
 
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=3;
-            break;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=4;
-            break;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=5;
-            break;
-        }
+//         }
+//         else if(main_toolbotton_mouse_press(3)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=3;
+//             break;
+//         }
+//         else if(main_toolbotton_mouse_press(4)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=4;
+//             break;
+//         }
+//         else if(main_toolbotton_mouse_press(5)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=5;
+//             break;
+//         }
 		
-		if (gameinfop->gametech.research_flag==0)
-		{
-			for(i=0;i<3;i++)
-			{
-				if (mouse_press(900,150+(i)*180,1000,310+(i)*180)==1)
-				{
-					start_research_tech(pp2,i,gameinfop);
-					gameinfop->gametech.research_flag=1;
-					gameinfop->gametech.havepoints=0;
-					flag1++;
-					break;
-				}
-			}
-			if (flag1==1)
-			{
-				clrmous(MouseX,MouseY); 
-				draw_main_toolbotton(708,0xFF19,"科技","研究");
-				clear_main_all();
-				clear_right_all();
-				page=4;
-				break;
-			}
-		}
-	}
+// 		if (gameinfop->gametech.research_flag==0)
+// 		{
+// 			for(i=0;i<3;i++)
+// 			{
+// 				if (mouse_press(900,150+(i)*180,1000,310+(i)*180)==1)
+// 				{
+// 					start_research_tech(pp2,i,gameinfop);
+// 					gameinfop->gametech.research_flag=1;
+// 					gameinfop->gametech.havepoints=0;
+// 					flag1++;
+// 					break;
+// 				}
+// 			}
+// 			if (flag1==1)
+// 			{
+// 				clrmous(MouseX,MouseY); 
+// 				draw_main_toolbotton(708,0xFF19,"科技","研究");
+// 				clear_main_all();
+// 				clear_right_all();
+// 				page=4;
+// 				break;
+// 			}
+// 		}
+// 	}
 	
 	
-	free_tree(p1);
-	free_tree(p2);
-	free_tree(p3);
-	free_nodet(pp2);
-	free_nodet(pp1);
+// 	free_tree(p1);
+// 	free_tree(p2);
+// 	free_tree(p3);
+// 	free_nodet(pp2);
+// 	free_nodet(pp1);
 
-	return page;
-}
+// 	return page;
+// }
 
-int have_researched(struct GameInfo* gameinfop)
-{
-	int page=4;
-	int flag1=0;
-	int i,j;
-	int maxpage;
-	int len;
-	int oldpage=1,newpage=1;
-	tree* p1=create_techtree1();
-	tree* p2=create_techtree2();
-	tree* p3=create_techtree3();
-	nodet *pp1=create_nodet();
-	nodet *temp;
+// int have_researched(struct GameInfo* gameinfop)
+// {
+// 	int page=4;
+// 	int flag1=0;
+// 	int i,j;
+// 	int maxpage;
+// 	int len;
+// 	int oldpage=1,newpage=1;
+// 	tree* p1=create_techtree1();
+// 	tree* p2=create_techtree2();
+// 	tree* p3=create_techtree3();
+// 	nodet *pp1=create_nodet();
+// 	nodet *temp;
 	
 	
-	generate_technode2(p1,pp1);
-	generate_technode2(p2,pp1);
-	generate_technode2(p3,pp1);
+// 	generate_technode2(p1,pp1);
+// 	generate_technode2(p2,pp1);
+// 	generate_technode2(p3,pp1);
 	
-	len=calculate_nodet_len(pp1);
-	maxpage=len/6+1;
+// 	len=calculate_nodet_len(pp1);
+// 	maxpage=len/6+1;
 	
-	draw_have_researched(newpage,pp1);
-	while(1)
-	{
-		mouse_renew(&MouseX,&MouseY,&press);
+// 	draw_have_researched(newpage,pp1);
+// 	while(1)
+// 	{
+// 		mouse_renew(&MouseX,&MouseY,&press);
 		
-		if (newpage!=oldpage)
-		{
-			clrmous(MouseX,MouseY); 
-			clear_right_all();
-			clear_main_all2(1);
-			draw_have_researched(newpage,pp1);
-			oldpage=newpage;
-		}
+// 		if (newpage!=oldpage)
+// 		{
+// 			clrmous(MouseX,MouseY); 
+// 			clear_right_all();
+// 			clear_main_all2(1);
+// 			draw_have_researched(newpage,pp1);
+// 			oldpage=newpage;
+// 		}
 		
-		if(main_toolbotton_mouse_press(1)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-			page=1;
-            break;
+// 		if(main_toolbotton_mouse_press(1)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+// 			page=1;
+//             break;
             
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=2;
-            break;
+//         }
+//         else if(main_toolbotton_mouse_press(2)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=2;
+//             break;
 
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=3;
-            break;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=4;
-            break;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(708,0xFF19,"科技","研究");
-            clear_main_all();
-			clear_right_all();
-            page=5;
-            break;
-        }
+//         }
+//         else if(main_toolbotton_mouse_press(3)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=3;
+//             break;
+//         }
+//         else if(main_toolbotton_mouse_press(4)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=4;
+//             break;
+//         }
+//         else if(main_toolbotton_mouse_press(5)==1)
+//         {
+//             clrmous(MouseX,MouseY); 
+//             draw_main_toolbotton(708,0xFF19,"科技","研究");
+//             clear_main_all();
+// 			clear_right_all();
+//             page=5;
+//             break;
+//         }
 		
-		if (mouse_press(60,350,180,400)==1)
-		{
-			if (newpage>1)
-			{
-				newpage--;
-			}
-		}
-		else if (mouse_press(60,420,180,470)==1)
-		{
-			if (newpage<maxpage)
-			{
-				newpage++;
-			}
-		}
+// 		if (mouse_press(60,350,180,400)==1)
+// 		{
+// 			if (newpage>1)
+// 			{
+// 				newpage--;
+// 			}
+// 		}
+// 		else if (mouse_press(60,420,180,470)==1)
+// 		{
+// 			if (newpage<maxpage)
+// 			{
+// 				newpage++;
+// 			}
+// 		}
 		
-		for (i=(newpage-1)*6+1;i<= ((newpage)*6 <= len ? (newpage)*6 : len) ;i++)
-		{
-			if (mouse_press(900,120+(i-((newpage-1)*6)-1)*100,1000,200+(i-((newpage-1)*6)-1)*100)==1)
-			{
-				temp=pp1;
-				for (j=0;j<i;j++)
-				{
-					temp=temp->next;
-				}
-				clrmous(MouseX,MouseY); 
-				clear_main_all2(1);
-				clear_right_all();
-				page=display_tech_txt(temp->type,temp->id);
-				oldpage=0;
-				break;
-			}
-		}
-	}
+// 		for (i=(newpage-1)*6+1;i<= ((newpage)*6 <= len ? (newpage)*6 : len) ;i++)
+// 		{
+// 			if (mouse_press(900,120+(i-((newpage-1)*6)-1)*100,1000,200+(i-((newpage-1)*6)-1)*100)==1)
+// 			{
+// 				temp=pp1;
+// 				for (j=0;j<i;j++)
+// 				{
+// 					temp=temp->next;
+// 				}
+// 				clrmous(MouseX,MouseY); 
+// 				clear_main_all2(1);
+// 				clear_right_all();
+// 				page=display_tech_txt(temp->type,temp->id);
+// 				oldpage=0;
+// 				break;
+// 			}
+// 		}
+// 	}
 	
-	free_tree(p1);
-	free_tree(p2);
-	free_tree(p3);
+// 	free_tree(p1);
+// 	free_tree(p2);
+// 	free_tree(p3);
 	
-	free_nodet(pp1);
-	return page;
-}
+// 	free_nodet(pp1);
+// 	return page;
+// }
 
 void draw_have_researched(int page,nodet *pp1)
 {
@@ -464,7 +589,7 @@ void draw_have_researched(int page,nodet *pp1)
 		
 		//puthz(630,170+(i)*100,"所需科研点：",24,24,1);
 		put_asc16_number_size(780,170+(i)*100,2,2,temp->point,1);
-		get_tech_name(temp->type,temp->id,name);
+		//get_tech_name(temp->type,temp->id,name);
 		puthz(270,120+(i)*100,name,24,24,1);
 		
 		//put_asc16_number_size(950,170+(i)*100,2,2,temp->type,1);
@@ -495,7 +620,7 @@ int display_tech_txt(int type,int id)
 	
 	
 	
-	get_tech_name(type,id,name);
+	//get_tech_name(type,id,name);
 	puthz(250,120,name,48,48,1);
 	
 	bar(100,300,200,350,0xFF19);
@@ -565,7 +690,7 @@ void draw_techlist0(nodet *pp2)
 		put_hz24_asc32(340,200+(i)*180,effect,1,"HZK\\Hzk24k");
 
 		put_asc16_number_size(780,170+(i)*180,2,2,temp->point,1);
-		get_tech_name(temp->type,temp->id,name);
+		//get_tech_name(temp->type,temp->id,name);
 		puthz(270,150+(i)*180,name,48,48,1);
 		
 		put_asc16_number_size(950,170+(i)*180,2,2,temp->type,1);
@@ -614,11 +739,12 @@ void draw_techlist1(struct GameInfo *gameinfop)
 	}
 }
 
-void get_tech_name(int type,int id,char* name)
+void get_tech_basic_info(tree *p,int type,int id)
 {
 	FILE *file=fopen("./data/tech.txt","r");
 	int i;
 	char c;
+	char str[30];
 	if (file==NULL)
 	{
 		printf("open file error\n");
@@ -637,17 +763,56 @@ void get_tech_name(int type,int id,char* name)
 		while ((c=fgetc(file))!='\n');
 	}
 	
-	for (i=0;i<2;i++)
+	//跳过id
+	while ((c=fgetc(file))!=' ');
+
+	i=0;
+	while ((c=fgetc(file))!=' ')
 	{
-		while ((c=fgetc(file))!=' ');
+		str[i++]=c;
 	}
+	str[i]='\0';
+	p->floor=atoi(str);
+
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	p->flag=atoi(str);
+
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		p->name[i++]=c;
+	}
+	p->name[i]='\0';
 	
 	i=0;
 	while ((c=fgetc(file))!=' ')
 	{
-		name[i++]=c;
+		str[i++]=c;
 	}
-	name[i]='\0';
+	str[i]='\0';
+	p->point=atoi(str);
+
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	p->x=atoi(str);
+
+	i=0;
+	while ((c=fgetc(file))!='\n')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	p->y=atoi(str);
+
 	fclose(file);
 }
 
@@ -824,127 +989,47 @@ int get_tech_txt(int type,int id,char **txt)
 
 tree *create_tree(int type)
 {
+	int i;
 	tree *p=(tree*)malloc(sizeof(tree));
-	p->id=1;
 	p->type=type;
-	get_techflag(p);
-	p->leftchild=NULL;
-	p->rightchild=NULL;
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		p->child[i]=NULL;
+	}
 	return p;
 }
 
 
 
-void insert_tree(tree *p,int id,int type,int flag)
+void insert_simple_leaf(tree *p,int type,int id,int func)
 {
 	tree *temp;
-	
+	int i;
 	temp=(tree*)malloc(sizeof(tree));
 	temp->id=id;
 	temp->type=type;
-	get_techflag(temp);
-	temp->leftchild=NULL;
-	temp->rightchild=NULL;
-	
-	if (flag==0)
+	get_tech_basic_info(temp,temp->type,temp->id);
+
+	for (i=0;i<CHILD_NUM;i++)
 	{
-		p->leftchild=temp;
+		temp->child[i]=NULL;
 	}
-	if (flag==1)
+	temp->parent=p;
+	if (func==0)
 	{
-		p->rightchild=temp;
+		p->child[0]=temp;
 	}
+	if (func==1)
+	{
+		p->child[1]=temp;
+	}
+	if (func==2)
+	{
+		p->child[2]=temp;
+	}
+
 }
 
-tree* create_techtree1(void)
-{
-	int i;
-	tree *p1=create_tree(1);
-	tree *p2=p1,*p3=p1;
-	for (i=0;i<3;i++)
-	{
-		insert_tree(p2,i+2,1,0);
-		p2=p2->leftchild;
-	}
-	
-	for (i=0;i<5;i++)
-	{
-		insert_tree(p3,i+5,1,1);
-		p3=p3->rightchild;
-	}
-	return p1;
-}
-
-tree* create_techtree2(void)
-{
-	int i;
-	tree *p1=create_tree(2);
-	tree *p2=p1,*p3=p1;
-	for (i=0;i<3;i++)
-	{
-		insert_tree(p2,i+2,2,0);
-		p2=p2->leftchild;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		insert_tree(p3,i+5,2,1);
-		p3=p3->rightchild;
-	}
-	return p1;
-}
-
-tree* create_techtree3(void)
-{
-	int i;
-	tree *p1=create_tree(3);
-	tree *p2=p1,*p3=p1;
-	for (i=0;i<2;i++)
-	{
-		insert_tree(p2,i+2,3,0);
-		p2=p2->leftchild;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		insert_tree(p3,i+4,3,1);
-		p3=p3->rightchild;
-	}
-	return p1;
-}
-
-tree* create_techtree(void)
-{
-	tree *p1=create_tree_pp(1);
-	tree *p2=create_tree_pp(2);
-	tree *p3=create_tree_pp(3);
-	tree *p4=create_tree_pp(4);
-	tree *temp1;
-	tree *temp2;
-	tree *temp3;
-	p1->child[0]=p2;
-	p1->child[1]=p3;
-	p1->child[2]=p4;
-	temp1=create_tree_pp(5);
-	temp2=create_tree_pp(6);
-	temp3=create_tree_pp(7);
-	p2->child[0]=temp1;
-	p2->child[1]=temp2;
-	p2->child[2]=temp3;
-	temp1=create_tree_pp(8);
-	temp2=create_tree_pp(9);
-	temp3=create_tree_pp(10);
-	p3->child[0]=temp1;
-	p3->child[1]=temp2;
-	p3->child[2]=temp3;
-	temp1=create_tree_pp(11);
-	temp2=create_tree_pp(12);
-	temp3=create_tree_pp(13);
-	p4->child[0]=temp1;
-	p4->child[1]=temp2;
-	p4->child[2]=temp3;
-	return p1;
-}
 
 tree *create_tree_pp(int id)
 {
@@ -1001,102 +1086,25 @@ void get_techflag(tree *p)
 	}
 	str[i]='\0';
 	p->flag=atoi(str);
-	// for (i=0;i<type;i++)
-	// {
-	// 	while ((c=fgetc(file))!='#');
-	// }
-	
-	// while ((c=fgetc(file))!='\n');
-	
-	// for (i=0;i<id-1;i++)
-	// {
-	// 	while ((c=fgetc(file))!='\n');
-	// }
-	
-	// while ((c=fgetc(file))!=' ');
-	
-	// //读取flag状态
-	// i=0;
-	// while ((c=fgetc(file))!=' ')
-	// {
-	// 	str[i++]=c;
-	// }
-	// str[i]='\0';
-	// p->flag=atoi(str);
-	
-	// while ((c=fgetc(file))!=' ');
-	
-	// //读取point
-	// i=0;
-	// while ((c=fgetc(file))!='\n')
-	// {
-	// 	str[i++]=c;
-	// }
-	// str[i]='\0';
-	// p->point=atoi(str);
-	//put_asc16_number_size(750,170+(i)*180,2,2,p->flag,1);
-	//delay(4000);
 	fclose(file);
 }
 
-//void get_techflag_all(tree *p)
-//{
-//	if (p==NULL)
-//	{
-//		return;
-//	}
-//	get_techflag_all(p->leftchild);
-//	get_techflag_all(p->rightchild);
-//	get_techflag(p);
-//}
 
 void free_tree(tree *p)
 {
+	int i;
 	if (p==NULL)
 	{
 		return;
 	}
-	free_tree(p->leftchild);
-	free_tree(p->rightchild);
+	for (i=0;i<CHILD_NUM;i++)
+	{
+		free_tree(p->child[i]);
+	}
 	free(p);
 }
 
 
-void generate_technode(tree *p,nodet *p1)
-{
-	if (p==NULL)
-	{
-		return;
-	}
-	if (p->flag==0)
-	{
-		headinsert_nodet(p1,p->type,p->id,p->point);
-		return;
-	}
-	else
-	{
-		generate_technode(p->leftchild,p1);
-		generate_technode(p->rightchild,p1);
-	}
-}
-
-void generate_technode2(tree *p,nodet *p1)
-{
-	if (p==NULL)
-	{
-		return;
-	}
-	if (p->flag==1)
-	{
-		headinsert_nodet(p1,p->type,p->id,p->point);
-		generate_technode2(p->leftchild,p1);
-		generate_technode2(p->rightchild,p1);
-	}
-	else
-	{
-		return;
-	}
-}
 
 nodet *create_nodet(void)
 {
