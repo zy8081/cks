@@ -1,4 +1,12 @@
-#include<ALLFUNS.h>
+#include <common.h>
+#include <game.h>
+#include <fun3_2.h>
+#include<ORDFUNS.h>
+#include<WRKMNG.h>
+#include<WRKPLC.h>
+#include<DRAWWORK.h>
+#include<WRKADD.h>
+#include<SL.h>
 
 int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage)
 {

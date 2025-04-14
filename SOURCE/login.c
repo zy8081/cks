@@ -116,6 +116,7 @@ int login(char *puser)
 			MouseS=1;
 			if (!flag1)
 			{
+		
 				clrmous(MouseX,MouseY); 
 				draw_button1_login_activate(250,500,400,550);
 				puthz2(301,513,24,24,0xffff,"µÇÂ¼");

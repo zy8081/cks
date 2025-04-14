@@ -1,7 +1,5 @@
 #include<ALLFUNS.h>
 
-#include <common.h>
-#include <main.h>
 void createDirectory(const char* dirname);
 //bar(0,0,1024,768,0xffff);
 //login()和regist()都出自于login.c文件

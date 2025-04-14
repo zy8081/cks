@@ -1,4 +1,8 @@
-#include<ALLFUNS.h>
+#include <common.h>
+#include <game.h>
+#include<ORDFUNS.h>
+#include<WRKMNG.h>
+#include<WRKPLC.h>
 
 void wrkmng_add_place(int* fpage1,int*placetemp)
 {
@@ -12,7 +16,7 @@ void wrkmng_add_place(int* fpage1,int*placetemp)
     };
     //BTN_BAR sure={"确定",0,0,387,675,637,725};
     //BTN_BAR backbtn={"返回",0,0,50,50,150,90};
-    Readbmp64k(0,0,"C:\\TEST\\PICTURE\\map.bmp");
+    Readbmp64k(0,0,"PICTURE\\map.bmp");
     bar(0,625,1023,768,27469);
     //backprt(&backbtn);
     for(i=0;i<=4;i++)
@@ -56,11 +60,11 @@ void sureprt(int i)
     if(i==0)
     {
         btn_bar_Draw1(387,675,637,725);
-        put_hz24(387,700,"确定",0,"C:\\TEST\\HZK\\HZK24",0);
+        put_hz24(387,700,"确定",0,"HZK\\HZK24",0);
     }
     if(i==1)
     {
         btn_bar_Draw(387,675,637,725);
-        put_hz24(387,700,"完成",0,"C:\\TEST\\HZK\\HZK24",0);
+        put_hz24(387,700,"完成",0,"HZK\\HZK24",0);
     }
 }
