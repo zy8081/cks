@@ -1,15 +1,15 @@
-#include<mouse.h>
+#include"mouse.h"
 #include <dos.h>
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
-#include <SVGA.h>
+#include "SVGA.h"
 #define  H 15
 #define  W 12
 
 
 union REGS regs;
-int mouse_shape1[H][W] =    //Êó±êĞÎ×´¶şÎ¬Êı×é
+int mouse_shape1[H][W] =    //ï¿½ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½Î?ï¿½ï¿½ï¿½ï¿½
 {
     {1,1,0,0,0,0,0,0,0,0,0,0},
 	{1,2,1,0,0,0,0,0,0,0,0,0},
@@ -29,7 +29,7 @@ int mouse_shape1[H][W] =    //Êó±êĞÎ×´¶şÎ¬Êı×é
 		    			
 };
 
-int mouse_shape2[H][W] =    //Êó±êĞÎ×´¶şÎ¬Êı×é
+int mouse_shape2[H][W] =    //ï¿½ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½Î?ï¿½ï¿½ï¿½ï¿½
 {
     {1,1,1,1,1,1,1,1,1,1,1,1},
 	{0,0,0,0,0,1,1,0,0,0,0,0},
@@ -48,7 +48,7 @@ int mouse_shape2[H][W] =    //Êó±êĞÎ×´¶şÎ¬Êı×é
 	{1,1,1,1,1,1,1,1,1,1,1,1}
 		    			
 };
-unsigned int mouse_bk[20][20];           //´æ·Å±»Êó±ê¸²¸ÇµÄÇøÓò
+unsigned int mouse_bk[20][20];           //ï¿½ï¿½Å±ï¿½ï¿½ï¿½ê¸²ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½
 int MouseX;
 int MouseY;
 int MouseS;
@@ -57,10 +57,10 @@ int flag=0;
 
 
 
-/***Êó±ê³õÊ¼»¯***/
+/***ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½***/
 void mouseinit(void)
 {
-	//Êó±ê¸´Î»£¬¼ì²âÊÇ·ñ°²×°Êó±ê
+	//ï¿½ï¿½ê¸´Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½×°ï¿½ï¿½ï¿?
 	union REGS regs;
 	regs.x.ax=0;
 	int86(0x33,&regs,&regs);
@@ -70,17 +70,17 @@ void mouseinit(void)
 		delay(5000);
 		exit(1);
 	}  
-	/*ÉèÖÃºá×ø±ê·¶Î§*/
+	/*ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½ê·¶Î§*/
 	regs.x.ax = 7;
 	regs.x.cx = 0;
 	regs.x.dx = 1012;
 	int86(0x33, &regs, &regs);
-	/*ÉèÖÃ×İ×ø±ê·¶Î§*/
+	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê·¶Î§*/
 	regs.x.ax = 8;
 	regs.x.cx = 0;
 	regs.x.dx = 752;
 	int86(0x33, &regs, &regs);
-	//µÃµ½Êó±ê×´Ì¬   
+	//ï¿½Ãµï¿½ï¿½ï¿½ï¿½×´Ì?   
 	MouseS=0;
 	MouseX=320,MouseY=240;
 	save_bk_mou(MouseX,MouseY);
@@ -88,15 +88,15 @@ void mouseinit(void)
 	
 	//MouseGet(&mouse);                  
 	//MouseSpeed(6,4);
-	//mouse_on(mouse);                 //ÏÔÊ¾Êó±ê
+	//mouse_on(mouse);                 //ï¿½ï¿½Ê¾ï¿½ï¿½ï¿?
 }
 
 
 
 
 /********************************
-	¹¦ÄÜËµÃ÷£ºÉèÖÃÊó±ê¼ÆÊıÓëÏñËØ±È,ÖµÔ½´óÊó±êÒÆ¶¯ËÙ¶ÈÔ½Âı 
-	²ÎÊıËµÃ÷£ºint   vx,	Êó±êºáÏòµÄ£»int   vy	Êó±ê×İÏòµÄ
+	ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½,ÖµÔ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½Ô½ï¿½ï¿? 
+	ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½int   vx,	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½int   vy	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 **
 ********************************/
 void MouseSpeed(int x, int y)
@@ -109,7 +109,7 @@ void MouseSpeed(int x, int y)
 }
 
 
-void mread(int *mx,int *my,int*mbuttons)//¶ÁÈ¡Êó±êÎ»ÖÃ²¢¸üĞÂ
+void mread(int *mx,int *my,int*mbuttons)//ï¿½ï¿½È¡ï¿½ï¿½ï¿½Î»ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿?
 {
 	regs.x.ax=3;
 	int86(51,&regs,&regs);
@@ -118,24 +118,24 @@ void mread(int *mx,int *my,int*mbuttons)//¶ÁÈ¡Êó±êÎ»ÖÃ²¢¸üĞÂ
 	*mbuttons=regs.x.bx;
 }
 
-void mouse_renew(int *mx,int *my,int*mbuttons)//¸ü¸ÄÊó±êÎ»ÖÃ
+void mouse_renew(int *mx,int *my,int*mbuttons)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿?
 {
-	int x,y,buttons;          //ÓÃÓÚ½ÓÊÕĞÂÎ»ÖÃµÄ±äÁ¿
-	int x0=*mx,y0=*my,buttons0=*mbuttons;   //½ÓÊÕ¾ÉÎ»ÖÃµÄ±äÁ¿
+	int x,y,buttons;          //ï¿½ï¿½ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ÃµÄ±ï¿½ï¿½ï¿½
+	int x0=*mx,y0=*my,buttons0=*mbuttons;   //ï¿½ï¿½ï¿½Õ¾ï¿½Î»ï¿½ÃµÄ±ï¿½ï¿½ï¿½
 	mread(&x,&y,&buttons);
 	*mx = x;
 	*my = y;
 	*mbuttons = buttons;
 	if(buttons0 == *mbuttons)
-		*mbuttons = 0;    //Ê¹µÃÄÜÁ¬Ğø°´¼ü
+		*mbuttons = 0;    //Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(x == x0 && y == y0 && buttons == buttons0)
-		return;            //Êó±ê×´Ì¬²»±äÔòÖ±½Ó·µ»ØS
-	clrmous(x0,y0);        //Çå³ıÔ­Î»ÖÃÊó±ê²¢¸²¸Ç
+		return;            //ï¿½ï¿½ï¿½×´Ì?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó·ï¿½ï¿½ï¿½S
+	clrmous(x0,y0);        //ï¿½ï¿½ï¿½Ô?Î»ï¿½ï¿½ï¿½ï¿½ê²?ï¿½ï¿½ï¿½ï¿½
 	save_bk_mou(*mx,*my);
 	drawmous(*mx,*my);
 }
 
-void save_bk_mou(int mx,int my)//´æÊó±ê±³¾°
+void save_bk_mou(int mx,int my)//ï¿½ï¿½ï¿½ï¿½ê±³ï¿½ï¿?
 {
 	int i,j;
 	for (i = 0; i < H; i++)
@@ -143,12 +143,11 @@ void save_bk_mou(int mx,int my)//´æÊó±ê±³¾°
 		for (j = 0; j < W; j++)
 		{
 			
-			mouse_bk[i][j] = Getpixel64k(j + mx, i + my);  //´æ´¢Êó±ê¸²¸ÇÇø
+			mouse_bk[i][j] = Getpixel64k(j + mx, i + my);  //ï¿½æ´¢ï¿½ï¿½ê¸²ï¿½ï¿½ï¿½ï¿?
 		}
 	}
 }
-//Çå³ıÊó±ê ¸²¸Ç±³¾°Í¼
-void clrmous(int mx,int my)
+void clrmous(int mx,int my)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½Í¼
 {
 	if(flag==1)
 	{
@@ -157,8 +156,7 @@ void clrmous(int mx,int my)
 		{
 			for (j = 0; j < W; j++)
 			{
-				
-				Putpixel64k(mx + j, my + i, mouse_bk[i][j]);   //»­³öÔ­Êó±ê¸²¸ÇÇø
+				Putpixel64k(mx + j, my + i, mouse_bk[i][j]);   //ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ê¸²ï¿½ï¿½ï¿½ï¿?
 			}
 		}
 		flag=0;
@@ -175,7 +173,7 @@ void drawmous(int mx,int my)
 			{
 				for (j = 0; j < W; j++)
 				{
-					/***»­Êó±ê***/
+					/***ï¿½ï¿½ï¿½ï¿½ï¿?***/
 					if (mouse_shape1[i][j] == 1)
 						Putpixel64k(mx + j, my + i, 1);
 					else if (mouse_shape1[i][j] == 2)
@@ -192,7 +190,7 @@ void drawmous(int mx,int my)
 			{
 				for (j = 0; j < W; j++)
 				{
-					/***»­Êó±ê***/
+					/***ï¿½ï¿½ï¿½ï¿½ï¿?***/
 					if (mouse_shape2[i][j] == 1)
 						Putpixel64k(mx + j, my + i, 1);
 					else if (mouse_shape2[i][j] == 2)
@@ -207,7 +205,7 @@ void drawmous(int mx,int my)
 
 int mouse_press(int x1, int y1, int x2, int y2)
 {
-	//ÔÚ¿òÖĞµã»÷£¬Ôò·µ»Ø1
+	//ï¿½Ú¿ï¿½ï¿½Ğµï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿?1
 	if(MouseX > x1 
 	&&MouseX < x2
 	&&MouseY > y1
@@ -217,7 +215,7 @@ int mouse_press(int x1, int y1, int x2, int y2)
 		return 1;
 	}
 	
-	//ÔÚ¿òÖĞÎ´µã»÷£¬Ôò·µ»Ø2
+	//ï¿½Ú¿ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿?2
 	else if(MouseX > x1 
 	&&MouseX < x2
 	&&MouseY > y1
@@ -227,7 +225,7 @@ int mouse_press(int x1, int y1, int x2, int y2)
 		return 2;
 	}
 	
-	//ÔÚ¿òÖĞµã»÷ÓÒ¼ü£¬Ôò·µ»Ø3
+	//ï¿½Ú¿ï¿½ï¿½Ğµï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿?3
 	else if(MouseX > x1 
 	&&MouseX < x2
 	&&MouseY > y1
@@ -243,7 +241,7 @@ int mouse_press(int x1, int y1, int x2, int y2)
 	}
 }
 
-/***µÃµ½Êó±ê°´¼ü×´Ì¬(²»´«µİÊó±ê×ø±ê)***/
+/***ï¿½Ãµï¿½ï¿½ï¿½ê°´ï¿½ï¿½×´Ì?(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?)***/
 //int mouse_press(MOUSE * mouse)
 //{ 
 //	union REGS regs;
@@ -254,32 +252,32 @@ int mouse_press(int x1, int y1, int x2, int y2)
 //}
 
 
-/***µÃµ½Êó±êÎ»ÖÃ£¬°´¼ü×´Ì¬***/
-int MouseGet()
-{ 
-	union REGS regs;
-	regs.x.ax = 3;
-	int86(0x33, &regs, &regs);
-	//mouse->x = regs.x.cx;
-	//mouse->y = regs.x.dx;
-	press = regs.x.bx;
-	return press;
-}
+/***ï¿½Ãµï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì?***/
+//int MouseGet(MOUSE * mouse)
+//{ 
+//	union REGS regs;
+//	regs.x.ax = 3;
+//	int86(0x33, &regs, &regs);
+//	mouse->x = regs.x.cx;
+//	mouse->y = regs.x.dx;
+//	mouse->key = regs.x.bx;
+//	return mouse->key;
+//}
 //
-///***ÉèÖÃÊó±êÏÔÊ¾Î»ÖÃ***/
+///***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾Î»ï¿½ï¿?***/
 //void MouseSet(int x,int y)
 //{
 //	union REGS regs;
 //    regs.x.ax=4;
 //	regs.x.cx=x;
 //    regs.x.dx=y;
-//	int86(0x33,&regs,&regs);      //ÉèÖÃÊó±êµ±Ç°×ø±ê	
-//	mouse_on(mouse);               //»­Êó±ê	
+//	int86(0x33,&regs,&regs);      //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êµ±Ç°ï¿½ï¿½ï¿½ï¿?	
+//	mouse_on(mouse);               //ï¿½ï¿½ï¿½ï¿½ï¿?	
 //}
 //
 //
 //
-///***ÅĞ¶ÏÊó±ê×ó¼üÊÇ·ñÔÚÖ¸¶¨ÇøÓòÄÚ°´ÏÂ***/
+///***ï¿½Ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½***/
 //int mouse_press(int x1, int y1, int x2, int y2)
 //{ 
 //	MOUSE mouse = {0,0,0};                       
@@ -305,7 +303,7 @@ int MouseGet()
 //	}
 //}
 //
-///***Êó±êÏÔÊ¾***/
+///***ï¿½ï¿½ï¿½ï¿½ï¿½Ê?***/
 //void mouse_on(MOUSE mouse)
 //{
 //	int i, j;
@@ -314,8 +312,8 @@ int MouseGet()
 //		for (j = 0; j < W; j++)
 //		{
 //			
-//			mouse_bk[i][j] = Getpixel64k(j + mouse.x, i + mouse.y);  //´æ´¢Êó±ê¸²¸ÇÇø
-//			/***»­Êó±ê***/
+//			mouse_bk[i][j] = Getpixel64k(j + mouse.x, i + mouse.y);  //ï¿½æ´¢ï¿½ï¿½ê¸²ï¿½ï¿½ï¿½ï¿?
+//			/***ï¿½ï¿½ï¿½ï¿½ï¿?***/
 //			if (mouse_shape[i][j] == 1)
 //				Putpixel64k(mouse.x + j, mouse.y + i, 0);
 //			else if (mouse_shape[i][j] == 2)
@@ -326,16 +324,16 @@ int MouseGet()
 //}
 //
 //
-///***Êó±êÃ¿´ÎÒÆ¶¯ÖØĞÂÏÔÊ¾***/
+///***ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê?***/
 //void mouse_show(MOUSE *mouse)
 //{  
-//	int i,j;       //Ñ­»·±äÁ¿
-//	int color;     //Êó±êÄ³µãÑÕÉ«
+//	int i,j;       //Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	int color;     //ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½É?
 //	int x,y;
-//	x=mouse->x;             //Êó±êÔ­Î»ÖÃ×ø±ê
+//	x=mouse->x;             //ï¿½ï¿½ï¿½Ô?Î»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	y=mouse->y;         
-//	MouseGet(mouse);    //µÃµ½ĞÂÊó±ê×´Ì¬
-//	if(mouse->x!=x||mouse->y!=y)         //Êó±êÒÆ¶¯¾ÍÖØĞÂ»­Êó±ê
+//	MouseGet(mouse);    //ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì?
+//	if(mouse->x!=x||mouse->y!=y)         //ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½
 //	{
 //		for (i = 0; i < H; i++)           	
 //		{
@@ -343,14 +341,14 @@ int MouseGet()
 //			{
 //				if (mouse_shape[i][j] == 0)
 //					continue;
-//				Putpixel64k(x + j, y + i, mouse_bk[i][j]);   //»­³öÔ­Êó±ê¸²¸ÇÇø
+//				Putpixel64k(x + j, y + i, mouse_bk[i][j]);   //ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ê¸²ï¿½ï¿½ï¿½ï¿?
 //			}
 //		}
-//		mouse_on(*mouse);                            //ÔÚĞÂÎ»ÖÃÏÔÊ¾Êó±ê
+//		mouse_on(*mouse);                            //ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿?
 //	}
 //}
 //
-///***Êó±êÒş²Ø***/
+///***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?***/
 //void mouse_off(MOUSE *mouse)
 //{
 //	int i,j;
@@ -362,11 +360,11 @@ int MouseGet()
 //		{
 //			if (mouse_shape[i][j] == 0)
 //				continue;
-//			Putpixel64k(x + j, y + i, mouse_bk[i][j]);   //»­³öÔ­Êó±ê¸²¸ÇÇø
+//			Putpixel64k(x + j, y + i, mouse_bk[i][j]);   //ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ê¸²ï¿½ï¿½ï¿½ï¿?
 //		}
 //}
 //
-///*³õÊ¼»¯Êó±ê£¬ÉèÖÃË®Æ½´¹Ö±·½ÏòÏñËØ±ÈÏàµÈ*/
+///*ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ê£?ï¿½ï¿½ï¿½ï¿½Ë®Æ½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿?*/
 //void Curinit()
 //{
 //	_AX=0;
@@ -390,7 +388,7 @@ int MouseGet()
 //	{
 //		for (j = 0; j < W; j++)
 //		{
-//			/***»­Êó±ê***/
+//			/***ï¿½ï¿½ï¿½ï¿½ï¿?***/
 //			if (mouse_shape[i][j] == 1)
 //				Putpixel64k(mx + j, my + i, 0);
 //			else if (mouse_shape[i][j] == 2)

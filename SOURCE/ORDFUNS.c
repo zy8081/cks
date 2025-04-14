@@ -1,11 +1,4 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
-#include <ORDFUNS.h>
+#include<ALLFUNS.h>
 
 void btn_bar_Draw(int x1,int y1,int x2,int y2)
 {
@@ -18,6 +11,7 @@ void btn_bar_Draw(int x1,int y1,int x2,int y2)
     line_thick(x2-3,y2-3,x1+3,y2-3,2,33808);
     line_thick(x1+3,y2-3,x1+3,y1+3,2,33808);
     bar(x1+5,y1+4,x2-5,y2-5,44373);
+
 }
 
 void btn_bar_Draw0(int x1,int y1,int x2,int y2)
@@ -44,41 +38,13 @@ void btn_bar_Draw1(int x1,int y1,int x2,int y2)
 }
 
 
-/*void hzplace(BTN_BAR *pb,int nx,int ny)
-{
-    int lengthx=0;
-    int lengthy;
-    char*st=pb->inf;
-    int xhz,xasc;
-    if(nx%16==0)
-    {
-        xhz=nx;
-        xasc=nx;
-        lengthy=ny;
-    }
-    else if(nx==24)
-    {
-        xhz=24;
-        xasc=32;
-        lengthy=24;
-    }
-    while(*st!=0)
-    {
-        if(*st&0x80==0)lengthx+=xasc;
-        else if(*st&0x80!=0)lengthx+=xhz;
-        st++;
-    }
-    pb->xinf=(pb->x2-pb->x1-lengthx)/2+pb->x1;
-    pb->yinf=(pb->y2-pb->y1-lengthy)/2+pb->y1;
-    
-}*/
 
 void menuprt(int x1,int y1,int x2,int y2)
 {
     bar(x1,y1,x2,y2,27469);
 }
 
-void inputs(int x ,int y ,char *content)     
+void inputs(int x ,int y ,char *content,int n)     
 {
 	int i=0;
     int time;
@@ -102,7 +68,7 @@ void inputs(int x ,int y ,char *content)
 		key=bioskey(0);
 		if ((key>='A' && key<='Z') || (key>='a' && key<='z') || (key>='0' && key<='9'))
 		{
-			if (i<=8)
+			if (i<=n)
 			{
 				content[i]=key;
 				content[i+1]='\0';
@@ -153,14 +119,3 @@ void inputs(int x ,int y ,char *content)
 	//delay(100);		
 }
 
-/*void draw_toast(void)
-{
-	SaveBMP(400,300,624,468,0);
-	bar(400,300,624,468,0);
-	bar_frame(400,300,624,468,0);
-}
-
-void clear_toast(void)
-{
-	LoadBMP(400,300,624,468,0);
-}*/

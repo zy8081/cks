@@ -1,22 +1,22 @@
-#include <SVGA.h>
+#include "SVGA.h"
 #include <stdio.h>
 #include <dos.h>
 #include <stdlib.h>
 //#include <ghz.h>
 //#include "mouse.h"
 /**************************************
-   SVGA的功能号ax说明
-   0x4f00  读SVGA卡信息
-   0x4f01  读显示模式信息
-   0x4f02  设置显示模式
-   0x4f03  读当前显示模式
-   0x4f04  存储或恢复SVGA的视频状态
-   0x4f05  控制内存页区域切换
-   0x4f06  设置或读取逻辑扫描线宽度
-   0x4f07  设置或读取视频内存与屏幕的初始对应位置
-   0x4f08  设置或读取DAC各原色有效位数
-   SVGA显示模式号bx：
-		模式号		分辨率		颜色数		颜色位定义
+   SVGA锟侥癸拷锟杰猴拷ax说锟斤拷
+   0x4f00  锟斤拷SVGA锟斤拷锟斤拷息
+   0x4f01  锟斤拷锟斤拷示模式锟斤拷息
+   0x4f02  锟斤拷锟斤拷锟斤拷示模式
+   0x4f03  锟斤拷锟斤拷前锟斤拷示模式
+   0x4f04  锟芥储锟斤拷指锟絊VGA锟斤拷锟斤拷频状态
+   0x4f05  锟斤拷锟斤拷锟节达拷页锟斤拷锟斤拷锟叫伙拷
+   0x4f06  锟斤拷锟矫伙拷锟饺★拷呒锟缴?锟斤拷锟竭匡拷锟斤拷
+   0x4f07  锟斤拷锟矫伙拷锟饺★拷锟狡碉拷诖锟斤拷锟斤拷锟侥伙拷某锟绞硷拷锟接ξ伙拷锟?
+   0x4f08  锟斤拷锟矫伙拷锟饺?DAC锟斤拷原色锟斤拷效位锟斤拷
+   SVGA锟斤拷示模式锟斤拷bx锟斤拷
+		模式锟斤拷		锟街憋拷锟斤拷		锟斤拷色锟斤拷		锟斤拷色位锟斤拷锟斤拷
 		0x101		640*480		256				-
 		0x103		800*600		256				-
 		0x104		1024*768	16				-
@@ -34,36 +34,36 @@
 
 
 /**********************************************************
-Function：		SetSVGA64k
+Function锟斤拷		SetSVGA64k
 
-Description：	SVGA显示模式设置函数，设为0x117
+Description锟斤拷	SVGA锟斤拷示模式锟斤拷锟矫猴拷锟斤拷锟斤拷锟斤拷为0x117
 
-Calls：			int86
+Calls锟斤拷			int86
 				delay
 				printf
 				exit
 
-Called By：		AutoSimulate
+Called By锟斤拷		AutoSimulate
 				HandOperate
 				
-Input：			None
+Input锟斤拷			None
 
-Output：		错误信息
+Output锟斤拷		锟斤拷锟斤拷锟斤拷息
 
-Return：		None				
-Others：		None
+Return锟斤拷		None				
+Others锟斤拷		None
 **********************************************************/
 void SetSVGA64k(void)
 {
-	/*REGS联合体见上*/
+	/*REGS锟斤拷锟斤拷锟斤拷锟斤拷锟?*/
 	union REGS graph_regs;
 	
-	/*设置VESA VBE模式的功能号*/
+	/*锟斤拷锟斤拷VESA VBE模式锟侥癸拷锟杰猴拷*/
 	graph_regs.x.ax = 0x4f02;
 	graph_regs.x.bx = 0x117;
 	int86(0x10, &graph_regs, &graph_regs);
 	
-	/*ax != 0x004f意味着初始化失败，输出错误信息见上,下同*/
+	/*ax != 0x004f锟斤拷味锟脚筹拷始锟斤拷失锟杰ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟较?锟斤拷锟斤拷,锟斤拷同*/
 	if (graph_regs.x.ax != 0x004f)
 	{
 		printf("Error in setting SVGA mode!\nError code:0x%x\n", graph_regs.x.ax);
@@ -74,40 +74,40 @@ void SetSVGA64k(void)
 
 
 /**********************************************************
-Function：		Selectpage
+Function锟斤拷		Selectpage
 
-Description：	带判断功能的换页函数，解决读写显存时跨段寻址问题
+Description锟斤拷	锟斤拷锟叫断癸拷锟杰的伙拷页锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟叫达拷源锟绞憋拷锟斤拷寻址锟斤拷锟斤拷
 
-Calls：			int86
+Calls锟斤拷			int86
 
-Called By：		Putpixel256
+Called By锟斤拷		Putpixel256
 				Putpixel64k
 				Xorpixel
 				Horizline
 				Getpixel64k
 				
-Input：			register char page		需要换到的页面号
+Input锟斤拷			register char page		锟斤拷要锟斤拷锟斤拷锟斤拷页锟斤拷锟?
 
-Output：		None
-Return：		None
-Others：		None
+Output锟斤拷		None
+Return锟斤拷		None
+Others锟斤拷		None
 **********************************************************/
 void Selectpage(register char page)
 {
-	/*REGS含义同上*/
+	/*REGS锟斤拷锟斤拷同锟斤拷*/
 	union REGS graph_regs;
 	
-	/*上一次的页面号,用于减少切换次数,是使用次数很多的重要变量*/
+	/*锟斤拷一锟轿碉拷页锟斤拷锟?,锟斤拷锟节硷拷锟斤拷锟叫伙拷锟斤拷锟斤拷,锟斤拷使锟矫达拷锟斤拷锟杰讹拷锟斤拷锟揭?锟斤拷锟斤拷*/
 	static unsigned char old_page = 0;
 	
-	/*标志数，用于判断是否是第一次换页*/
+	/*锟斤拷志锟斤拷锟斤拷锟斤拷锟斤拷锟叫讹拷锟角凤拷锟角碉拷一锟轿伙拷页*/
 	static int flag = 0;
 	
-	/*窗口页面控制功能号*/
+	/*锟斤拷锟斤拷页锟斤拷锟斤拷乒锟斤拷芎锟?*/
 	graph_regs.x.ax = 0x4f05;
 	graph_regs.x.bx = 0;
 	
-	/*如果是第一次换页*/
+	/*锟斤拷锟斤拷堑锟揭伙拷位锟揭?*/
 	if (flag == 0)
 	{
 		old_page = page;
@@ -116,7 +116,7 @@ void Selectpage(register char page)
 		flag++;
 	}
 	
-	/*如果和上次页面号不同，则进行换页*/
+	/*锟斤拷锟斤拷锟斤拷洗锟揭筹拷锟脚诧拷同锟斤拷锟斤拷锟斤拷谢锟揭?*/
 	else if (page != old_page)
 	{
 		old_page = page;
@@ -128,77 +128,77 @@ void Selectpage(register char page)
 
 
 /**********************************************************
-Function：		Putpixel64k
+Function锟斤拷		Putpixel64k
 
-Description：	画点函数，其他画图函数的基础，仅适用于0x117模式！
+Description锟斤拷	锟斤拷锟姐函锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷图锟斤拷锟斤拷锟侥伙拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷0x117模式锟斤拷
 
-Calls：			Selectpage
+Calls锟斤拷			Selectpage
 
-Called By：		Putbmp64k
+Called By锟斤拷		Putbmp64k
 				MousePutBk
 				MouseDraw
 				
-Input：			int x					像素横坐标，从左到右增加，0为最小值（屏幕参考系）
-				int y					像素纵坐标，从上到下增加，0为最小值（屏幕参考系）
-				unsigned int color		颜色数，共有64k种
+Input锟斤拷			int x					锟斤拷锟截猴拷锟斤拷锟疥，锟斤拷锟斤拷锟斤拷锟斤拷锟接ｏ拷0为锟斤拷小值锟斤拷锟斤拷幕锟轿匡拷系锟斤拷
+				int y					锟斤拷锟斤拷锟斤拷锟斤拷锟疥，锟斤拷锟较碉拷锟斤拷锟斤拷锟接ｏ拷0为锟斤拷小值锟斤拷锟斤拷幕锟轿匡拷系锟斤拷
+				unsigned int color		锟斤拷色锟斤拷锟斤拷锟斤拷锟斤拷64k锟斤拷
 
-Output：		在屏幕上画指定颜色的点
+Output锟斤拷		锟斤拷锟斤拷幕锟较伙拷指锟斤拷锟斤拷色锟侥碉拷
 
-Return：		None
-Others：		None
+Return锟斤拷		None
+Others锟斤拷		None
 **********************************************************/
 void Putpixel64k(int x, int y, unsigned int color)
 {
-	/*显存指针常量，指向显存首地址，指针本身不允许修改*/
+	/*锟皆达拷指锟诫常锟斤拷锟斤拷指锟斤拷锟皆达拷锟阶碉拷址锟斤拷指锟诫本锟斤拷锟斤拷锟斤拷锟斤拷锟睫革拷*/
 	unsigned int far * const video_buffer = (unsigned int far *)0xa0000000L;
 	
-	/*要切换的页面号*/
+	/*要锟叫伙拷锟斤拷页锟斤拷锟?*/
 	unsigned char new_page;
 	
-	/*对应显存地址偏移量*/
+	/*锟斤拷应锟皆达拷锟街菲?锟斤拷锟斤拷*/
 	unsigned long int page;
 	
-	/*判断点是否在屏幕范围内，不在就退出*/
+	/*锟叫断碉拷锟角凤拷锟斤拷锟斤拷幕锟斤拷围锟节ｏ拷锟斤拷锟节撅拷锟剿筹拷*/
 	if(x < 0 || x > (SCR_WIDTH - 1) || y < 0 || y > (SCR_HEIGHT - 1))
 	{
 		return;
 	}
 	
-	/*计算显存地址偏移量和对应的页面号，做换页操作*/
+	/*锟斤拷锟斤拷锟皆达拷锟街菲?锟斤拷锟斤拷锟酵讹拷应锟斤拷页锟斤拷牛锟斤拷锟斤拷锟揭筹拷锟斤拷锟?*/
 	page = ((unsigned long int)y << 10) + x;
-	new_page = page >> 15;	/*32k个点一换页，除以32k的替代算法*/
+	new_page = page >> 15;	/*32k锟斤拷锟斤拷一锟斤拷页锟斤拷锟斤拷锟斤拷32k锟斤拷锟斤拷锟斤拷惴?*/
 	Selectpage(new_page);
 	
-	/*向显存写入颜色，对应点画出*/
+	/*锟斤拷锟皆达拷写锟斤拷锟斤拷色锟斤拷锟斤拷应锟姐画锟斤拷*/
 	video_buffer[page] = color;	
 }
 
-/***得到某一点的颜色值***/
+/***锟矫碉拷某一锟斤拷锟斤拷锟缴?值***/
 unsigned int Getpixel64k(int x, int y)
 {
 	unsigned int far * const video_buffer = (unsigned int far *)0xa0000000L;
-	unsigned char page;                                                  //要切换的页面号
-	unsigned long int page_dev;                                           //对应显存地址偏移量                       
-	if(x < 0 || x > (SCR_WIDTH - 1) || y < 0 || y > (SCR_HEIGHT - 1))           //判断点是否在屏幕范围内，不在就退出 
+	unsigned char page;                                                  //要锟叫伙拷锟斤拷页锟斤拷锟?
+	unsigned long int page_dev;                                           //锟斤拷应锟皆达拷锟街菲?锟斤拷锟斤拷                       
+	if(x < 0 || x > (SCR_WIDTH - 1) || y < 0 || y > (SCR_HEIGHT - 1))           //锟叫断碉拷锟角凤拷锟斤拷锟斤拷幕锟斤拷围锟节ｏ拷锟斤拷锟节撅拷锟剿筹拷 
 	{
 		printf("out of range");
 	}
-	page_dev = ((unsigned long int)y << 10) + x;                              //计算显存地址偏移量和对应的页面号，做换页操作
-	page = page_dev >> 15;	//32k个点一换页，除以32k的替代算法
+	page_dev = ((unsigned long int)y << 10) + x;                              //锟斤拷锟斤拷锟皆达拷锟街菲?锟斤拷锟斤拷锟酵讹拷应锟斤拷页锟斤拷牛锟斤拷锟斤拷锟揭筹拷锟斤拷锟?
+	page = page_dev >> 15;	//32k锟斤拷锟斤拷一锟斤拷页锟斤拷锟斤拷锟斤拷32k锟斤拷锟斤拷锟斤拷惴?
 	Selectpage(page);
-	return video_buffer[page_dev];	 //返回颜色
+	return video_buffer[page_dev];	 //锟斤拷锟斤拷锟斤拷色
 }
 
 /*********************************************************
-Function：		Readbmp64k
+Function锟斤拷		Readbmp64k
 
-Description：	24位非压缩bmp图定位显示函数。
-				只支持24位非压缩bmp图，宽度像素最大允许为1024！
-				其余bmp类型均不支持！
-				仅在0x117模式下使用！
-				为了简化，没有设置文件类型检测功能检测功能，请勿读入不合要求的文件！
+Description锟斤拷	24位锟斤拷压锟斤拷bmp图锟斤拷位锟斤拷示锟斤拷锟斤拷锟斤拷
+				只支锟斤拷24位锟斤拷压锟斤拷bmp图锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟轿?1024锟斤拷
+				锟斤拷锟斤拷bmp锟斤拷锟酵撅拷锟斤拷支锟街ｏ拷
+				锟斤拷锟斤拷0x117模式锟斤拷使锟矫ｏ拷
+				为锟剿简化ｏ拷没锟斤拷锟斤拷锟斤拷锟侥硷拷锟斤拷锟酵硷拷夤︼拷芗锟解功锟杰ｏ拷锟斤拷锟斤拷锟斤拷氩伙拷锟揭?锟斤拷锟斤拷募锟斤拷锟?
 
-Calls：			Putpixel64k
+Calls锟斤拷			Putpixel64k
 
 				fseek
 				fread
@@ -207,79 +207,79 @@ Calls：			Putpixel64k
 				malloc
 				free
 
-Called By：		AutoSimulate
+Called By锟斤拷		AutoSimulate
 				HandOperate
 				Menu
 				
-Input：			int x		图片左上角的横坐标（屏幕参考系）
-				int y		图片左上角的纵坐标（屏幕参考系）
-				const char * path	bmp图片路径
+Input锟斤拷			int x		图片锟斤拷锟较角的猴拷锟斤拷锟疥（锟斤拷幕锟轿匡拷系锟斤拷
+				int y		图片锟斤拷锟较角碉拷锟斤拷锟斤拷锟疥（锟斤拷幕锟轿匡拷系锟斤拷
+				const char * path	bmp图片路锟斤拷
 
-Output：		屏幕上显示图片
+Output锟斤拷		锟斤拷幕锟斤拷锟斤拷示图片
 
-Return：		0	显示成功
-				-1	显示失败
+Return锟斤拷		0	锟斤拷示锟缴癸拷
+				-1	锟斤拷示失锟斤拷
 				
-Others：		None
+Others锟斤拷		None
 **********************************************************/
 int Readbmp64k(int x, int y, const char * path)
 {
-	/*指向图片文件的文件指针*/
+	/*指锟斤拷图片锟侥硷拷锟斤拷锟侥硷拷指锟斤拷*/
 	FILE * fpbmp;
 	
-	/*行像素缓存指针*/
+	/*锟斤拷锟斤拷锟截伙拷锟斤拷指锟斤拷*/
 	COLORS24 * buffer;
 	
-	/*图片的宽度、高度、一行像素所占字节数（含补齐空字节）*/
+	/*图片锟侥匡拷锟饺★拷锟竭度★拷一锟斤拷锟斤拷锟斤拷锟斤拷占锟街斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷纸冢锟?*/
 	long int width, height, linebytes;
 	
-	/*循环变量*/
+	/*循锟斤拷锟斤拷锟斤拷*/
 	int i, j;
 	
-	/*图片位深*/
+	/*图片位锟斤拷*/
 	unsigned int bit;
 	
-	/*压缩类型数*/
+	/*压锟斤拷锟斤拷锟斤拷锟斤拷*/
 	unsigned long int compression;
 	
-	/*打开文件*/
+	/*锟斤拷锟侥硷拷*/
 	if ((fpbmp = fopen(path, "rb")) == NULL)
 	{
 		return -1;
 	}
 	
-	/*读取位深*/
+	/*锟斤拷取位锟斤拷*/
 	fseek(fpbmp, 28L, 0);
 	fread(&bit, 2, 1, fpbmp);
 	
-	/*非24位图则退出*/
+	/*锟斤拷24位图锟斤拷锟剿筹拷*/
 	if (bit != 24U)
 	{
 		return -1;
 	}
 	
-	/*读取压缩类型*/
+	/*锟斤拷取压锟斤拷锟斤拷锟斤拷*/
 	fseek(fpbmp, 30L, 0);
 	fread(&compression, 4, 1, fpbmp);
 	
-	/*采用压缩算法则退出*/
+	/*锟斤拷锟斤拷压锟斤拷锟姐法锟斤拷锟剿筹拷*/
 	if (compression != 0UL)
 	{
 		return -1;
 	}
 	
-	/*读取宽度、高度*/
+	/*锟斤拷取锟斤拷锟饺★拷锟竭讹拷*/
 	fseek(fpbmp, 18L, 0);
 	fread(&width, 4, 1, fpbmp);
 	fread(&height, 4, 1, fpbmp);
 	
-	/*宽度超限则退出*/
+	/*锟斤拷锟饺筹拷锟斤拷锟斤拷锟剿筹拷*/
 	if (width > SCR_WIDTH)
 	{
 		return -1;
 	}
 
-	/*计算一行像素占字节数，包括补齐的空字节*/
+	/*锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷占锟街斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷目锟斤拷纸锟?*/
 	linebytes = (3 * width) % 4;
 	
 	if(!linebytes)
@@ -291,29 +291,29 @@ int Readbmp64k(int x, int y, const char * path)
 		linebytes = 3 * width + 4 - linebytes;
 	}
 
-	/*开辟行像素数据动态储存空间*/
+	/*锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟捷讹拷态锟斤拷锟斤拷占锟?*/
 	if ((buffer = (COLORS24 *)malloc(linebytes)) == 0)
 	{
 		return -1;
 	}
 	
-	/*行扫描形式读取图片数据并显示*/
+	/*锟斤拷扫锟斤拷锟斤拷式锟斤拷取图片锟斤拷锟捷诧拷锟斤拷示*/
 	fseek(fpbmp, 54L, 0);
 	for (i = height - 1; i > -1; i--)
 	{
-		fread(buffer, linebytes, 1, fpbmp);	/*读取一行像素数据*/
+		fread(buffer, linebytes, 1, fpbmp);	/*锟斤拷取一锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷*/
 		
-		/*一行像素的数据处理和画出*/
+		/*一锟斤拷锟斤拷锟截碉拷锟斤拷锟捷达拷锟斤拷锟酵伙拷锟斤拷*/
 		for (j = 0; j < width; j++)
 		{
-			/*0x117模式下，原图红绿蓝各8位分别近似为5位、6位、5位*/
+			/*0x117模式锟铰ｏ拷原图锟斤拷锟斤拷锟斤拷锟斤拷8位锟街憋拷锟斤拷锟轿?5位锟斤拷6位锟斤拷5位*/
 			buffer[j].R >>= 3;
 			buffer[j].G >>= 2;
 			buffer[j].B >>= 3;
 			Putpixel64k(j + x, i + y,
 			((((unsigned int)buffer[j].R) << 11)
 			| (((unsigned int)buffer[j].G) << 5)
-			| ((unsigned int)buffer[j].B)));	/*计算最终颜色，红绿蓝从高位到低位排列*/
+			| ((unsigned int)buffer[j].B)));	/*锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷色锟斤拷锟斤拷锟斤拷锟斤拷锟接革拷位锟斤拷锟斤拷位锟斤拷锟斤拷*/
 		}
 	}
 	
@@ -324,52 +324,52 @@ int Readbmp64k(int x, int y, const char * path)
 }
 
 
-/***24位显示模式下划线***/
+/***24位锟斤拷示模式锟铰伙拷锟斤拷***/
 void line_hor_ver(int x1, int y1, int x2, int y2, unsigned int color)
 {
 	int i;
-	if(x1==x2)                   //竖直直线
+	if(x1==x2)                   //锟斤拷直直锟斤拷
 	{
 		for(i=y1;i<=y2;i++)
 			Putpixel64k(x1,i,color);
 	}
-	if(y1==y2)                   //水平直线
+	if(y1==y2)                   //水平直锟斤拷
 	{
 		for(i=x1;i<=x2;i++)
 			Putpixel64k(i,y1,color);
 	}
 }
 
-/***任意直线***/
+/***锟斤拷锟斤拷直锟斤拷***/
 void line(int x1, int y1, int x2, int y2, unsigned int color)
 {
-	int	dx, dy;			/*直线x、y坐标差值*/
-	int dx2, dy2;		/*加快运算速度的中间值*/
-	int xinc, yinc;		/*判断想、y增加方向的符号值*/
-	int d, dxy;			/*决策变量*/
-	/*计算坐标差值和中间变量*/
+	int	dx, dy;			/*直锟斤拷x锟斤拷y锟斤拷锟斤拷锟街?*/
+	int dx2, dy2;		/*锟接匡拷锟斤拷锟斤拷锟劫度碉拷锟叫硷拷值*/
+	int xinc, yinc;		/*锟叫讹拷锟诫、y锟斤拷锟接凤拷锟斤拷姆锟斤拷锟街?*/
+	int d, dxy;			/*锟斤拷锟竭憋拷锟斤拷*/
+	/*锟斤拷锟斤拷锟斤拷锟斤拷锟街碉拷锟斤拷屑锟斤拷锟斤拷*/
 	dx = abs(x2 - x1);
 	dx2 = dx << 1;
 	dy = abs(y2 - y1);
 	dy2 = dy << 1;
 	
-	/*判断直线x坐标增加方向*/
+	/*锟叫讹拷直锟斤拷x锟斤拷锟斤拷锟斤拷锟接凤拷锟斤拷*/
 	if (x2 > x1)
 	{
 		xinc = 1;
 	}
 	
-	/*如果是竖直线*/
+	/*锟斤拷锟斤拷锟斤拷锟街憋拷锟?*/
 	else if (x2 == x1)
 	{
-		/*y坐标排序*/
+		/*y锟斤拷锟斤拷锟斤拷锟斤拷*/
 		if (y1 > y2)
 		{
 			dx = y1;
 			y1 = y2;
 			y2 = dx;
 		}
-		/*画竖直线*/
+		/*锟斤拷锟斤拷直锟斤拷*/
 		for (dx = y1; dx <= y2; dx++)
 		{
 			Putpixel64k(x1, dx, color);
@@ -383,13 +383,13 @@ void line(int x1, int y1, int x2, int y2, unsigned int color)
 		xinc = -1;
 	}
 	
-	/*判断直线y坐标增加方向*/
+	/*锟叫讹拷直锟斤拷y锟斤拷锟斤拷锟斤拷锟接凤拷锟斤拷*/
 	if (y2 > y1)
 	{
 		yinc = 1;
 	}
 	
-	/*如果是水平线*/
+	/*锟斤拷锟斤拷锟剿?平锟斤拷*/
 	else if (y2 == y1)
 	{
 		line_hor_ver(x1, y1, x2, y1, color);		
@@ -402,9 +402,9 @@ void line(int x1, int y1, int x2, int y2, unsigned int color)
 	}
 	
 	/*******************************
-	以下运用Bresenham算法生成直线。
-	该算法是得到公认的成熟的快速算法。
-	具体细节略去。
+	锟斤拷锟斤拷锟斤拷锟斤拷Bresenham锟姐法锟斤拷锟斤拷直锟竭★拷
+	锟斤拷锟姐法锟角得碉拷锟斤拷锟较的筹拷锟斤拷目锟斤拷锟斤拷惴?锟斤拷
+	锟斤拷锟斤拷细锟斤拷锟斤拷去锟斤拷
 	*******************************/
 	Putpixel64k(x1, y1, color);
 	
@@ -455,12 +455,12 @@ void line(int x1, int y1, int x2, int y2, unsigned int color)
 	}
 }
 
-/***24位显示模式下划粗直线***/
+/***24位锟斤拷示模式锟铰伙拷锟斤拷直锟斤拷***/
 void line_hor_ver_thick(int x1, int y1, int x2, int y2, int radius,unsigned int color)
 {
 	int i;
 	int dx,dy;
-	if(x1>x2)    //解决x,y大小顺序问题
+	if(x1>x2)    //锟斤拷锟絰,y锟斤拷小顺锟斤拷锟斤拷锟斤拷
 	{
 		dx=x1;
 		x1=x2;
@@ -472,12 +472,12 @@ void line_hor_ver_thick(int x1, int y1, int x2, int y2, int radius,unsigned int 
 		y1=y2;
 		y2=dy;
 	}
-	if(x1==x2)                   //竖直直线
+	if(x1==x2)                   //锟斤拷直直锟斤拷
 	{
 		for(i=y1;i<=y2;i++)
 			circle_fill(x1, i, radius, color);
 	}
-	if(y1==y1)                   //水平直线
+	if(y1==y1)                   //水平直锟斤拷
 	{
 		for(i=x1;i<=x2;i++)
 			circle_fill(i, y1, radius, color);
@@ -486,27 +486,27 @@ void line_hor_ver_thick(int x1, int y1, int x2, int y2, int radius,unsigned int 
 
 void line_thick(int x1, int y1, int x2, int y2, int radius,unsigned int color)
 {
-	int	dx, dy;			/*直线x、y坐标差值*/
-	int dx2, dy2;		/*加快运算速度的中间值*/
-	int xinc, yinc;		/*判断x、y增加方向的符号值*/
-	int d, dxy;			/*决策变量*/
+	int	dx, dy;			/*直锟斤拷x锟斤拷y锟斤拷锟斤拷锟街?*/
+	int dx2, dy2;		/*锟接匡拷锟斤拷锟斤拷锟劫度碉拷锟叫硷拷值*/
+	int xinc, yinc;		/*锟叫讹拷x锟斤拷y锟斤拷锟接凤拷锟斤拷姆锟斤拷锟街?*/
+	int d, dxy;			/*锟斤拷锟竭憋拷锟斤拷*/
 	
-	/*计算坐标差值和中间变量*/
+	/*锟斤拷锟斤拷锟斤拷锟斤拷锟街碉拷锟斤拷屑锟斤拷锟斤拷*/
 	dx = abs(x2 - x1);
 	dx2 = dx << 1;
 	dy = abs(y2 - y1);
 	dy2 = dy << 1;
 	
-	/*判断直线x坐标增加方向*/
+	/*锟叫讹拷直锟斤拷x锟斤拷锟斤拷锟斤拷锟接凤拷锟斤拷*/
 	if (x2 > x1)
 	{
 		xinc = 1;
 	}
 	
-	/*如果是竖直线*/
+	/*锟斤拷锟斤拷锟斤拷锟街憋拷锟?*/
 	else if (x2 == x1)
 	{
-		/*y坐标排序*/
+		/*y锟斤拷锟斤拷锟斤拷锟斤拷*/
 		if (y1 > y2)
 		{
 			dx = y1;
@@ -514,7 +514,7 @@ void line_thick(int x1, int y1, int x2, int y2, int radius,unsigned int color)
 			y2 = dx;
 		}
 		
-		/*画竖直线*/
+		/*锟斤拷锟斤拷直锟斤拷*/
 		for (dx = y1; dx <= y2; dx++)
 		{
 			circle_fill(x1, dx, radius, color);
@@ -528,13 +528,13 @@ void line_thick(int x1, int y1, int x2, int y2, int radius,unsigned int color)
 		xinc = -1;
 	}
 	
-	/*判断直线y坐标增加方向*/
+	/*锟叫讹拷直锟斤拷y锟斤拷锟斤拷锟斤拷锟接凤拷锟斤拷*/
 	if (y2 > y1)
 	{
 		yinc = 1;
 	}
 	
-	/*如果是水平线*/
+	/*锟斤拷锟斤拷锟剿?平锟斤拷*/
 	else if (y2 == y1)
 	{
 		line_hor_ver_thick(x1, y1, x2, y1,radius, color);		
@@ -547,9 +547,9 @@ void line_thick(int x1, int y1, int x2, int y2, int radius,unsigned int color)
 	}
 	
 	/*******************************
-	以下运用Bresenham算法生成直线。
-	该算法是得到公认的成熟的快速算法。
-	具体细节略去。
+	锟斤拷锟斤拷锟斤拷锟斤拷Bresenham锟姐法锟斤拷锟斤拷直锟竭★拷
+	锟斤拷锟姐法锟角得碉拷锟斤拷锟较的筹拷锟斤拷目锟斤拷锟斤拷惴?锟斤拷
+	锟斤拷锟斤拷细锟斤拷锟斤拷去锟斤拷
 	*******************************/
 	circle_fill(x1, y1, radius, color);
 	
@@ -601,7 +601,7 @@ void line_thick(int x1, int y1, int x2, int y2, int radius,unsigned int color)
 }
 
 
-/***24位显示模式下画矩形***/
+/***24位锟斤拷示模式锟铰伙拷锟斤拷锟斤拷***/
 void bar(int x1, int y1, int x2, int y2, unsigned int color)
 {
 	int i,j;
@@ -612,7 +612,7 @@ void bar(int x1, int y1, int x2, int y2, unsigned int color)
 }
 
 
-/***24位显示模式下画矩形(不填色)***/
+/***24位锟斤拷示模式锟铰伙拷锟斤拷锟斤拷(锟斤拷锟斤拷色)***/
 void bar_frame(int x1,int y1,int x2,int y2,unsigned int color)
 {
 	line_hor_ver(x1,y1,x2,y1,color);
@@ -623,19 +623,19 @@ void bar_frame(int x1,int y1,int x2,int y2,unsigned int color)
 
 void circle_frame(int xc, int yc, int radius, unsigned int color)
 {
-	/*画圆圈的定位变量和决策变量*/
+	/*锟斤拷圆圈锟侥讹拷位锟斤拷锟斤拷锟酵撅拷锟竭憋拷锟斤拷*/
 	int x, y, d;
 	
-	/*半径必须为正，否则退出*/
+	/*锟诫径锟斤拷锟斤拷为锟斤拷锟斤拷锟斤拷锟斤拷锟剿筹拷*/
 	if (radius <= 0)
 	{
 		return;
 	}
 	
 	/************************************
-	以下运用Bresenham算法生成圆圈。
-	该算法是得到公认的成熟的快速算法。
-	具体细节略去。
+	锟斤拷锟斤拷锟斤拷锟斤拷Bresenham锟姐法锟斤拷锟斤拷圆圈锟斤拷
+	锟斤拷锟姐法锟角得碉拷锟斤拷锟较的筹拷锟斤拷目锟斤拷锟斤拷惴?锟斤拷
+	锟斤拷锟斤拷细锟斤拷锟斤拷去锟斤拷
 	************************************/
 	y = radius;
 	d = 3 - radius << 1;
@@ -666,23 +666,23 @@ void circle_frame(int xc, int yc, int radius, unsigned int color)
 
 void circle_fill(int xc, int yc, int radius, unsigned int color)
 {
-	/*画圆圈的定位变量和决策变量*/
+	/*锟斤拷圆圈锟侥讹拷位锟斤拷锟斤拷锟酵撅拷锟竭憋拷锟斤拷*/
 	int x = 0,
 		y = radius,
 		dx = 3,
 		dy = 2 - radius - radius,
 		d = 1 - radius;
 	
-	/*半径必须为正，否则退出*/
+	/*锟诫径锟斤拷锟斤拷为锟斤拷锟斤拷锟斤拷锟斤拷锟剿筹拷*/
 	if (radius <= 0)
 	{
 		return;
 	}
 	
 	/************************************
-	以下运用Bresenham算法生成实心圆。
-	该算法是得到公认的成熟的快速算法。
-	具体细节略去。
+	锟斤拷锟斤拷锟斤拷锟斤拷Bresenham锟姐法锟斤拷锟斤拷实锟斤拷圆锟斤拷
+	锟斤拷锟姐法锟角得碉拷锟斤拷锟较的筹拷锟斤拷目锟斤拷锟斤拷惴?锟斤拷
+	锟斤拷锟斤拷细锟斤拷锟斤拷去锟斤拷
 	************************************/
 	while (x <= y)
 	{
@@ -709,7 +709,7 @@ void circle_fill(int xc, int yc, int radius, unsigned int color)
 	}
 }
 
-void CloseSVGA(void)        //关闭图形界面
+void CloseSVGA(void)        //锟截憋拷图锟轿斤拷锟斤拷
 {
     union REGS regs;
     regs.h.ah=0;
@@ -719,7 +719,7 @@ void CloseSVGA(void)        //关闭图形界面
 
 
 
-int SaveBMP(int x1, int y1, int x2, int y2,int n)     //储存图像
+int SaveBMP(int x1, int y1, int x2, int y2,int n)     //锟斤拷锟斤拷图锟斤拷
 {
 	int i = 0, j = 0;
 	int height = y2 - y1, width = x2 - x1;
@@ -727,7 +727,7 @@ int SaveBMP(int x1, int y1, int x2, int y2,int n)     //储存图像
 	char f[100];
 	FILE *fp = NULL;
 	
-	//获取路径
+	//锟斤拷取路锟斤拷
 	sprintf(f,"saves\\save%d.dat",n);     
 	
 	fp = fopen(f, "wb");
@@ -747,12 +747,12 @@ int SaveBMP(int x1, int y1, int x2, int y2,int n)     //储存图像
 	return n;
 }
 
-void LoadBMP(int x1, int y1, int x2, int y2, int n)     //加载图像
+void LoadBMP(int x1, int y1, int x2, int y2, int n)     //锟斤拷锟斤拷图锟斤拷
 {
 	int i = 0, j = 0;
 	int height = y2 - y1, width = x2 - x1;
 	int color = 0;
-	char path[40];
+	char path[50];
 	FILE *fp = NULL;
 
 	sprintf(path,"saves\\save%d.dat",n);
@@ -760,7 +760,7 @@ void LoadBMP(int x1, int y1, int x2, int y2, int n)     //加载图像
 	if((fp=fopen(path,"rb"))==NULL)
 	{
 		fclose(fp);
-		//puthz_coverd2(400,400,"当前位置并没有储存路径！",12,32,34,0x000000,0xBDBD);
+		//puthz_coverd2(400,400,"锟斤拷前位锟矫诧拷没锟叫达拷锟斤拷路锟斤拷锟斤拷",12,32,34,0x000000,0xBDBD);
 		exit(1);
 	}
 	else
@@ -779,12 +779,12 @@ void LoadBMP(int x1, int y1, int x2, int y2, int n)     //加载图像
 
 
 /*******************
-功能说明：读取矩形区域图像信息到缓存区
-参数说明：读入矩形区域左上和右下顶点坐标，缓存区指针
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷取锟斤拷锟斤拷锟斤拷锟斤拷图锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷锟斤拷
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷虾锟斤拷锟斤拷露锟斤拷锟斤拷锟斤拷辏?锟斤拷锟斤拷锟斤拷指锟斤拷
 *******************/
 void Get_image(int x0,int y0,int x1,int y1,unsigned int far *save)
 {
-	int i=0;                                   /*循环变量*/
+	int i=0;                                   /*循锟斤拷锟斤拷锟斤拷*/
 	int j=0;
 	int wide=x1-x0;
     int high=y1-y0;
@@ -798,13 +798,13 @@ void Get_image(int x0,int y0,int x1,int y1,unsigned int far *save)
 }
 
 /*******************
-功能说明：从缓存区读出图像信息到矩形区域
-参数说明：读入矩形区域左上和右下顶点坐标，缓存区指针
+锟斤拷锟斤拷说锟斤拷锟斤拷锟接伙拷锟斤拷锟斤拷锟斤拷锟斤拷图锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷虾锟斤拷锟斤拷露锟斤拷锟斤拷锟斤拷辏?锟斤拷锟斤拷锟斤拷指锟斤拷
 *******************/
 void Put_image(int x0,int y0,int x1,int y1,unsigned int far *save)
 {
 
-	int i=0;                                   /*循环变量*/
+	int i=0;                                   /*循锟斤拷锟斤拷锟斤拷*/
 	int j=0;
 	int wide=x1-x0;
 	int high=y1-y0;
@@ -826,8 +826,8 @@ void Put_image(int x0,int y0,int x1,int y1,unsigned int far *save)
 				continue;
 			}  
 			pos=((unsigned long)(y0+i)<<10)+x0+j;
-			newpage=pos>>15 ;                         /*除以32k的替代算法*/
-			if (newpage != oldpage)            //调用换页函数
+			newpage=pos>>15 ;                         /*锟斤拷锟斤拷32k锟斤拷锟斤拷锟斤拷惴?*/
+			if (newpage != oldpage)            //锟斤拷锟矫伙拷页锟斤拷锟斤拷
 			{
 				Selectpage(newpage);
 				oldpage = newpage;
@@ -837,7 +837,7 @@ void Put_image(int x0,int y0,int x1,int y1,unsigned int far *save)
 	}
 }
 
-/***画按钮***/
+/***锟斤拷锟斤拷钮***/
 //void Cirbar(int x1, int y1, int x2, int y2, unsigned int color)
 //{
 //	int y3=(y1+y2)/2;
@@ -854,7 +854,7 @@ int GenerateBMP(int x1, int y1, int x2, int y2)
 	int i = 0, j = 0;
 	int height = y2 - y1, width = x2 - x1;
 	int color = 0;
-	char f[40];
+	char f[50];
 	FILE* fp = NULL;
 
 	char* bmpFilePath;
@@ -864,31 +864,31 @@ int GenerateBMP(int x1, int y1, int x2, int y2)
 	unsigned short pixelData;
 
 
-	// BMP文件头
+	// BMP锟侥硷拷头
 	uint8_t bmpFileHeader[14] = {
-		0x42, 0x4D,       // 文件类型标识 "BM"
-		0, 0, 0, 0,       // 文件大小，待填充
-		0, 0,             // 保留字段
-		0, 0,             // 保留字段
-		54, 0, 0, 0       // 数据偏移量
+		0x42, 0x4D,       // 锟侥硷拷锟斤拷锟酵憋拷识 "BM"
+		0, 0, 0, 0,       // 锟侥硷拷锟斤拷小锟斤拷锟斤拷锟斤拷锟?
+		0, 0,             // 锟斤拷锟斤拷锟街讹拷
+		0, 0,             // 锟斤拷锟斤拷锟街讹拷
+		54, 0, 0, 0       // 锟斤拷锟斤拷偏锟斤拷锟斤拷
 	};
 
-	// BMP信息头
+	// BMP锟斤拷息头
 	uint8_t bmpInfoHeader[40] = {
-		40, 0, 0, 0,      // 信息头大小
-		0, 0, 0, 0,       // 宽度，待填充
-		0, 0, 0, 0,       // 高度，待填充
-		1, 0,             // 颜色平面数
-		24, 0,            // 位深度
-		0, 0, 0, 0,       // 压缩类型
-		0, 0, 0, 0,       // 图像数据大小，待填充
-		0, 0, 0, 0,       // 水平分辨率
-		0, 0, 0, 0,       // 垂直分辨率
-		0, 0, 0, 0,       // 使用的颜色数
-		0, 0, 0, 0        // 重要颜色数
+		40, 0, 0, 0,      // 锟斤拷息头锟斤拷小
+		0, 0, 0, 0,       // 锟斤拷锟饺ｏ拷锟斤拷锟斤拷锟?
+		0, 0, 0, 0,       // 锟竭度ｏ拷锟斤拷锟斤拷锟?
+		1, 0,             // 锟斤拷色平锟斤拷锟斤拷
+		24, 0,            // 位锟斤拷锟?
+		0, 0, 0, 0,       // 压锟斤拷锟斤拷锟斤拷
+		0, 0, 0, 0,       // 图锟斤拷锟斤拷锟捷达拷小锟斤拷锟斤拷锟斤拷锟?
+		0, 0, 0, 0,       // 水平锟街憋拷锟斤拷
+		0, 0, 0, 0,       // 锟斤拷直锟街憋拷锟斤拷
+		0, 0, 0, 0,       // 使锟矫碉拷锟斤拷色锟斤拷
+		0, 0, 0, 0        // 锟斤拷要锟斤拷色锟斤拷
 	};
 
-	// 计算文件大小和图像数据大小
+	// 锟斤拷锟斤拷锟侥硷拷锟斤拷小锟斤拷图锟斤拷锟斤拷锟捷达拷小
 	int fileSize = 54 + width * height * 3;
 	int imageDataSize = width * height * 3;
 
@@ -898,14 +898,14 @@ int GenerateBMP(int x1, int y1, int x2, int y2)
         p++;
     }
 	bmpFilePath=f;
-	// 打开文件
+	// 锟斤拷锟侥硷拷
 	fp = fopen(bmpFilePath, "wb");
 	if (fp == NULL)
 	{
 		exit(1);
 	}
 
-	// 填充文件头和信息头的数据大小字段
+	// 锟斤拷锟斤拷募锟酵凤拷锟斤拷锟较⑼凤拷锟斤拷锟斤拷荽锟叫★拷侄锟?
 	bmpFileHeader[2] = (uint8_t)(fileSize);
 	bmpFileHeader[3] = (uint8_t)(fileSize >> 8);
 	bmpFileHeader[4] = (uint8_t)(fileSize >> 16);
@@ -924,30 +924,30 @@ int GenerateBMP(int x1, int y1, int x2, int y2)
 	bmpInfoHeader[22] = (uint8_t)(imageDataSize >> 16);
 	bmpInfoHeader[23] = (uint8_t)(imageDataSize >> 24);
 
-	// 写入文件头和信息头
+	// 写锟斤拷锟侥硷拷头锟斤拷锟斤拷息头
 	fwrite(bmpFileHeader, sizeof(uint8_t), sizeof(bmpFileHeader), fp);
 	fwrite(bmpInfoHeader, sizeof(uint8_t), sizeof(bmpInfoHeader), fp);
 
-	// 写入像素数据
+	// 写锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
 	for (i = height - 1; i > -1; i--)
 	{
 		for (j = 0; j < width; j++)
 		{
-			// 获取屏幕上指定位置的像素颜色
+			// 锟斤拷取锟斤拷幕锟斤拷指锟斤拷位锟矫碉拷锟斤拷锟斤拷锟斤拷色
 			color = Getpixel64k(x1 + j, y1 + i);
 
 
-			// 将颜色分量写入文件
-            fputc((((color) & (2*2*2*2*2-1)))<<3, fp); // 红色分量
-        	fputc((((color >> 5) & (2*2*2*2*2*2-1)))<<2, fp);  // 绿色分量
-        	fputc((((color >>11) & (2*2*2*2*2-1)))<<3, fp);         // 蓝色分量
+			// 锟斤拷锟斤拷色锟斤拷锟斤拷写锟斤拷锟侥硷拷
+            fputc((((color) & (2*2*2*2*2-1)))<<3, fp); // 锟斤拷色锟斤拷锟斤拷
+        	fputc((((color >> 5) & (2*2*2*2*2*2-1)))<<2, fp);  // 锟斤拷色锟斤拷锟斤拷
+        	fputc((((color >>11) & (2*2*2*2*2-1)))<<3, fp);         // 锟斤拷色锟斤拷锟斤拷
 		}
 	}
 
-	// 关闭文件
+	// 锟截憋拷锟侥硷拷
 	fclose(fp);
 
-	// 返回生成的BMP文件路径
+	// 锟斤拷锟斤拷锟斤拷锟缴碉拷BMP锟侥硷拷路锟斤拷
     if (p == 11)
     {
         p = 1;

@@ -1,12 +1,6 @@
-#include <common.h>
-#include <game.h>
-#include<ORDFUNS.h>
-#include<WRKMNG.h>
-#include<WRKPLC.h>
-#include<DRAWWORK.h>
-#include<WRKADD.h>
+#include<ALLFUNS.h>
 
-void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
+void wrkmng_main(int *fpage,char*user,WORKFILE* pwork)
 {
     int page1=0;
     int i;
@@ -18,14 +12,13 @@ void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
             getch();
             return;
         }*/
-    
     while(*fpage!=0)
     {
         clrmous(MouseX,MouseY);
         switch(page1)
         {
             case 0:
-                
+                //free(nametemp);
                 nametemp=malloc((size_t)11);
                 for(i=0;i<=10;i++)nametemp[i]='\0';
                 //put_asc16_size(0,1,1,1,"opened",10);
@@ -44,10 +37,10 @@ void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
                 wrkmng_add_place(&page1,&placetemp);
                 break;
             case 3:
-                *fpage=3;
+                *fpage=0;
                 break;
             case 4:
-                *fpage=5;
+                *fpage=6;
                 return;
 
         }
@@ -72,21 +65,19 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
     //put_hz24(0,0,"计数后",0,"C:\\TEST\\HZK\\HZK24",0);
     if(n%4==0&&n!=0)workpagemax=n/4;
     else workpagemax=n/4+1;
-    
-    Readbmp64k(0,0,"PICTURE\\WLCMpage.bmp");
-    
+    Readbmp64k(0,0,"C:\\TEST\\PICTURE\\WLCMpage.bmp");
+    //bar(0,0,1024,768,65535);
     title1prt();
     menuprt(202,100,802,700);
     btn_bar_Draw(50,50,150,90);
-    put_hz24(70,56,"返回",0,"HZK\\HZK24",0);
+    put_hz24(70,56,"返回",0,"C:\\TEST\\HZK\\HZK24",0);
     addprt();
     openprt(form);
     dltprt(form);
     pageselprt(1,workpagemax);
     drawworkmain(1,n,user);
-    
+    //put_asc16_size(0,200,1,1,test,0);
     pageprt(workpage,workpagemax);
-    
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
@@ -162,7 +153,6 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
                 {
 
                     worksearch(workpage,i,&path,user);
-                    //exit(0);
                     sel=i;
                     form=1; 
                     openprt(form);
@@ -181,19 +171,19 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
 void title1prt()
 {
     btn_bar_Draw(412,35,612,75);
-    put_hz24(412+10,55+3,"项目管理",0,"HZK\\HZK24",0);
+    put_hz24(412+10,55+3,"项目管理",0,"C:\\TEST\\HZK\\HZK24",0);
 }
 
 void backprt()
 {
     btn_bar_Draw(50,50,150,90);
-    put_hz24(50+20,70+3,"返回",0,"HZK\\HZK24",0);
+    put_hz24(50+20,70+3,"返回",0,"C:\\TEST\\HZK\\HZK24",0);
 }
 
 void addprt()
 {
     btn_bar_Draw(842,110,962,160);
-    put_hz24(852,120,"新建项目",0,"HZK\\HZK24",0);
+    put_hz24(852,120,"新建项目",0,"C:\\TEST\\HZK\\HZK24",0);
 }
 
 void openprt(int form)
@@ -201,12 +191,12 @@ void openprt(int form)
     if(form==0)
     {
         btn_bar_Draw1(842,190,962,240);
-        put_hz24(842,215,"打开项目",0,"HZK\\HZK24",0);
+        put_hz24(842,215,"打开项目",0,"C:\\TEST\\HZK\\HZK24",0);
     }
     else
     {
         btn_bar_Draw(842,190,962,240);
-        put_hz24(842,215,"打开项目",0,"HZK\\HZK24",0);        
+        put_hz24(842,215,"打开项目",0,"C:\\TEST\\HZK\\HZK24",0);        
     }
 }
 
@@ -215,12 +205,12 @@ void dltprt(int form)
     if(form==0)
     {
         btn_bar_Draw1(842,270,962,320);
-        put_hz24(842+40,305+3,"删除项目",0,"HZK\\HZK24",0);
+        put_hz24(842+40,305+3,"删除项目",0,"C:\\TEST\\HZK\\HZK24",0);
     }
     else
     {
         btn_bar_Draw(842,270,962,320);
-        put_hz24(842+40,305+3,"删除项目",0,"HZK\\HZK24",0);
+        put_hz24(842+40,305+3,"删除项目",0,"C:\\TEST\\HZK\\HZK24",0);
     }    
 }
 
@@ -229,12 +219,12 @@ void lastprt(int form)
     if(form==0)
     {
         btn_bar_Draw1(222,638,322,682);
-        put_hz24(222+10,638+10,"上一页",0,"HZK\\HZK24",0);
+        put_hz24(222+10,638+10,"上一页",0,"C:\\TEST\\HZK\\HZK24",0);
     }
     else
     {
         btn_bar_Draw(222,638,322,682);
-        put_hz24(222+10,638+10,"上一页",0,"HZK\\HZK24",0);
+        put_hz24(222+10,638+10,"上一页",0,"C:\\TEST\\HZK\\HZK24",0);
     }
     
 }
@@ -244,12 +234,12 @@ void nextprt(int form)
     if(form==0)
     {
         btn_bar_Draw1(682,638,782,682);
-        put_hz24(682+10,638+10,"下一页",0,"HZK\\HZK24",0);
+        put_hz24(682+10,638+10,"下一页",0,"C:\\TEST\\HZK\\HZK24",0);
     }
     else
     {
         btn_bar_Draw(682,638,782,682);
-        put_hz24(682+10,638+10,"下一页",0,"HZK\\HZK24",0);
+        put_hz24(682+10,638+10,"下一页",0,"C:\\TEST\\HZK\\HZK24",0);
     }
 }
 
@@ -378,12 +368,12 @@ void wrkdelete(int page,int n,char*user)
     char*path=malloc((size_t)60);
     char*patht=malloc((size_t)60);
     //FILE* f =fopen("C:\\TEST\\WORKS\\CONTENT.TXT","rt+");
-    FILE* fnew=fopen("WORKS\\temp.txt","wt+");
+    FILE* fnew=fopen("C:\\TEST\\WORKS\\temp.txt","wt+");
     //FILE* ft=fopen("C:\\TEST\\WORKS\\test.TXT","wt+");
     FILE* ft;
     FILE* ftbas;
     WORKFILE* temp=malloc(sizeof(WORKFILE));
-    sprintf(patht,"WORKS\\%s\\CONTENT.txt",user);
+    sprintf(patht,"C:\\TEST\\WORKS\\%s\\CONTENT.txt",user);
     
     worksearch(page,n,&pathbas,user);
     put_asc16_size(0,200,1,1,pathbas,0);
@@ -396,12 +386,12 @@ void wrkdelete(int page,int n,char*user)
     }
     fread(temp,sizeof(WORKFILE),1,ftbas);
     btn_bar_Draw1(315,160,712,370);
-    put_hz24(320,170,"是否删除",65535,"HZK\\HZK24",0);
-    put_hz24_asc32(320,200,temp->name,65535, "HZK\\HZK24");
+    put_hz24(320,170,"是否删除",65535,"C:\\TEST\\HZK\\HZK24",0);
+    put_hz24_asc32(320,200,temp->name,65535, "C:\\TEST\\HZK\\HZK24");
     btn_bar_Draw(335,250,410,300);
     btn_bar_Draw(617,250,692,300);
-    put_hz24(345,260,"是",65535,"HZK\\HZK24",0);
-    put_hz24(627,260,"否",65535,"HZK\\HZK24",0);
+    put_hz24(345,260,"是",65535,"C:\\TEST\\HZK\\HZK24",0);
+    put_hz24(627,260,"否",65535,"C:\\TEST\\HZK\\HZK24",0);
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
@@ -415,7 +405,7 @@ void wrkdelete(int page,int n,char*user)
             free(path);
             free(temp);
             free(pathbas);
-            remove("WORKS\\temp.txt");
+            remove("C:\\TEST\\WORKS\\temp.txt");
             return;
         }
     }
@@ -435,7 +425,7 @@ void wrkdelete(int page,int n,char*user)
         {
             fseek(fnew,-1,1);
             //fputc('6',fnew);
-            put_hz24_asc32(0,200,"searched",0, "HZK\\HZK24");
+            put_hz24_asc32(0,200,"searched",0, "C:\\TEST\\HZK\\HZK24");
             //getch();
             //k++;#
             //fputc('=',ft);

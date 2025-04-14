@@ -1,15 +1,6 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
+#include<ALLFUNS.h>
 
-#include <change.h>
-#include <SL.h>
-#include <EVENT.h>
-int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int (*events)[2])
+int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2])
 {
 	int page=5;
 	char *s[3]={"时间流动","模拟日志","保存游戏"};
@@ -68,11 +59,13 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int (*events)[2
 		
 		if (left_toolbotton_mouse_press(1) == 1) //左栏被点中的情况
         {
+			
             clrmous(MouseX,MouseY);
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
             page=proj_fun5_1(gameinfop,p,events);
+
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
@@ -91,7 +84,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int (*events)[2
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
             clear_right_all();
-            page=save_gminfo(gameinfop,work,5);
+            page = save_gminfo(gameinfop,work,5);
 			save_node(work,*p);
             return page;   
 		}
@@ -154,6 +147,8 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
 		
 		if (mouse_press(300,300,390,330)==1)
 		{
+			int cevent;
+			
 			gameinfop->month++;
 			if(gameinfop->month==13)
 			{
@@ -163,6 +158,7 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
 			clrmous(MouseX,MouseY); 
 			clear_right_all();
 			clear_time();
+			//
 			/*srand((unsigned) time(NULL));
     		cevent=rand()%4;
     		switch(cevent)
@@ -195,6 +191,7 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
             	break;
 			}*/
 			eventsc(events);
+			
 			time_flow(gameinfop,p);
 			draw_time(gameinfop);
 			break;
@@ -223,8 +220,6 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 	gameinfop->r_info.fuel+=data[6];
 	gameinfop->r_info.mineral+=data[7];
 	
-	
-	
 	for (i=0;i<p->i;i++)
 	{
 		temp=temp->next;
@@ -238,117 +233,9 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 			headremove_nodebq(p);
 		}
 	}
-	
-	
-	//
-	if (gameinfop->gametech.research_flag==1)
-	{
-		gameinfop->gametech.havepoints+= gameinfop->techpoint;
-		if (gameinfop->gametech.havepoints>=gameinfop->gametech.totalpoints)
-		{
-			change_techflag(gameinfop->gametech.type,gameinfop->gametech.id);
-			gameinfop->gametech.research_flag=0;
-			give_research_effect(gameinfop->gametech.type,gameinfop->gametech.id,gameinfop,p);
-		}
-	}
-	
 }
 
-int save(struct GameInfo *gameinfop)
-{
-	FILE *file=fopen("C:\\1.dat","wb");
-	char str[50]={'\0'};
-	int i,j;
-	nodes *p;
-	if (file==NULL)
-	{
-		return 5;
-	}
-	
-	p=create_nodes();
-	
-	sprintf(str, "%d", gameinfop->year);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%d\n", gameinfop->month);
-	fprintf(file,str);
-	
-	sprintf(str, "%ld", gameinfop->r_info.nanomaterial);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld", gameinfop->r_info.rarematerial);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld", gameinfop->r_info.oxygen);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld", gameinfop->r_info.water);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld", gameinfop->r_info.food);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld", gameinfop->r_info.energy);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld", gameinfop->r_info.fuel);
-	fprintf(file,str);
-	fputc(' ',file);
-	
-	sprintf(str, "%ld\n", gameinfop->r_info.mineral);
-	fprintf(file,str);
-	
-	for(i=0;i<7;i++)
-	{
-		for(j=0;j<7;j++)
-		{
-			sprintf(str, "%d", gameinfop->m_info[i][j].terrain);
-			fprintf(file,str);
-			if (j==6)
-			{
-				fputc('\n',file);
-			}
-			else
-			{
-				fputc(' ',file);
-			}
-		}
-	}
-	fputc('\n',file);
-	for(i=0;i<7;i++)
-	{
-		for(j=0;j<7;j++)
-		{
-			sprintf(str, "%d", (int)(gameinfop->m_info[i][j].building.id));
-			fprintf(file,str);
-			if ((int)(gameinfop->m_info[i][j].building.id)!=0)
-			{
-				headinsert_nodes(p,i,j);
-			}
-			if (j==6)
-			{
-				fputc('\n',file);
-			}
-			else
-			{
-				fputc(' ',file);
-			}
-		}
-	}
-	fputc('\n',file);
-	fputdata_nodes(p,gameinfop,file);
-	free_nodes(p);
-	fclose(file);
-	return 5;
-	
-}
+
 
 nodes *create_nodes(void)
 {

@@ -1,4 +1,4 @@
-#include <hz.h>
+#include "hz.h"
 
 
 /*16位点阵汉字输出，x,y表示汉字输出位置，s为汉字串，color表示汉字颜色，flag为1时延时打字，0时不延时
