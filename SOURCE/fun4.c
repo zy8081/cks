@@ -174,6 +174,7 @@ void draw_lifetech_tree(tree *p)
 	{
 		return;
 	}
+
 	for (i=0;i<CHILD_NUM;i++)
 	{
 		draw_lifetech_tree(p->child[i]);
@@ -195,8 +196,16 @@ void draw_lifetech_toast(tree *p,int id)
 	char str[30];
 	id_find_baseinfo_lifetech(p,&temp,id);
 	SaveBMP(300,500,800,700,0);
-	btn_bar_Draw(300,500,800,700);
+	btn_bar_Draw(300,500,900,750);
+	
 	puthz2(300,500,32,32,1,temp.name);
+
+	btn_bar_Draw0(300,650,400,700);
+	puthz2(300,650,32,32,1,"取消");
+
+	btn_bar_Draw0(700,650,800,700);
+	puthz2(700,650,32,32,1,"研究");
+
 	if (temp.parent->flag==0)
 	{
 		puthz2(300,550,32,32,1,"前置科技未解锁");

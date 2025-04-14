@@ -88,7 +88,7 @@ void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
             else
             {
                 draw_block(j,i,gf.m_info[ysel+i][xsel+j],1);
-                if (gf.m_info[xsel+i][ysel+j].building.bui_time!=0)
+                if (gf.m_info[xsel+i][ysel+j].building.bui_time==0)
                 {
                     draw_map_building(i,j,gf.m_info[xsel+i][ysel+j].building.id);
                 }
