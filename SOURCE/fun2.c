@@ -7,7 +7,7 @@
 #include <fun4.h>
 #include <fun1.h>
 #include <fun2.h>
-#include "SL.h"
+#include <SL.h>
 
 
 int proj_fun2(struct GameInfo* gameinfop)

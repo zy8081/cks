@@ -1,4 +1,10 @@
-#include<ALLFUNS.h>
+#include <common.h>
+#include <game.h>
+#include <fun3_2.h>
+#include <fun3.h>
+#include <WRKMNG.h>
+#include <fun5.h>
+#include <fun4.h>
 //本文件功能：一些较为基础的画图函数
 
 //方便程序退出的按钮（调试用）
@@ -80,6 +86,26 @@ void draw_main_toolbotton(int x,int color,char*s1,char*s2)
 	puthz(x+43,50,s2, 32,40, 0x000000);
 	puthz(x+42,49,s2, 32,40, color);
 }
+
+void puthz2(int x,int y,int flag,int part,int color,char*s1)
+{
+	puthz(x,y,s1, flag,part, 0x000000);
+	puthz(x,y+2,s1, flag,part, 0x000000); 
+	puthz(x+2,y,s1, flag,part, 0x000000); 
+	puthz(x+2,y+2,s1, flag,part, 0x000000); 
+	puthz(x+1,y+1,s1, flag,part, color); 
+}
+
+
+void draw_button1(int x1,int y1,int x2,int y2,int colorf,int colorb)
+{
+	line_thick(x1,y1,x2,y1,3,colorf);
+    line_thick(x2,y1,x2,y2,3,colorf);
+    line_thick(x2,y2,x1,y2,3,colorf);
+    line_thick(x1,y2,x1,y1,3,colorf);
+    bar(x1+2,y1+2,x2-2,y2-2,colorb);
+}
+
 void draw_main_toolbotton_activate(int x,int color,char*s1,char*s2)
 {
 	bar(x+1,0,x+157,93,color);
@@ -100,6 +126,7 @@ void draw_main_toolbotton_activate(int x,int color,char*s1,char*s2)
 	puthz(x+42,49,s2, 32,40, 0x000000);
 }
 
+
 void draw_left_toolbotton_activate(int y,int length,char*s)
 {
 	bar(0,y+1,232,y+length-1,0xBDBD);
@@ -113,6 +140,7 @@ void draw_left_toolbotton_activate(int y,int length,char*s)
 
 }
 
+//画pro界面
 void draw_pro_origin(void)
 {
 	bar(0,0,1024,768,0xFFFFFF);
@@ -125,8 +153,21 @@ void draw_pro_origin(void)
     draw_main_toolbotton(866,0xBDBD,"时间","显示");
 	line_thick(234, 0,234,768, 2, 0x000000 );
 	line_thick(0,91,234,91, 1, 0x000000 );
+
+	puthz2(250,100,24,26,0xffff,"尊敬的火星开拓者，欢迎来到火星家园建设系统！");
+	puthz2(250,130,24,26,0xffff,"在这个系统中，你将作为一名决策者，来指导火星家园的建设。");
+	puthz2(250,160,24,26,0xBBBB,"为了提供建设火星的基础设备，我们已经发射了一颗巨型火箭，");
+	puthz2(250,190,24,26,0xBBBB,"其中包括大量资源和地球最先进的设备：");
+	puthz2(250,220,24,26,0xffff,"一：火箭核心舱：提供开拓者们第一个住处。");
+	puthz2(250,250,24,26,0xffff,"二：机器人中枢：地球研发的最先进的人工智能，");
+	puthz2(250,280,24,26,0xffff,"拥有一些火星建筑的建设算法，若你需要建设新建筑，直接给");
+	puthz2(250,310,24,26,0xffff,"他们指派任务即可，在建设基础设施后，你可以进行科技研发，");
+	puthz2(250,340,24,26,0xffff,"以解锁更多建筑建设算法！当然，这些家伙耗电可不少。");
+	puthz2(250,370,24,26,0xffff,"三：自动化仓库：与机器人中枢适配的资源自动化存储仓库。");
 }
 
+
+//画左端工具按钮
 void draw_all_leftbuttons(int num,int len,char *s[])
 {
 	int i;
@@ -136,15 +177,9 @@ void draw_all_leftbuttons(int num,int len,char *s[])
 	}
 }
 
-void draw_time(struct GameInfo *gameinfop)
-{
-	int year=gameinfop->year;
-	int month=gameinfop->month;
-	char str[10];
-	sprintf(str,"%d.%d",year,month);
-	put_asc16_size(30,20,3,3,str,0xBDBD);
-}
 
+
+//上方主按钮按键
 int main_toolbotton_mouse_press(int x)
 {
     int start = 233 + (x - 1) * 158;
@@ -158,27 +193,42 @@ int left_toolbotton_mouse_press(int x)
     return mouse_press(0, y, 234, y + 65);
 }
 
+//建造键返回函数
 int build_press(int x)
 {
 	return mouse_press(920,130+(x-1)*130,1000,240+(x-1)*130);
 }
 
+//清除左端工具栏1
 void clear_main_all(void)
 {
     bar(0,95,232,768,0xFFFFFF);
 }
 
+//清除左端工具栏2
 void clear_main_all2(int x)
 {
     bar(0,95+65*x,232,768,0xFFFFFF);
 }
 
+//清除工作区
 void clear_right_all(void)
 {
 	bar(238,99,1024,768,0xFFFFFF);
 }
 
+//擦除时间
 void clear_time(void)
 {
 	bar(0,0,230,85,0xFFFFFF);
+}
+
+//画时间
+void draw_time(struct GameInfo *gameinfop)
+{
+	int year=gameinfop->year;
+	int month=gameinfop->month;
+	char str[10];
+	sprintf(str,"%d.%d",year,month);
+	put_asc16_size(30,20,3,3,str,0xBDBD);
 }

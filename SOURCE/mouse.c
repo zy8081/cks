@@ -1,9 +1,9 @@
-#include"mouse.h"
+#include<mouse.h>
 #include <dos.h>
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
-#include "SVGA.h"
+#include <SVGA.h>
 #define  H 15
 #define  W 12
 

@@ -1,6 +1,6 @@
 #ifndef WRKMNG_H
 #define WRKMNG_H
-#include<ALLFUNS.h>
+
 
 enum landname{OlymMon=1,MariVal,ArabTer,UtopPla,ElysPla};
 

@@ -1,6 +1,6 @@
 #ifndef EVENT_H
 #define EVENT_H
-#include<ALLFUNS.h>
+
 
 void eventsc(int (*events)[2]);
 void eventshow(int events[2],struct GameInfo* pGameInfo);

@@ -20,6 +20,14 @@
         "debug.h": "c",
         "fun1.h": "c",
         "nodet.h": "c",
-        "change.h": "c"
+        "change.h": "c",
+        "INTRO.C": "cpp",
+        "stdio.h": "c",
+        "ghz.h": "c",
+        "mouse.h": "c",
+        "start.h": "c",
+        "rocket.h": "c",
+        "sl.h": "c",
+        "fun2.h": "c"
     }
 }
