@@ -33,7 +33,7 @@ void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
             free(*pname0);
             *pname0=malloc((size_t)20);
             strcmp(*pname0,"\0");
-            inputs(403,170,*pname0);
+            inputs(403,170,*pname0,8);
         }
 
         if(mouse_press(442,420,582,480)==1)

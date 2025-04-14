@@ -59,7 +59,7 @@ void login(int *page,char**puser)
 {
 	char user[21]={'\0'},password[21]={'\0'};
 	
-	
+	int ret=0;
 
 	clrmous(MouseX,MouseY); 
 	delay(300); 
@@ -68,12 +68,12 @@ void login(int *page,char**puser)
 	draw_login();
 	
 	draw_closebutton();  //该函数出自draw.c，在右上角画一个叉，方便退出程序（调试用）
-	rocket_prtall();
+	//rocket_prtall();
 	
 	while(1)
 	{ 
 		mouse_renew(&MouseX,&MouseY,&press);
-		rocket_fun1();
+		//rocket_fun1(&ret);
 		//测试用
 		if(mouse_press(1024-40, 0, 1024, 0+40) == 1) 
 		{ 

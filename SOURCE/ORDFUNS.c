@@ -44,7 +44,7 @@ void menuprt(int x1,int y1,int x2,int y2)
     bar(x1,y1,x2,y2,27469);
 }
 
-void inputs(int x ,int y ,char *content)     
+void inputs(int x ,int y ,char *content,int n)     
 {
 	int i=0;
     int time;
@@ -68,7 +68,7 @@ void inputs(int x ,int y ,char *content)
 		key=bioskey(0);
 		if ((key>='A' && key<='Z') || (key>='a' && key<='z') || (key>='0' && key<='9'))
 		{
-			if (i<=8)
+			if (i<=n)
 			{
 				content[i]=key;
 				content[i+1]='\0';

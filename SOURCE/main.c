@@ -13,7 +13,7 @@ int main()
     MouseS=1;
     delay(1000);
     press=0;
-    
+    rocket_apply();
     while(1)
     {
         //clrmous(MouseX,MouseY);

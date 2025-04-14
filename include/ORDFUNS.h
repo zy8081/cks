@@ -17,7 +17,7 @@ void btn_bar_Draw(int x1,int y1,int x2,int y2);
 void btn_bar_Draw0(int x1,int y1,int x2,int y2);
 void btn_bar_Draw1(int x1,int y1,int x2,int y2);
 //void hzplace(BTN_BAR *pb,int nx,int ny);//ȷ�����־��з���λ��
-void inputs(int x ,int y ,char *content);
+void inputs(int x ,int y ,char *content,int n);
 void draw_toast(void);
 void clear_toast(void);
 
