@@ -38,7 +38,7 @@ int project(struct workfile w,int*page)
 	gameinfo.year=2030;
 	gameinfo.month=1;
 	gameinfo.techpoint=200;
-	gameinfo.gametech.research_flag=0;
+	gameinfo.gametech[0].research_flag=0;
 	
 	// //≥ı ºªØµÿÕº
 	// for (i=0;i<7;i++)
