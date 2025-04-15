@@ -26,7 +26,7 @@ int project(struct workfile w,int*page)
 	
 	load_gminfo(w,&gameinfo);
 	
-	gameinfo.r_info.energy=10000;
+	/*gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
 	gameinfo.r_info.rarematerial=10000;
 	gameinfo.r_info.oxygen=10000;
@@ -36,9 +36,9 @@ int project(struct workfile w,int*page)
 	gameinfo.r_info.mineral=10000;
 	
 	gameinfo.year=2030;
-	gameinfo.month=1;
-	gameinfo.techpoint=200;
-	gameinfo.gametech[0].research_flag=0;
+	gameinfo.month=1;*/
+	/*gameinfo.techpoint=200;
+	gameinfo.gametech[0].research_flag=0;*/
 	
 	// //≥ı ºªØµÿÕº
 	// for (i=0;i<7;i++)

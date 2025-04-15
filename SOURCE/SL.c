@@ -12,7 +12,7 @@ int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage)
 {
 	FILE *file=fopen(work.path_dat,"wb");
 	//strcpy(pathdat,work.path_dat);
-	fwrite(gameinfop,sizeof(*gameinfop),(size_t)1,file);
+	fwrite(gameinfop,sizeof(struct GameInfo),(size_t)1,file);
 	fclose(file);
 	return repage;
 }
@@ -20,9 +20,10 @@ int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage)
 void load_gminfo(WORKFILE work,struct GameInfo* gameinfop)
 {
 	FILE *file=fopen(work.path_dat,"rb+");
-	fread(gameinfop,sizeof(*gameinfop),(size_t)1,file);
+	fread(gameinfop,sizeof(struct GameInfo),(size_t)1,file);
 	fclose(file);
 	return;
+
 }
 
 void gminfo_init(char* datpath)
@@ -33,18 +34,20 @@ void gminfo_init(char* datpath)
 	struct Resource res_earns;
     FILE* ft=fopen(datpath,"wb+");
 
-	//srand(time(NULL));//为何
-	gameinfo.r_info.energy=1000;
-	gameinfo.r_info.nanomaterial=1000;
-	gameinfo.r_info.rarematerial=100;
-	gameinfo.r_info.oxygen=110;
-	gameinfo.r_info.water=120;
-	gameinfo.r_info.food=130;
-	gameinfo.r_info.fuel=140;
-	gameinfo.r_info.mineral=150;
+	gameinfo.r_info.energy=10000;
+	gameinfo.r_info.nanomaterial=10000;
+	gameinfo.r_info.rarematerial=10000;
+	gameinfo.r_info.oxygen=10000;
+	gameinfo.r_info.water=10000;
+	gameinfo.r_info.food=10000;
+	gameinfo.r_info.fuel=10000;
+	gameinfo.r_info.mineral=10000;
 	
 	gameinfo.year=2030;
 	gameinfo.month=1;
+	gameinfo.techpoint=200;
+	gameinfo.gametech[0].research_flag=0;
+	
 	//初始化地图
 	for (i=0;i<15;i++)
 	{
@@ -56,9 +59,9 @@ void gminfo_init(char* datpath)
 		}
 	}
 
-	rocket_init(&(gameinfo.rocket));
+	//rocket_init(&(gameinfo.rocket));
 
-    fwrite(&gameinfo,sizeof(struct GameInfo),1,ft);
+    fwrite(&gameinfo,sizeof(struct GameInfo),(size_t)1,ft);
     fclose(ft);
 
 }
