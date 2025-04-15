@@ -28,7 +28,6 @@
         "start.h": "c",
         "rocket.h": "c",
         "sl.h": "c",
-        "fun2.h": "c",
-        "draw.h": "c"
+        "fun2.h": "c"
     }
 }

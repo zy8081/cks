@@ -1,5 +1,4 @@
 #include <common.h>
-#include <draw.h>
 #include <game.h>
 #include <fun3_2.h>
 #include <fun3.h>
@@ -69,7 +68,6 @@ int research_lifetech(struct GameInfo *gameinfop)
 	draw_lifetech_line(p);
 	draw_lifetech_tree(p);
 	
-	draw_researching(gameinfop,1);
 
 	while(1)
 	{
@@ -88,13 +86,12 @@ int research_lifetech(struct GameInfo *gameinfop)
 				delay(400);
 				while(1)
 				{
-					mouse_renew(&MouseX,&MouseY,&press);
 					if (judge_press_mainbutton(4,&page))
 					{
 						page=4;
 						break;
 					}
-					
+					mouse_renew(&MouseX,&MouseY,&press);
 					if (mouse_press(300,675,450,750)==1)
 					{
 						clrmous(MouseX,MouseY); 
@@ -107,8 +104,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 					}
 					if(mouse_press(750,675,900,750)==1)
 					{
-						start_research(gameinfop,1,i+1);
-						break;
+						
 					}
 					
 				}
@@ -209,42 +205,17 @@ void draw_lifetech_tree(tree *p)
 	
 }
 
-void draw_researching(struct GameInfo *gameinfop,int type)
-{
-	char str[30];
-	tree temp;
-	if (gameinfop->gametech[type-1].research_flag==0)
-	{
-		return;
-	}
-	else
-	{
-		get_tech_basic_info(&temp,type,gameinfop->gametech[type-1].id);
-		btn_bar_Draw(300,500,900,750);
-		puthz2(300,500,32,32,1,temp.name);
-
-		btn_bar_Draw(500,675,700,750);
-		puthz2(500,675,32,32,1,"查看详细");
-
-
-		puthz2(400,600,32,32,1,"正在研究中");
-	}
-}
-
-
-
-
 void draw_lifetech_toast(tree *p,int id)
 {
 	tree temp;
 	char str[30];
 	id_find_baseinfo_lifetech(p,&temp,id);
-	SaveBMP(290,190,810,510,0);
-	btn_bar_Draw(300,200,800,500);
+	SaveBMP(290,490,910,760,0);
+	btn_bar_Draw(300,500,900,750);
 	
-	puthz2(300,200,32,32,1,temp.name);
+	puthz2(300,500,32,32,1,temp.name);
 
-	btn_bar_Draw(300,650,450,750);
+	btn_bar_Draw(300,675,450,750);
 	puthz2(300,700,32,32,1,"取消");
 
 	btn_bar_Draw(750,675,900,750);
@@ -267,7 +238,7 @@ void draw_lifetech_toast(tree *p,int id)
 
 void load_lifetech_toast(void)
 {
-	LoadBMP(290,290,710,560,0);
+	LoadBMP(290,490,910,760,0);
 }
 
 void draw_lifetech_line(tree *leaf)
@@ -299,120 +270,94 @@ void draw_lifetech_line(tree *leaf)
 }
 
 
-void draw_lifetech_toast2(int n,int pattern)
-{
-	SaveBMP(390,290,710,560,n);
-	btn_bar_Draw(400,300,700,550);
-	puthz2(400,300,32,32,1,"已有正在研究的科技");
-}
+// void draw_lifetech_toast2(int n)
+// {
+// 	char str[30];
+// 	id_find_baseinfo_lifetech(p,&temp,id);
+// 	SaveBMP(290,490,910,760,0);
+// 	btn_bar_Draw(300,500,900,750);
+	
+// 	puthz2(300,500,32,32,1,temp.name);
 
-void start_research(struct GameInfo *gameinfop,int type,int id)
-{
-	char name[30];
-	if (gameinfop->gametech[type-1].research_flag ==1)
-	{
-		draw_lifetech_toast2(1,0);
-		delay(1000);
-		LoadBMP(390,290,710,560,1);
-		return;
-	}
-	else
-	{
-		gameinfop->gametech[type-1].research_flag=1;
-		gameinfop->gametech[type-1].havepoints=0;
-		gameinfop->gametech[type-1].id=id;
-		gameinfop->gametech[type-1].type=type;
-		gameinfop->gametech[type-1].totalpoints=get_totalpoint_from_techtxt(type,id);
+// 	btn_bar_Draw(300,675,450,750);
+// 	puthz2(300,700,32,32,1,"取消");
 
-		SaveBMP(390,290,710,560,2);
-		btn_bar_Draw(400,300,700,550);
-		puthz2(400,300,32,32,1,"成功开始研究：");
-		type_id_find_name(type,id,name);
-		puthz2(400,340,32,32,1,name);
-		delay(1500);
-		LoadBMP(390,290,710,560,2);
-	}
-}
+// 	btn_bar_Draw(750,675,900,750);
+// 	puthz2(750,675,32,32,1,"研究");
 
-void type_id_find_name(int type,int id,char *name)
-{
-	FILE *file=fopen("./data/tech.txt","r");
-	int i;
-	char c;
-	char str[30];
-	if (file==NULL)
-	{
-		printf("open file error\n");
-		return;
-	}
-	
-	for (i=0;i<type;i++)
-	{
-		while ((c=fgetc(file))!='#');
-	}
-	
-	while ((c=fgetc(file))!='\n');
-	
-	for (i=0;i<id-1;i++)
-	{
-		while ((c=fgetc(file))!='\n');
-	}
+// 	btn_bar_Draw(500,675,700,750);
+// 	puthz2(500,675,32,32,1,"查看详细");
 
-	for (i=0;i<3;i++)
-	{
-		while ((c=fgetc(file))!=' ');
-	}
-	
-	i=0;
-	while ((c=fgetc(file))!=' ')
-	{
-		name[i++]=c;
-	}
-	name[i]='\0';
+// 	if (temp.parent->flag==0)
+// 	{
+// 		puthz2(300,550,32,32,1,"前置科技未解锁");
+// 	}
+// 	if (temp.flag==0)
+// 	{
+// 		puthz(500,500,"未研究",32,32,1);
+// 	}
+// 	sprintf(str,"%d",temp.point);
+// 	put_hz24_asc32(300,600,str,1,"HZK\\HZK24");
+// }
 
-	fclose(file);
-}
+// void start_research(struct GameInfo *gameinfop,int type,int id)
+// {
+// 	if (gameinfop->gametech[type-1].research_flag==1)
+// 	{
+// 		return -1;
+// 	}
+// 	else
+// 	{
+// 		gameinfop->gametech[type-1].research_flag=1;
+// 		gameinfop->gametech[type-1].havepoints=0;
+// 		gameinfop->gametech[type-1].id=id;
+// 		gameinfop->gametech[type-1].type=type;
+// 		gameinfop->gametech[type-1].totalpoints=get_totalpoint_from_techtxt(type,id);
 
-int get_totalpoint_from_techtxt(int type,int id)
-{
-	FILE *file=fopen("./data/tech.txt","r");
-	int i;
-	char c;
-	char str[30];
-	if (file==NULL)
-	{
-		printf("open file error\n");
-		return;
-	}
+// 	}
+// }
+
+// int get_totalpoint_from_techtxt(int type,int id)
+// {
+// 	FILE *file=fopen("./data/tech.txt","r");
+// 	int i;
+// 	char c;
+// 	char str[30];
+// 	if (file==NULL)
+// 	{
+// 		printf("open file error\n");
+// 		return;
+// 	}
 	
-	for (i=0;i<type;i++)
-	{
-		while ((c=fgetc(file))!='#');
-	}
+// 	for (i=0;i<type;i++)
+// 	{
+// 		while ((c=fgetc(file))!='#');
+// 	}
 	
-	while ((c=fgetc(file))!='\n');
+// 	while ((c=fgetc(file))!='\n');
 	
-	for (i=0;i<id-1;i++)
-	{
-		while ((c=fgetc(file))!='\n');
-	}
+// 	for (i=0;i<id-1;i++)
+// 	{
+// 		while ((c=fgetc(file))!='\n');
+// 	}
 	
-	for (i=0;i<4;i++)
-	{
-		while ((c=fgetc(file))!=' ');
-	}
+// 	//跳过id
+// 	for (i=0;i<4;i++)
+// 	{
+// 		while ((c=fgetc(file))!=' ');
+// 	}
 	
-	i=0;
-	while ((c=fgetc(file))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
+// 	i=0;
+// 	while ((c=fgetc(file))!=' ')
+// 	{
+// 		str[i++]=c;
+// 	}
+// 	str[i]='\0';
 
 
-	fclose(file);
-	return atoi(str);
-}
+// 	fclose(file);
+// 	return atoi(str);
+// }
 
 
 

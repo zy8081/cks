@@ -32,16 +32,9 @@ void draw_lifetech_tree(tree *p);
 void draw_lifetech_toast(tree *p,int id);
 void load_lifetech_toast(void);
 void draw_lifetech_line(tree *leaf);
-void draw_researching(struct GameInfo *gameinfop,int type);
-
-void draw_lifetech_toast2(int n,int pattern);
 
 void start_research(struct GameInfo *gameinfop,int type,int id);
 int get_totalpoint_from_techtxt(int type,int id);
-void type_id_find_name(int type,int id,char *name);
-
-
-
 
 void traverse_tree_to_nodetlist(tree *p,nodet *pt,int floor);
 void printf_nodet_list(nodet *p,int floor);

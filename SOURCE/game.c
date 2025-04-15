@@ -38,7 +38,6 @@ int project(struct workfile w,int*page)
 	gameinfo.year=2030;
 	gameinfo.month=1;
 	gameinfo.techpoint=200;
-	
 	gameinfo.gametech[0].research_flag=0;
 	
 	// //≥ı ºªØµÿÕº
@@ -84,6 +83,9 @@ int project(struct workfile w,int*page)
 				break;
 			case 5:
 				proj_page=proj_fun5(&gameinfo,p1,w,&events);
+				eventshow(events,&gameinfo);
+				events[0]=0;
+				events[1]=0;
 				break;
 		}
 	}

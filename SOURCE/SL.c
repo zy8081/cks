@@ -56,6 +56,8 @@ void gminfo_init(char* datpath)
 		}
 	}
 
+	rocket_init(&(gameinfo.rocket));
+
     fwrite(&gameinfo,sizeof(struct GameInfo),1,ft);
     fclose(ft);
 

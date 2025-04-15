@@ -1,10 +1,267 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
+#include<ALLFUNS.h>
+
+void map_init(int place,struct GameInfo *pg)
+{
+    int i,j;
+
+    int temp1[15][15]=
+    {
+        {py,py,py,py,wd,py,py,py,py,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,py,py,wd,kd,kd,py,py,py},
+        {py,py,kd,py,py,py,py,wd,py,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,py,py,py,py,py,py,py,py},
+        {py,py,py,py,pd,pd,py,py,py,pd,pd,py,py,pd,pd},
+        {py,py,py,py,pd,pd,pd,pd,pd,pd,pd,pd,pd,sd,pd},
+        {py,py,py,py,pd,pd,pd,pd,pd,pd,sd,pd,sd,sd,sd},
+        {py,py,py,py,pd,pd,pd,pd,pd,sd,sd,sd,sd,sd,sd},
+        {py,py,py,py,pd,pd,pd,pd,sd,sd,sd,sd,sd,sd,sd},
+        {py,py,py,py,pd,pd,pd,sd,sd,sd,sd,sd,sd,sd,sd},
+        {py,py,py,py,pd,pd,pd,sd,sd,sd,sd,sd,sd,sf,sd},
+        {py,py,py,py,pd,pd,pd,sd,sd,sd,sd,sf,sf,sf,sf},
+        {py,kd,py,py,pd,pd,pd,pd,sd,sd,sf,sf,sf,sf,sf},
+        {py,wd,py,py,py,py,pd,pd,sd,sd,sd,sf,sf,sf,sf},
+        {py,py,py,py,kd,py,py,pd,sd,sd,sd,sd,sf,sf,sf}
+    };
+
+    int temp2[15][15]=
+    {
+        {py,py,py,py,wd,wd,py,py,py,py,py,sk,sk,sk,sk},
+        {py,py,py,wd,wd,wd,py,py,py,wd,sk,sk,sk,sk,sk},
+        {py,py,kd,py,wd,wd,wd,wd,py,py,sk,sk,sk,sk,sk},
+        {py,py,py,py,py,py,py,py,py,py,py,sk,sk,sk,sk},
+        {py,py,py,py,wd,wd,py,wd,wd,kd,kd,sk,sk,sk,sk},
+        {py,py,py,py,wd,wd,py,kd,kd,kd,kd,sk,sk,sk,sk},
+        {py,py,py,py,py,py,py,py,kd,kd,kd,sk,sk,sk,sk},
+        {py,py,py,py,py,py,py,py,wd,kd,wd,sk,sk,sk,sk},
+        {py,py,py,py,py,py,py,kd,kd,kd,kd,sk,sk,sk,sk},
+        {py,py,py,py,py,py,py,kd,kd,kd,sk,sk,sk,sk,sk},
+        {py,py,py,kd,kd,py,py,kd,kd,kd,sk,sk,sk,sk,sk},
+        {py,py,py,kd,kd,py,py,py,py,wd,wd,sk,sk,sk,sk},
+        {py,kd,py,py,py,py,py,py,py,py,wd,wd,sk,sk,sk},
+        {py,wd,wd,py,py,py,py,py,py,py,wd,sk,sk,sk,sk},
+        {py,wd,wd,py,kd,py,py,py,py,py,wd,wd,sk,sk,sk}
+    };
+
+    int temp3[15][15]=
+    {
+        {py,py,py,py,py,py,py,py,py,py,py,py,py,py,py},
+        {py,wd,wd,wd,py,py,py,py,py,py,py,py,py,py,py},
+        {py,kd,kd,py,py,py,pd,pd,pd,pd,pd,pd,pd,pd,pd},
+        {py,py,kd,py,py,pd,pd,pd,pd,pd,pd,kd,kd,kd,pd},
+        {py,py,py,py,py,py,py,pd,pd,pd,pd,pd,kd,pd,pd},
+        {py,py,py,py,py,py,py,pd,pd,pd,pd,pd,pd,pd,pd},
+        {py,py,py,py,py,py,py,pd,pd,pd,pd,pd,pd,pd,pd},
+        {py,py,py,py,py,py,py,py,pd,pd,pd,pd,pd,pd,pd},
+        {py,py,py,py,py,py,py,py,pd,pd,pd,pd,pd,kd,pd},
+        {py,py,py,py,py,kd,py,py,pd,pd,pd,pd,kd,kd,pd},
+        {py,kd,kd,py,py,kd,py,py,pd,pd,pd,pd,pd,pd,pd},
+        {py,kd,kd,py,py,py,py,py,py,pd,pd,pd,pd,pd,pd},
+        {py,py,kd,kd,py,py,py,py,pd,pd,pd,pd,pd,pd,pd},
+        {py,py,py,py,py,py,py,pd,pd,pd,pd,kd,kd,pd,pd},
+        {py,py,py,py,py,py,py,pd,pd,pd,pd,pd,pd,pd,pd}
+    };
+
+    int temp4[15][15]=
+    {
+        {py,py,py,py,py,py,py,py,py,py,wd,py,py,py,py},
+        {py,py,py,pd,pd,py,py,py,py,wd,wd,wd,py,py,py},
+        {py,py,pd,pd,pd,pd,py,py,py,wd,wd,py,py,py,py},
+        {py,py,py,pd,pd,py,py,py,py,py,py,py,kd,kd,py},
+        {py,py,py,py,py,py,py,wd,py,py,py,py,py,py,py},
+        {py,py,py,py,py,py,wd,wd,py,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,wd,py,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,py,py,py,pd,pd,py,py,py},
+        {py,kd,kd,kd,kd,py,py,py,py,pd,pd,pd,py,py,py},
+        {py,py,kd,kd,kd,py,py,py,py,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,py,py,py,pd,pd,pd,py,py},
+        {py,py,py,py,py,py,py,pd,pd,py,pd,pd,py,py,py},
+        {py,py,wd,wd,py,py,py,py,pd,py,py,py,py,wd,wd},
+        {py,wd,py,py,py,py,py,py,py,py,py,py,kd,kd,py},
+        {py,py,py,py,py,py,py,py,py,py,py,py,py,py,py}
+    };
+
+    int temp5[15][15]=
+    {
+        {py,py,py,py,py,py,py,py,py,py,py,py,py,py,py},
+        {py,py,pd,py,py,py,py,py,py,py,py,py,py,py,py},
+        {py,py,pd,pd,py,py,py,kd,kd,py,py,py,py,py,py},
+        {py,py,py,pd,pd,py,py,py,kd,kd,py,py,py,py,py},
+        {py,py,pd,pd,pd,py,py,py,py,py,py,py,py,py,py},
+        {py,py,py,pd,py,py,wd,wd,wd,py,py,py,py,py,py},
+        {py,py,py,py,py,py,wd,wd,wd,wd,py,py,py,py,py},
+        {py,py,py,py,py,py,py,wd,wd,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,py,py,py,py,py,py,pd,pd},
+        {py,py,py,wd,wd,py,py,py,py,py,py,py,pd,pd,pd},
+        {py,py,py,wd,wd,py,py,py,py,py,py,py,pd,pd,pd},
+        {py,py,py,py,py,py,py,kd,py,py,py,py,py,pd,py},
+        {py,py,py,py,py,py,kd,kd,kd,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,kd,kd,py,py,py,py,py,py},
+        {py,py,py,py,py,py,py,py,py,py,py,py,py,py,py}
+    };
+
+    for (i=0;i<15;i++)
+	{
+		for (j=0;j<15;j++)
+		{
+			pg->m_info[i][j].building.id=0;
+			pg->m_info[i][j].building.bui_time=0;
+			pg->m_info[i][j].terrain=0;
+		}
+	}
+
+    switch(place)
+    {
+        case OlymMon:
+            
+            for(i=0;i<15;i++)
+            {
+                for(j=0;j<15;j++)
+                    pg->m_info[i][j].terrain=temp1[i][j];
+            }
+            break;
+        case MariVal:
+            
+            for(i=0;i<15;i++)
+            {
+                for(j=0;j<15;j++)
+                    pg->m_info[i][j].terrain=temp2[i][j];
+            }
+            break;
+        case ArabTer:
+            
+            for(i=0;i<15;i++)
+            {
+                for(j=0;j<15;j++)
+                    pg->m_info[i][j].terrain=temp3[i][j];
+            }
+            break;
+        case UtopPla:
+            
+            for(i=0;i<15;i++)
+            {
+                for(j=0;j<15;j++)
+                    pg->m_info[i][j].terrain=temp4[i][j];
+            }
+            break;
+        case ElysPla:
+            
+            for(i=0;i<15;i++)
+            {
+                for(j=0;j<15;j++)
+                    pg->m_info[i][j].terrain=temp5[i][j];
+            }
+            break;
+
+    }
+    srand((unsigned)time(NULL));
+    for(i=0;i<15;i++)
+    {
+        for(j=0;j<15;j++)
+            pg->m_info[i][j].mineral=mine_block_init(place,pg->m_info[i][j].terrain);
+    }
+}
+
+int mine_block_init(int place,int terrain)
+{
+    int x;
+    float px;
+    x=rand()%50;
+    px=((float)(x-25))/100.0+1.0;
+    switch(place)
+    {
+        case OlymMon:
+            switch(terrain)
+            {
+                case py:
+                    return (int)(200.0*px);
+                case pd:
+                    return (int)(1000.0*px);
+                case sd:
+                    return (int)(600.0*px);
+                case sf:
+                    return (int)(20.0*px);
+                case wd:
+                    return (int)(150.0*px);
+                case kd:
+                    return (int)(300.0*px);
+                case sk:
+                    return (int)(300.0*px);
+            }
+        case MariVal:
+            switch(terrain)
+            {
+                case py:
+                    return (int)(500.0*px);
+                case pd:
+                    return (int)(300.0*px);
+                case sd:
+                    return (int)(300.0*px);
+                case sf:
+                    return (int)(10.0*px);
+                case wd:
+                    return (int)(2000.0*px);
+                case kd:
+                    return (int)(3000.0*px);
+                case sk:
+                    return (int)(3000.0*px);
+            }
+        case ArabTer:
+            switch(terrain)
+            {
+                case py:
+                    return (int)(600.0*px);
+                case pd:
+                    return (int)(1500.0*px);
+                case sd:
+                    return (int)(500.0*px);
+                case sf:
+                    return (int)(10.0*px);
+                case wd:
+                    return (int)(500.0*px);
+                case kd:
+                    return (int)(600.0*px);
+                case sk:
+                    return (int)(10.0*px);
+            }      
+        case UtopPla:
+            switch(terrain)
+            {
+                case py:
+                    return (int)(500.0*px);
+                case pd:
+                    return (int)(300.0*px);
+                case sd:
+                    return (int)(400.0*px);
+                case sf:
+                    return (int)(10.0*px);
+                case wd:
+                    return (int)(650.0*px);
+                case kd:
+                    return (int)(500.0*px);
+                case sk:
+                    return (int)(10.0*px);
+            }
+        case ElysPla:
+            switch(terrain)
+            {
+                case py:
+                    return (int)(400.0*px);
+                case pd:
+                    return (int)(600.0*px);
+                case sd:
+                    return (int)(100.0*px);
+                case sf:
+                    return (int)(10.0*px);
+                case wd:
+                    return (int)(550.0*px);
+                case kd:
+                    return (int)(500.0*px);
+                case sk:
+                    return (int)(10.0*px);
+            }
+    }
+}
+
 void draw_block(int x,int y,struct MapInfo mi,int form)
 {
     int x1=300+x*92;
@@ -27,6 +284,30 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
             bar(x1+3,y1+3,x2-3,y2-3,65535);
             break;
     }
+    switch(mi.terrain)
+    {
+        case py:
+            bar(x1+3,y1+3,x2-3,y2-3,64526);
+            break;
+        case wd:
+            bar(x1+3,y1+3,x2-3,y2-3,64264);
+            break;
+        case kd:
+            bar(x1+3,y1+3,x2-3,y2-3,45316);
+            break;
+        case sk:
+            bar(x1+3,y1+3,x2-3,y2-3,32768);
+            break;
+        case pd:
+            bar(x1+3,y1+3,x2-3,y2-3,64531);
+            break;
+        case sd:
+            bar(x1+3,y1+3,x2-3,y2-3,65244);
+            break;
+        case sf:
+            bar(x1+3,y1+3,x2-3,y2-3,65340);
+            break;
+    }
     switch(mi.building.id)
     {
         case 0:
@@ -45,32 +326,34 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
             put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"4",1,"HZK\\Hzk24k");
             break;
         case 5:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_5",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"5",1,"HZK\\Hzk24k");
             break;
         case 6:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_6",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"6",1,"HZK\\Hzk24k");
             break;
         case 7:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_7",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"7",1,"HZK\\Hzk24k");
             break;
         case 8:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_8",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"8",1,"HZK\\Hzk24k");
             break;
         case 9:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"BUD_9",1,"HZK\\Hzk24k");
+            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"9",1,"HZK\\Hzk24k");
             break;
+        
     }
 }
 
 void draw_mainmap(struct GameInfo gf,int xsel,int ysel)
 {
     int i,j;
+    clrmous(MouseX,MouseY);
     //put_asc16_number_size(300+j*92,105+i*92,2,2,gameinfop->m_info[i][j].building.id,1);
     for(i=0;i<7;i++)
     {
         for(j=0;j<7;j++)
         {
-            draw_block(j,i,gf.m_info[ysel+i][xsel+j],0);
+            draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
         }
     }
 }
@@ -84,17 +367,9 @@ void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
         for(j=0;j<7;j++)
         {
             if(gf.m_info[xsel+i][ysel+j].building.id==0)
-                draw_block(j,i,gf.m_info[ysel+i][xsel+j],0);
+                draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
             else
-            {
-                draw_block(j,i,gf.m_info[ysel+i][xsel+j],1);
-                if (gf.m_info[xsel+i][ysel+j].building.bui_time==0)
-                {
-                    draw_map_building(i,j,gf.m_info[xsel+i][ysel+j].building.id);
-                }
-                
-            }
-                
+                draw_block(i,j,gf.m_info[xsel+i][ysel+j],1);
         }
     }
 }
@@ -102,6 +377,8 @@ void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
 int renew_map(int* pxsel,int*pysel)
 {
     char temp=0;
+    //while(bioskey(1))clean=bioskey(0);
+
     if(bioskey(1)!=0)
     {
         temp=bioskey(0);
@@ -137,6 +414,12 @@ int renew_map(int* pxsel,int*pysel)
     return 0;
 }
 
+void cleankey()
+{
+    char clean;
+    while(bioskey(1))clean=bioskey(0);
+}
+
 void draw_minimap(struct GameInfo gf,int xsel,int ysel)
 {
     int i,j;
@@ -160,9 +443,9 @@ void draw_minimap(struct GameInfo gf,int xsel,int ysel)
         for(j=0;j<15;j++)
         {
             if(gf.m_info[i][j].building.id==0)
-                bar(j*15+5,i*15+400,(j+1)*15+4,(i+1)*15+400,64526);
+                bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,64526);
             else
-                bar(j*15+5,i*15+400,(j+1)*15+4,(i+1)*15+400,38770);
+                bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,38770);
         }
     }
     line_thick(xl1, yl1, xl2, yl1, 1,65535);
