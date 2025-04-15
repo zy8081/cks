@@ -58,7 +58,7 @@ int proj_fun4(struct GameInfo* gameinfop)
 int research_lifetech(struct GameInfo *gameinfop)
 {
 	int page=4;
-	int i;
+	int i,j;
 	int location[10][2];
 	tree* p=create_lifetech_tree();
 	for (i=0;i<10;i++)
@@ -76,6 +76,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 		{
 			break;
 		}
+		//i代指id
 		for (i=0;i<10;i++)
 		{
 			if (mouse_press(location[i][0]-20,location[i][1]-20,location[i][0]+20,location[i][1]+20)==1)
@@ -85,13 +86,27 @@ int research_lifetech(struct GameInfo *gameinfop)
 				delay(400);
 				while(1)
 				{
+					if (judge_press_mainbutton(4,&page))
+					{
+						page=4;
+						break;
+					}
 					mouse_renew(&MouseX,&MouseY,&press);
-					if (mouse_press(0,0,1024,768)==1)
+					if (mouse_press(300,675,450,750)==1)
 					{
 						clrmous(MouseX,MouseY); 
 						load_lifetech_toast();
 						break;
 					}
+					if(mouse_press(750,675,900,750)==1)
+					{
+
+					}
+					if(mouse_press(750,675,900,750)==1)
+					{
+						
+					}
+					
 				}
 			}
 		}
@@ -195,16 +210,19 @@ void draw_lifetech_toast(tree *p,int id)
 	tree temp;
 	char str[30];
 	id_find_baseinfo_lifetech(p,&temp,id);
-	SaveBMP(300,500,800,700,0);
+	SaveBMP(290,490,910,760,0);
 	btn_bar_Draw(300,500,900,750);
 	
 	puthz2(300,500,32,32,1,temp.name);
 
-	btn_bar_Draw0(300,650,400,700);
-	puthz2(300,650,32,32,1,"取消");
+	btn_bar_Draw(300,675,450,750);
+	puthz2(300,700,32,32,1,"取消");
 
-	btn_bar_Draw0(700,650,800,700);
-	puthz2(700,650,32,32,1,"研究");
+	btn_bar_Draw(750,675,900,750);
+	puthz2(750,675,32,32,1,"研究");
+
+	btn_bar_Draw(500,675,700,750);
+	puthz2(500,675,32,32,1,"查看详细");
 
 	if (temp.parent->flag==0)
 	{
@@ -220,7 +238,7 @@ void draw_lifetech_toast(tree *p,int id)
 
 void load_lifetech_toast(void)
 {
-	LoadBMP(300,500,800,700,0);
+	LoadBMP(290,490,910,760,0);
 }
 
 void draw_lifetech_line(tree *leaf)
@@ -251,64 +269,95 @@ void draw_lifetech_line(tree *leaf)
 	}
 }
 
-void traverse_tree_to_nodetlist(tree *p,nodet *pt,int floor)
+
+void draw_lifetech_toast2(int n)
 {
-	int i;
-	if (p==NULL || p->floor==floor+1)
+	char str[30];
+	id_find_baseinfo_lifetech(p,&temp,id);
+	SaveBMP(290,490,910,760,0);
+	btn_bar_Draw(300,500,900,750);
+	
+	puthz2(300,500,32,32,1,temp.name);
+
+	btn_bar_Draw(300,675,450,750);
+	puthz2(300,700,32,32,1,"取消");
+
+	btn_bar_Draw(750,675,900,750);
+	puthz2(750,675,32,32,1,"研究");
+
+	btn_bar_Draw(500,675,700,750);
+	puthz2(500,675,32,32,1,"查看详细");
+
+	if (temp.parent->flag==0)
 	{
-		return;
+		puthz2(300,550,32,32,1,"前置科技未解锁");
+	}
+	if (temp.flag==0)
+	{
+		puthz(500,500,"未研究",32,32,1);
+	}
+	sprintf(str,"%d",temp.point);
+	put_hz24_asc32(300,600,str,1,"HZK\\HZK24");
+}
+
+void start_research(struct GameInfo *gameinfop,int type,int id)
+{
+	if (gameinfop->gametech[type-1].research_flag==1)
+	{
+		return -1;
 	}
 	else
 	{
-		lastinsert_nodet_list(pt,p->floor,p->id);
-		for (i=0;i<5;i++)
-		{
-			traverse_tree_to_nodetlist(p->child[i],pt,floor);
-		}
+		gameinfop->gametech[type-1].research_flag=1;
+		gameinfop->gametech[type-1].havepoints=0;
+		gameinfop->gametech[type-1].id=id;
+		gameinfop->gametech[type-1].type=type;
+		gameinfop->gametech[type-1].totalpoints=get_totalpoint_from_techtxt(type,id);
+
 	}
 }
 
-void printf_nodet_list(nodet *p,int floor)
+int get_totalpoint_from_techtxt(int type,int id)
 {
-	int i,j;
-	int len;
-	int initpos;
-	int apart;
-	for (i=0;i<floor;i++)
-	{
-		len=calculate_nodet_len(p+i);
-		for (j=0;j<len;j++)
-		{
-			cal_nodet_list_pos(len,&initpos,&apart);
-			btn_bar_Draw1(initpos+j*apart,120+i*60,initpos+20+j*apart,140+i*60);
-		}
-	}
-}
-
-void cal_nodet_list_pos(int num,int *initpos,int *apart)
-{
-	*apart=(1024-235)/(num+1);
-	*initpos=235+(*apart);
-}
-
-
-void draw_leaves(tree *p,int floor)
-{
+	FILE *file=fopen("./data/tech.txt","r");
 	int i;
-	if (p==NULL || p->floor==floor+1)
+	char c;
+	char str[30];
+	if (file==NULL)
 	{
+		printf("open file error\n");
 		return;
 	}
-	else
+	
+	for (i=0;i<type;i++)
 	{
-		btn_bar_Draw1(600,200+(p->floor-1)*30,620,220+(p->floor-1)*30);
-		for (i=0;i<5;i++)
-		{
-			draw_leaves(p->child[i],floor);
-		}
+		while ((c=fgetc(file))!='#');
 	}
-}
+	
+	while ((c=fgetc(file))!='\n');
+	
+	for (i=0;i<id-1;i++)
+	{
+		while ((c=fgetc(file))!='\n');
+	}
+	
+	//跳过id
+	for (i=0;i<4;i++)
+	{
+		while ((c=fgetc(file))!=' ');
+	}
+	
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
 
+
+	fclose(file);
+	return atoi(str);
+}
 /*research注释说明
 tree p1 p2 p3是不同科技树的指针
 pp1是递归出的未研究科技的链表

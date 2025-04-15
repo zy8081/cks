@@ -27,7 +27,7 @@
 #include <WRKPLC.h>
 
 
-#include<ghz.h>
+//#include<ghz.h>
 #include<ORDFUNS.h>
 #include<DRAWWORK.h>
 

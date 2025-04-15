@@ -63,7 +63,7 @@ struct GameInfo
 {
 	struct MapInfo m_info[15][15];
 	struct ResAllInfo r_info;
-	struct technologydata gametech;
+	struct technologydata gametech[3];
 	int techpoint;
 	int year;
 	int month;
