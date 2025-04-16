@@ -411,7 +411,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	{
 		return 1;
 	}
-	//,0xFE00
+	//0xFE00
 	//btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
 	btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
 	btn_bar_Draw(920,120+(location-1)*130,1000,230+(location-1)*130);
@@ -501,6 +501,7 @@ int get_building_info(int id,struct Building* building)
 	char c;
 	char str[20]={'\0'};
 	FILE *file=fopen("./data/building.txt","r");
+	
 	if (file==NULL)
 	{
 		printf("open error");
