@@ -102,7 +102,8 @@ void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
                         fclose(content);
                         return;
                     }*/
-                    fseek(content,-1,2);
+                    while(fgetc(content)!='#');
+                    fseek(content,-1,1);
                     fputc('\n',content);
                     fputs(tempf->path_bas,content);
                     fputc('#',content);
@@ -111,7 +112,7 @@ void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
                     
                     //debug_file_printf(filen);
 
-                    gminfo_init(filen_dat);
+                    gminfo_init(filen_dat,*pplacenum);
                     
                     //debug_file_printf(filen);
                     hiscreate(filen_his);

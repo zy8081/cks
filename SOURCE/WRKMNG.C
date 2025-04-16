@@ -45,7 +45,7 @@ void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
                 break;
             case 3:
                 *fpage=3;
-                break;
+                return;
             case 4:
                 *fpage=5;
                 return;
@@ -141,12 +141,15 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
             char* pathbas=malloc((size_t)50);
             FILE* f;
             worksearch(workpage,sel,&pathbas,user);
+            
             f=fopen(pathbas,"rb");
             fread(pwork,sizeof(WORKFILE),(size_t)1,f);
+            //put_asc16(700,600,pwork->path_dat,0);
+            //getch();
             fclose(f);
             free(pathbas);
             *fpage1=4;
-            put_asc16_size(0,50,1,1,"read",2010);
+            //put_asc16_size(0,50,1,1,"read",2010);
             return;
             
         }
@@ -455,7 +458,9 @@ void wrkdelete(int page,int n,char*user)
 
     }
     rewind(fnew);
-    rewind(ft);    
+    rewind(ft);
+    fclose(ft);
+    ft=fopen(patht,"wt+");
     while(1)
     {
         ctemp=fgetc(fnew);

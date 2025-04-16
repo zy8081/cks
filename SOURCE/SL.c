@@ -20,20 +20,23 @@ int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage)
 void load_gminfo(WORKFILE work,struct GameInfo* gameinfop)
 {
 	FILE *file=fopen(work.path_dat,"rb+");
+	rewind(file);
+	put_asc16(700,600,work.path_dat,0);
+	getch();
 	fread(gameinfop,sizeof(struct GameInfo),(size_t)1,file);
 	fclose(file);
 	return;
 
 }
 
-void gminfo_init(char* datpath)
+void gminfo_init(char* datpath,int t)
 {
     int i,j;
-	nodebq *p1;
+	//nodebq *p1;
 	struct GameInfo gameinfo;
-	struct Resource res_earns;
+	//struct Resource res_earns;
     FILE* ft=fopen(datpath,"wb+");
-
+	
 	gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
 	gameinfo.r_info.rarematerial=10000;
@@ -58,9 +61,9 @@ void gminfo_init(char* datpath)
 			gameinfo.m_info[i][j].terrain=0;
 		}
 	}
-
+	map_init(t,&gameinfo);
 	//rocket_init(&(gameinfo.rocket));
-
+	//rewind(ft);
     fwrite(&gameinfo,sizeof(struct GameInfo),(size_t)1,ft);
     fclose(ft);
 

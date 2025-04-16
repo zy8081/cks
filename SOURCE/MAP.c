@@ -103,9 +103,9 @@ void map_init(int place,struct GameInfo *pg)
 	{
 		for (j=0;j<15;j++)
 		{
-			pg->m_info[i][j].building.id=0;
-			pg->m_info[i][j].building.bui_time=0;
-			pg->m_info[i][j].terrain=0;
+			pg->m_info[j][i].building.id=0;
+			pg->m_info[j][i].building.bui_time=0;
+			pg->m_info[j][i].terrain=0;
 		}
 	}
 
@@ -116,7 +116,7 @@ void map_init(int place,struct GameInfo *pg)
             for(i=0;i<15;i++)
             {
                 for(j=0;j<15;j++)
-                    pg->m_info[i][j].terrain=temp1[i][j];
+                    pg->m_info[j][i].terrain=temp1[j][i];
             }
             break;
         case MariVal:
@@ -124,7 +124,7 @@ void map_init(int place,struct GameInfo *pg)
             for(i=0;i<15;i++)
             {
                 for(j=0;j<15;j++)
-                    pg->m_info[i][j].terrain=temp2[i][j];
+                    pg->m_info[j][i].terrain=temp2[j][i];
             }
             break;
         case ArabTer:
@@ -132,7 +132,7 @@ void map_init(int place,struct GameInfo *pg)
             for(i=0;i<15;i++)
             {
                 for(j=0;j<15;j++)
-                    pg->m_info[i][j].terrain=temp3[i][j];
+                    pg->m_info[j][i].terrain=temp3[j][i];
             }
             break;
         case UtopPla:
@@ -140,7 +140,7 @@ void map_init(int place,struct GameInfo *pg)
             for(i=0;i<15;i++)
             {
                 for(j=0;j<15;j++)
-                    pg->m_info[i][j].terrain=temp4[i][j];
+                    pg->m_info[j][i].terrain=temp4[j][i];
             }
             break;
         case ElysPla:
@@ -148,7 +148,7 @@ void map_init(int place,struct GameInfo *pg)
             for(i=0;i<15;i++)
             {
                 for(j=0;j<15;j++)
-                    pg->m_info[i][j].terrain=temp5[i][j];
+                    pg->m_info[j][i].terrain=temp5[j][i];
             }
             break;
 
@@ -157,7 +157,7 @@ void map_init(int place,struct GameInfo *pg)
     for(i=0;i<15;i++)
     {
         for(j=0;j<15;j++)
-            pg->m_info[i][j].mineral=mine_block_init(place,pg->m_info[i][j].terrain);
+            pg->m_info[j][i].mineral=mine_block_init(place,pg->m_info[j][i].terrain);
     }
 }
 
@@ -264,6 +264,7 @@ int mine_block_init(int place,int terrain)
 
 void draw_block(int x,int y,struct MapInfo mi,int form)
 {
+    char cm[10];
     int x1=300+x*92;
     int y1=105+y*92;
     int x2=390+x*92;
@@ -308,7 +309,11 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
             bar(x1+3,y1+3,x2-3,y2-3,65340);
             break;
     }
-    switch(mi.building.id)
+    
+    itoa(mi.mineral,cm,10);
+    put_hz24_asc32((x1+x2)/2-30,(y1+y2)/2,cm,1,"HZK\\Hzk24k");
+    
+    /*switch(mi.building.id)
     {
         case 0:
             put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"E",1,"HZK\\Hzk24k");
@@ -341,7 +346,7 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
             put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"9",1,"HZK\\Hzk24k");
             break;
         
-    }
+    }*/
 }
 
 void draw_mainmap(struct GameInfo gf,int xsel,int ysel)
