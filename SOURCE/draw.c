@@ -1,10 +1,4 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
+#include <ALLFUNS.h>
 //本文件功能：一些较为基础的画图函数
 
 //方便程序退出的按钮（调试用）

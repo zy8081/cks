@@ -6,6 +6,7 @@
 #include <WRKMNG.h>
 #include <fun5.h>
 #include <fun4.h>
+#include <fun4_2.h>
 #include <fun1.h>
 #include <ORDFUNS.h>
 #include <MAP.h>

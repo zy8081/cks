@@ -5,6 +5,7 @@
 #include <WRKMNG.h>
 #include <fun5.h>
 #include <fun4.h>
+#include <fun4_2.h>
 #include <nodet.h>
 //floor务必大于等于1
 nodet *create_nodet_list(int floor)

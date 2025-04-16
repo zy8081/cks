@@ -23,31 +23,26 @@ typedef struct TreeTechnology
 }tree;
 
 int proj_fun4(struct GameInfo* gameinfop);
-
-
 int research_lifetech(struct GameInfo *gameinfop);
+
+
 void display_all_intro(tree *p,int type,int id);
 
 tree *create_lifetech_tree(void);
-void id_find_xy_lifetech(tree *p,int id,int (*arr)[2]);
-void id_find_baseinfo_lifetech(tree *p,tree *temp,int id);
-void draw_lifetech_tree(tree *p);
-void draw_lifetech_toast(tree *p,int id);
-void load_lifetech_toast(void);
-void draw_lifetech_line(tree *leaf);
+void id_find_xy_tech(tree *p,int id,int (*arr)[2]);
+void id_find_baseinfo_tech(tree *p,tree *temp,int id);
+void draw_tech_tree(tree *p);
+void draw_tech_toast(tree *p,int id);
+void load_tech_toast(void);
+void draw_tech_line(tree *leaf);
 void draw_researching(struct GameInfo *gameinfop,int type);
 
 void small_tech_remind_toast(char *str);
 void start_research(struct GameInfo *gameinfop,tree *p,int type,int id,int *newpage);
-int get_totalpoint_from_techtxt(int type,int id);
+int type_id_find_totalpoint(int type,int id);
 void type_id_find_name(int type,int id,char *name);
 void type_id_printf_techtxt(int type,int id);
 
-
-
-void traverse_tree_to_nodetlist(tree *p,nodet *pt,int floor);
-void printf_nodet_list(nodet *p,int floor);
-void cal_nodet_list_pos(int num,int *initpos,int *apart);
 
 
 void get_tech_basic_info(tree *p,int type,int id);

@@ -6,6 +6,7 @@
 #include <WRKMNG.h>
 #include <fun5.h>
 #include <fun4.h>
+#include <fun4_2.h>
 #include <nodet.h>
 #include <ORDFUNS.h>
 int proj_fun4(struct GameInfo* gameinfop)
@@ -68,10 +69,10 @@ int research_lifetech(struct GameInfo *gameinfop)
 	tree* p=create_lifetech_tree();
 	for (i=0;i<10;i++)
 	{
-		id_find_xy_lifetech(p,i+1,location);
+		id_find_xy_tech(p,i+1,location);
 	}
-	draw_lifetech_line(p);
-	draw_lifetech_tree(p);
+	draw_tech_line(p);
+	draw_tech_tree(p);
 	
 	draw_researching(gameinfop,1);
 
@@ -92,8 +93,8 @@ int research_lifetech(struct GameInfo *gameinfop)
 			clrmous(MouseX,MouseY); 
 			clear_main_all2(1);
 			clear_right_all();
-			draw_lifetech_line(p);
-			draw_lifetech_tree(p);
+			draw_tech_line(p);
+			draw_tech_tree(p);
 			draw_researching(gameinfop,1);
 		}
 
@@ -108,7 +109,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 			if (mouse_press(location[i][0]-20,location[i][1]-20,location[i][0]+20,location[i][1]+20)==1)
 			{
 				clrmous(MouseX,MouseY); 
-				draw_lifetech_toast(p,i+1);
+				draw_tech_toast(p,i+1);
 				delay(400);
 				while(1)
 				{
@@ -117,7 +118,9 @@ int research_lifetech(struct GameInfo *gameinfop)
 					if (mouse_press(300,450,400,500)==1)
 					{
 						clrmous(MouseX,MouseY); 
-						load_lifetech_toast();
+						load_tech_toast();
+						delay(300);
+						mouse_renew(&MouseX,&MouseY,&press);
 						break;
 					}
 					else if(mouse_press(500,450,600,500)==1)
@@ -133,7 +136,9 @@ int research_lifetech(struct GameInfo *gameinfop)
 					{
 						start_research(gameinfop,p,1,i+1,&newflag);
 						clrmous(MouseX,MouseY); 
-						load_lifetech_toast();
+						load_tech_toast();
+						delay(300);
+						mouse_renew(&MouseX,&MouseY,&press);
 						break;
 					}
 				}
@@ -144,6 +149,8 @@ int research_lifetech(struct GameInfo *gameinfop)
 	free_tree(p);
 	return page;
 }
+
+
 
 
 void display_all_intro(tree *p,int type,int id)
@@ -158,7 +165,7 @@ void display_all_intro(tree *p,int type,int id)
 	puthz2(260,240,32,32,1,"科技介绍：");
 	type_id_printf_techtxt(type,id);
 
-	id_find_baseinfo_lifetech(p,&temp,id);
+	id_find_baseinfo_tech(p,&temp,id);
 	puthz2(280,120,48,48,1,temp.name);
 	if (temp.flag==0)
 	{
@@ -210,7 +217,7 @@ tree *create_lifetech_tree(void)
 	return p;
 }
 
-void id_find_xy_lifetech(tree *p,int id,int (*arr)[2])
+void id_find_xy_tech(tree *p,int id,int (*arr)[2])
 {
 	int i;
 	if (p==NULL)
@@ -224,11 +231,11 @@ void id_find_xy_lifetech(tree *p,int id,int (*arr)[2])
 	}
 	for (i=0;i<CHILD_NUM;i++)
 	{
-		id_find_xy_lifetech(p->child[i],id,arr);
+		id_find_xy_tech(p->child[i],id,arr);
 	}
 }
 
-void id_find_baseinfo_lifetech(tree *p,tree *temp,int id)
+void id_find_baseinfo_tech(tree *p,tree *temp,int id)
 {
 	int i;
 	if (p==NULL)
@@ -249,11 +256,11 @@ void id_find_baseinfo_lifetech(tree *p,tree *temp,int id)
 	}
 	for (i=0;i<CHILD_NUM;i++)
 	{
-		id_find_baseinfo_lifetech(p->child[i],temp,id);
+		id_find_baseinfo_tech(p->child[i],temp,id);
 	}
 }
 
-void draw_lifetech_tree(tree *p)
+void draw_tech_tree(tree *p)
 {
 	int i;
 	if (p==NULL)
@@ -263,7 +270,7 @@ void draw_lifetech_tree(tree *p)
 
 	for (i=0;i<CHILD_NUM;i++)
 	{
-		draw_lifetech_tree(p->child[i]);
+		draw_tech_tree(p->child[i]);
 	}
 	if (p->flag==1)
 	{
@@ -287,8 +294,8 @@ void draw_researching(struct GameInfo *gameinfop,int type)
 	else
 	{
 		get_tech_basic_info(&temp,type,gameinfop->gametech[type-1].id);
-		btn_bar_Draw(300,500,900,750);
-		puthz2(300,500,32,32,1,temp.name);
+		btn_bar_Draw(300,550,900,750);
+		puthz2(300,550,32,32,1,temp.name);
 
 		btn_bar_Draw(500,675,700,750);
 		puthz2(500,675,32,32,1,"查看详细");
@@ -296,19 +303,19 @@ void draw_researching(struct GameInfo *gameinfop,int type)
 		puthz2(400,600,32,32,1,"正在研究中");
 
 		sprintf(str,"%d/%d",gameinfop->gametech[type-1].havepoints,gameinfop->gametech[type-1].totalpoints);
-		put_hz24_asc32(500,500,str,1,"HZK\\HZK24");
+		put_hz24_asc32(500,550,str,1,"HZK\\HZK24");
 	}
 }
 
 
 
 
-void draw_lifetech_toast(tree *p,int id)
+void draw_tech_toast(tree *p,int id)
 {
 	tree temp;
 	char str[30];
 	int i;
-	id_find_baseinfo_lifetech(p,&temp,id);
+	id_find_baseinfo_tech(p,&temp,id);
 	SaveBMP(290,190,810,510,0);
 	btn_bar_Draw(300,200,800,500);
 	
@@ -343,12 +350,12 @@ void draw_lifetech_toast(tree *p,int id)
 	put_hz24_asc32(300,300,str,1,"HZK\\HZK24");
 }
 
-void load_lifetech_toast(void)
+void load_tech_toast(void)
 {
 	LoadBMP(290,190,810,510,0);
 }
 
-void draw_lifetech_line(tree *leaf)
+void draw_tech_line(tree *leaf)
 {
 	int i;
 	if (leaf==NULL)
@@ -372,7 +379,7 @@ void draw_lifetech_line(tree *leaf)
 	
 	for (i=0;i<CHILD_NUM;i++)
 	{
-		draw_lifetech_line(leaf->child[i]);
+		draw_tech_line(leaf->child[i]);
 	}
 }
 
@@ -390,7 +397,7 @@ void start_research(struct GameInfo *gameinfop,tree *p,int type,int id,int *newp
 	tree temp;
 	char name[30];
 	int i;
-	id_find_baseinfo_lifetech(p,&temp,id);
+	id_find_baseinfo_tech(p,&temp,id);
 	if (gameinfop->gametech[type-1].research_flag ==1)
 	{
 		small_tech_remind_toast("已有正在研究的科技");
@@ -425,7 +432,7 @@ void start_research(struct GameInfo *gameinfop,tree *p,int type,int id,int *newp
 		gameinfop->gametech[type-1].havepoints=0;
 		gameinfop->gametech[type-1].id=id;
 		gameinfop->gametech[type-1].type=type;
-		gameinfop->gametech[type-1].totalpoints=get_totalpoint_from_techtxt(type,id);
+		gameinfop->gametech[type-1].totalpoints=type_id_find_totalpoint(type,id);
 
 		SaveBMP(390,290,710,560,2);
 		btn_bar_Draw(400,300,700,550);
@@ -476,7 +483,7 @@ void type_id_find_name(int type,int id,char *name)
 	fclose(file);
 }
 
-int get_totalpoint_from_techtxt(int type,int id)
+int type_id_find_totalpoint(int type,int id)
 {
 	FILE *file=fopen("./data/tech.txt","r");
 	int i;

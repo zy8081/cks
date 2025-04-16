@@ -5,6 +5,7 @@
 #include <WRKMNG.h>
 #include <fun5.h>
 #include <fun4.h>
+#include <fun4_2.h>
 void draw_block(int x,int y,struct MapInfo mi,int form)
 {
     int x1=300+x*92;

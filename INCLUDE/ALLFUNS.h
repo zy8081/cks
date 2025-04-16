@@ -36,6 +36,8 @@
 #include <fun3.h>
 
 #include <fun4.h>
+#include <fun4_2.h>
+
 #include <fun5.h>
 #include <fun1.h>
 #include <fun2.h>
@@ -46,5 +48,5 @@
 
 #include<MAP.h>
 #include<ROCKET.h>
-
+#include <change.h>
 #endif

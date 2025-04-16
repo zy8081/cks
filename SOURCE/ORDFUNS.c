@@ -5,6 +5,7 @@
 #include <WRKMNG.h>
 #include <fun5.h>
 #include <fun4.h>
+#include <fun4_2.h>
 #include <ORDFUNS.h>
 
 void btn_bar_Draw(int x1,int y1,int x2,int y2)
