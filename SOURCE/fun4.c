@@ -41,7 +41,7 @@ int proj_fun4(struct GameInfo* gameinfop)
             clear_main_all();
             draw_left_toolbotton_activate(95 , 65, s[1]);//激活新的
             clear_right_all();
-            //page=have_researched(gameinfop);
+            page=research_buildtech(gameinfop);
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(3) == 1) //左栏被点中的情况
