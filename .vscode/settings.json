@@ -30,6 +30,7 @@
         "sl.h": "c",
         "fun2.h": "c",
         "draw.h": "c",
-        "fun4_2.h": "c"
+        "fun4_2.h": "c",
+        "allfuns.h": "c"
     }
 }

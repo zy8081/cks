@@ -102,7 +102,7 @@ int research_buildtech(struct GameInfo *gameinfop)
 			clear_right_all();
 			draw_tech_line(p);
 			draw_tech_tree(p);
-			draw_researching(gameinfop,1);
+			draw_researching(gameinfop,2);
 		}
 
 		if (judge_press_mainbutton(4,&page))
@@ -151,7 +151,8 @@ int research_buildtech(struct GameInfo *gameinfop)
 		}
 	
     }
-
+	free_buildtree(p);
+	return page;
 }
 
 void free_buildtree(tree *buildtreep)
@@ -162,8 +163,38 @@ void free_buildtree(tree *buildtreep)
     tree *temp2;
     tree *temp3;
 
+	temp=buildtreep;
     temp1=buildtreep->child[0];
-    temp1=temp1->child[0];
-    free(temp1);
+	temp2=buildtreep->child[1];
+    temp3=buildtreep->child[2];
+    free(temp);
+	temp=temp1->child[0];
+	free(temp1);
+	temp1=temp;
+	temp=temp1->child[0];
+	free(temp1);
+	free(temp);
 
+	temp=temp3->child[2];
+	free(temp3);
+	free(temp);
+
+	temp=temp2;
+	temp1=temp->child[0];
+	temp2=temp->child[1];
+	temp3=temp->child[2];
+
+	free(temp);
+	temp=temp1->child[0];
+	free(temp1);
+	temp1=temp->child[0];
+	free(temp1);
+	
+	temp=temp2->child[1];
+	free(temp2);
+	free(temp);
+
+	temp=temp3->child[2];
+	free(temp3);
+	free(temp);
 }

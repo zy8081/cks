@@ -23,7 +23,6 @@ typedef struct TreeTechnology
 }tree;
 
 int proj_fun4(struct GameInfo* gameinfop);
-int research_lifetech(struct GameInfo *gameinfop);
 
 
 void display_all_intro(tree *p,int type,int id);
@@ -46,7 +45,7 @@ void type_id_printf_techtxt(int type,int id);
 
 
 void get_tech_basic_info(tree *p,int type,int id);
-void get_tech_name2(struct GameInfo *gameinfop,char* name);
+
 void get_tech_effect(int type, int id,char *effect);
 void change_techflag(int type,int id);
 int get_tech_txt(int type,int id,char **txt);
@@ -59,7 +58,6 @@ tree *create_tree(int type);
 void insert_simple_leaf(tree *p,int type,int id,int func);
 void get_techflag(tree *p);
 
-tree *create_tree_pp(int id);
 
 void free_tree(tree *p);
 

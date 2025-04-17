@@ -36,7 +36,9 @@
 #include <fun3.h>
 
 #include <fun4.h>
+#include <fun4_1.h>
 #include <fun4_2.h>
+#include <fun4_3.h>
 
 #include <fun5.h>
 #include <fun1.h>

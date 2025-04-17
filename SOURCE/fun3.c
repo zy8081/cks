@@ -84,10 +84,6 @@ void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *
 	int dy=y2-y1;
 	int i,j;
 	
-	//if ((dx-11)%10!=0 || (dy-11)%10!=0)
-	//{
-	//	return;
-	//}
 	dx=(dx-(width+1)*3)/width;
 	dy=(dy-(height+1)*3)/height;
 	
