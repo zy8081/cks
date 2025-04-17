@@ -10,7 +10,6 @@ void main()
 	
 	WORKFILE workfile;
 	SetSVGA64k();
-	srand((unsigned) time(NULL));
 	mouseinit();
 	//mkdir("./users/20");
 	while(1)

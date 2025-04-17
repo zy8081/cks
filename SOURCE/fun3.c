@@ -154,7 +154,7 @@ void draw_map_building(int i,int j,int n)
 int mouse_press_map(int i,int j)
 {
 	//draw_map(300,105,954,759,7,7);
-	return mouse_press(300+i*90,105+j*90,390+i*90,195+j*90);
+	return mouse_press(300+j*90,105+i*90,390+j*90,195+i*90);
 }
 
 /*privateº¯Êý
@@ -304,7 +304,16 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 				//draw_map(300,105,954,759,7,7,gameinfop);
 				draw_buildmap(*gameinfop,*pxsel,*pysel);
 				draw_minimap(*gameinfop,*pxsel,*pysel);
-				
+				for (i=0;i<7;i++)
+				{
+					for (j=0;j<7;j++)
+					{
+						if (gameinfop->m_info[i][j].building.id==0)
+						{
+							//Í¿É«
+						}
+					}
+				}
 				pressflag2=0;
 				while (1)
 				{
@@ -318,38 +327,38 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 					{
 						for(j=0;j<7;j++)
 						{
-							if(mouse_press_map(i,j)==1&&gameinfop->m_info[*pxsel+i][*pysel+j].building.id==0)
+							if(mouse_press_map(i,j)==1&&gameinfop->m_info[*pysel+i][*pxsel+j].building.id==0)
 							{
-								lastinsert_nodebq(p1,i+*pxsel,j+*pysel);
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_cost.nanomaterial=building[k].res_cost.nanomaterial;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_cost.rarematerial=building[k].res_cost.rarematerial;
+								lastinsert_nodebq(p1,i,j);
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_cost.nanomaterial=building[k].res_cost.nanomaterial;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_cost.rarematerial=building[k].res_cost.rarematerial;
 								//char
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.id=(5*(x-1)+k+1);
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.id=(5*(x-1)+k+1);
 								d=0;
 								while (building[k].name[d]!='\0')
 								{
-									gameinfop->m_info[*pxsel+i][*pysel+j].building.name[d]=building[k].name[d];
+									gameinfop->m_info[*pysel+i][*pxsel+j].building.name[d]=building[k].name[d];
 									d++;
 								}
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.name[d]='\0';
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.name[d]='\0';
 								
 								d=0;
 								while (building[k].pic_path[d]!='\0')
 								{
-									gameinfop->m_info[*pxsel+i][*pysel+j].building.pic_path[d]=building[k].pic_path[d];
+									gameinfop->m_info[*pysel+i][*pxsel+j].building.pic_path[d]=building[k].pic_path[d];
 									d++;
 								}
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.pic_path[d]='\0';
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.bui_time=building[k].bui_time;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.pic_path[d]='\0';
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.bui_time=building[k].bui_time;
 								
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.nanomaterial=building[k].res_add.nanomaterial;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.rarematerial=building[k].res_add.rarematerial;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.oxygen=building[k].res_add.oxygen;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.water=building[k].res_add.water;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.food=building[k].res_add.food;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.energy=building[k].res_add.energy;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.fuel=building[k].res_add.fuel;
-								gameinfop->m_info[*pxsel+i][*pysel+j].building.res_add.mineral=building[k].res_add.mineral;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.nanomaterial=building[k].res_add.nanomaterial;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.rarematerial=building[k].res_add.rarematerial;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.oxygen=building[k].res_add.oxygen;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.water=building[k].res_add.water;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.food=building[k].res_add.food;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.energy=building[k].res_add.energy;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.fuel=building[k].res_add.fuel;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_add.mineral=building[k].res_add.mineral;
 								
 								
 								gameinfop->r_info.nanomaterial-=building[k].res_cost.nanomaterial;

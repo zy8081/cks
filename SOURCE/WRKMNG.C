@@ -45,7 +45,7 @@ void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
                 break;
             case 3:
                 *fpage=3;
-                return;
+                break;
             case 4:
                 *fpage=5;
                 return;
@@ -141,15 +141,12 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
             char* pathbas=malloc((size_t)50);
             FILE* f;
             worksearch(workpage,sel,&pathbas,user);
-            
             f=fopen(pathbas,"rb");
             fread(pwork,sizeof(WORKFILE),(size_t)1,f);
-            //put_asc16(700,600,pwork->path_dat,0);
-            //getch();
             fclose(f);
             free(pathbas);
             *fpage1=4;
-            //put_asc16_size(0,50,1,1,"read",2010);
+            put_asc16_size(0,50,1,1,"read",2010);
             return;
             
         }
@@ -171,8 +168,8 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
                     openprt(form);
                     dltprt(form);
                     drawworkmain(workpage,n,user);
-                    /*itoa(sel,test,10);*/
-                    put_asc16_size(0,450,1,1,path,25545);
+                    /*itoa(sel,test,10);
+                    put_asc16_size(0,450,1,1,path,25545);*/
                     drawworkbar(path,i,1);
                 }
                 free(path);       
@@ -431,36 +428,57 @@ void wrkdelete(int page,int n,char*user)
     while(1)
     {
         ctemp=fgetc(ft);
-        if(ctemp=='\n')k++;
-        if(k!=g)
-            fputc(ctemp,fnew);
-        else
+        if(ctemp==':')k++;
+        //itoa(k,test,10);
+        //put_hz24_asc32(0,100,test,0, "C:\\TEST\\HZK\\HZK24");
+        if(k==g)
         {
-            put_asc16_size(0,0,1,1,"DONE",0);
+            fseek(fnew,-1,1);
+            //fputc('6',fnew);
+            put_hz24_asc32(0,200,"searched",0, "HZK\\HZK24");
+            //getch();
+            //k++;#
+            //fputc('=',ft);
+            k++;
             while(1)
             {
                 ctemp=fgetc(ft);
-                if(ctemp!='\n'&&ctemp!='#')
-                    continue;
-                else 
+                if(ctemp=='\n')
                 {
-                    fputc(ctemp,fnew);
-                    k++;
+                    fseek(ft,0,1);
                     break;
                 }
+                else if(ctemp=='#')
+                {
+                    fseek(fnew,0,1);
+                    fseek(fnew,-3,1);
+                    fputc('#',fnew);
+                    break;
+                }
+                else fseek(ft,0,1);
             }
         }
-        if(ctemp=='#')
+        else
         {
             fputc(ctemp,fnew);
-            break;
+            fseek(ft,0,1);
+            fseek(fnew,0,1);
         }
 
+        if(ctemp=='#')
+        {
+            //put_asc16_size(0,50,1,1,"break2!",65535);
+            break;
+        }
     }
-    rewind(fnew);
-    rewind(ft);
     fclose(ft);
     ft=fopen(patht,"wt+");
+    rewind(fnew);
+    /*while(1)
+    {
+        if(fgetc(fnew)=='\0'||fgetc(fnew)=='\n')fseek(fnew,0,1);
+        else break;
+    }*/
     while(1)
     {
         ctemp=fgetc(fnew);
@@ -469,12 +487,13 @@ void wrkdelete(int page,int n,char*user)
         fseek(ft,0,1);
         if(ctemp=='#')break;
     }
-
+    //put_asc16_size(0,0,1,1,"DONE",0);
     free(temp);
     free(pathbas);
     //fclose(f);
     fclose(fnew);
     fclose(ft);//pageprt(page,)
+    //remove("C:\\TEST\\WORKS\\temp.TXT");
     free(patht);
     free(path);
     fclose(ftbas);

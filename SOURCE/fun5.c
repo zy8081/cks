@@ -158,7 +158,38 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
 			clrmous(MouseX,MouseY); 
 			clear_right_all();
 			clear_time();
-			
+			//
+			/*srand((unsigned) time(NULL));
+    		cevent=rand()%4;
+    		switch(cevent)
+    		{
+        		case 0:
+            		break;
+        		case 1:
+        		case 2:
+            	(*events)[0]=rand()%6+1;
+            	(*events)[1]=0;
+            	//eventshow(revent);
+            		break;
+        		case 3:
+            		(*events)[0]=rand()%6+1;
+            		(*events)[1]=rand()%6+1;
+					break;
+            	while(1)
+            	{
+                
+                	(*events)[0]=rand()%6+1;
+                	(*events)[1]=rand()%6+1;
+                	if(((*events)[0])!=((*events)[1])) break; 
+                 
+            	}
+				
+				
+				getch();
+            	//eventshow(revent1);
+            	//eventshow(revent2);
+            	break;
+			}*/
 			eventsc(events);
 			
 			time_flow(gameinfop,p);
