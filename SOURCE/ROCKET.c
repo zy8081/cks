@@ -361,6 +361,7 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
         {
             pr->peopledec=-1;
             (*pcom)[0]=0;
+            (*pcom)[1]=0;
             clrmous(MouseX,MouseY);
             bar(120,360,225,395,0);
             peoplenum=rocket_input(120,360,225,395,10,1);
@@ -374,6 +375,7 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
         if(mouse_press(120,465,225,500)==1)
         {
             (*pcom)[0]=0;
+            (*pcom)[1]=0;
             pr->refuelpay=-1;
             bar(120,465,225,500,0);
             payfuel=rocket_input(120,465,225,500,20000,4);
@@ -557,6 +559,7 @@ void rocket_a_fun2(RKTINFO* pr,int (*pcom)[3])
         if(mouse_press(482,115+i*60,650,145+i*60)==1)
         {
             int num;
+            (*pcom)[1]=0;
             bar(482,115+i*60,650,145+i*60,0);
             num=rocket_input(482,115+i*60,650,145+i*60,remax[i],ren[i]);
             if(num==-1)
@@ -615,29 +618,7 @@ void rocket_a_fun2(RKTINFO* pr,int (*pcom)[3])
     }
     
     }
-    if(mouse_press(430,695,570,730)==1)
-    {
-        if(rocket_check2(*pr)==1)
-        {
-            if(rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax)!=-1)
-            {
-                bar(900,500,1000,525,0);
-                put_hz24_asc32(900,500,"设置成功！",65535,"HZK\\HZK24");
-                pr->load=rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax);
-
-            }
-            else
-            {
-                bar(900,500,1000,525,0);
-                put_hz24_asc32(900,500,"超重",65535,"HZK\\HZK24");
-            }
-        }
-        else
-        {
-            bar(900,500,1000,525,0);
-            put_hz24_asc32(900,500,"请补充数据！",65535,"HZK\\HZK24");
-        }
-    }
+    
 }
 
 int rocket_check1(RKTINFO r)
@@ -661,42 +642,159 @@ int rocket_check2(RKTINFO r)
 
 void rocket_info(struct GameInfo* pg)
 {
-    //bar(238,99,1024,768,0xFFFFFF);
-    int tyear,tmonth;
-    char ctime[20];
-    rocket_time(*pg,&tyear,&tmonth);
-    put_hz24_asc32(250,120,"下一个窗口期:",0,"HZK\\HZK24");
-    sprintf(ctime,"%d年%d月",tyear,tmonth);
-    put_hz24_asc32(250+6*25,120,ctime,0,"HZK\\HZK24");
-    rocket_info_draw(*pg);
     
-
+    int tyear,tmonth;
+    int repage;
+    clrmous(MouseX,MouseY);
+    rocket_info_draw(*pg);
+    rocket_time(*pg,&tyear,&tmonth);
+    while(1)
+    {
+        mouse_renew(&MouseX,&MouseY,&press);
+        if(judge_press_mainbutton(2,&repage)!=0)
+            return repage;
+        
+        if(pg->rocket.apply==-1)
+        {
+            if(mouse_press(350,440,480,490)==1)
+            {
+                if(tyear!=pg->year||tmonth!=pg->month)
+                {
+                    rocket_apply(pg,pg,tyear,tmonth);
+                }
+                else
+                {
+                    int tyear1=tyear+1,tmonth1=tmonth+1;
+                    rocket_apply(pg,pg,tyear1,tmonth1);
+                }
+                
+                rocket_info_draw(*pg);
+            }
+                
+        }
+        else
+        {
+            if(mouse_press(550,440,680,490)==1)
+            {
+                pg->r_info.fuel+=pg->rocket.refuelpay;
+                rocket_init(&(pg->rocket));
+                rocket_info_draw(*pg);
+                bar(238,99,1024,768,65535);
+                rocket_info_draw(*pg);
+            }
+        }
+    }
 }
 
 void rocket_info_draw(struct GameInfo gf)
 {
+    char res[50];
+    char ctime[20];
+    int tyear,tmonth;
+    //char test[10];
+    //itoa(gf.rocket.apply,test,10);
+    //bar(900,700,930,900,65535);
+    //put_asc16(900,700,test,0);
+    
+    rocket_time(gf,&tyear,&tmonth);
+    if(gf.year==tyear&&gf.month==tmonth)
+    {
+        put_hz24_asc32(250,120,"本月即为窗口期！",0,"HZK\\HZK24");
+    }
+    else
+    {
+        put_hz24_asc32(250,120,"下一个窗口期:",0,"HZK\\HZK24");
+        sprintf(ctime,"%d年%d月",tyear,tmonth);
+        put_hz24_asc32(260+6*25,120,ctime,0,"HZK\\HZK24");
+        
+    }
     if(gf.rocket.apply==-1)
     {
-        put_hz24_asc32(250,200,"暂无火箭信息！:",0,"HZK\\HZK24");
-        btn_bar_Draw(350,450,400,480);
-        put_hz24(380,452,"申请火箭",0,"HZK\\HZK24",0);
-        btn_bar_Draw1(550,450,600,480);
-        put_hz24(380,452,"删除申请",0,"HZK\\HZK24",0);
+        put_hz24_asc32(250,200,"暂无火箭信息！",0,"HZK\\HZK24");
+        btn_bar_Draw(350,440,480,490);
+        put_hz24(365,452,"申请火箭",0,"HZK\\HZK24",0);
+        btn_bar_Draw1(550,440,680,490);
+        put_hz24(565,452,"删除申请",0,"HZK\\HZK24",0);
+    }
+    else
+    {
+        if(gf.year!=gf.rocket.year||gf.month!=gf.rocket.month)
+        {
+            
+            put_hz24_asc32(250,200,"您的火箭信息如下:",0,"HZK\\HZK24");
+            menuprt(250,260,900,400);
+            put_hz24(255,265,"返航情况：",0,"HZK\\HZK24",0);
+            btn_bar_Draw1(350,440,480,490);
+            put_hz24(365,452,"申请火箭",0,"HZK\\HZK24",0);
+            btn_bar_Draw(550,440,680,490);
+            put_hz24(565,452,"删除申请",0,"HZK\\HZK24",0);
+
+            if(gf.rocket.apply==2)
+                put_hz24(275,295,"不返航",0,"HZK\\HZK24",0); 
+            else if(gf.rocket.apply==1)
+            {
+                put_hz24(265,295,"返航",0,"HZK\\HZK24",0); 
+                sprintf(res,"带回%d人",gf.rocket.peopledec);
+                put_hz24_asc32(320,295,res,0,"HZK\\HZK24"); 
+            }
+            sprintf(ctime,"%d年%d月到达",gf.rocket.year,gf.rocket.month);
+            put_hz24_asc32(265,330,ctime,0,"HZK\\HZK24");
+
+            sprintf(res,"纳米材料:%d",gf.rocket.resadd.nanomaterial);
+            put_hz24_asc32(455,265,res,0,"HZK\\HZK24");
+                
+            sprintf(res,"稀有材料:%d",gf.rocket.resadd.rarematerial);
+            put_hz24_asc32(455,295,res,0,"HZK\\HZK24");
+                
+            sprintf(res,"氧气:%d",gf.rocket.resadd.oxygen);
+            put_hz24_asc32(455,325,res,0,"HZK\\HZK24"); 
+
+            sprintf(res,"水:%d",gf.rocket.resadd.water);
+            put_hz24_asc32(455,355,res,0,"HZK\\HZK24");
+                
+            sprintf(res,"食物:%d",gf.rocket.resadd.water);
+            put_hz24_asc32(655,325,res,0,"HZK\\HZK24");
+                
+            sprintf(res,"能源:%d",gf.rocket.resadd.water);
+            put_hz24_asc32(655,265,res,0,"HZK\\HZK24");
+
+            sprintf(res,"燃料:%d",gf.rocket.resadd.fuel);
+            put_hz24_asc32(655,295,res,0,"HZK\\HZK24");
+
+            sprintf(res,"矿物:%d",gf.rocket.resadd.mineral);
+            put_hz24_asc32(655,325,res,0,"HZK\\HZK24");
+
+            sprintf(res,"载人:%d",gf.rocket.peopleadd);
+            put_hz24_asc32(655,355,res,0,"HZK\\HZK24");
+            
+
+            btn_bar_Draw1(350,440,480,490);
+            put_hz24(365,452,"申请火箭",0,"HZK\\HZK24",0);
+            btn_bar_Draw0(550,440,680,490);
+            put_hz24(565,452,"删除申请",0,"HZK\\HZK24",0);
+        }
+        else if(gf.year==gf.rocket.year&&gf.month==gf.rocket.month)
+        {
+            put_hz24_asc32(250,200,"您申请的火箭已到达",0,"HZK\\HZK24");
+        }
     }
 }
 
-void rocket_apply()
+void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
 {
-    RKTINFO r;
-    int complete[3];
+
+    int complete[3]={0,0,0};
+    char time[30];
     clrmous(MouseX,MouseY);
+    SaveBMP(0,0,1024,768,9);
     rocket_a_prtall();
-    rocket_init(&r);
+    rocket_init(pr);
     while(1)
     {
+        complete[2]=complete[0]+complete[1];
         mouse_renew(&MouseX,&MouseY,&press);
-        rocket_a_fun1(&r,&complete);
-        if(rocket_check1(r)==0||complete[0]==0)
+        rocket_a_fun1(pr,&complete);
+        if(rocket_check1(*pr)==0||complete[0]==0)
         {
             if(mouse_press(350,10,680,755)==1)
             {
@@ -705,9 +803,71 @@ void rocket_apply()
             }
         }
         else
-            rocket_a_fun2(&r,&complete);
-        if(mouse_press(15,15,55,55)==1)exit(1);
+            rocket_a_fun2(pr,&complete);
+        if(mouse_press(15,15,55,55)==1)
+        {
+            LoadBMP(0,0,1024,768,9);
+            rocket_init(pr);
+            return;
+        }
+        if(mouse_press(430,695,570,730)==1)
+        {
+            if(complete[0]==1&&complete[1]==1&&rocket_check2(*pr)==0)
+            {
+                sprintf(time,"%d年%d月",nyear,nmonth);
+                put_hz24_asc32(850,170,time,65535,"HZK\\HZK24");
+                itoa(pr->refuelpay,time,10);
+                put_hz24_asc32(850,210,time,65535,"HZK\\HZK24");
+            }
+        }
+        
+        if(mouse_press(430,695,570,730)==1)
+        {
+            if(rocket_check2(*pr)==1)
+            {
+                if(rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax)!=-1)
+                {
+                    bar(900,500,1000,525,0);
+                    complete[1]=1;
+                    put_hz24_asc32(900,500,"设置成功！",65535,"HZK\\HZK24");
+                    pr->load=rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax);
+                    sprintf(time,"%d年%d月",nyear,nmonth);
+                    put_hz24_asc32(850,170,time,65535,"HZK\\HZK24");
+                    itoa(pr->refuelpay,time,10);
+                    put_hz24_asc32(850,210,time,65535,"HZK\\HZK24");
+                
+                }
+                else
+                {
+                    bar(900,500,1000,525,0);
+                    put_hz24_asc32(900,500,"超重",65535,"HZK\\HZK24");
+                }
+            }
+            else
+            {
+                bar(900,500,1000,525,0);
+                put_hz24_asc32(900,500,"请补充数据！",65535,"HZK\\HZK24");
+            }
+        }  
+        if(mouse_press(810,280,930,315)==1)
+        {
+            if(complete[0]==1&&complete[1]==1)
+            {
+                clrmous(MouseX,MouseY);
+                LoadBMP(0,0,1024,768,9);
+                pg->r_info.fuel-=pr->refuelpay;
+                bar(238,99,1024,768,65535);
+                pr->month=nmonth;
+                pr->year=nyear;
+                //rocket_info_draw(*pg);
+                //rocket_init(pr);
+                return;
+            }
+            else
+            {
+                bar(0,100,30,100,0);
+                put_hz24(0,0,"请先填好信息！",65535,"HZK\\HZK24",0);
+            }
+        } 
     }
-
 }
-

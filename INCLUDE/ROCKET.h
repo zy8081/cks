@@ -35,12 +35,13 @@ void rocket_ifreturn_draw(int restyle);
 int rocket_ifreturn(RKTINFO*pr);
 void rocket_a_prt1_p(int form);
 void rocket_init(RKTINFO* rkt);
-void rocket_apply();
+void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int year,int month);
 int rocket_max(RKTINFO pr);
 int rocket_check1(RKTINFO r);
 int rocket_loadcom(struct Resource re,int people,int max);
 void rocket_a_fun2(RKTINFO* pr,int (*pcom)[3]);
 void rocket_info(struct GameInfo* pg);
 void rocket_info_draw(struct GameInfo gf);
+int rocket_check2(RKTINFO r);
 
 #endif

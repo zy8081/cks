@@ -44,6 +44,7 @@ struct MapInfo
 	int terrain;
 	struct Building building;
 	int mineral;
+	int exp;//0ÎªÎ´¿±Ì½£¬1ÎªÒÑ¿±Ì½
 };
 
 struct technologydata
@@ -86,7 +87,8 @@ struct GameInfo
 	int year;
 	int month;
     struct hugeengineer huge_engineering[HUGE_ENG_NUM];
-	
+	int people;
+	int happiness;
 };
 
 int project(struct workfile w,int*page);
