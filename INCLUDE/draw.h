@@ -1,4 +1,3 @@
-extern void *toast_buffer;
 
 void draw_closebutton(void);
 void draw_page0(void);
@@ -23,3 +22,4 @@ void clear_time(void);
 void draw_time(struct GameInfo *gameinfop);
 
 void puthz2(int x,int y,int flag,int part,int color,char*s1);
+void puthz3(int x,int y,int flag,int part,int color,char*s1);
