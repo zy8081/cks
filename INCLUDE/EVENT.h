@@ -10,7 +10,6 @@ void event_dz(struct GameInfo* pGameInfo);
 void event_yq(struct GameInfo* pGameInfo);
 void event_sbgz(struct GameInfo* pGameInfo);
 void event_yz(struct GameInfo* pGameInfo);
-void event_rocket(struct GameInfo* pgameinfo);
 #endif
 
 

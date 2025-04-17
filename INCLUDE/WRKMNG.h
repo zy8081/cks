@@ -1,9 +1,8 @@
 #ifndef WRKMNG_H
 #define WRKMNG_H
 
-enum landname{OlymMon=1,MariVal,ArabTer,UtopPla,ElysPla};
-enum landscape{py=1,pd,sd,sf,wd,kd,sk};
 
+enum landname{OlymMon=1,MariVal,ArabTer,UtopPla,ElysPla};
 
 typedef struct workfile
 {
