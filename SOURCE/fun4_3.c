@@ -55,7 +55,8 @@ int research_manutech(struct GameInfo *gameinfop)
 	}
 	draw_tech_line(p);
 	draw_tech_tree(p);
-	
+	draw_tech_tree2(gameinfop,3,location);
+	draw_techpoint(gameinfop);
 	draw_researching(gameinfop,3);
 
 	while(1)
@@ -66,6 +67,7 @@ int research_manutech(struct GameInfo *gameinfop)
 		{
 			oldflag=newflag;
 			clrmous(MouseX,MouseY); 
+			draw_tech_tree2(gameinfop,3,location);
 			draw_researching(gameinfop,3);
 		}
 
@@ -73,10 +75,10 @@ int research_manutech(struct GameInfo *gameinfop)
 		{
 			new_refreshflag=0;
 			clrmous(MouseX,MouseY); 
-			clear_main_all2(1);
 			clear_right_all();
 			draw_tech_line(p);
 			draw_tech_tree(p);
+			draw_tech_tree2(gameinfop,3,location);
 			draw_researching(gameinfop,3);
 		}
 
@@ -105,12 +107,12 @@ int research_manutech(struct GameInfo *gameinfop)
 						mouse_renew(&MouseX,&MouseY,&press);
 						break;
 					}
-					else if(mouse_press(500,450,600,500)==1)
+					else if(mouse_press(475,450,625,500)==1)
 					{
 						clrmous(MouseX,MouseY); 
-       					clear_main_all2(1);
 						clear_right_all();
-						display_all_intro(p,3,i+1);
+						display_all_intro(p,gameinfop,3,i+1,&newflag);
+						newflag=0;
 						new_refreshflag=1;
 						break;
 					}

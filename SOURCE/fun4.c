@@ -60,36 +60,82 @@ int proj_fun4(struct GameInfo* gameinfop)
 	}
 }
 
+void draw_techpoint(struct GameInfo* gameinfop)
+{
+	puthz2(20,400,32,32,1000,"每月科研点：");
+	put_asc16_number_size(60,450,3,3,gameinfop->techpoint,1000);
+}
 
-void display_all_intro(tree *p,int type,int id)
+void display_all_intro(tree *p,struct GameInfo* gameinfop,int type,int id,int *newpage)
 {
 	tree temp;
-	char str[30];
-	btn_bar_Draw(50,300,200,400);
-	puthz2(50,300,32,32,1,"返回");
-
+	char str[80];
+	int i;
+	int page=4;
 	btn_bar_Draw(250,110,1000,740);
 
-	puthz2(260,240,32,32,1,"科技介绍：");
+	btn_bar_Draw(850,660,1000,740);
+	puthz3(860,670,48,48,1,"研究");
+
+	btn_bar_Draw(250,660,400,740);
+	puthz3(270,670,48,48,1,"返回");
+
+	puthz2(260,360,32,34,1,"科技介绍：");
 	type_id_printf_techtxt(type,id);
 
-	id_find_baseinfo_tech(p,&temp,id);
-	puthz2(280,120,48,48,1,temp.name);
+	id_findtree_baseinfo_tech(p,&temp,id);
+	puthz2(270,120,48,48,1,temp.name);
+
+	type_id_get_tech_effect(type,id,str);
+
 	if (temp.flag==0)
 	{
-		puthz2(700,120,48,48,2000,"（未研究）");
+		puthz2(700,120,48,48,0xA000,"（未研究）");
+
+		puthz2(260,220,32,32,3000,"研究效果：");
+		put_hz24_asc32(260,270,str,3000,"HZK\\HZK24");
 	}
 	else
 	{
 		puthz2(700,120,48,48,2000,"（已研究）");
+
+		puthz2(260,220,32,32,1000,"研究效果：");
+		put_hz24_asc32(260,270,str,1000,"HZK\\HZK24");
 	}
+	sprintf(str,"所需科研点：%d",temp.point);
+	put_hz24_asc32(730,240,str,1,"HZK\\HZK24");
+
+	for (i=0;i<PARENT_NUM;i++)
+	{
+		if (temp.parent[i]==NULL)
+		{
+			continue;
+		}
+		else if (temp.parent[i]->flag==0)
+		{
+			puthz2(690,190,32,32,0xA000,"前置科技未解锁");
+			puthz2(860,670,48,48,0xA000,"研究");
+			break;
+		}
+	}
+
 
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
-		if (mouse_press(50,300,200,400)==1)
+
+		if (mouse_press(250,660,400,740)==1)
 		{
-			return;
+			break;
+		}
+		if (judge_press_mainbutton(4,&page))
+		{
+			break;
+		}
+		if (mouse_press(850,660,1000,740)==1)
+		{
+			start_research(gameinfop,p,type,id,newpage);
+			break;
 		}
 	}
 }
@@ -113,7 +159,7 @@ void id_find_xy_tech(tree *p,int id,int (*arr)[2])
 	}
 }
 
-void id_find_baseinfo_tech(tree *p,tree *temp,int id)
+void id_findtree_baseinfo_tech(tree *p,tree *temp,int id)
 {
 	int i;
 	if (p==NULL)
@@ -134,7 +180,7 @@ void id_find_baseinfo_tech(tree *p,tree *temp,int id)
 	}
 	for (i=0;i<CHILD_NUM;i++)
 	{
-		id_find_baseinfo_tech(p->child[i],temp,id);
+		id_findtree_baseinfo_tech(p->child[i],temp,id);
 	}
 }
 
@@ -152,13 +198,23 @@ void draw_tech_tree(tree *p)
 	}
 	if (p->flag==1)
 	{
-		bar(p->x-20,p->y-20,p->x+20,p->y+20,1000);
+		btn_bar_Draw(p->x-20,p->y-20,p->x+20,p->y+20);
+		bar(p->x-19,p->y-19,p->x+19,p->y+19,1000);
 	}
 	else
 	{
 		btn_bar_Draw(p->x-20,p->y-20,p->x+20,p->y+20);
 	}
-	
+}
+
+void draw_tech_tree2(struct GameInfo* gameinfop,int type,int (*arr)[2])
+{
+	int id;
+	if (gameinfop->gametech[type-1].research_flag==1)
+	{
+		id=gameinfop->gametech[type-1].id;
+		bar(arr[id-1][0]-19,arr[id-1][1]-19,arr[id-1][0]+19,arr[id-1][1]+19,4000);
+	}
 }
 
 void draw_researching(struct GameInfo *gameinfop,int type)
@@ -189,22 +245,22 @@ void draw_researching(struct GameInfo *gameinfop,int type)
 void draw_tech_toast(tree *p,int id)
 {
 	tree temp;
-	char str[30];
+	char str[80];
 	int i;
-	id_find_baseinfo_tech(p,&temp,id);
+	id_findtree_baseinfo_tech(p,&temp,id);
 	SaveBMP(290,190,810,510,0);
 	btn_bar_Draw(300,200,800,500);
 	
-	puthz2(300,200,32,32,1,temp.name);
+	puthz3(300,200,32,36,1,temp.name);
 
 	btn_bar_Draw(300,450,400,500);
-	puthz2(300,450,32,32,1,"取消");
+	puthz3(300,450,32,32,1,"取消");
 
 	btn_bar_Draw(700,450,800,500);
-	puthz2(700,450,32,32,1,"研究");
+	puthz3(700,450,32,32,1,"研究");
 
-	btn_bar_Draw(500,450,600,500);
-	puthz2(500,450,32,32,1,"查看详细");
+	btn_bar_Draw(475,450,625,500);
+	puthz3(475,450,32,32,1,"查看详细");
 	for (i=0;i<PARENT_NUM;i++)
 	{
 		if (temp.parent[i]==NULL)
@@ -213,17 +269,31 @@ void draw_tech_toast(tree *p,int id)
 		}
 		else if (temp.parent[i]->flag==0)
 		{
-			puthz2(300,250,32,32,1,"前置科技未解锁");
+			puthz2(300,260,32,32,0xA000,"前置科技未解锁");
+			puthz2(700,450,32,32,0xA000,"研究");
 			break;
 		}
 	}
 	
+	type_id_get_tech_effect(p->type,id,str);
 	if (temp.flag==0)
 	{
-		puthz(500,200,"未研究",32,32,1);
+		puthz2(600,210,32,32,0xA000,"（未研究）");
+
+		
+		puthz2(300,320,32,32,3000,"研究效果：");
+		put_hz24_asc32(300,360,str,3000,"HZK\\HZK24");
 	}
+	else
+	{
+		puthz2(600,210,32,32,2000,"（已研究）");
+
+		puthz2(300,320,32,32,1000,"研究效果：");
+		put_hz24_asc32(300,360,str,1000,"HZK\\HZK24");
+	}
+
 	sprintf(str,"所需科研点：%d",temp.point);
-	put_hz24_asc32(300,300,str,1,"HZK\\HZK24");
+	put_hz24_asc32(570,260,str,1,"HZK\\HZK24");
 }
 
 void load_tech_toast(void)
@@ -244,7 +314,7 @@ void draw_tech_line(tree *leaf)
 		{
 			if (leaf->flag==1)
 			{
-				line_thick(leaf->x,leaf->y,leaf->child[i]->x,leaf->child[i]->y,4,3000);
+				line_thick(leaf->x,leaf->y,leaf->child[i]->x,leaf->child[i]->y,4,1000);
 			}
 			else
 			{
@@ -273,7 +343,7 @@ void start_research(struct GameInfo *gameinfop,tree *p,int type,int id,int *newp
 	tree temp;
 	char name[30];
 	int i;
-	id_find_baseinfo_tech(p,&temp,id);
+	id_findtree_baseinfo_tech(p,&temp,id);
 	if (gameinfop->gametech[type-1].research_flag ==1)
 	{
 		small_tech_remind_toast("已有正在研究的科技");
@@ -442,7 +512,7 @@ void type_id_printf_techtxt(int type,int id)
 
 	for (j=0;j<i;j++)
 	{
-		puthz2(280,300+j*40,32,32,1,intro[j]);
+		puthz3(260,400+j*40,32,32,1,intro[j]);
 	}
 
 	for (j=0;j<10;j++)
@@ -531,7 +601,7 @@ void get_tech_basic_info(tree *p,int type,int id)
 }
 
 
-void get_tech_effect(int type, int id,char *effect)
+void type_id_get_tech_effect(int type, int id,char *effect)
 {
 	FILE *file=fopen("./data/tech1.txt","r");
 	char c;
@@ -627,41 +697,6 @@ void change_techflag(int type,int id)
     rename("./data/techt.txt", "./data/tech.txt");
 }
 
-int get_tech_txt(int type,int id,char **txt)
-{
-	FILE *file=fopen("./data/tech2.txt","r");
-	char c;
-	int i;
-	if (file==NULL)
-	{
-		printf("open file error\n");
-		return;
-	}
-	
-	for (i=0;i<type;i++)
-	{
-		while ((c=fgetc(file))!='#');
-	}
-	while ((c=fgetc(file))!='\n');
-	
-	for (i=0;i<id;i++)
-	{
-		while ((c=fgetc(file))!='$');
-	}
-	while ((c=fgetc(file))!='\n');
-	//exit(0);
-	i=0;
-	while ((c=fgetc(file))!='$')
-	{
-		fseek(file,-1,SEEK_CUR);
-		fgets(txt[i],100,file);
-		txt[i][strlen(txt[i])-1]='\0';
-		i++;
-	}
-	
-	fclose(file);
-	return i;
-}
 
 tree *create_tree(int type)
 {
@@ -707,54 +742,6 @@ void insert_simple_leaf(tree *p,int type,int id,int func)
 		p->child[2]=temp;
 	}
 
-}
-
-
-
-void get_techflag(tree *p)
-{
-	int id=p->id;
-	//int type=p->type;
-	FILE *file=fopen("./data/tech.txt","r");
-	char str[30]={'\0'};
-	char c;
-	int i;
-	
-	if (file==NULL)
-	{
-		puthz(400,300,"错误",32,32,1);
-		printf("open error");
-		return;
-	}
-	for (i=0;i<id-1;i++)
-	{
-		while ((c=fgetc(file))!='\n');
-	}
-
-	i=0;
-	while ((c=fgetc(file))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	p->floor=atoi(str);
-
-	i=0;
-	while ((c=fgetc(file))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	p->id=atoi(str);
-
-	i=0;
-	while ((c=fgetc(file))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	p->flag=atoi(str);
-	fclose(file);
 }
 
 

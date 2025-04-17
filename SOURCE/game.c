@@ -266,23 +266,6 @@ int proj_origin(struct GameInfo* gameinfop)
 }
 
 
-
-
-
-
-
-//void get_techflag_all(tree *p)
-//{
-//	if (p==NULL)
-//	{
-//		return;
-//	}
-//	get_techflag_all(p->leftchild);
-//	get_techflag_all(p->rightchild);
-//	get_techflag(p);
-//}
-
-
 int judge_press_mainbutton(int flag,int *page)
 {
 	char *s1[5]={"地图","全局","建造","科技","时间"};

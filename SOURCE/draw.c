@@ -90,6 +90,15 @@ void puthz2(int x,int y,int flag,int part,int color,char*s1)
 	puthz(x+1,y+1,s1, flag,part, color); 
 }
 
+void puthz3(int x,int y,int flag,int part,int color,char*s1)
+{
+	puthz(x,y,s1, flag,part, 0x000000);
+	puthz(x,y+1,s1, flag,part, 0x000000); 
+	puthz(x+1,y,s1, flag,part, 0x000000); 
+	puthz(x+1,y+1,s1, flag,part, 0x000000); 
+	puthz(x+1,y+1,s1, flag,part, color); 
+}
+
 
 void draw_button1(int x1,int y1,int x2,int y2,int colorf,int colorb)
 {

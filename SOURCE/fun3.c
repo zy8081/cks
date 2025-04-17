@@ -17,8 +17,6 @@
 int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
 {
 	int page=3;
-	int l=65;
-	
 	char *s[4]={"新建建筑","建造队列","拆除建筑","停用建筑"};
 	draw_main_toolbotton_activate(550,0xBBBB,"建造","显示");
 	
@@ -37,7 +35,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
         {
             clrmous(MouseX,MouseY);
             clear_main_all(); 
-            draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
+            draw_left_toolbotton_activate(95 , 65, s[0]);//激活新的
             clear_right_all();
             page=build(gameinfop,p,pxsel,pysel);
             return page;
@@ -46,7 +44,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
         {
             clrmous(MouseX,MouseY);
             clear_main_all(); 
-            draw_left_toolbotton_activate(95 , l, s[1]);//激活新的
+            draw_left_toolbotton_activate(95 , 65, s[1]);//激活新的
             clear_right_all();
             page=build_queue(gameinfop,p);
             return page;
@@ -55,7 +53,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
         {
             clrmous(MouseX,MouseY);
             clear_main_all(); 
-            draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
+            draw_left_toolbotton_activate(95 , 65, s[2]);//激活新的
             clear_right_all();
             page=demolish_building(gameinfop);
             return page;
@@ -65,7 +63,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
         {
             clrmous(MouseX,MouseY);
             clear_main_all(); 
-            draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
+            draw_left_toolbotton_activate(95 , 65, s[3]);//激活新的
             clear_right_all();
             page=ban_building(gameinfop);
             return page;
@@ -417,10 +415,8 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 
 	put_hz24(820,170+(location-1)*130,"时长：",1,"HZK\\Hzk24k",0);
 	sprintf(str,"%d个月",building->bui_time);
-	put_hz24_asc32(820,200+(location-1)*130,str,1000,"HZK\\Hzk24k");
+	put_hz24_asc32(820,200+(location-1)*130,str,0xA000,"HZK\\Hzk24k");
 
-	sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
-	Readbmp64k(700,120+(location-1)*130,str);
 	j=0;
 	while(str[j]!='\0')
 	{
@@ -444,14 +440,14 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	}
 	
 	i=0;
-	put_hz24(250,160+(location-1)*130,"月收益",1,"HZK\\Hzk24k",0);
+	put_hz24(250,165+(location-1)*130,"月收益",1,"HZK\\Hzk24k",0);
 	p=p2;
 	headinsert1_add_nodeb(p,*building,gameinfop);
 	p=p->next;
 	while(p!=NULL)
 	{
 		sprintf(str,"%s:%d",p->name,p->number);
-		put_hz16_asc16_size(340+i*90,160+(location-1)*130,1,1,str,p->color,"HZK\\HZ16");
+		put_hz24_asc32(340+i*110,165+(location-1)*130,str,p->color,"HZK\\Hzk24k");
 		j=0;
 		while(str[j]!='\0')
 		{
@@ -462,14 +458,14 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	}
 	
 	i=0;
-	put_hz24(250,185+(location-1)*130,"月维护",1,"HZK\\Hzk24k",0);
+	put_hz24(250,195+(location-1)*130,"月维护",1,"HZK\\Hzk24k",0);
 	p=p3;
 	headinsert1_maintfee_nodeb(p,*building,gameinfop);
 	p=p->next;
 	while(p!=NULL)
 	{
 		sprintf(str,"%s:%d",p->name,p->number);
-		put_hz16_asc16_size(340+i*90,185+(location-1)*130,1,1,str,p->color,"HZK\\HZ16");
+		put_hz24_asc32(340+i*110,195+(location-1)*130,str,p->color,"HZK\\Hzk24k");
 		j=0;
 		while(str[j]!='\0')
 		{
@@ -479,11 +475,12 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 		p=p->next;
 	}
 	
-	
 	//sprintf(str,"%d",building.res_cost.nanomaterial);
 	puthz2(250,125+(location-1)*130,32,32,1,building->name);
+
+	sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
+	Readbmp64k(700,120+(location-1)*130,str);
 	return 0;
-	//put_asc16_size(430,135+(location-1)*130,2,2,str,1);
 }
 
 /*private函数
@@ -788,7 +785,7 @@ void headinsert1_maintfee_nodeb(nodeb *p,struct Building building,struct GameInf
 			p->next=temp;
 			strcpy(temp->name,s[i]);
 			temp->number=data[i];
-			temp->color=1;
+			temp->color=0xA000;
 		}
 	}
 	
@@ -807,4 +804,3 @@ void free_nodeb(nodeb *p)
 		p=temp;
 	}
 }
-
