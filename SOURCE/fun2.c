@@ -10,7 +10,7 @@
 #include <SL.h>
 
 
-int proj_fun2(struct GameInfo* gameinfop)
+int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 {
 	int page=2;
 	int page2=0;
@@ -18,11 +18,11 @@ int proj_fun2(struct GameInfo* gameinfop)
 	int flag=0;
 	int l=65;
 	int i;
-	char *s[3]={"资源统计","资源收支","火箭信息"};
+	char *s[4]={"资源统计","资源收支","火箭信息","矿物勘测"};
 	draw_main_toolbotton_activate(392,0xFFAA,"全局","资源");
 	
 	
-	draw_all_leftbuttons(3,65,s);
+	draw_all_leftbuttons(4,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
@@ -88,6 +88,15 @@ int proj_fun2(struct GameInfo* gameinfop)
             draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
             clear_right_all();
             rocket_info(gameinfop);
+            continue;
+		}
+		if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+			clear_main_all();
+            draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
+            clear_right_all();
+            map_exp(gameinfop,pxsel,pysel);
             continue;
 		}
 	}

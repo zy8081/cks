@@ -80,7 +80,7 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
                 if(mouse_press_map(i,j)==1)
                 {
                     clrmous(MouseX,MouseY);
-                    draw_check_mapbuild_toast(gameinfop->m_info[*pysel+i][*pxsel+j].building);
+                    draw_check_mapbuild_toast(gameinfop->m_info[*pxsel+i][*pysel+j].building);
                     while(1)
                     {
                         mouse_renew(&MouseX,&MouseY,&press);
@@ -88,7 +88,6 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
                         {
                             clrmous(MouseX,MouseY);
                             load_check_mapbuild_toast();
-                            
                             break;
                         }
                     }

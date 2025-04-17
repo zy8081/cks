@@ -24,34 +24,27 @@ int project(struct workfile w,int*page)
 	//建筑队列
 	nodebq *p1=load_node(w);;
 	
+	gameinfo.r_info.energy=10000;
+	gameinfo.r_info.nanomaterial=10000;
+	gameinfo.r_info.rarematerial=10000;
+	gameinfo.r_info.oxygen=10000;
+	gameinfo.r_info.water=10000;
+	gameinfo.r_info.food=10000;
+	gameinfo.r_info.fuel=10000;
+	gameinfo.r_info.mineral=10000;
 	
+	gameinfo.year=2031;
+	gameinfo.month=4;
+	gameinfo.techpoint=200;
+	gameinfo.gametech[0].research_flag=0;
 	
-	gameinfo.r_info.energy=1;
-	gameinfo.r_info.nanomaterial=1;
-	gameinfo.r_info.rarematerial=1;
-	gameinfo.r_info.oxygen=1;
-	gameinfo.r_info.water=1;
-	gameinfo.r_info.food=1;
-	gameinfo.r_info.fuel=1;
-	gameinfo.r_info.mineral=1;
-	
-	gameinfo.year=1;
-	gameinfo.month=1;
-	gameinfo.techpoint=1;
-	gameinfo.gametech[0].research_flag=1;
-	
-	//初始化地图
-	for (i=0;i<15;i++)
-	{
-		for (j=0;j<15;j++)
-		{
-	 		gameinfo.m_info[i][j].building.id=0;
-			gameinfo.m_info[i][j].building.bui_time=0;
-	 		gameinfo.m_info[i][j].terrain=0;
-		}
-	}
-	
-	load_gminfo(w,&gameinfo);
+	gameinfo.people=0;
+	gameinfo.happiness=0;
+
+	map_init(2,&gameinfo);
+	rocket_init(&(gameinfo.rocket));
+
+	//load_gminfo(w,&gameinfo);
 	/*
 	这里预留空间通过文件读取操作访问存档
 	
@@ -72,7 +65,7 @@ int project(struct workfile w,int*page)
 				proj_page=proj_fun1(&gameinfo,&xsel,&ysel);
 				break;
 			case 2:
-				proj_page=proj_fun2(&gameinfo);
+				proj_page=proj_fun2(&gameinfo,&xsel,&ysel);
 				break;
 			case 3:
 				proj_page=proj_fun3(&gameinfo,p1,&xsel,&ysel);

@@ -37,7 +37,8 @@ void eventshow(int events[2],struct GameInfo* pgameinfo)
 {
     clrmous(MouseX,MouseY);
     SaveBMP(230,0,794,750,0);
-    switch(events[0])
+    event_rocket(pgameinfo);
+    /*switch(events[0])
     {
         case 0:
             break;
@@ -84,7 +85,7 @@ void eventshow(int events[2],struct GameInfo* pgameinfo)
             event_yz(pgameinfo);//援助
             break;
 
-    }
+    }*/
 
     LoadBMP(230,0,794,750,0);
 
@@ -264,5 +265,37 @@ void event_yz(struct GameInfo* pgameinfo)
 
 void event_rocket(struct GameInfo* pgameinfo)
 {
+    if(pgameinfo->rocket.apply!=-1&&pgameinfo->year==pgameinfo->rocket.year&&pgameinfo->month==pgameinfo->rocket.month)
+    {
+        btn_bar_Draw(250,50,774,740);
+        Readbmp64k(277,105,"PICTURE\\hj.bmp");//换贴图
+        bar(277,565,747,720,0);
+
+        put_hz24(270,70,"火箭到达",65535,"HZK\\HZK24",0);
+        put_hz24(300,575,"在沸腾的火焰中",65535,"HZK\\HZK24",0);
+        put_hz24(300,605,"火箭从空中缓缓降落",65535,"HZK\\HZK24",0);
+        put_hz24(300,635,"地球与火星，永远同在",65535,"HZK\\HZK24",0);
+        put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
+        put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+
+        pgameinfo->r_info.nanomaterial+=pgameinfo->rocket.resadd.nanomaterial;
+        pgameinfo->r_info.rarematerial+=pgameinfo->rocket.resadd.rarematerial;
+        pgameinfo->r_info.oxygen+=pgameinfo->rocket.resadd.oxygen;
+        pgameinfo->r_info.water+=pgameinfo->rocket.resadd.water;
+        pgameinfo->r_info.food+=pgameinfo->rocket.resadd.food;
+        pgameinfo->r_info.energy+=pgameinfo->rocket.resadd.energy;
+        pgameinfo->r_info.fuel+=pgameinfo->rocket.resadd.fuel;
+        pgameinfo->r_info.mineral+=pgameinfo->rocket.resadd.mineral;
+
+        pgameinfo->people+=pgameinfo->rocket.peopleadd;
+        
+        rocket_init(&(pgameinfo->rocket));
+        while(1)
+        {
+            mouse_renew(&MouseX,&MouseY,&press);
+            if(mouse_press(0,0,1024,768)==1)break;
+        }
+    }
     
+    return;
 }

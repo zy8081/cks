@@ -645,13 +645,9 @@ void rocket_info(struct GameInfo* pg)
     
     int tyear,tmonth;
     int repage;
-    char ctime[20];
     clrmous(MouseX,MouseY);
-    rocket_time(*pg,&tyear,&tmonth);
-    put_hz24_asc32(250,120,"下一个窗口期:",0,"HZK\\HZK24");
-    sprintf(ctime,"%d年%d月",tyear,tmonth);
-    put_hz24_asc32(260+6*25,120,ctime,0,"HZK\\HZK24");
     rocket_info_draw(*pg);
+    rocket_time(*pg,&tyear,&tmonth);
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
@@ -661,7 +657,20 @@ void rocket_info(struct GameInfo* pg)
         if(pg->rocket.apply==-1)
         {
             if(mouse_press(350,440,480,490)==1)
-                rocket_apply(pg,pg,tyear,tmonth);
+            {
+                if(tyear!=pg->year||tmonth!=pg->month)
+                {
+                    rocket_apply(pg,pg,tyear,tmonth);
+                }
+                else
+                {
+                    int tyear1=tyear+1,tmonth1=tmonth+1;
+                    rocket_apply(pg,pg,tyear1,tmonth1);
+                }
+                
+                rocket_info_draw(*pg);
+            }
+                
         }
         else
         {
@@ -680,6 +689,25 @@ void rocket_info(struct GameInfo* pg)
 void rocket_info_draw(struct GameInfo gf)
 {
     char res[50];
+    char ctime[20];
+    int tyear,tmonth;
+    //char test[10];
+    //itoa(gf.rocket.apply,test,10);
+    //bar(900,700,930,900,65535);
+    //put_asc16(900,700,test,0);
+    
+    rocket_time(gf,&tyear,&tmonth);
+    if(gf.year==tyear&&gf.month==tmonth)
+    {
+        put_hz24_asc32(250,120,"本月即为窗口期！",0,"HZK\\HZK24");
+    }
+    else
+    {
+        put_hz24_asc32(250,120,"下一个窗口期:",0,"HZK\\HZK24");
+        sprintf(ctime,"%d年%d月",tyear,tmonth);
+        put_hz24_asc32(260+6*25,120,ctime,0,"HZK\\HZK24");
+        
+    }
     if(gf.rocket.apply==-1)
     {
         put_hz24_asc32(250,200,"暂无火箭信息！",0,"HZK\\HZK24");
@@ -690,7 +718,7 @@ void rocket_info_draw(struct GameInfo gf)
     }
     else
     {
-        if(gf.year!=gf.rocket.year&&gf.month!=gf.rocket.month)
+        if(gf.year!=gf.rocket.year||gf.month!=gf.rocket.month)
         {
             
             put_hz24_asc32(250,200,"您的火箭信息如下:",0,"HZK\\HZK24");
@@ -709,6 +737,8 @@ void rocket_info_draw(struct GameInfo gf)
                 sprintf(res,"带回%d人",gf.rocket.peopledec);
                 put_hz24_asc32(320,295,res,0,"HZK\\HZK24"); 
             }
+            sprintf(ctime,"%d年%d月到达",gf.rocket.year,gf.rocket.month);
+            put_hz24_asc32(265,330,ctime,0,"HZK\\HZK24");
 
             sprintf(res,"纳米材料:%d",gf.rocket.resadd.nanomaterial);
             put_hz24_asc32(455,265,res,0,"HZK\\HZK24");
@@ -750,14 +780,13 @@ void rocket_info_draw(struct GameInfo gf)
     }
 }
 
-void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int year,int month)
+void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
 {
 
     int complete[3]={0,0,0};
     char time[30];
     clrmous(MouseX,MouseY);
     SaveBMP(0,0,1024,768,9);
-
     rocket_a_prtall();
     rocket_init(pr);
     while(1)
@@ -785,7 +814,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int year,int month)
         {
             if(complete[0]==1&&complete[1]==1&&rocket_check2(*pr)==0)
             {
-                sprintf(time,"%d年%d月",year,month);
+                sprintf(time,"%d年%d月",nyear,nmonth);
                 put_hz24_asc32(850,170,time,65535,"HZK\\HZK24");
                 itoa(pr->refuelpay,time,10);
                 put_hz24_asc32(850,210,time,65535,"HZK\\HZK24");
@@ -802,7 +831,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int year,int month)
                     complete[1]=1;
                     put_hz24_asc32(900,500,"设置成功！",65535,"HZK\\HZK24");
                     pr->load=rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax);
-                    sprintf(time,"%d年%d月",year,month);
+                    sprintf(time,"%d年%d月",nyear,nmonth);
                     put_hz24_asc32(850,170,time,65535,"HZK\\HZK24");
                     itoa(pr->refuelpay,time,10);
                     put_hz24_asc32(850,210,time,65535,"HZK\\HZK24");
@@ -828,7 +857,9 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int year,int month)
                 LoadBMP(0,0,1024,768,9);
                 pg->r_info.fuel-=pr->refuelpay;
                 bar(238,99,1024,768,65535);
-                rocket_info_draw(*pg);
+                pr->month=nmonth;
+                pr->year=nyear;
+                //rocket_info_draw(*pg);
                 //rocket_init(pr);
                 return;
             }
