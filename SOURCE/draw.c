@@ -1,10 +1,4 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
+#include <ALLFUNS.h>
 //本文件功能：一些较为基础的画图函数
 
 //方便程序退出的按钮（调试用）
@@ -93,6 +87,15 @@ void puthz2(int x,int y,int flag,int part,int color,char*s1)
 	puthz(x,y+2,s1, flag,part, 0x000000); 
 	puthz(x+2,y,s1, flag,part, 0x000000); 
 	puthz(x+2,y+2,s1, flag,part, 0x000000); 
+	puthz(x+1,y+1,s1, flag,part, color); 
+}
+
+void puthz3(int x,int y,int flag,int part,int color,char*s1)
+{
+	puthz(x,y,s1, flag,part, 0x000000);
+	puthz(x,y+1,s1, flag,part, 0x000000); 
+	puthz(x+1,y,s1, flag,part, 0x000000); 
+	puthz(x+1,y+1,s1, flag,part, 0x000000); 
 	puthz(x+1,y+1,s1, flag,part, color); 
 }
 

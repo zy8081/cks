@@ -202,6 +202,18 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 			headremove_nodebq(p);
 		}
 	}
+
+	
+	for (i=0;i<3;i++)
+	{
+		gameinfop->gametech[i].havepoints += gameinfop->techpoint;
+		if (gameinfop->gametech[i].havepoints>=gameinfop->gametech[i].totalpoints)
+		{
+			gameinfop->gametech[i].research_flag=0;
+			change_techflag(gameinfop->gametech[i].type,gameinfop->gametech[i].id);
+		}
+	}
+
 }
 
 

@@ -1,11 +1,4 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
-#include <change.h>
+#include <ALLFUNS.h>
 
 void give_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
 {
