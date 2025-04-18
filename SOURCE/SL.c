@@ -20,11 +20,12 @@ int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage)
 void load_gminfo(WORKFILE work,struct GameInfo* gameinfop)
 {
 	FILE *file=fopen(work.path_dat,"rb+");
-	rewind(file);
+	struct GameInfo* t=malloc(sizeof(struct GameInfo));
 	put_asc16(700,600,work.path_dat,0);
-	getch();
-	fread(gameinfop,sizeof(struct GameInfo),(size_t)1,file);
+	fread(t,sizeof(struct GameInfo),(size_t)1,file);
+	*gameinfop=*t;
 	fclose(file);
+	free(t);
 	return;
 
 }
@@ -33,39 +34,41 @@ void gminfo_init(char* datpath,int t)
 {
     int i,j;
 	//nodebq *p1;
-	struct GameInfo gameinfo;
+	struct GameInfo* gameinfo;
+	
 	//struct Resource res_earns;
     FILE* ft=fopen(datpath,"wb+");
 	
-	gameinfo.r_info.energy=10000;
-	gameinfo.r_info.nanomaterial=10000;
-	gameinfo.r_info.rarematerial=10000;
-	gameinfo.r_info.oxygen=10000;
-	gameinfo.r_info.water=10000;
-	gameinfo.r_info.food=10000;
-	gameinfo.r_info.fuel=10000;
-	gameinfo.r_info.mineral=10000;
+	gameinfo->r_info.energy=10000;
+	gameinfo->r_info.nanomaterial=10000;
+	gameinfo->r_info.rarematerial=10000;
+	gameinfo->r_info.oxygen=10000;
+	gameinfo->r_info.water=10000;
+	gameinfo->r_info.food=10000;
+	gameinfo->r_info.fuel=10000;
+	gameinfo->r_info.mineral=10000;
 	
-	gameinfo.year=2030;
-	gameinfo.month=1;
-	gameinfo.techpoint=200;
-	gameinfo.gametech[0].research_flag=0;
+	gameinfo->year=2030;
+	gameinfo->month=1;
+	gameinfo->techpoint=200;
+	gameinfo->gametech[0].research_flag=0;
 	
 	//≥ı ºªØµÿÕº
 	for (i=0;i<15;i++)
 	{
 		for (j=0;j<15;j++)
 		{
-			gameinfo.m_info[i][j].building.id=0;
-			gameinfo.m_info[i][j].building.bui_time=0;
-			gameinfo.m_info[i][j].terrain=0;
+			gameinfo->m_info[i][j].building.id=0;
+			gameinfo->m_info[i][j].building.bui_time=0;
+			gameinfo->m_info[i][j].terrain=0;
 		}
 	}
-	map_init(t,&gameinfo);
-	//rocket_init(&(gameinfo.rocket));
+	map_init(t,gameinfo);
+	rocket_init(&(gameinfo->rocket));
 	//rewind(ft);
-    fwrite(&gameinfo,sizeof(struct GameInfo),(size_t)1,ft);
+    fwrite(gameinfo,sizeof(struct GameInfo),(size_t)1,ft);
     fclose(ft);
+	free(gameinfo);
 
 }
 

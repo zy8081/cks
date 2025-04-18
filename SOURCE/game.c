@@ -44,7 +44,7 @@ int project(struct workfile w,int*page)
 	map_init(2,&gameinfo);
 	rocket_init(&(gameinfo.rocket));
 
-	//load_gminfo(w,&gameinfo);
+	load_gminfo(w,&gameinfo);
 	/*
 	这里预留空间通过文件读取操作访问存档
 	
