@@ -1,6 +1,7 @@
 #ifndef __GAME_H
 #define __GAME_H
 #define HUGE_ENG_NUM 10
+
 struct Resource
 {
 	int nanomaterial;
@@ -42,6 +43,8 @@ struct MapInfo
 {
 	int terrain;
 	struct Building building;
+	int mineral;
+	int exp;//0为未勘探，1为已勘探
 };
 
 struct technologydata
@@ -59,8 +62,24 @@ struct hugeengineer
 	int time;
 };
 
+typedef struct RocketInfo
+{
+    int apply;//-1为未申请，1为不返程，2为返程
+    struct Resource resadd;
+    struct Resource resdec;
+    int peopleadd;
+    int peopledec;
+    int year;
+    int month;
+    int refuelpay;
+    int refuel;
+    int load;
+    int loadmax;
+}RKTINFO;
+
 struct GameInfo
 {
+	RKTINFO rocket;
 	struct MapInfo m_info[15][15];
 	struct ResAllInfo r_info;
 	struct technologydata gametech[3];
@@ -68,6 +87,8 @@ struct GameInfo
 	int year;
 	int month;
     struct hugeengineer huge_engineering[HUGE_ENG_NUM];
+	int people;
+	int happiness;
 };
 
 int project(struct workfile w,int*page);
