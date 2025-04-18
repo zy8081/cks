@@ -26,3 +26,4 @@ void headinsert1_cost_nodeb(nodeb *p,struct Building building,struct GameInfo *g
 void headinsert1_add_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop);
 void headinsert1_maintfee_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop);
 void free_nodeb(nodeb *p);
+void free_nodeb_list(nodeb *p[3][5]);

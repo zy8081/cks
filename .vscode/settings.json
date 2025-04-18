@@ -31,6 +31,12 @@
         "fun2.h": "c",
         "draw.h": "c",
         "fun4_2.h": "c",
-        "allfuns.h": "c"
+        "allfuns.h": "c",
+        "array": "c",
+        "istream": "c",
+        "ostream": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }

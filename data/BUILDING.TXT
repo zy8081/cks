@@ -19,5 +19,4 @@
 #101 机器人中枢 101 0 0 0 0 0 0 0 -100 0 0 12
 #102 存储仓库 102 0 0 0 0 0 0 0 -100 0 0 12
 
-
 id 名字 path nano rarematerial nano rarematerial oxygen water food energy fuel mineral bui_time

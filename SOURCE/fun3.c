@@ -239,6 +239,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 		
 		if (judge_press_mainbutton(3,&page))
 		{
+			free_nodeb_list(p);
 			return page;
 		}
 		
@@ -252,6 +253,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 			{
 				clear_main_all2(1);
 				clear_right_all();
+				free_nodeb_list(p);
 				return -(x-1);
 			}
 		}
@@ -266,6 +268,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 			{
 				clear_main_all2(1);
 				clear_right_all();
+				free_nodeb_list(p);
 				return -(x+1);
 			}
 		}
@@ -440,7 +443,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	}
 	
 	i=0;
-	put_hz24(250,165+(location-1)*130,"月收益",1,"HZK\\Hzk24k",0);
+	puthz3(250,165+(location-1)*130,24,24,1,"月收益：");
 	p=p2;
 	headinsert1_add_nodeb(p,*building,gameinfop);
 	p=p->next;
@@ -802,5 +805,17 @@ void free_nodeb(nodeb *p)
 		temp=p->next;
 		free(p);
 		p=temp;
+	}
+}
+
+void free_nodeb_list(nodeb *p[3][5])
+{
+	int i,j;
+	for (i=0;i<3;i++)
+	{
+		for(j=0;j<5;j++)
+		{
+			free_nodeb(p[i][j]);
+		}
 	}
 }

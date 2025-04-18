@@ -18,13 +18,14 @@ int research_lifetech(struct GameInfo *gameinfop)
 	draw_tech_tree(p);
 	draw_tech_tree2(gameinfop,1,location);
 	draw_techpoint(gameinfop);
+	
 	draw_researching(gameinfop,1);
 
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
 
-		if (newflag!=oldflag && newflag==1)
+		if (newflag!=oldflag)
 		{
 			oldflag=newflag;
 			clrmous(MouseX,MouseY); 
@@ -40,7 +41,23 @@ int research_lifetech(struct GameInfo *gameinfop)
 			draw_tech_line(p);
 			draw_tech_tree(p);
 			draw_tech_tree2(gameinfop,1,location);
-			draw_researching(gameinfop,1);
+			newflag=draw_researching(gameinfop,1);
+			oldflag=newflag;
+		}
+		if (newflag==1)
+		{
+			if(mouse_press(750,700,900,750)==1)
+			{
+				clrmous(MouseX,MouseY); 
+				clear_right_all();
+				display_all_intro(p,gameinfop,1,gameinfop->gametech[0].id,&newflag);
+				new_refreshflag=1;
+			}
+			if(mouse_press(300,700,450,750)==1)
+			{
+				clrmous(MouseX,MouseY); 
+				stop_researching(gameinfop,1,&newflag,&new_refreshflag);
+			}
 		}
 
 		if (judge_press_mainbutton(4,&page))

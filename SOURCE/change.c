@@ -1,6 +1,6 @@
 #include <ALLFUNS.h>
 
-void give_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
+void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
 {
 	switch (type)
 	{
@@ -34,6 +34,9 @@ void give_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
 				case 9:
 					research_1_9(gameinfop);
 					break;
+				case 10:
+					research_1_10(gameinfop);
+					break;
 				
 			}
 			break;
@@ -57,6 +60,15 @@ void give_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
 					break;
 				case 6:
 					research_2_6(gameinfop);
+					break;
+				case 7:
+					research_2_7(gameinfop);
+					break;
+				case 8:
+					research_2_8(gameinfop);
+					break;
+				case 9:
+					research_2_9(gameinfop);
 					break;
 				
 			}
@@ -84,6 +96,9 @@ void give_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
 	}
 }
 
+/*
+根据id解锁建筑，高安全性
+*/
 void unlock_building(int id)
 {
 	FILE *file1;
@@ -136,6 +151,11 @@ void unlock_building(int id)
 	{
 		if (c==EOF)
 		{
+			break;
+		}
+		if (c=='\n')
+		{
+			fputc(c,file2);
 			break;
 		}
 		fputc(c,file2);
@@ -671,11 +691,13 @@ void change_building_add_food(struct GameInfo *gameinfop,int id,int add_food)
 
 
 /*
-1 nanomaterial   2 rarematerial   3 oxygen   4 water
-5 food   6 energy   7 fuel   8 mineral
-适用于修改一切建筑的res_add值
+1.res_cost:nanomaterial   2.res_cost:rarematerial  3.res_add:nanomaterial
+4.res_add:rarematerial 5.res_add:oxygen 6.res_add:water
+7.res_add:food 8.res_add:energy 9.res_add:fuel
+10.res_add:mineal  11.bui_time
+根据id修改建筑文件，适用于修改一切建筑的数据(包括地图上的)
 */
-void change_building_add_res(struct GameInfo *gameinfop,int id,int type,int add_res)
+void change_building_add_res(struct GameInfo *gameinfop,int id,int funcflag,int change)
 {
 	FILE *file1;
 	FILE *file2;
@@ -716,7 +738,7 @@ void change_building_add_res(struct GameInfo *gameinfop,int id,int type,int add_
 	}
 	
 
-	for (i=0;i<type+4;i++)
+	for (i=0;i<funcflag+2;i++)
 	{
 		while((c=fgetc(file1))!=' ')
 		{
@@ -731,11 +753,9 @@ void change_building_add_res(struct GameInfo *gameinfop,int id,int type,int add_
 		str[i++]=c;
 	}
 	str[i]='\0';
-	itoa(atoi(str)+add_res,str,10);
+	itoa(atoi(str)+change,str,10);
 	fputs(str,file2);
 	fputc(' ',file2);
-	
-	
 	
 	while((c=fgetc(file1))!=EOF)
 	{
@@ -747,26 +767,16 @@ void change_building_add_res(struct GameInfo *gameinfop,int id,int type,int add_
 	
 	remove("./data/building.txt");
 	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==id)
-			{
-				gameinfop->m_info[i][j].building.res_add.rarematerial += add_res;
-			}
-		}
-	}
+
 }
 
 //科研点+10
 void research_1_1(struct GameInfo *gameinfop)
 {
-	gameinfop->techpoint+=10;
+	gameinfop->techpoint+=20;
 }
 
-//建筑时长-1个月
+//
 void research_1_2(struct GameInfo *gameinfop)
 {
 	FILE *file1;
@@ -969,10 +979,16 @@ void research_1_9(struct GameInfo *gameinfop)
 	gameinfop->huge_engineering[2].time=120;
 }
 
-//纳米材料厂产出+5
+void research_1_10(struct GameInfo *gameinfop)
+{
+	gameinfop->huge_engineering[2].lock=1;
+	gameinfop->huge_engineering[2].time=120;
+}
+
+//每月科研点+20
 void research_2_1(struct GameInfo *gameinfop)
 {
-	change_building_add_res(gameinfop,2,1,5);
+	gameinfop->techpoint +=20;
 }
 
 //纳米材料厂产出+10,能量维护+5
@@ -1010,6 +1026,23 @@ void research_2_6(struct GameInfo *gameinfop)
 	change_building_add_fuel(gameinfop,7,20);
 	change_building_add_energy(gameinfop,7,-5);
 }
+
+void research_2_7(struct GameInfo *gameinfop)
+{
+
+}
+
+void research_2_8(struct GameInfo *gameinfop)
+{
+
+}
+
+void research_2_9(struct GameInfo *gameinfop)
+{
+
+
+}
+
 
 //水培农场食物+10，水维护+10
 void research_3_1(struct GameInfo *gameinfop)
