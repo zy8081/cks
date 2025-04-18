@@ -8,11 +8,14 @@
 #include<WRKADD.h>
 #include<SL.h>
 
-int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage)
+int save_gminfo(struct GameInfo gameinfo,WORKFILE work,int repage)
 {
+	struct GameInfo* p=malloc(sizeof(struct GameInfo));
+	
 	FILE *file=fopen(work.path_dat,"wb");
+	*p=gameinfo;
 	//strcpy(pathdat,work.path_dat);
-	fwrite(gameinfop,sizeof(struct GameInfo),(size_t)1,file);
+	fwrite(p,sizeof(struct GameInfo),(size_t)1,file);
 	fclose(file);
 	return repage;
 }
