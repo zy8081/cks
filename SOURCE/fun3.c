@@ -235,8 +235,6 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	btn_bar_Draw(60,500,160,550);
 	puthz2(60,500,32,32,1,"下一页");
 	
-	sprintf(str,"PICTURE\\build\\%d.bmp",1);
-	Readbmp64k(700,130,str);
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -418,7 +416,8 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
 	btn_bar_Draw(920,120+(location-1)*130,1000,230+(location-1)*130);
 
-	
+	sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
+	Readbmp64k(700,145+(location-1)*130,str);
 
 	puthz3(930,135+(location-1)*130,24,24,1,"建造");
 
@@ -439,7 +438,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	while(p!=NULL)
 	{
 		sprintf(str,"%s:%d",p->name,p->number);
-		put_hz24_asc32(460+i*180,125+(location-1)*130,str,p->color,"HZK\\Hzk24k");
+		put_hz24_asc32(460+i*180,123+(location-1)*130,str,p->color,"HZK\\Hzk24k");
 		j=0;
 		while(str[j]!='\0')
 		{
@@ -488,8 +487,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	//sprintf(str,"%d",building.res_cost.nanomaterial);
 	puthz2(250,125+(location-1)*130,32,32,1,building->name);
 
-	// sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
-	// Readbmp64k(700,130+(location-1)*130,str);
+	
 	return 0;
 }
 
