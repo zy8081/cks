@@ -117,7 +117,7 @@ void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
                     
                     //debug_file_printf(filen);
 
-                    gminfo_init(filen_dat);
+                    gminfo_init(filen_dat,*pplacenum);
                     
                     //debug_file_printf(filen);
                     hiscreate(filen_his);

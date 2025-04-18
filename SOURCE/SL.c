@@ -34,8 +34,7 @@ void gminfo_init(char* datpath,int t)
 {
     int i,j;
 	//nodebq *p1;
-	struct GameInfo* gameinfo;
-	
+	struct GameInfo* gameinfo=malloc(sizeof(struct GameInfo));
 	//struct Resource res_earns;
     FILE* ft=fopen(datpath,"wb+");
 	

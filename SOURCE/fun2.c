@@ -5,13 +5,12 @@
 #include <WRKMNG.h>
 #include <fun5.h>
 #include <fun4.h>
-#include <fun4_2.h>
 #include <fun1.h>
 #include <fun2.h>
 #include <SL.h>
 
 
-int proj_fun2(struct GameInfo* gameinfop)
+int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 {
 	int page=2;
 	int page2=0;
@@ -19,11 +18,11 @@ int proj_fun2(struct GameInfo* gameinfop)
 	int flag=0;
 	int l=65;
 	int i;
-	char *s[2]={"资源统计","资源收支"};
+	char *s[4]={"资源统计","资源收支","火箭信息","矿物勘测"};
 	draw_main_toolbotton_activate(392,0xFFAA,"全局","资源");
 	
 	
-	draw_all_leftbuttons(2,65,s);
+	draw_all_leftbuttons(4,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
@@ -80,6 +79,24 @@ int proj_fun2(struct GameInfo* gameinfop)
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
             proj_fun2_1(gameinfop);
+            continue;
+		}
+		if (left_toolbotton_mouse_press(3) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+			clear_main_all();
+            draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
+            clear_right_all();
+            rocket_info(gameinfop);
+            continue;
+		}
+		if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+			clear_main_all();
+            draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
+            clear_right_all();
+            map_exp(gameinfop,pxsel,pysel);
             continue;
 		}
 	}
