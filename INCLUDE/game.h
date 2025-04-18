@@ -81,6 +81,6 @@ int proj_origin(struct GameInfo* gameinfop);
 
 
 int judge_press_mainbutton(int flag,int *page);
-
+void left_button_clear_activate(int n,char *s[]);
 
 #endif

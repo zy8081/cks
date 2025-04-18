@@ -34,7 +34,8 @@ void draw_tech_tree(tree *p);
 void draw_tech_toast(tree *p,int id);
 void load_tech_toast(void);
 void draw_tech_line(tree *leaf);
-void draw_researching(struct GameInfo *gameinfop,int type);
+int draw_researching(struct GameInfo *gameinfop,int type);
+void stop_researching(struct GameInfo *gameinfop,int type,int *newflag,int *new_refreshing);
 
 void small_tech_remind_toast(char *str);
 void start_research(struct GameInfo *gameinfop,tree *p,int type,int id,int *newpage);
@@ -48,7 +49,6 @@ void type_id_get_tech_effect(int type, int id,char *effect);
 void change_techflag(int type,int id);
 
 void start_research_tech(nodet *pp2,int i,struct GameInfo *gameinfop);
-
 
 tree *create_tree(int type);
 void insert_simple_leaf(tree *p,int type,int id,int func);

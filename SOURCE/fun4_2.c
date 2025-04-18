@@ -88,7 +88,7 @@ int research_buildtech(struct GameInfo *gameinfop)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
 
-		if (newflag!=oldflag && newflag==1)
+		if (newflag!=oldflag)
 		{
 			oldflag=newflag;
 			clrmous(MouseX,MouseY); 
@@ -99,12 +99,28 @@ int research_buildtech(struct GameInfo *gameinfop)
 		if (new_refreshflag !=old_refreshflag)
 		{
 			new_refreshflag=0;
-			clrmous(MouseX,MouseY);
+			clrmous(MouseX,MouseY); 
 			clear_right_all();
 			draw_tech_line(p);
 			draw_tech_tree(p);
 			draw_tech_tree2(gameinfop,2,location);
-			draw_researching(gameinfop,2);
+			newflag=draw_researching(gameinfop,2);
+			oldflag=newflag;
+		}
+		if (newflag==1)
+		{
+			if(mouse_press(750,700,900,750)==1)
+			{
+				clrmous(MouseX,MouseY); 
+				clear_right_all();
+				display_all_intro(p,gameinfop,2,gameinfop->gametech[0].id,&newflag);
+				new_refreshflag=1;
+			}
+			if(mouse_press(300,700,450,750)==1)
+			{
+				clrmous(MouseX,MouseY); 
+				stop_researching(gameinfop,2,&newflag,&new_refreshflag);
+			}
 		}
 
 		if (judge_press_mainbutton(4,&page))

@@ -29,6 +29,14 @@
         "rocket.h": "c",
         "sl.h": "c",
         "fun2.h": "c",
-        "MAIN.C": "cpp"
+        "draw.h": "c",
+        "fun4_2.h": "c",
+        "allfuns.h": "c",
+        "array": "c",
+        "istream": "c",
+        "ostream": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c"
     }
 }

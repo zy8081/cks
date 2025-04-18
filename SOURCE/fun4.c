@@ -217,27 +217,82 @@ void draw_tech_tree2(struct GameInfo* gameinfop,int type,int (*arr)[2])
 	}
 }
 
-void draw_researching(struct GameInfo *gameinfop,int type)
+int draw_researching(struct GameInfo *gameinfop,int type)
 {
-	char str[30];
+	char str[80];
 	tree temp;
+	
 	if (gameinfop->gametech[type-1].research_flag==0)
 	{
-		return;
+		return 0;
 	}
 	else
 	{
-		get_tech_basic_info(&temp,type,gameinfop->gametech[type-1].id);
 		btn_bar_Draw(300,550,900,750);
-		puthz2(300,550,32,32,1,temp.name);
 
-		btn_bar_Draw(500,675,700,750);
-		puthz2(500,675,32,32,1,"查看详细");
+		type_id_get_tech_effect(type,gameinfop->gametech[type-1].id,str);
+		puthz3(310,620,32,32,1000,"研究效果：");
+		put_hz24_asc32(470,630,str,1000,"HZK\\HZK24");
 
-		puthz2(400,600,32,32,1,"正在研究中");
+		get_tech_basic_info(&temp,type,gameinfop->gametech[type-1].id);
+		puthz2(300,550,48,48,1,temp.name);
+
+		btn_bar_Draw(750,700,900,750);
+		puthz2(750,700,32,32,1,"查看详细");
+
+		btn_bar_Draw(300,700,450,750);
+		puthz2(310,700,32,32,1,"取消研究");
+
+		puthz2(500,700,32,32,3000,"正在研究中");
 
 		sprintf(str,"%d/%d",gameinfop->gametech[type-1].havepoints,gameinfop->gametech[type-1].totalpoints);
-		put_hz24_asc32(500,550,str,1,"HZK\\HZK24");
+		put_hz24_asc32(750,570,str,1000,"HZK\\HZK24");
+		return 1;
+	}
+}
+
+void stop_researching(struct GameInfo *gameinfop,int type,int *newflag,int *new_refreshing)
+{
+	char str[50];
+	char name[50];
+	SaveBMP(290,190,810,510,0);
+	btn_bar_Draw(300,200,800,500);
+
+	puthz3(300,200,32,32,0xA000,"你确定要取消研究：");
+	type_id_find_name(type,gameinfop->gametech[type-1].id,name);
+	sprintf(str,"“%s”吗？",name);
+	puthz3(300,240,32,32,3000,str);
+	puthz2(300,340,32,32,0xA000,"取消研究将会丢失该科技所有的");
+	puthz2(300,375,32,32,0xA000,"科研进度！！！");
+
+	btn_bar_Draw(300,450,400,500);
+	puthz3(300,450,32,32,1,"取消");
+
+	btn_bar_Draw(700,450,800,500);
+	puthz3(700,450,32,32,1,"确定");
+
+	while(1)
+	{
+		mouse_renew(&MouseX,&MouseY,&press);
+		if (mouse_press(300,450,400,500)==1)
+		{
+			clrmous(MouseX,MouseY);
+			LoadBMP(290,190,810,510,0);
+			delay(300);
+			mouse_renew(&MouseX,&MouseY,&press);
+			break;
+		}
+		if (mouse_press(700,450,800,500)==1)
+		{
+			clrmous(MouseX,MouseY);
+			LoadBMP(290,190,810,510,0);
+			gameinfop->gametech[type-1].research_flag=0;
+			*newflag=0;
+			*new_refreshing=1;
+			delay(300);
+			mouse_renew(&MouseX,&MouseY,&press);
+			break;
+		}
 	}
 }
 
