@@ -227,11 +227,12 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	}
 	//0x7C00
 	sprintf(str,"第%d页",x);
-	put_hz24_asc32(80,300,str,1,"HZK\\Hzk24k");
-	btn_bar_Draw(100,400,200,450);
-	btn_bar_Draw(100,600,200,650);
-	puthz(100,400,"上一页",24,24,1);
-	puthz(100,600,"下一页",24,24,1);
+	put_hz16_asc16_size(50,300,3,3,str,1,"HZK\\HZ16");
+	btn_bar_Draw(50,400,150,450);
+	puthz2(50,400,32,32,1,"上一页");
+
+	btn_bar_Draw(50,500,150,550);
+	puthz2(50,500,32,32,1,"下一页");
 	
 	while(1)
 	{
@@ -243,7 +244,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 			return page;
 		}
 		
-		if (mouse_press(100,400,200,450)==1)
+		if (mouse_press(50,400,150,450)==1)
 		{
 			if (x==1)
 			{
@@ -258,7 +259,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 			}
 		}
 		
-		else if (mouse_press(100,600,200,650)==1)
+		else if (mouse_press(50,500,150,550)==1)
 		{
 			if (x==5)
 			{
