@@ -1,6 +1,7 @@
 #include <common.h>
 #include <game.h>
 #include <fun3_2.h>
+#include <fun3_3.h>
 #include <fun3.h>
 #include <WRKMNG.h>
 #include <fun5.h>
@@ -204,7 +205,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	int pressflag2=0;
 	int page;
 	int i,j,k,d;
-	char str[20];
+	char str[30];
 	struct Building building[5];
 	int nodeflag[5]={0};
 	
@@ -227,12 +228,15 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	}
 	//0x7C00
 	sprintf(str,"第%d页",x);
-	put_hz24_asc32(80,300,str,1,"HZK\\Hzk24k");
-	btn_bar_Draw(100,400,200,450);
-	btn_bar_Draw(100,600,200,650);
-	puthz(100,400,"上一页",24,24,1);
-	puthz(100,600,"下一页",24,24,1);
+	put_hz16_asc16_size(50,300,3,3,str,1,"HZK\\HZ16");
+	btn_bar_Draw(60,400,160,450);
+	puthz2(60,400,32,32,1,"上一页");
+
+	btn_bar_Draw(60,500,160,550);
+	puthz2(60,500,32,32,1,"下一页");
 	
+	sprintf(str,"PICTURE\\build\\%d.bmp",1);
+	Readbmp64k(700,130,str);
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -243,7 +247,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 			return page;
 		}
 		
-		if (mouse_press(100,400,200,450)==1)
+		if (mouse_press(60,400,160,450)==1)
 		{
 			if (x==1)
 			{
@@ -258,7 +262,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 			}
 		}
 		
-		else if (mouse_press(100,600,200,650)==1)
+		else if (mouse_press(60,500,160,550)==1)
 		{
 			if (x==5)
 			{
@@ -400,7 +404,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 
 int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building)
 {
-	char str[20]={'\0'};
+	char str[30]={'\0'};
 	int i=0,j=0;
 	int flag;
 	nodeb *p;
@@ -414,12 +418,15 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
 	btn_bar_Draw(920,120+(location-1)*130,1000,230+(location-1)*130);
 
-	put_hz24(920,135+(location-1)*130,"建造",1,"HZK\\Hzk24k",0);
+	
 
-	put_hz24(820,170+(location-1)*130,"时长：",1,"HZK\\Hzk24k",0);
+	puthz3(930,135+(location-1)*130,24,24,1,"建造");
+
+	puthz3(820,170+(location-1)*130,24,24,1,"时长：");
 	sprintf(str,"%d个月",building->bui_time);
 	put_hz24_asc32(820,200+(location-1)*130,str,0xA000,"HZK\\Hzk24k");
 
+	
 	j=0;
 	while(str[j]!='\0')
 	{
@@ -461,7 +468,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	}
 	
 	i=0;
-	put_hz24(250,195+(location-1)*130,"月维护",1,"HZK\\Hzk24k",0);
+	puthz3(250,195+(location-1)*130,24,24,1,"月维护：");
 	p=p3;
 	headinsert1_maintfee_nodeb(p,*building,gameinfop);
 	p=p->next;
@@ -481,8 +488,8 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 	//sprintf(str,"%d",building.res_cost.nanomaterial);
 	puthz2(250,125+(location-1)*130,32,32,1,building->name);
 
-	sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
-	Readbmp64k(700,120+(location-1)*130,str);
+	// sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
+	// Readbmp64k(700,130+(location-1)*130,str);
 	return 0;
 }
 
