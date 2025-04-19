@@ -84,7 +84,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[2]);//¼¤»îÐÂµÄ
             clear_right_all();
-            page = save_gminfo(gameinfop,work,5);
+            page = save_gminfo(*gameinfop,work,5);
 			save_node(work,*p);
             return page;   
 		}

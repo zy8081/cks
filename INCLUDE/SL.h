@@ -2,7 +2,7 @@
 #define __SL_H
 //#include<ALLFUNS.h>
 
-int save_gminfo(struct GameInfo *gameinfop,WORKFILE work,int repage);
+int save_gminfo(struct GameInfo gameinfo,WORKFILE work,int repage);
 void load_gminfo(WORKFILE work,struct GameInfo* gf);
 void gminfo_init(char* datpath,int t);
 void save_node(WORKFILE work,nodebq node1);
