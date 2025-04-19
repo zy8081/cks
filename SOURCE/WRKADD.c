@@ -102,15 +102,10 @@ void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
                         fclose(content);
                         return;
                     }*/
-                    
-                    
-                    fseek(content,-1,2);
-                    fputc((int)'\0',content);
-                    fseek(content,0,2);
-                    fputc((int)'\n',content);
-                    fseek(content,0,2);
+                    while(fgetc(content)!='#');
+                    fseek(content,-1,1);
+                    fputc('\n',content);
                     fputs(tempf->path_bas,content);
-                    fseek(content,0,2);
                     fputc('#',content);
                     fclose(content);
                     bas=fopen(filen_bas,"wb+");

@@ -356,7 +356,7 @@ void draw_mainmap(struct GameInfo *gf,int xsel,int ysel)
     {
         for(j=0;j<7;j++)
         {
-            draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
+            draw_block(i,j,&(gf->m_info[ysel+j][xsel+i]),0);
         }
     }
 }
@@ -369,10 +369,10 @@ void draw_buildmap(struct GameInfo *gf,int xsel,int ysel)
     {
         for(j=0;j<7;j++)
         {
-            if(gf->m_info[xsel+i][ysel+j].building.id==0)
-                draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
+            if(gf->m_info[ysel+i][xsel+j].building.id==0)
+                draw_block(i,j,&(gf->m_info[ysel+j][xsel+i]),0);
             else
-                draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),1);
+                draw_block(i,j,&(gf->m_info[ysel+j][xsel+i]),1);
         }
     }
 }
@@ -445,9 +445,9 @@ void draw_minimap(struct GameInfo *gf,int xsel,int ysel)
     {
         for(j=0;j<15;j++)
         {
-            if(gf->m_info[i][j].building.id==0)
+            if(gf->m_info[j][i].building.id==0)
             {
-                switch(gf->m_info[i][j].terrain)
+                switch(gf->m_info[j][i].terrain)
                 {
                     case py:
                         bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,64526);

@@ -18,8 +18,8 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
     int i,j,k;
     int confirm_flag;
     char str[30];
-    draw_buildmap(*gameinfop,*pxsel,*pysel);
-	draw_minimap(*gameinfop,*pxsel,*pysel);
+    draw_buildmap(gameinfop,*pxsel,*pysel);
+	draw_minimap(gameinfop,*pxsel,*pysel);
     btn_bar_Draw(50,300,150,350);
 	puthz2(50,300,32,32,1,"·µ»Ø");
     while (1)
@@ -32,8 +32,8 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
         }
         if(renew_map(pxsel,pysel)==1)
 	    {
-			draw_buildmap(*gameinfop,*pxsel,*pysel);
-			draw_minimap(*gameinfop,*pxsel,*pysel);
+			draw_buildmap(gameinfop,*pxsel,*pysel);
+			draw_minimap(gameinfop,*pxsel,*pysel);
 		}
         if(mouse_press(50,300,150,350)==1)
         {
@@ -176,8 +176,8 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
     int i,j,k;
     int confirm_flag;
     char str[30];
-    draw_buildmap(*gameinfop,*pxsel,*pysel);
-	draw_minimap(*gameinfop,*pxsel,*pysel);
+    draw_buildmap(gameinfop,*pxsel,*pysel);
+	draw_minimap(gameinfop,*pxsel,*pysel);
     btn_bar_Draw(50,300,150,350);
 	puthz2(50,300,32,32,1,"·µ»Ø");
     while (1)
@@ -190,8 +190,8 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
         }
         if(renew_map(pxsel,pysel)==1)
 	    {
-			draw_buildmap(*gameinfop,*pxsel,*pysel);
-			draw_minimap(*gameinfop,*pxsel,*pysel);
+			draw_buildmap(gameinfop,*pxsel,*pysel);
+			draw_minimap(gameinfop,*pxsel,*pysel);
 		}
         if(mouse_press(50,300,150,350)==1)
         {

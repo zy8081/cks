@@ -137,7 +137,7 @@ void node_init(char*pathnode)
 
 int quit(struct GameInfo *pgameinfo,nodebq *pnode1,WORKFILE work)//返回1表示项目管理，2表示登录，3关闭程序
 {
-	//exit(1);
+	exit(1);
 	/*int c;
 	int page;
 	clrmous(MouseX,MouseY);
