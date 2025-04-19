@@ -57,8 +57,8 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 	int l=65;
     //draw_map2(300,105,954,759,7,7,gameinfop);
 	//draw_map(300,105,954,759,7,7,gameinfop);
-    draw_buildmap(*gameinfop,*pxsel,*pysel);
-	draw_minimap(*gameinfop,*pxsel,*pysel);
+    draw_buildmap(gameinfop,*pxsel,*pysel);
+	draw_minimap(gameinfop,*pxsel,*pysel);
     while (1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -69,8 +69,8 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 		}
         if(renew_map(pxsel,pysel)==1)
 		{
-			draw_minimap(*gameinfop,*pxsel,*pysel);
-			draw_mainmap(*gameinfop,*pxsel,*pysel);
+			draw_minimap(gameinfop,*pxsel,*pysel);
+			draw_mainmap(gameinfop,*pxsel,*pysel);
 		}
 		
 		for (i=0;i<7;i++)

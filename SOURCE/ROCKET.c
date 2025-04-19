@@ -646,7 +646,7 @@ void rocket_info(struct GameInfo* pg)
     int tyear,tmonth;
     int repage;
     clrmous(MouseX,MouseY);
-    rocket_info_draw(*pg);
+    rocket_info_draw(pg);
     rocket_time(*pg,&tyear,&tmonth);
     while(1)
     {
@@ -668,7 +668,7 @@ void rocket_info(struct GameInfo* pg)
                     rocket_apply(pg,pg,tyear1,tmonth1);
                 }
                 
-                rocket_info_draw(*pg);
+                rocket_info_draw(pg);
             }
                 
         }
@@ -678,15 +678,15 @@ void rocket_info(struct GameInfo* pg)
             {
                 pg->r_info.fuel+=pg->rocket.refuelpay;
                 rocket_init(&(pg->rocket));
-                rocket_info_draw(*pg);
+                rocket_info_draw(pg);
                 bar(238,99,1024,768,65535);
-                rocket_info_draw(*pg);
+                rocket_info_draw(pg);
             }
         }
     }
 }
 
-void rocket_info_draw(struct GameInfo gf)
+void rocket_info_draw(struct GameInfo* gf)
 {
     char res[50];
     char ctime[20];
@@ -696,8 +696,8 @@ void rocket_info_draw(struct GameInfo gf)
     //bar(900,700,930,900,65535);
     //put_asc16(900,700,test,0);
     
-    rocket_time(gf,&tyear,&tmonth);
-    if(gf.year==tyear&&gf.month==tmonth)
+    rocket_time(*gf,&tyear,&tmonth);
+    if(gf->year==tyear&&gf->month==tmonth)
     {
         put_hz24_asc32(250,120,"本月即为窗口期！",0,"HZK\\HZK24");
     }
@@ -708,7 +708,7 @@ void rocket_info_draw(struct GameInfo gf)
         put_hz24_asc32(260+6*25,120,ctime,0,"HZK\\HZK24");
         
     }
-    if(gf.rocket.apply==-1)
+    if(gf->rocket.apply==-1)
     {
         put_hz24_asc32(250,200,"暂无火箭信息！",0,"HZK\\HZK24");
         btn_bar_Draw(350,440,480,490);
@@ -718,7 +718,7 @@ void rocket_info_draw(struct GameInfo gf)
     }
     else
     {
-        if(gf.year!=gf.rocket.year||gf.month!=gf.rocket.month)
+        if(gf->year!=gf->rocket.year||gf->month!=gf->rocket.month)
         {
             
             put_hz24_asc32(250,200,"您的火箭信息如下:",0,"HZK\\HZK24");
@@ -729,42 +729,42 @@ void rocket_info_draw(struct GameInfo gf)
             btn_bar_Draw(550,440,680,490);
             put_hz24(565,452,"删除申请",0,"HZK\\HZK24",0);
 
-            if(gf.rocket.apply==2)
+            if(gf->rocket.apply==2)
                 put_hz24(275,295,"不返航",0,"HZK\\HZK24",0); 
-            else if(gf.rocket.apply==1)
+            else if(gf->rocket.apply==1)
             {
                 put_hz24(265,295,"返航",0,"HZK\\HZK24",0); 
-                sprintf(res,"带回%d人",gf.rocket.peopledec);
+                sprintf(res,"带回%d人",gf->rocket.peopledec);
                 put_hz24_asc32(320,295,res,0,"HZK\\HZK24"); 
             }
-            sprintf(ctime,"%d年%d月到达",gf.rocket.year,gf.rocket.month);
+            sprintf(ctime,"%d年%d月到达",gf->rocket.year,gf->rocket.month);
             put_hz24_asc32(265,330,ctime,0,"HZK\\HZK24");
 
-            sprintf(res,"纳米材料:%d",gf.rocket.resadd.nanomaterial);
+            sprintf(res,"纳米材料:%d",gf->rocket.resadd.nanomaterial);
             put_hz24_asc32(455,265,res,0,"HZK\\HZK24");
                 
-            sprintf(res,"稀有材料:%d",gf.rocket.resadd.rarematerial);
+            sprintf(res,"稀有材料:%d",gf->rocket.resadd.rarematerial);
             put_hz24_asc32(455,295,res,0,"HZK\\HZK24");
                 
-            sprintf(res,"氧气:%d",gf.rocket.resadd.oxygen);
+            sprintf(res,"氧气:%d",gf->rocket.resadd.oxygen);
             put_hz24_asc32(455,325,res,0,"HZK\\HZK24"); 
 
-            sprintf(res,"水:%d",gf.rocket.resadd.water);
+            sprintf(res,"水:%d",gf->rocket.resadd.water);
             put_hz24_asc32(455,355,res,0,"HZK\\HZK24");
                 
-            sprintf(res,"食物:%d",gf.rocket.resadd.water);
+            sprintf(res,"食物:%d",gf->rocket.resadd.water);
             put_hz24_asc32(655,325,res,0,"HZK\\HZK24");
                 
-            sprintf(res,"能源:%d",gf.rocket.resadd.water);
+            sprintf(res,"能源:%d",gf->rocket.resadd.water);
             put_hz24_asc32(655,265,res,0,"HZK\\HZK24");
 
-            sprintf(res,"燃料:%d",gf.rocket.resadd.fuel);
+            sprintf(res,"燃料:%d",gf->rocket.resadd.fuel);
             put_hz24_asc32(655,295,res,0,"HZK\\HZK24");
 
-            sprintf(res,"矿物:%d",gf.rocket.resadd.mineral);
+            sprintf(res,"矿物:%d",gf->rocket.resadd.mineral);
             put_hz24_asc32(655,325,res,0,"HZK\\HZK24");
 
-            sprintf(res,"载人:%d",gf.rocket.peopleadd);
+            sprintf(res,"载人:%d",gf->rocket.peopleadd);
             put_hz24_asc32(655,355,res,0,"HZK\\HZK24");
             
 
@@ -773,7 +773,7 @@ void rocket_info_draw(struct GameInfo gf)
             btn_bar_Draw0(550,440,680,490);
             put_hz24(565,452,"删除申请",0,"HZK\\HZK24",0);
         }
-        else if(gf.year==gf.rocket.year&&gf.month==gf.rocket.month)
+        else if(gf->year==gf->rocket.year&&gf->month==gf->rocket.month)
         {
             put_hz24_asc32(250,200,"您申请的火箭已到达",0,"HZK\\HZK24");
         }

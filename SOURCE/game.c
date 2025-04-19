@@ -10,7 +10,7 @@
 /*
 项目中心换页控制
 */
-int project(struct workfile w,int*page)
+int project(struct workfile w)
 {
 	int proj_page=0;
 	char path[20]={'\0'};
@@ -22,7 +22,7 @@ int project(struct workfile w,int*page)
 	struct Resource res_earns;
 	
 	//建筑队列
-	nodebq *p1=load_node(w);;
+	nodebq *p1=load_node(w);
 	
 	gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
@@ -39,7 +39,7 @@ int project(struct workfile w,int*page)
 	gameinfo.gametech[0].research_flag=0;
 	
 	gameinfo.people=0;
-	gameinfo.happiness=0;
+	gameinfo.happiness[0]=0;
 
 	map_init(2,&gameinfo);
 	rocket_init(&(gameinfo.rocket));
@@ -75,20 +75,26 @@ int project(struct workfile w,int*page)
 				break;
 			case 5:
 				proj_page=proj_fun5(&gameinfo,p1,w,&events);
-				eventshow(events,&gameinfo);
-				events[0]=0;
-				events[1]=0;
+				bar(0,0,100,30,65535);
+				//put_hz24_asc32(0,0,"done2",0,"HZK\\HZK24");
+				//getch();
+				
+				//put_hz24_asc32(0,0,"done3",0,"HZK\\HZK24");
+				//getch();
 				break;
+			//case 11:
+				//free_nodebq_all(p1);
+				//return 4;
+			//case 12:
+				//free_nodebq_all(p1);
+				//return 1;
+			//case 13:
+				//ree_nodebq_all(p1);
+				//close_all();
 		}
 	}
 	return proj_page;
 }
-
-
-
-
-
-
 
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data)
 {

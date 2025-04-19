@@ -38,7 +38,8 @@ void eventshow(int events[2],struct GameInfo* pgameinfo)
     clrmous(MouseX,MouseY);
     SaveBMP(230,0,794,750,0);
     event_rocket(pgameinfo);
-    /*switch(events[0])
+    event_warning(pgameinfo);
+    switch(events[0])
     {
         case 0:
             break;
@@ -85,7 +86,7 @@ void eventshow(int events[2],struct GameInfo* pgameinfo)
             event_yz(pgameinfo);//援助
             break;
 
-    }*/
+    }
 
     LoadBMP(230,0,794,750,0);
 
@@ -299,3 +300,137 @@ void event_rocket(struct GameInfo* pgameinfo)
     
     return;
 }
+
+void event_warning(struct GameInfo* pgameinfo)
+{
+    int t[8]={1,1,1,1,1,1,1,1};
+    int ret[8];
+    char ts[5];
+    int i;
+    long int repast[8];
+    long int renow[8];
+    press =0;
+   
+    repast[0]=pgameinfo->r_info_t.nanomaterial;
+    repast[1]=pgameinfo->r_info_t.rarematerial;
+    repast[2]=pgameinfo->r_info_t.oxygen;
+    repast[3]=pgameinfo->r_info_t.water;
+    repast[4]=pgameinfo->r_info_t.food;
+    repast[5]=pgameinfo->r_info_t.energy;
+    repast[6]=pgameinfo->r_info_t.fuel;
+    repast[7]=pgameinfo->r_info_t.mineral;
+
+    renow[0]=pgameinfo->r_info.nanomaterial;
+    renow[1]=pgameinfo->r_info.rarematerial;
+    renow[2]=pgameinfo->r_info.oxygen;
+    renow[3]=pgameinfo->r_info.water;
+    renow[4]=pgameinfo->r_info.food;
+    renow[5]=pgameinfo->r_info.energy;
+    renow[6]=pgameinfo->r_info.fuel;
+    renow[7]=pgameinfo->r_info.mineral;
+
+    for(i=0;i<8;i++)
+    {
+        t[i]=judge_warning(repast[i],renow[i]);
+        ret[i]=repast[i]-renow[i];
+    }
+    
+    for(i=0;i<8;i++)
+    {
+        if(prt_warning(i,t[i],ret[i])==1)
+        {
+            press=0;
+            while(1)
+            {
+                mouse_renew(&MouseX,&MouseY,&press);
+                if(mouse_press(0,0,1024,768)==1)
+                {
+                    press=0;
+                    clrmous(MouseX,MouseY);
+                    pgameinfo->r_info_t=pgameinfo->r_info;
+                    break;
+                }
+            }
+        }
+
+    }
+    return;
+}
+
+int judge_warning(long int  it,long int i)
+{
+    int t=it-i;
+    int x;
+    int n;
+    if(t>0)
+    {   
+        x=i/t;
+        for(n=0;n<=5;n++)
+        {
+            if(x>=n&&x<n+1)
+                return n+1;
+        }
+    }
+    return 0;
+}
+
+int prt_warning(int re,int t,int ret)
+{
+    char s1[60];
+    char s2[60];
+    clrmous(MouseX,MouseY);
+    if(t>=1&&t<=6)
+    {
+        clrmous(MouseX,MouseY);
+        switch(re)
+        {
+            case 0:
+                sprintf(s1,"上个月消耗了纳米材料%d",ret);
+                sprintf(s2,"纳米材料将于%d月后消耗尽",t);
+                break;
+            case 1:
+                sprintf(s1,"上个月消耗了稀有材料%d",ret);
+                sprintf(s2,"稀有材料将于%d月后消耗尽",t);
+                break;
+            case 2:
+                sprintf(s1,"上个月消耗了水%d",ret);
+                sprintf(s2,"水将于%d月后消耗尽",t);
+                break;
+            case 3:
+                sprintf(s1,"上个月消耗了食物%d",ret);
+                sprintf(s2,"食物将于%d月后消耗尽",t);
+                break;
+            case 4:
+                sprintf(s1,"上个月消耗了能源%d",ret);
+                sprintf(s2,"能源将于%d月后消耗尽",t);
+                break;
+            case 5:
+                sprintf(s1,"上个月消耗了燃料%d",ret);
+                sprintf(s2,"燃料将于%d月后消耗尽",t);
+                break;
+            case 6:
+                sprintf(s1,"上个月消耗了矿物%d",ret);
+                sprintf(s2,"矿物将于%d月后消耗尽",t);
+                break;
+        }
+        btn_bar_Draw(250,50,774,740);
+        Readbmp64k(277,105,"PICTURE\\dq.bmp");//换贴图
+        bar(277,565,747,720,0);
+        put_hz24(270,70,"资源预警",65535,"HZK\\HZK24",0);
+        put_hz24_asc32(300,575,s1,65535,"HZK\\HZK24");
+        put_hz24(300,605,"在这个消耗速度下",65535,"HZK\\HZK24",0);
+        put_hz24_asc32(300,635,s2,65535,"HZK\\HZK24");
+        if(re>=2&&re<=5)
+        {
+            put_hz24_asc32(300,665,"该资源耗尽表示该项目失败",63776,"HZK\\HZK24");
+        }
+        put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+        return 1;
+    }
+    else return 0;
+}
+
+//void event_expover(struct GameInfo* pgameinfo)
+//{
+
+//}

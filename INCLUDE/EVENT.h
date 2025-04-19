@@ -11,6 +11,10 @@ void event_yq(struct GameInfo* pGameInfo);
 void event_sbgz(struct GameInfo* pGameInfo);
 void event_yz(struct GameInfo* pGameInfo);
 void event_rocket(struct GameInfo* pgameinfo);
+int prt_warning(int re,int t,int ret);
+int judge_warning(long int  it,long int i);
+void event_warning(struct GameInfo* pgameinfo);
+
 #endif
 
 
