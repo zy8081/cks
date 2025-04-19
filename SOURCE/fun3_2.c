@@ -21,11 +21,14 @@
 int build_queue(struct GameInfo *gameinfop,nodebq *p)
 {
 	int i,j,k;
+	int a1,b1;
+	int a2,b2;
 	int totalpage;
 	int len;
+	int page=3;
 	int oldpage=1;
 	int newpage=1;
-	char str[20]={'\0'};
+	char str[50]={'\0'};
 	int func=0;
 	len=calculate_nodebq_len(p);
 	totalpage=len/5+1;
@@ -34,15 +37,7 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 	draw_left_toolbotton(95+65*2,65,"终止建造");
 	
 	draw_buildqueue(newpage,gameinfop,p,func);
-
-	sprintf(str,"第%d页",newpage);
-	put_hz24_asc32(80,500,str,1,"HZK\\Hzk24k");
-	sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
-	put_hz24_asc32(60,450,str,1,"HZK\\Hzk24k");
-	bar(75,550,175,600,0x7C00);
-	bar(75,650,175,700,0x7C00);
-	puthz(75,550,"上一页",32,32,1);
-	puthz(75,650,"下一页",32,32,1);
+	draw_buildqueue_basic(newpage,p);
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -51,15 +46,7 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 		{
 			clear_main_all2(3);
 			clear_right_all();
-			sprintf(str,"第%d页",newpage);
-			put_hz24_asc32(80,500,str,1,"HZK\\Hzk24k");
-			sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
-			put_hz24_asc32(60,450,str,1,"HZK\\Hzk24k");
-			
-			bar(75,550,175,600,0x7C00);
-			bar(75,650,175,700,0x7C00);
-			puthz(75,550,"上一页",32,32,1);
-			puthz(75,650,"下一页",32,32,1);
+			draw_buildqueue_basic(newpage,p);
 			draw_buildqueue(newpage,gameinfop,p,func);
 			oldpage=newpage;
 		}
@@ -76,9 +63,9 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 					}
 					j=newpage;
 					clrmous(MouseX,MouseY); 
-					bar(940,120+(i)*130,1000,230+(i)*130,10000);
-					bar(75,350,175,400,0x7c00);
-					puthz(75,350,"撤销操作",32,32,1);
+					bar(945,125+(i)*130,995,225+(i)*130,4000);
+					btn_bar_Draw(60,350,190,400);
+					puthz2(60,350,32,32,0xA000,"撤销操作");
 					while (1)
 					{
 						mouse_renew(&MouseX,&MouseY,&press);
@@ -86,27 +73,22 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 						{
 							clear_main_all2(3);
 							clear_right_all();
-							sprintf(str,"第%d页",newpage);
-							put_hz24_asc32(80,500,str,1,"HZK\\Hzk24k");
-							sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
-							put_hz24_asc32(60,450,str,1,"HZK\\Hzk24k");
-							bar(75,550,175,600,0x7C00);
-							bar(75,650,175,700,0x7C00);
-							puthz(75,550,"上一页",32,32,1);
-							puthz(75,650,"下一页",32,32,1);
-							bar(75,300,175,350,0x7c00);
-							puthz(75,300,"撤销操作",32,32,1);
+							draw_buildqueue_basic(newpage,p);
+							btn_bar_Draw(60,350,190,400);
+							puthz2(60,350,32,32,0xA000,"撤销操作");
 							draw_buildqueue(newpage,gameinfop,p,func);
 							if (j==newpage)
 							{
-								bar(940,120+(i)*130,1000,230+(i)*130,10000);
+								bar(945,125+(i)*130,995,225+(i)*130,4000);
 							}
 							oldpage=newpage;
 						}
 						//撤销
 						if (mouse_press(75,350,175,400)==1)
 						{
-							bar(940,120+(i)*130,1000,230+(i)*130,20000);
+							clrmous(MouseX,MouseY);
+							bar(945,125+(i)*130,995,225+(i)*130,1000);
+							bar(57,347,193,403,0xFFFF);
 							break;
 						}
 						
@@ -144,13 +126,42 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 								{
 									continue;
 								}
-								if ((newpage-1)*5+k+1>len)
+								else if ((newpage-1)*5+k+1>len)
 								{
 									continue;
 								}
-								exchange_nodebq(p,(j-1)*5+i+1,(newpage-1)*5+k+1);
-								func=0;
-								break;
+								else
+								{
+									getdata_nodebq(p,(newpage-1)*5+k+1,&a1,&b1);
+									getdata_nodebq(p,(j-1)*5+i+1,&a2,&b2);
+									
+									clrmous(MouseX,MouseY);
+									draw_buildqueue_toast();
+									puthz2(300,200,32,32,0xA000,"你确定要交换建造顺序吗：");
+									sprintf(str,"交换（%d，%d）的“%s”",a1+1,b1+1,gameinfop->m_info[a1][b1].building.name);
+									put_hz24_asc32(305,260,str,3000,"HZK\\Hzk24k");
+									sprintf(str,"和（%d，%d）的“%s”？",a2+1,b2+1,gameinfop->m_info[a2][b2].building.name);
+									put_hz24_asc32(305,300,str,3000,"HZK\\Hzk24k");
+									
+									while(1)
+									{
+										mouse_renew(&MouseX,&MouseY,&press);
+										if (mouse_press(300,450,400,500)==1)
+										{
+											clrmous(MouseX,MouseY);
+											LoadBMP(290,190,810,510,0);
+											break;
+										}
+										if (mouse_press(700,450,800,500)==1)
+										{
+											clrmous(MouseX,MouseY); 
+											LoadBMP(290,190,810,510,0);
+											exchange_nodebq(p,(j-1)*5+i+1,(newpage-1)*5+k+1);
+											func=0;
+											break;
+										}
+									}
+								}
 							}
 						}
 						if (func==0)
@@ -161,16 +172,7 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 							
 							draw_left_toolbotton(95+65 , 65, "更改顺序");
 							draw_left_toolbotton(95+65*2 , 65, "终止建造");
-							sprintf(str,"第%d页",newpage);
-							put_hz24_asc32(80,500,str,1,"HZK\\Hzk24k");
-							
-							sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
-							put_hz24_asc32(60,450,str,1,"HZK\\Hzk24k");
-							
-							bar(75,550,175,600,0x7C00);
-							bar(75,650,175,700,0x7C00);
-							puthz(75,550,"上一页",32,32,1);
-							puthz(75,650,"下一页",32,32,1);
+							draw_buildqueue_basic(newpage,p);
 							draw_buildqueue(newpage,gameinfop,p,func);
 							
 							break;
@@ -193,74 +195,50 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 						continue;
 					}
 					getdata_nodebq(p,(newpage-1)*5+k+1,&i,&j);
-					clear_map_building_data(gameinfop,i,j);
-					delete_nodebq(p,(newpage-1)*5+k+1);
-					func=0;
-					clrmous(MouseX,MouseY); 
-					clear_right_all();
-					clear_main_all2(1);
+					clrmous(MouseX,MouseY);
+					draw_buildqueue_toast();
+					puthz2(300,200,32,32,0xA000,"你确定要取消建造：");
+					sprintf(str,"“%s”吗？",gameinfop->m_info[i][j].building.name);
+					puthz2(300,250,32,32,1,str);
+					sprintf(str,"其坐标（%d，%d）",i+1,j+1);
+					put_hz16_asc16_size(310,300,2,2,str,3000,"HZK\\HZ16");
+					puthz2(300,350,32,32,1000,"你将回收建造花费的一半资源");
+					while(1)
+					{
+						mouse_renew(&MouseX,&MouseY,&press);
+						if (mouse_press(300,450,400,500)==1)
+						{
+							clrmous(MouseX,MouseY);
+							LoadBMP(290,190,810,510,0);
+							break;
+						}
+						if (mouse_press(700,450,800,500)==1)
+						{
+							clrmous(MouseX,MouseY); 
+							LoadBMP(290,190,810,510,0);
+							clear_map_building_data(gameinfop,i,j);
+							delete_nodebq(p,(newpage-1)*5+k+1);
+							func=0;
+							clear_right_all();
+							clear_main_all2(1);
+							draw_left_toolbotton(95+65 , 65, "更改顺序");
+							draw_left_toolbotton(95+65*2 , 65, "终止建造");
+							draw_buildqueue_basic(newpage,p);
+							draw_buildqueue(newpage,gameinfop,p,func);
+							
+							break;
+						}
+					}
 					
-					draw_left_toolbotton(95+65 , 65, "更改顺序");
-					draw_left_toolbotton(95+65*2 , 65, "终止建造");
-					sprintf(str,"第%d页",newpage);
-					put_hz24_asc32(80,500,str,1,"HZK\\Hzk24k");
-							
-					sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
-					put_hz24_asc32(60,450,str,1,"HZK\\Hzk24k");
-							
-					bar(75,550,175,600,0x7C00);
-					bar(75,650,175,700,0x7C00);
-					puthz(75,550,"上一页",32,32,1);
-					puthz(75,650,"下一页",32,32,1);
-					draw_buildqueue(newpage,gameinfop,p,func);
-							
-					break;
+					
 				}
 			}
 		}
 		
-		if(main_toolbotton_mouse_press(1)==1)//now==66防止与下面主栏返回键被点中的情况冲突
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 1;
-            
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 2;
-
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 3;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 4;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(550,0xBBBB,"建造","显示");
-            clear_main_all();
-			clear_right_all();
-            return 5;
-        }
+		if (judge_press_mainbutton(3,&page))
+		{
+			return page;
+		}
 		
 		if (left_toolbotton_mouse_press(1) == 1)
 		{
@@ -306,8 +284,6 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 			}
 		}
 		
-		
-		
 		else if (mouse_press(75,650,175,700)==1)
 		{
 			if (newpage==totalpage)
@@ -323,6 +299,32 @@ int build_queue(struct GameInfo *gameinfop,nodebq *p)
 	}
 }
 
+void draw_buildqueue_toast(void)
+{
+	SaveBMP(290,190,810,510,0);
+	btn_bar_Draw(300,200,800,500);
+
+	btn_bar_Draw(300,450,400,500);
+	puthz3(300,450,32,32,1,"取消");
+
+	btn_bar_Draw(700,450,800,500);
+	puthz3(700,450,32,32,1,"确定");
+}
+
+void draw_buildqueue_basic(int newpage,nodebq *p)
+{
+	char str[30];
+	sprintf(str,"第%d页",newpage);
+	put_hz16_asc16_size(55,470,3,3,str,1,"HZK\\HZ16");
+	sprintf(str,"正在建造%d/%d",calculate_nodebq_len(p)>=p->i?p->i:calculate_nodebq_len(p),p->i);
+	put_hz16_asc16_size(20,420,2,2,str,1000,"HZK\\HZ16");
+
+	btn_bar_Draw(75,550,175,600);
+	btn_bar_Draw(75,650,175,700);
+	puthz3(75,550,32,32,1,"上一页");
+	puthz3(75,650,32,32,1,"下一页");
+}
+
 /*private函数
 根据页面来draw建造队列对应的建筑
 */
@@ -334,8 +336,6 @@ void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func)
 	int buildqueue=p->i;
 	nodebq *temp;
 	p=p->next;
-	
-	
 	
 	for (i=0,j=0;i<(page-1)*5;i++,j++)
 	{
@@ -357,30 +357,32 @@ void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func)
 		}
 		j++;
 		
-		bar(260,120+(i)*130,940,230+(i)*130,0xBDBD);
+		btn_bar_Draw(260,120+(i)*130,940,230+(i)*130);
 		
 		sprintf(str,"%s",gameinfop->m_info[p->i][p->j].building.name);
-		puthz(270,125+(i)*130,str,32,32,1);
+		puthz2(270,125+(i)*130,32,32,1,str);
 		
 		sprintf(str,"还需建造%d个月",gameinfop->m_info[p->i][p->j].building.bui_time);
-		put_hz24_asc32(670,200+(i)*130,str,1000,"HZK\\Hzk24k");
+		put_hz16_asc16_size(670,190+(i)*130,2,2,str,1000,"HZK\\HZ16");
 		
 		sprintf(str,"坐标（%d，%d）",p->i+1,p->j+1);
-		put_hz24_asc32(470,125+(i)*130,str,1000,"HZK\\Hzk24k");
+		put_hz16_asc16_size(530,125+(i)*130,2,2,str,3000,"HZK\\HZ16");
 		
 		if (func==1)
 		{
-			bar(940,120+(i)*130,1000,230+(i)*130,20000);
+			btn_bar_Draw(940,120+(i)*130,1000,230+(i)*130);
+			bar(945,125+(i)*130,995,225+(i)*130,1000);
 		}
 		
 		else if (func==2)
 		{
-			bar(940,120+(i)*130,1000,230+(i)*130,40000);
+			btn_bar_Draw(940,120+(i)*130,1000,230+(i)*130);
+			bar(945,125+(i)*130,995,225+(i)*130,0xA000);
 		}
 		
 		if (j<=buildqueue)
 		{
-			puthz(700,125+(i)*130,"正在建造中",32,32,10000);
+			puthz2(760,125+(i)*130,32,32,2000,"正在建造中");
 		}
 		p=p->next;
 	}

@@ -5,6 +5,8 @@ typedef struct NodeBuildQueue
 	int j;
 }nodebq;
 int build_queue(struct GameInfo *gameinfop,nodebq *p);
+void draw_buildqueue_toast(void);
+void draw_buildqueue_basic(int newpage,nodebq *p);
 void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func);
 nodebq* create_nodebq(void);
 void lastinsert_nodebq(nodebq *p,int i,int j);

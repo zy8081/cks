@@ -6,7 +6,11 @@
 #include <fun5.h>
 #include <fun4.h>
 #include <fun2.h>
+#include <fun1.h>
 #include <SL.h>
+#include <MAP.h>
+#include <EVENT.h>
+#include <ROCKET.h>
 /*
 项目中心换页控制
 */

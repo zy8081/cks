@@ -122,10 +122,12 @@ void draw_check_mapbuild_toast(struct Building building)
     {
         puthz(510,310,building.name,24,24,1);
         puthz(510,340,"仍在建造中",24,24,1);
+        put_asc16_number_size(540,370,2,2,building.id,1);
     }
     else
     {
-        puthz(510,310,building.name,24,24,1);
+        puthz3(510,310,24,24,1,building.name);
+        put_asc16_number_size(510,340,2,2,building.id,1);
     }
 }
 

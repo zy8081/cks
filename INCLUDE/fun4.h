@@ -67,3 +67,4 @@ void get_tech_file(nodet *p,char *str);
 void printf_nodet(nodet *p);
 void delete_nodet(nodet *p,int pos);
 
+int check_techflag_infile(WORKFILE *w,int type,int id);
