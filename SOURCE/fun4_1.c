@@ -1,6 +1,6 @@
 #include <ALLFUNS.h>
 
-int research_lifetech(struct GameInfo *gameinfop)
+int research_lifetech(struct GameInfo *gameinfop,struct workfile *workfilep)
 {
 	int page=4;
 	int oldflag=gameinfop->gametech[0].research_flag;
@@ -8,8 +8,11 @@ int research_lifetech(struct GameInfo *gameinfop)
 	int new_refreshflag=0;
 	int old_refreshflag=0;
 	int i,j;
+	char path[50];
 	int location[10][2];
-	tree* p=create_lifetech_tree();
+	tree *p;
+	sprintf(path,"%s\\USERTEC.TXT",workfilep->path);
+	p=create_lifetech_tree(path);
 	for (i=0;i<10;i++)
 	{
 		id_find_xy_tech(p,i+1,location);
@@ -19,7 +22,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 	draw_tech_tree2(gameinfop,1,location);
 	draw_techpoint(gameinfop);
 	
-	draw_researching(gameinfop,1);
+	draw_researching(gameinfop,1,path);
 
 	while(1)
 	{
@@ -30,7 +33,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 			oldflag=newflag;
 			clrmous(MouseX,MouseY); 
 			draw_tech_tree2(gameinfop,1,location);
-			draw_researching(gameinfop,1);
+			draw_researching(gameinfop,1,path);
 		}
 
 		if (new_refreshflag !=old_refreshflag)
@@ -41,7 +44,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 			draw_tech_line(p);
 			draw_tech_tree(p);
 			draw_tech_tree2(gameinfop,1,location);
-			newflag=draw_researching(gameinfop,1);
+			newflag=draw_researching(gameinfop,1,path);
 			oldflag=newflag;
 		}
 		if (newflag==1)
@@ -112,7 +115,7 @@ int research_lifetech(struct GameInfo *gameinfop)
 	return page;
 }
 
-tree *create_lifetech_tree(void)
+tree *create_lifetech_tree(char *path)
 {
 	int i;
 	tree *p=create_tree(1);
@@ -122,22 +125,22 @@ tree *create_lifetech_tree(void)
 	{
 		p->parent[i]=NULL;
 	}
-	get_tech_basic_info(p,p->type,p->id);
+	get_tech_basic_info(p,p->type,p->id,path);
 	temp=p;
 	for (i=2;i<5;i++)
 	{
-		insert_simple_leaf(temp,1,i,0);
+		insert_simple_leaf(temp,1,i,0,path);
 		temp=temp->child[0];
 	}
 	temp=p;
-	insert_simple_leaf(temp,1,5,1);
+	insert_simple_leaf(temp,1,5,1,path);
 	temp=temp->child[1];
-	insert_simple_leaf(temp,1,6,0);
-	insert_simple_leaf(temp,1,7,1);
+	insert_simple_leaf(temp,1,6,0,path);
+	insert_simple_leaf(temp,1,7,1,path);
 	temp=p;
 	for (i=8;i<11;i++)
 	{
-		insert_simple_leaf(temp,1,i,2);
+		insert_simple_leaf(temp,1,i,2,path);
 		temp=temp->child[2];
 	}
 	return p;

@@ -11,14 +11,14 @@
 #include <ORDFUNS.h>
 #include <MAP.h>
 #include <debug.h>
-
+#include <intro.h>
 /*
 点击"建造显示"按键后的界面
 */
-int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
+int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep)
 {
 	int page=3;
-	char *s[5]={"新建建筑","建造队列","拆除建筑","停用建筑","说明书"};
+	char *s[5]={"新建建筑","建造队列","拆除建筑","停用建筑","说明文档"};
 	draw_main_toolbotton_activate(550,0xBBBB,"建造","显示");
 	
 	draw_all_leftbuttons(5,65,s);
@@ -38,7 +38,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , 65, s[0]);//激活新的
             clear_right_all();
-            page=build(gameinfop,p,pxsel,pysel);
+            page=build(gameinfop,p,pxsel,pysel,workfilep);
             return page;
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
@@ -72,11 +72,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
 		else if (left_toolbotton_mouse_press(5) == 1) //左栏被点中的情况
         {
             clrmous(MouseX,MouseY);
-            clear_main_all(); 
-            draw_left_toolbotton_activate(95 , 65, s[3]);//激活新的
-            clear_right_all();
-            //page=ban_building(gameinfop,pxsel,pysel);
-            return page;
+			intro_book();
 		}
 	}
 }
@@ -171,7 +167,7 @@ int mouse_press_map(int i,int j)
 进入建造界面的中心函数
 -1到-5是相应的page
 */
-int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
+int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep)
 {
 	int page2=-1;
 	clrmous(MouseX,MouseY); 
@@ -181,19 +177,19 @@ int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
 		switch(page2)
 		{
 			case -1:
-				page2=buildlist(1,gameinfop,p,pxsel,pysel);
+				page2=buildlist(1,gameinfop,p,pxsel,pysel,workfilep);
 				break;
 			case -2:
-				page2=buildlist(2,gameinfop,p,pxsel,pysel);
+				page2=buildlist(2,gameinfop,p,pxsel,pysel,workfilep);
 				break;
 			case -3:
-				page2=buildlist(3,gameinfop,p,pxsel,pysel);
+				page2=buildlist(3,gameinfop,p,pxsel,pysel,workfilep);
 				break;
 			case -4:
-				page2=buildlist(4,gameinfop,p,pxsel,pysel);
+				page2=buildlist(4,gameinfop,p,pxsel,pysel,workfilep);
 				break;
 			case -5:
-				page2=buildlist(5,gameinfop,p,pxsel,pysel);
+				page2=buildlist(5,gameinfop,p,pxsel,pysel,workfilep);
 				break;
 		}
 	}
@@ -206,7 +202,7 @@ int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
 形参： x为对应的page，p1是建造队列链表头（一旦新建建筑就插入链表）
 本函数实现功能：建造建筑功能
 */
-int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
+int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel,struct workfile *workfilep)
 {
 	nodeb *p[3][5];
 	nodeb *tempp;
@@ -232,7 +228,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	
 	for (i=0;i<5;i++)
 	{
-		nodeflag[i]=dlist_building(x,i+1,p[0][i],p[1][i],p[2][i],gameinfop,&building[i]);
+		nodeflag[i]=dlist_building(x,i+1,p[0][i],p[1][i],p[2][i],gameinfop,&building[i],workfilep);
 		delay(20);
 	}
 	//0x7C00
@@ -412,13 +408,13 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	return page;
 }
 
-int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building)
+int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building,struct workfile *workfilep)
 {
 	char str[30]={'\0'};
 	int i=0,j=0;
 	int flag;
 	nodeb *p;
-	flag=get_building_info((newpage-1)*5+location,building);
+	flag=get_building_info((newpage-1)*5+location,building,workfilep);
 	if(flag)
 	{
 		return 1;
@@ -502,18 +498,19 @@ int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct
 请注意，由于科技功能解锁建筑的加入，这个id变成了第id个建筑的意思，并非对应建筑的id
 详细可参考data文件夹中的building.txt文件
 */
-int get_building_info(int localine,struct Building* building)
+int get_building_info(int localine,struct Building* building,struct workfile *workfilep)
 {
 	int total;
 	int i;
 	char c;
 	char str[20]={'\0'};
-	FILE *file=fopen("./data/building.txt","r");
-	
+	char path[50];
+	FILE *file;
+	sprintf(path,"%s\\USERBLD.TXT",workfilep->path);
+	file=fopen(path,"r");
 	if (file==NULL)
 	{
-		printf("open error");
-		return 1;
+		debug_file_printf(path);
 	}
 	
 	while ((c=fgetc(file))!='\n');

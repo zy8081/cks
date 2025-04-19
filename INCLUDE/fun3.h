@@ -8,17 +8,17 @@ typedef struct NodeBuilding
 
 
 
-int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel);
+int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep);
 
 void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop);
 void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop);
 void draw_map_building(int i,int j,int n);
 int mouse_press_map(int i,int j);
 
-int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel);
-int buildlist(int x,struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel);
-int dlist_building(int id,int location,nodeb *p,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building);
-int get_building_info(int id,struct Building* building);
+int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep);
+int buildlist(int x,struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep);
+int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building,struct workfile *workfilep);
+int get_building_info(int id,struct Building* building,struct workfile *workfilep);
 
 
 nodeb *create_nodeb(void);

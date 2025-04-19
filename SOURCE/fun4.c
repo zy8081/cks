@@ -12,12 +12,11 @@
 #include <nodet.h>
 #include <ORDFUNS.h>
 
-int proj_fun4(struct GameInfo* gameinfop)
+int proj_fun4(struct GameInfo* gameinfop,struct workfile *workfilep)
 {
 	int page=4;
 	char *s[3]={"民生科技","建设科技","生产科技"};
 	draw_main_toolbotton_activate(708,0xFF19,"科技","研究");
-	
 	draw_all_leftbuttons(3,65,s);
 	
 	//drawmous(MouseX,MouseY);
@@ -36,7 +35,7 @@ int proj_fun4(struct GameInfo* gameinfop)
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , 65, s[0]);//激活新的
             clear_right_all();
-            page=research_lifetech(gameinfop);
+            page=research_lifetech(gameinfop,workfilep);
             return page;
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
@@ -45,7 +44,7 @@ int proj_fun4(struct GameInfo* gameinfop)
             clear_main_all();
             draw_left_toolbotton_activate(95 , 65, s[1]);//激活新的
             clear_right_all();
-            page=research_buildtech(gameinfop);
+            page=research_buildtech(gameinfop,workfilep);
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(3) == 1) //左栏被点中的情况
@@ -54,7 +53,7 @@ int proj_fun4(struct GameInfo* gameinfop)
             clear_main_all();
             draw_left_toolbotton_activate(95 , 65, s[2]);//激活新的
             clear_right_all();
-            page=research_manutech(gameinfop);
+            page=research_manutech(gameinfop,workfilep);
             return page;  
 		}
 	}
@@ -217,7 +216,7 @@ void draw_tech_tree2(struct GameInfo* gameinfop,int type,int (*arr)[2])
 	}
 }
 
-int draw_researching(struct GameInfo *gameinfop,int type)
+int draw_researching(struct GameInfo *gameinfop,int type,char *path)
 {
 	char str[80];
 	tree temp;
@@ -234,7 +233,7 @@ int draw_researching(struct GameInfo *gameinfop,int type)
 		puthz3(310,620,32,32,1000,"研究效果：");
 		put_hz24_asc32(470,630,str,1000,"HZK\\HZK24");
 
-		get_tech_basic_info(&temp,type,gameinfop->gametech[type-1].id);
+		get_tech_basic_info(&temp,type,gameinfop->gametech[type-1].id,path);
 		puthz2(300,550,48,48,1,temp.name);
 
 		btn_bar_Draw(750,700,900,750);
@@ -578,9 +577,9 @@ void type_id_printf_techtxt(int type,int id)
 }
 
 
-void get_tech_basic_info(tree *p,int type,int id)
+void get_tech_basic_info(tree *p,int type,int id,char *path)
 {
-	FILE *file=fopen("./data/tech.txt","r");
+	FILE *file=fopen(path,"r");
 	int i;
 	char c;
 	char str[30];
@@ -767,14 +766,14 @@ tree *create_tree(int type)
 
 
 
-void insert_simple_leaf(tree *p,int type,int id,int func)
+void insert_simple_leaf(tree *p,int type,int id,int func,char *path)
 {
 	tree *temp;
 	int i;
 	temp=(tree*)malloc(sizeof(tree));
 	temp->id=id;
 	temp->type=type;
-	get_tech_basic_info(temp,temp->type,temp->id);
+	get_tech_basic_info(temp,temp->type,temp->id,path);
 
 	for (i=0;i<CHILD_NUM;i++)
 	{
