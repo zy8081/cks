@@ -39,7 +39,7 @@ void main()
 				break;
 			case 5:
 				MouseS=1;
-				page=project(workfile,&page);
+				page=project(workfile);
 				break;
 	    }
 	}

@@ -262,7 +262,7 @@ int mine_block_init(int place,int terrain)
     }
 }
 
-void draw_block(int x,int y,struct MapInfo mi,int form)
+void draw_block(int x,int y,struct MapInfo* mi,int form)
 {
     //char cm[10];
     int x1=300+x*92;
@@ -285,7 +285,7 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
             bar(x1+3,y1+3,x2-3,y2-3,65535);
             break;
     }*/
-    switch(mi.terrain)
+    switch(mi->terrain)
     {
         case py:
             bar(x1+3,y1+3,x2-3,y2-3,64526);
@@ -313,7 +313,7 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
     //itoa(mi.mineral,cm,10);
     //put_hz24_asc32((x1+x2)/2-30,(y1+y2)/2,cm,1,"HZK\\Hzk24k");
     
-    switch(mi.building.id)
+    switch(mi->building.id)
     {
         
         case 1:
@@ -347,7 +347,7 @@ void draw_block(int x,int y,struct MapInfo mi,int form)
     }
 }
 
-void draw_mainmap(struct GameInfo gf,int xsel,int ysel)
+void draw_mainmap(struct GameInfo *gf,int xsel,int ysel)
 {
     int i,j;
     clrmous(MouseX,MouseY);
@@ -356,12 +356,12 @@ void draw_mainmap(struct GameInfo gf,int xsel,int ysel)
     {
         for(j=0;j<7;j++)
         {
-            draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
+            draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
         }
     }
 }
 
-void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
+void draw_buildmap(struct GameInfo *gf,int xsel,int ysel)
 {
     int i,j;
     //put_asc16_number_size(300+j*92,105+i*92,2,2,gameinfop->m_info[i][j].building.id,1);
@@ -369,10 +369,10 @@ void draw_buildmap(struct GameInfo gf,int xsel,int ysel)
     {
         for(j=0;j<7;j++)
         {
-            if(gf.m_info[xsel+i][ysel+j].building.id==0)
-                draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
+            if(gf->m_info[xsel+i][ysel+j].building.id==0)
+                draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
             else
-                draw_block(i,j,gf.m_info[xsel+i][ysel+j],1);
+                draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),1);
         }
     }
 }
@@ -423,7 +423,7 @@ void cleankey()
     while(bioskey(1))clean=bioskey(0);
 }
 
-void draw_minimap(struct GameInfo gf,int xsel,int ysel)
+void draw_minimap(struct GameInfo *gf,int xsel,int ysel)
 {
     int i,j;
     int x1=4;
@@ -445,9 +445,9 @@ void draw_minimap(struct GameInfo gf,int xsel,int ysel)
     {
         for(j=0;j<15;j++)
         {
-            if(gf.m_info[i][j].building.id==0)
+            if(gf->m_info[i][j].building.id==0)
             {
-                switch(gf.m_info[i][j].terrain)
+                switch(gf->m_info[i][j].terrain)
                 {
                     case py:
                         bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,64526);
@@ -487,26 +487,26 @@ void draw_minimap(struct GameInfo gf,int xsel,int ysel)
 {
 
 }*/
-void draw_expblock(struct GameInfo gf,int xsel,int ysel,int i,int j)
+void draw_expblock(struct GameInfo* gf,int xsel,int ysel,int i,int j)
 {
     int x1=300+i*92;
     int y1=105+j*92;
     int x2=390+i*92;
     int y2=195+j*92;
-    draw_block(i,j,gf.m_info[xsel+i][ysel+j],0);
-    if(gf.m_info[xsel+i][ysel+j].exp==0&&gf.m_info[xsel+i][ysel+j].building.id==0)
+    draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
+    if(gf->m_info[xsel+i][ysel+j].exp==0&&gf->m_info[xsel+i][ysel+j].building.id==0)
     {
         put_hz24(x1+10,(y1+y2)/2-10,"Î´¿±²â",0,"HZK\\HZK24",0);
     }
     else
     {
         char m[10];
-        itoa(gf.m_info[xsel+i][ysel+j].mineral,m,10);
+        itoa(gf->m_info[xsel+i][ysel+j].mineral,m,10);
         put_hz24_asc32(x1+10,(y1+y2)/2-10,m,0,"HZK\\HZK24");
     }
 }
 
-void draw_expmap(struct GameInfo gf,int xsel,int ysel)
+void draw_expmap(struct GameInfo* gf,int xsel,int ysel)
 {
     int i,j;
     clrmous(MouseX,MouseY);
@@ -519,7 +519,7 @@ void draw_expmap(struct GameInfo gf,int xsel,int ysel)
     }
 }
 
-void draw_expminimap(struct GameInfo gf,int xsel,int ysel)
+void draw_expminimap(struct GameInfo *gf,int xsel,int ysel)
 {
     int i,j;
     int x1=4;
@@ -541,9 +541,9 @@ void draw_expminimap(struct GameInfo gf,int xsel,int ysel)
     {
         for(j=0;j<15;j++)
         {
-            if(gf.m_info[i][j].building.id==0&&gf.m_info[i][j].exp==0)
+            if(gf->m_info[i][j].building.id==0&&gf->m_info[i][j].exp==0)
             {
-                switch(gf.m_info[i][j].terrain)
+                switch(gf->m_info[i][j].terrain)
                 {
                     case py:
                         bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,64526);
@@ -568,9 +568,9 @@ void draw_expminimap(struct GameInfo gf,int xsel,int ysel)
                         break;
                 }
             }
-            else if(gf.m_info[i][j].building.id!=0)
+            else if(gf->m_info[i][j].building.id!=0)
                 bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,38770);
-            else if(gf.m_info[i][j].exp!=0)
+            else if(gf->m_info[i][j].exp!=0)
                 bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,65184);
         }
     }
@@ -586,8 +586,8 @@ void map_exp(struct GameInfo* pg, int* pxsel,int *pysel)
     int page;
     int i,j;
     clrmous(MouseX,MouseY);
-    draw_expmap(*pg,*pxsel,*pysel);
-    draw_expminimap(*pg,*pxsel,*pysel);
+    draw_expmap(pg,*pxsel,*pysel);
+    draw_expminimap(pg,*pxsel,*pysel);
     //SaveBMP()
     while(1)
     {
@@ -598,8 +598,8 @@ void map_exp(struct GameInfo* pg, int* pxsel,int *pysel)
 		}
         if(renew_map(pxsel,pysel)==1)
         {
-            draw_expmap(*pg,*pxsel,*pysel);
-            draw_expminimap(*pg,*pxsel,*pysel);
+            draw_expmap(pg,*pxsel,*pysel);
+            draw_expminimap(pg,*pxsel,*pysel);
         }
         for(i=0;i<7;i++)
         {
@@ -652,8 +652,8 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
                     clrmous(MouseX,MouseY);
                     pg->r_info.energy-=200;
                     pg->m_info[*pxsel+i][*pysel+j].exp=1;
-                    draw_expmap(*pg,*pxsel,*pysel);
-                    draw_expminimap(*pg,*pxsel,*pysel);
+                    draw_expmap(pg,*pxsel,*pysel);
+                    draw_expminimap(pg,*pxsel,*pysel);
                     press=0;
                     cleankey();
                     delay(300);
@@ -662,8 +662,8 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
                 if(mouse_press(537,400,607,438)==1)
                 {
                     clrmous(MouseX,MouseY);
-                    draw_expmap(*pg,*pxsel,*pysel);
-                    draw_expminimap(*pg,*pxsel,*pysel);
+                    draw_expmap(pg,*pxsel,*pysel);
+                    draw_expminimap(pg,*pxsel,*pysel);
                     press=0;
                     cleankey();
                     delay(300);
@@ -684,7 +684,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
                 if(mouse_press(0,0,1024,768)==1)
                 {
                     clrmous(MouseX,MouseY);
-                    draw_expmap(*pg,*pxsel,*pysel);
+                    draw_expmap(pg,*pxsel,*pysel);
                     press=0;
                     cleankey();
                     delay(300);

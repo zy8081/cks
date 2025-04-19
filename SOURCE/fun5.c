@@ -3,11 +3,11 @@
 int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2])
 {
 	int page=5;
-	char *s[3]={"时间流动","模拟日志","保存游戏"};
+	char *s[4]={"时间流动","模拟日志","保存游戏","退出"};
 	int l=65;
 	draw_main_toolbotton_activate(866,0xBDBD,"时间","显示");
 	
-	draw_all_leftbuttons(3,65,s);
+	draw_all_leftbuttons(4,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
@@ -65,7 +65,6 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
             page=proj_fun5_1(gameinfop,p,events);
-
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
@@ -84,9 +83,23 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
             clear_right_all();
-            page = save_gminfo(*gameinfop,work,5);
-			save_node(work,*p);
+            page = save_gminfo(gameinfop,work,5);
+			save_node(work,p);
             return page;   
+		}
+		else if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
+        {
+			exit(1);
+			//int restyle;
+            //clrmous(MouseX,MouseY);
+            //clear_main_all(); 
+            //draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
+            //clear_right_all();
+			//restyle=quit(gameinfop,p,work);
+			//put_hz24_asc32(0,0,"done1",0,"HZK\\HZK24");
+			//getch();
+			//bar(0,0,100,30,65535);
+			//return restyle;
 		}
 	}
 }
@@ -158,41 +171,10 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
 			clrmous(MouseX,MouseY); 
 			clear_right_all();
 			clear_time();
-			//
-			/*srand((unsigned) time(NULL));
-    		cevent=rand()%4;
-    		switch(cevent)
-    		{
-        		case 0:
-            		break;
-        		case 1:
-        		case 2:
-            	(*events)[0]=rand()%6+1;
-            	(*events)[1]=0;
-            	//eventshow(revent);
-            		break;
-        		case 3:
-            		(*events)[0]=rand()%6+1;
-            		(*events)[1]=rand()%6+1;
-					break;
-            	while(1)
-            	{
-                
-                	(*events)[0]=rand()%6+1;
-                	(*events)[1]=rand()%6+1;
-                	if(((*events)[0])!=((*events)[1])) break; 
-                 
-            	}
-				
-				
-				getch();
-            	//eventshow(revent1);
-            	//eventshow(revent2);
-            	break;
-			}*/
-			//eventsc(events);
 			
-			time_flow(gameinfop,p);
+			eventsc(events);
+			
+			time_flow(gameinfop,p,events);
 			draw_time(gameinfop);
 			break;
 		}
@@ -205,7 +187,7 @@ void draw_fun5_1(void)
 	puthz(300,300,"下个月", 32,40, 1);
 }
 
-void time_flow(struct GameInfo *gameinfop,nodebq *p)
+void time_flow(struct GameInfo *gameinfop,nodebq *p,int (*event)[2])
 {
 	int data[8];
 	int i,j;
@@ -233,18 +215,10 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 			headremove_nodebq(p);
 		}
 	}
-
-	
-	for (i=0;i<3;i++)
-	{
-		gameinfop->gametech[i].havepoints += gameinfop->techpoint;
-		if (gameinfop->gametech[i].havepoints>=gameinfop->gametech[i].totalpoints&&gameinfop->gametech[i].research_flag==1)
-		{
-			gameinfop->gametech[i].research_flag=0;
-			change_techflag(gameinfop->gametech[i].type,gameinfop->gametech[i].id);
-		}
-	}
-
+	eventshow(*event,gameinfop);
+	(*event)[0]=0;
+	(*event)[1]=0;
+	//bar(0,0,100,30,65535);
 }
 
 

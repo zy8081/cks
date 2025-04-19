@@ -318,8 +318,8 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 				puthz2(50,250,32,32,1,"·µ»Ø");
 				//draw_map2(300,105,954,759,7,7,gameinfop);
 				//draw_map(300,105,954,759,7,7,gameinfop);
-				draw_buildmap(*gameinfop,*pxsel,*pysel);
-				draw_minimap(*gameinfop,*pxsel,*pysel);
+				draw_buildmap(gameinfop,*pxsel,*pysel);
+				draw_minimap(gameinfop,*pxsel,*pysel);
 				
 				pressflag2=0;
 				while (1)
@@ -327,8 +327,8 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 					mouse_renew(&MouseX,&MouseY,&press);
 					if(renew_map(pxsel,pysel)==1)
 					{
-						draw_buildmap(*gameinfop,*pxsel,*pysel);
-						draw_minimap(*gameinfop,*pxsel,*pysel);
+						draw_buildmap(gameinfop,*pxsel,*pysel);
+						draw_minimap(gameinfop,*pxsel,*pysel);
 					}
 					if (mouse_press(50,250,150,300)==1)
 					{
