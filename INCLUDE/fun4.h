@@ -22,19 +22,18 @@ typedef struct TreeTechnology
 	int y;
 }tree;
 
-int proj_fun4(struct GameInfo* gameinfop);
+int proj_fun4(struct GameInfo* gameinfop,struct workfile *workfilep);
 void draw_techpoint(struct GameInfo* gameinfop);
 void draw_tech_tree2(struct GameInfo* gameinfop,int type,int (*arr)[2]);
 void display_all_intro(tree *p,struct GameInfo* gameinfop,int type,int id,int *newpage);
 
-tree *create_lifetech_tree(void);
 void id_find_xy_tech(tree *p,int id,int (*arr)[2]);
 void id_findtree_baseinfo_tech(tree *p,tree *temp,int id);
 void draw_tech_tree(tree *p);
 void draw_tech_toast(tree *p,int id);
 void load_tech_toast(void);
 void draw_tech_line(tree *leaf);
-int draw_researching(struct GameInfo *gameinfop,int type);
+int draw_researching(struct GameInfo *gameinfop,int type,char *path);
 void stop_researching(struct GameInfo *gameinfop,int type,int *newflag,int *new_refreshing);
 
 void small_tech_remind_toast(char *str);
@@ -43,7 +42,7 @@ int type_id_find_totalpoint(int type,int id);
 void type_id_find_name(int type,int id,char *name);
 void type_id_printf_techtxt(int type,int id);
 
-void get_tech_basic_info(tree *p,int type,int id);
+void get_tech_basic_info(tree *p,int type,int id,char *path);
 
 void type_id_get_tech_effect(int type, int id,char *effect);
 void change_techflag(int type,int id);
@@ -51,7 +50,7 @@ void change_techflag(int type,int id);
 void start_research_tech(nodet *pp2,int i,struct GameInfo *gameinfop);
 
 tree *create_tree(int type);
-void insert_simple_leaf(tree *p,int type,int id,int func);
+void insert_simple_leaf(tree *p,int type,int id,int func,char *path);
 
 
 void free_tree(tree *p);

@@ -1,6 +1,6 @@
 #include <ALLFUNS.h>
 
-tree *create_buildtech_tree(void)
+tree *create_buildtech_tree(char *path)
 {
     int i;
 	tree *p=create_tree(2);
@@ -14,38 +14,38 @@ tree *create_buildtech_tree(void)
 	{
 		p->parent[i]=NULL;
 	}
-    get_tech_basic_info(p,p->type,p->id);
+    get_tech_basic_info(p,p->type,p->id,path);
 
     temp=p;
 	for (i=2;i<5;i++)
 	{
-		insert_simple_leaf(temp,2,i,0);
+		insert_simple_leaf(temp,2,i,0,path);
 		temp=temp->child[0];
 	}
 
     temp=p;
-	insert_simple_leaf(temp,2,5,1);
+	insert_simple_leaf(temp,2,5,1,path);
     temp=temp->child[1];
 
     temp1=temp;
-    insert_simple_leaf(temp1,2,6,0);
+    insert_simple_leaf(temp1,2,6,0,path);
     temp1=temp1->child[0];
-    insert_simple_leaf(temp1,2,7,0);
+    insert_simple_leaf(temp1,2,7,0,path);
     temp1=temp1->child[0];
 
     temp2=temp;
-	insert_simple_leaf(temp2,2,8,1);
+	insert_simple_leaf(temp2,2,8,1,path);
     temp2=temp2->child[1];
-    insert_simple_leaf(temp2,2,9,1);
+    insert_simple_leaf(temp2,2,9,1,path);
     temp2=temp2->child[1];
 
     temp3=temp;
-    insert_simple_leaf(temp3,2,10,2);
+    insert_simple_leaf(temp3,2,10,2,path);
     temp3=temp3->child[2];
-    insert_simple_leaf(temp3,2,11,2);
+    insert_simple_leaf(temp3,2,11,2,path);
     temp3=temp3->child[2];
 
-    insert_simple_leaf(temp1,2,12,0);
+    insert_simple_leaf(temp1,2,12,0,path);
     temp=temp1->child[0];
     temp2->child[1]=temp;
     temp3->child[2]=temp;
@@ -56,14 +56,14 @@ tree *create_buildtech_tree(void)
     temp=p;
     for (i=13;i<15;i++)
 	{
-		insert_simple_leaf(temp,2,i,2);
+		insert_simple_leaf(temp,2,i,2,path);
 		temp=temp->child[2];
 	}
 
     return p;
 }
 
-int research_buildtech(struct GameInfo *gameinfop)
+int research_buildtech(struct GameInfo *gameinfop,struct workfile *workfilep)
 {
     int page=4;
 	int oldflag=gameinfop->gametech[1].research_flag;
@@ -71,9 +71,11 @@ int research_buildtech(struct GameInfo *gameinfop)
 	int new_refreshflag=0;
 	int old_refreshflag=0;
 	int i,j;
+	char path[50];
 	int location[14][2];
-
-    tree* p=create_buildtech_tree();
+	tree* p;
+	sprintf(path,"%s\\USERTEC.TXT",workfilep->path);
+    p=create_buildtech_tree(path);
     for (i=0;i<14;i++)
 	{
 		id_find_xy_tech(p,i+1,location);
@@ -83,7 +85,7 @@ int research_buildtech(struct GameInfo *gameinfop)
 	draw_tech_tree(p);
 	draw_tech_tree2(gameinfop,2,location);
 	draw_techpoint(gameinfop);
-    draw_researching(gameinfop,2);
+    draw_researching(gameinfop,2,path);
     while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -93,7 +95,7 @@ int research_buildtech(struct GameInfo *gameinfop)
 			oldflag=newflag;
 			clrmous(MouseX,MouseY); 
 			draw_tech_tree2(gameinfop,2,location);
-			draw_researching(gameinfop,2);
+			draw_researching(gameinfop,2,path);
 		}
 
 		if (new_refreshflag !=old_refreshflag)
@@ -104,7 +106,7 @@ int research_buildtech(struct GameInfo *gameinfop)
 			draw_tech_line(p);
 			draw_tech_tree(p);
 			draw_tech_tree2(gameinfop,2,location);
-			newflag=draw_researching(gameinfop,2);
+			newflag=draw_researching(gameinfop,2,path);
 			oldflag=newflag;
 		}
 		if (newflag==1)

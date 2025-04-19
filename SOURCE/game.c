@@ -72,10 +72,10 @@ int project(struct workfile w,int*page)
 				proj_page=proj_fun2(&gameinfo,&xsel,&ysel);
 				break;
 			case 3:
-				proj_page=proj_fun3(&gameinfo,p1,&xsel,&ysel);
+				proj_page=proj_fun3(&gameinfo,p1,&xsel,&ysel,&w);
 				break;
 			case 4:
-				proj_page=proj_fun4(&gameinfo);
+				proj_page=proj_fun4(&gameinfo,&w);
 				break;
 			case 5:
 				proj_page=proj_fun5(&gameinfo,p1,w,&events);
@@ -212,12 +212,6 @@ void calculate_monthly_income(struct GameInfo *gameinfop,int *data)
 	data[k]=income;
 	k++;
 }
-
-
-
-
-
-
 
 
 int proj_origin(struct GameInfo* gameinfop)

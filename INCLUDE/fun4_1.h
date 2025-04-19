@@ -1,2 +1,2 @@
-int research_lifetech(struct GameInfo *gameinfop);
-tree *create_lifetech_tree(void);
+int research_lifetech(struct GameInfo *gameinfop,struct workfile *workfilep);
+tree *create_lifetech_tree(char *path);
