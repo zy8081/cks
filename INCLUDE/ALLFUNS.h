@@ -52,4 +52,5 @@
 #include<MAP.h>
 #include<ROCKET.h>
 #include <change.h>
+#include <intro.h>
 #endif

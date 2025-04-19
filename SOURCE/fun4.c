@@ -923,3 +923,45 @@ void get_tech_file(nodet *p,char *str)
 	fclose(file);
 }
 
+int check_techflag_infile(WORKFILE *w,int type,int id)
+{
+	FILE *file=fopen("./data/tech.txt","r");
+	char c;
+	char str[5];
+	int i;
+
+	if (file==NULL)
+	{
+		printf("open file error\n");
+		return;
+	}
+	
+	for (i=0;i<type;i++)
+	{
+		while ((c=fgetc(file))!='#');
+	}
+	while ((c=fgetc(file))!='\n');
+	
+	for (i=0;i<id-1;i++)
+	{
+		while ((c=fgetc(file))!='\n');
+	}
+	while ((c=fgetc(file))!=' ');
+	while ((c=fgetc(file))!=' ');
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	
+	fclose(file);
+	if (atoi(str)==1)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}

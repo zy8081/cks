@@ -557,4 +557,3 @@ void clear_map_building_data(struct GameInfo *gameinfop,int i,int j)
 	gameinfop->m_info[i][j].building.res_add.fuel=0;
 	gameinfop->m_info[i][j].building.res_add.mineral=0;
 }
-

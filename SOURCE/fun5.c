@@ -190,7 +190,7 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
             	//eventshow(revent2);
             	break;
 			}*/
-			eventsc(events);
+			//eventsc(events);
 			
 			time_flow(gameinfop,p);
 			draw_time(gameinfop);

@@ -18,10 +18,10 @@
 int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
 {
 	int page=3;
-	char *s[4]={"新建建筑","建造队列","拆除建筑","停用建筑"};
+	char *s[5]={"新建建筑","建造队列","拆除建筑","停用建筑","说明书"};
 	draw_main_toolbotton_activate(550,0xBBBB,"建造","显示");
 	
-	draw_all_leftbuttons(4,65,s);
+	draw_all_leftbuttons(5,65,s);
 	
 	while (1)
 	{
@@ -56,7 +56,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , 65, s[2]);//激活新的
             clear_right_all();
-            page=demolish_building(gameinfop);
+            page=demolish_building(gameinfop,pxsel,pysel);
             return page;
 		}
 
@@ -66,7 +66,16 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel)
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , 65, s[3]);//激活新的
             clear_right_all();
-            page=ban_building(gameinfop);
+            page=ban_building(gameinfop,pxsel,pysel);
+            return page;
+		}
+		else if (left_toolbotton_mouse_press(5) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+            clear_main_all(); 
+            draw_left_toolbotton_activate(95 , 65, s[3]);//激活新的
+            clear_right_all();
+            //page=ban_building(gameinfop,pxsel,pysel);
             return page;
 		}
 	}
@@ -223,7 +232,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	
 	for (i=0;i<5;i++)
 	{
-		nodeflag[i]=dlist_building(5*(x-1)+i+1,i+1,p[0][i],p[1][i],p[2][i],gameinfop,&building[i]);
+		nodeflag[i]=dlist_building(x,i+1,p[0][i],p[1][i],p[2][i],gameinfop,&building[i]);
 		delay(20);
 	}
 	//0x7C00
@@ -303,22 +312,15 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 				}
 				
 				clrmous(MouseX,MouseY);
-				//clear_main_all();
+				clear_main_all2(1);
 				clear_right_all();
+				btn_bar_Draw(50,250,150,300);
+				puthz2(50,250,32,32,1,"返回");
 				//draw_map2(300,105,954,759,7,7,gameinfop);
 				//draw_map(300,105,954,759,7,7,gameinfop);
 				draw_buildmap(*gameinfop,*pxsel,*pysel);
 				draw_minimap(*gameinfop,*pxsel,*pysel);
-				for (i=0;i<7;i++)
-				{
-					for (j=0;j<7;j++)
-					{
-						if (gameinfop->m_info[i][j].building.id==0)
-						{
-							//涂色
-						}
-					}
-				}
+				
 				pressflag2=0;
 				while (1)
 				{
@@ -327,6 +329,15 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 					{
 						draw_buildmap(*gameinfop,*pxsel,*pysel);
 						draw_minimap(*gameinfop,*pxsel,*pysel);
+					}
+					if (mouse_press(50,250,150,300)==1)
+					{
+						clrmous(MouseX,MouseY);
+						clear_main_all2(1);
+						clear_right_all();
+						page=3;
+						pressflag2++;
+						break;
 					}
 					for (i=0;i<7;i++)
 					{
@@ -338,7 +349,8 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_cost.nanomaterial=building[k].res_cost.nanomaterial;
 								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_cost.rarematerial=building[k].res_cost.rarematerial;
 								//char
-								gameinfop->m_info[*pysel+i][*pxsel+j].building.id=(5*(x-1)+k+1);
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.id=building[k].id;
+								gameinfop->m_info[*pysel+i][*pxsel+j].building.lock=0;
 								d=0;
 								while (building[k].name[d]!='\0')
 								{
@@ -387,7 +399,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 		}
 		if (pressflag2)
 		{
-				break;
+			break;
 		}
 	}	
 	for (i=0;i<3;i++)
@@ -400,32 +412,28 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel)
 	return page;
 }
 
-int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building)
+int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building)
 {
 	char str[30]={'\0'};
 	int i=0,j=0;
 	int flag;
 	nodeb *p;
-	flag=get_building_info(id,building);
+	flag=get_building_info((newpage-1)*5+location,building);
 	if(flag)
 	{
 		return 1;
 	}
 	//0xFE00
-	//btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
 	btn_bar_Draw(240,120+(location-1)*130,920,230+(location-1)*130);
 	btn_bar_Draw(920,120+(location-1)*130,1000,230+(location-1)*130);
-
+	puthz2(920,120+(location-1)*130,32,32,3000,"建造");
 	sprintf(str,"PICTURE\\build\\%d.bmp",atoi(building->pic_path));
-	Readbmp64k(700,145+(location-1)*130,str);
+	Readbmp64k(720,145+(location-1)*130,str);
 
-	puthz3(930,135+(location-1)*130,24,24,1,"建造");
-
-	puthz3(820,170+(location-1)*130,24,24,1,"时长：");
+	puthz3(830,150+(location-1)*130,24,24,1000,"时长：");
 	sprintf(str,"%d个月",building->bui_time);
-	put_hz24_asc32(820,200+(location-1)*130,str,0xA000,"HZK\\Hzk24k");
+	put_hz24_asc32(830,185+(location-1)*130,str,0xA000,"HZK\\Hzk24k");
 
-	
 	j=0;
 	while(str[j]!='\0')
 	{
@@ -484,10 +492,8 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 		p=p->next;
 	}
 	
-	//sprintf(str,"%d",building.res_cost.nanomaterial);
 	puthz2(250,125+(location-1)*130,32,32,1,building->name);
 
-	
 	return 0;
 }
 
@@ -496,7 +502,7 @@ int dlist_building(int id,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct Game
 请注意，由于科技功能解锁建筑的加入，这个id变成了第id个建筑的意思，并非对应建筑的id
 详细可参考data文件夹中的building.txt文件
 */
-int get_building_info(int id,struct Building* building)
+int get_building_info(int localine,struct Building* building)
 {
 	int total;
 	int i;
@@ -510,6 +516,8 @@ int get_building_info(int id,struct Building* building)
 		return 1;
 	}
 	
+	while ((c=fgetc(file))!='\n');
+
 	i=0;
 	while ((c=fgetc(file))!='\n')
 	{
@@ -518,18 +526,30 @@ int get_building_info(int id,struct Building* building)
 	str[i]='\0';
 	total= atoi(str);
 	
-	if(total<id)
+	if(total<localine)
 	{
 		fclose(file);
 		return 1;
 	}
 	
-	while ((c=fgetc(file))!='\n');
 	
-	for (i=0;i<id-1;i++)
+	
+	for (i=0;i<localine-1;i++)
 	{
-		
-		while ((c=(fgetc(file)))!='\n');
+		c=fgetc(file);
+		if (c=='#')
+		{
+			i--;
+		}
+		while ((c=(fgetc(file)))!='\n')
+		{
+			if (c=='$')
+			{
+				fclose(file);
+				return 1;
+			}
+		}
+
 	}
 	
 	while(1)
@@ -542,8 +562,14 @@ int get_building_info(int id,struct Building* building)
 		}
 		else
 		{
-			
-			while ((c=(fgetc(file)))!='\n');
+			while ((c=(fgetc(file)))!='\n')
+			{
+				if (c=='$')
+				{
+					fclose(file);
+					return 1;
+				}
+			}
 		}
 	}
 	
