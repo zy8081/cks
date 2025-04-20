@@ -678,6 +678,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
             put_hz24_asc32(400,303,"该处已被勘测！",0,"HZK\\HZK24");
             put_hz24_asc32(400,333,"(点击任意处继续)",0,"HZK\\HZK24");
             press=0;
+            delay(300);
             while(1)
             {
                 mouse_renew(&MouseX,&MouseY,&press);
@@ -700,7 +701,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
         put_hz24_asc32(400,303,"该处有建筑无法勘探！",0,"HZK\\HZK24");
         put_hz24_asc32(400,333,"(点击任意处继续)",0,"HZK\\HZK24");
         press=0;
-        
+        delay(300);
         while(1)
         {
             mouse_renew(&MouseX,&MouseY,&press);

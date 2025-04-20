@@ -365,7 +365,7 @@ int judge_warning(long int  it,long int i)
     if(t>0)
     {   
         x=i/t;
-        for(n=0;n<=5;n++)
+        for(n=0;n<=11;n++)
         {
             if(x>=n&&x<n+1)
                 return n+1;
