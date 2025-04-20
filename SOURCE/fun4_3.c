@@ -1,6 +1,6 @@
 #include <ALLFUNS.h>
 
-tree *create_manufacturetech_tree(void)
+tree *create_manufacturetech_tree(char *path)
 {
     int i;
 	tree *p=create_tree(3);
@@ -12,34 +12,34 @@ tree *create_manufacturetech_tree(void)
 	{
 		p->parent[i]=NULL;
 	}
-    get_tech_basic_info(p,p->type,p->id);
+    get_tech_basic_info(p,p->type,p->id,path);
 
 
     temp=p;
 	for (i=2;i<5;i++)
 	{
-		insert_simple_leaf(temp,3,i,0);
+		insert_simple_leaf(temp,3,i,0,path);
 		temp=temp->child[0];
 	}
 
     temp=p;
     for (i=5;i<8;i++)
     {
-        insert_simple_leaf(temp,3,i,1);
+        insert_simple_leaf(temp,3,i,1,path);
 		temp=temp->child[1];
     }
 
 	temp=p;
     for (i=8;i<11;i++)
     {
-        insert_simple_leaf(temp,3,i,2);
+        insert_simple_leaf(temp,3,i,2,path);
 		temp=temp->child[2];
     }
 
     return p;
 }
 
-int research_manutech(struct GameInfo *gameinfop)
+int research_manutech(struct GameInfo *gameinfop,struct workfile *workfilep)
 {
 	int page=4;
 	int oldflag=gameinfop->gametech[2].research_flag;
@@ -47,8 +47,11 @@ int research_manutech(struct GameInfo *gameinfop)
 	int new_refreshflag=0;
 	int old_refreshflag=0;
 	int i,j;
+	char path[50];
 	int location[10][2];
-	tree* p=create_manufacturetech_tree();
+	tree* p;
+	sprintf(path,"%s\\USERTEC.TXT",workfilep->path);
+	p=create_manufacturetech_tree(path);
 	for (i=0;i<10;i++)
 	{
 		id_find_xy_tech(p,i+1,location);
@@ -57,7 +60,7 @@ int research_manutech(struct GameInfo *gameinfop)
 	draw_tech_tree(p);
 	draw_tech_tree2(gameinfop,3,location);
 	draw_techpoint(gameinfop);
-	draw_researching(gameinfop,3);
+	draw_researching(gameinfop,3,path);
 
 	while(1)
 	{
@@ -68,7 +71,7 @@ int research_manutech(struct GameInfo *gameinfop)
 			oldflag=newflag;
 			clrmous(MouseX,MouseY); 
 			draw_tech_tree2(gameinfop,3,location);
-			draw_researching(gameinfop,3);
+			draw_researching(gameinfop,3,path);
 		}
 
 		if (new_refreshflag !=old_refreshflag)
@@ -79,7 +82,7 @@ int research_manutech(struct GameInfo *gameinfop)
 			draw_tech_line(p);
 			draw_tech_tree(p);
 			draw_tech_tree2(gameinfop,3,location);
-			newflag=draw_researching(gameinfop,3);
+			newflag=draw_researching(gameinfop,3,path);
 			oldflag=newflag;
 		}
 		if (newflag==1)
@@ -88,14 +91,15 @@ int research_manutech(struct GameInfo *gameinfop)
 			{
 				clrmous(MouseX,MouseY); 
 				clear_right_all();
-				display_all_intro(p,gameinfop,3,gameinfop->gametech[0].id,&newflag);
+				display_all_intro(p,gameinfop,3,gameinfop->gametech[2].id,&newflag);
+				delay(300);
+				mouse_renew(&MouseX,&MouseY,&press);
 				new_refreshflag=1;
 			}
 			if(mouse_press(300,700,450,750)==1)
 			{
 				clrmous(MouseX,MouseY); 
 				stop_researching(gameinfop,3,&newflag,&new_refreshflag);
-				new_refreshflag=1;
 			}
 		}
 
@@ -129,6 +133,8 @@ int research_manutech(struct GameInfo *gameinfop)
 						clrmous(MouseX,MouseY); 
 						clear_right_all();
 						display_all_intro(p,gameinfop,3,i+1,&newflag);
+						delay(300);
+						mouse_renew(&MouseX,&MouseY,&press);
 						newflag=0;
 						new_refreshflag=1;
 						break;
