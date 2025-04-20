@@ -91,14 +91,15 @@ int research_manutech(struct GameInfo *gameinfop,struct workfile *workfilep)
 			{
 				clrmous(MouseX,MouseY); 
 				clear_right_all();
-				display_all_intro(p,gameinfop,3,gameinfop->gametech[0].id,&newflag);
+				display_all_intro(p,gameinfop,3,gameinfop->gametech[2].id,&newflag);
+				delay(300);
+				mouse_renew(&MouseX,&MouseY,&press);
 				new_refreshflag=1;
 			}
 			if(mouse_press(300,700,450,750)==1)
 			{
 				clrmous(MouseX,MouseY); 
 				stop_researching(gameinfop,3,&newflag,&new_refreshflag);
-				new_refreshflag=1;
 			}
 		}
 
@@ -132,6 +133,8 @@ int research_manutech(struct GameInfo *gameinfop,struct workfile *workfilep)
 						clrmous(MouseX,MouseY); 
 						clear_right_all();
 						display_all_intro(p,gameinfop,3,i+1,&newflag);
+						delay(300);
+						mouse_renew(&MouseX,&MouseY,&press);
 						newflag=0;
 						new_refreshflag=1;
 						break;
