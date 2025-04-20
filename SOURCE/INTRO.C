@@ -2,24 +2,60 @@
 
 void intro_book(void)
 {
+    int i;
+    int newpage=1;
+    int oldpage=1;
+    int pageindex[6];
+    pageindex[0]=1;
+    pageindex[1]=3;
+    pageindex[2]=1;
+    pageindex[3]=1;
+    pageindex[4]=1;
+    pageindex[5]=1;
     SaveBMP(0,0,1024,768,10);
     clear_main_all(); 
     clear_right_all();
     bar(0,0,1024,768,0xffff);
     Readbmp64k(0,0,"PICTURE\\login.bmp");
-    draw_introbook(1);
-    printf_intropage_from_txt(1);
+    draw_introbook(newpage);
+    printf_intropage_from_txt(newpage);
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
-        
+        if (newpage!=oldpage)
+        {
+            clrmous(MouseX,MouseY);
+            draw_introbook(newpage);
+            printf_intropage_from_txt(newpage);
+            oldpage=newpage;
+        }
         if (mouse_press(475,710,625,760)==1)
         {
             clrmous(MouseX,MouseY);
             LoadBMP(0,0,1024,768,10);
             return ;
         }
-        
+        if (mouse_press(120,710,220,760)==1)
+        {
+            if (newpage>=1)
+            {
+                newpage -=2;
+            }
+        }
+        if (mouse_press(880,710,980,760)==1)
+        {
+            if (newpage<3)
+            {
+                newpage +=2;
+            }
+        }
+        for (i=0;i<6;i++)
+        {
+            if (shuqian_judge_press(i)==1)
+            {
+                newpage=pageindex[i];
+            }
+        }
     }
 }
 
@@ -59,6 +95,17 @@ void draw_introbook(int page)
 
     btn_bar_Draw(475,710,625,760);
     puthz2(475,710,32,32,0xA000,"退出说明");
+
+    btn_bar_Draw(300,700,400,750);
+    bar(305,705,395,745,1000);
+
+    btn_bar_Draw(700,700,800,750);
+    bar(705,705,795,745,1000);
+}
+
+int shuqian_judge_press(int i)
+{
+    return mouse_press(20,20+i*100,100,100+i*100);
 }
 
 //每行13个字（包括标点）,共18行
@@ -103,6 +150,7 @@ void printf_intropage_from_txt(int page)
             str2[j]='\0';
             sprintf(picpath,"PICTURE\\intro\\%s.bmp",str2);
             Readbmp64k(110,20+(line-1)*35,picpath);
+            j=0;
             while((c=fgetc(file))!='\n')
             {
                 str2[j++]=c;
@@ -113,12 +161,28 @@ void printf_intropage_from_txt(int page)
         }
         if (c=='+')
         {
+            j=0;
             while((c=fgetc(file))!='\n')
             {
                 str2[j++]=c;
             }
             str2[j]='\0';
             line+=atoi(str2);
+            continue;
+        }
+        if (c=='&')
+        {
+            j=0;
+            while((c=fgetc(file))!=' ')
+            {
+                str2[j++]=c;
+            }
+            str2[j]='\0';
+            fgets(str1,100,file);
+            str1[strlen(str1)-1]='\0';
+            puthz2(110,20+(line-1)*35,32,32,atoi(str2),str1);
+            i=0;
+            line++;
             continue;
         }
         if(c=='#')
@@ -128,7 +192,7 @@ void printf_intropage_from_txt(int page)
         str1[i++]=c;
     }
     sprintf(str1,"第%d页",page);
-    put_hz16_asc16_size(110,660,2,2,str1,1000,"HZK\\HZ16");
+    put_hz16_asc16_size(310,705,2,2,str1,1,"HZK\\HZ16");
     
     while((c=fgetc(file))!='\n');
     i=0,j=0,line=1;
@@ -164,12 +228,28 @@ void printf_intropage_from_txt(int page)
         }
         if (c=='+')
         {
+            j=0;
             while((c=fgetc(file))!='\n')
             {
                 str2[j++]=c;
             }
             str2[j]='\0';
             line+=atoi(str2);
+            continue;
+        }
+        if (c=='&')
+        {
+            j=0;
+            while((c=fgetc(file))!=' ')
+            {
+                str2[j++]=c;
+            }
+            str2[j]='\0';
+            fgets(str1,100,file);
+            str1[strlen(str1)-1]='\0';
+            puthz2(560,20+(line-1)*35,32,32,atoi(str2),str1);
+            i=0;
+            line++;
             continue;
         }
         if(c=='#')
@@ -180,7 +260,12 @@ void printf_intropage_from_txt(int page)
     
     }
     sprintf(str1,"第%d页",page+1);
-    put_hz16_asc16_size(920,660,2,2,str1,3000,"HZK\\HZ16");
+    put_hz16_asc16_size(710,705,2,2,str1,1,"HZK\\HZ16");
 
     fclose(file);
+}
+
+void fly_page(int page)
+{
+
 }

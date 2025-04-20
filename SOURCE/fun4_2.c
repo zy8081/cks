@@ -115,7 +115,9 @@ int research_buildtech(struct GameInfo *gameinfop,struct workfile *workfilep)
 			{
 				clrmous(MouseX,MouseY); 
 				clear_right_all();
-				display_all_intro(p,gameinfop,2,gameinfop->gametech[0].id,&newflag);
+				display_all_intro(p,gameinfop,2,gameinfop->gametech[1].id,&newflag);
+				delay(300);
+				mouse_renew(&MouseX,&MouseY,&press);
 				new_refreshflag=1;
 			}
 			if(mouse_press(300,700,450,750)==1)
@@ -153,6 +155,8 @@ int research_buildtech(struct GameInfo *gameinfop,struct workfile *workfilep)
 						clrmous(MouseX,MouseY); 
 						clear_right_all();
 						display_all_intro(p,gameinfop,2,i+1,&newflag);
+						delay(300);
+						mouse_renew(&MouseX,&MouseY,&press);
 						newflag=0;
 						new_refreshflag=1;
 						break;
@@ -169,7 +173,6 @@ int research_buildtech(struct GameInfo *gameinfop,struct workfile *workfilep)
 				}
 			}
 		}
-	
     }
 	free_buildtree(p);
 	return page;
