@@ -89,17 +89,24 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
 		}
 		else if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
         {
-			exit(1);
-			//int restyle;
-            //clrmous(MouseX,MouseY);
-            //clear_main_all(); 
-            //draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
-            //clear_right_all();
-			//restyle=quit(gameinfop,p,work);
-			//put_hz24_asc32(0,0,"done1",0,"HZK\\HZK24");
-			//getch();
-			//bar(0,0,100,30,65535);
-			//return restyle;
+			//exit(1);
+			int restyle;
+            clrmous(MouseX,MouseY);
+            clear_main_all(); 
+            draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
+            clear_right_all();
+			restyle=quit();
+			if(restyle>100)
+			{
+				if(restyle%10==1)
+				{
+					save_gminfo(gameinfop,work,5);
+					save_node(work,p);
+				}
+				return (restyle-restyle%10)/10;
+			}
+			else return restyle;
+			
 		}
 	}
 }

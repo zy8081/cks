@@ -159,6 +159,11 @@ void map_init(int place,struct GameInfo *pg)
         for(j=0;j<15;j++)
             pg->m_info[i][j].mineral=mine_block_init(place,pg->m_info[i][j].terrain);
     }
+    pg->m_info[3][3].building.id=100;
+    pg->m_info[3][2].building.id=101;
+    pg->m_info[3][4].building.id=102;
+
+
 }
 
 int mine_block_init(int place,int terrain)
@@ -269,6 +274,7 @@ void draw_block(int x,int y,struct MapInfo* mi,int form)
     int y1=105+y*92;
     int x2=390+x*92;
     int y2=195+y*92;
+    char bmppath[30];
     line_thick(x1, y1, x2, y1, 2,0);
     line_thick(x2, y1, x2, y2, 2,0);
     line_thick(x1, y2, x2, y2, 2,0);
@@ -312,39 +318,12 @@ void draw_block(int x,int y,struct MapInfo* mi,int form)
     
     //itoa(mi.mineral,cm,10);
     //put_hz24_asc32((x1+x2)/2-30,(y1+y2)/2,cm,1,"HZK\\Hzk24k");
-    
-    switch(mi->building.id)
+    if(mi->building.id>=1&&mi->building.id<=18||mi->building.id>=100&&mi->building.id<=102)
     {
-        
-        case 1:
-            Readbmp64k(x1+3,y1+3,"PICTURE\\build\\1.bmp");
-            break;
-        case 2:
-            Readbmp64k(x1+3,y1+3,"PICTURE\\build\\2.bmp");
-            break;
-        case 3:
-            Readbmp64k(x1+3,y1+3,"PICTURE\\build\\3.bmp");
-            break;
-        case 4:
-            Readbmp64k(x1+3,y1+3,"PICTURE\\build\\4.bmp");
-            break;
-        case 5:
-            Readbmp64k(x1+3,y1+3,"PICTURE\\build\\5.bmp");
-            break;
-        /*case 6:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"6",1,"HZK\\Hzk24k");
-            break;
-        case 7:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"7",1,"HZK\\Hzk24k");
-            break;
-        case 8:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"8",1,"HZK\\Hzk24k");
-            break;
-        case 9:
-            put_hz24_asc32((x1+x2)/2,(y1+y2)/2,"9",1,"HZK\\Hzk24k");
-            break;
-        */
+        sprintf(bmppath,"PICTURE\\build\\%d.bmp",mi->building.id);
+        Readbmp64k(x1+3,y1+3,bmppath);
     }
+    
 }
 
 void draw_mainmap(struct GameInfo *gf,int xsel,int ysel)

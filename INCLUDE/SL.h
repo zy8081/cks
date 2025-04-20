@@ -9,11 +9,10 @@ void save_node(WORKFILE work,nodebq* pnode1);
 nodebq* load_node(WORKFILE work);
 void node_init(char*pathnode);
 void quit_prt();
-int quit(struct GameInfo* pgameinfo,nodebq* pnode1,WORKFILE work);
+int quit(void);
 void quit_prt();
 int quit_savejudge();
 void close_all();
 void free_nodebq_all(nodebq*p);
-
 
 #endif

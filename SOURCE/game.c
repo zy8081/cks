@@ -86,15 +86,15 @@ int project(struct workfile w)
 				//put_hz24_asc32(0,0,"done3",0,"HZK\\HZK24");
 				//getch();
 				break;
-			//case 11:
+			case 11:
 				//free_nodebq_all(p1);
-				//return 4;
-			//case 12:
+				return 4;
+			case 12:
 				//free_nodebq_all(p1);
-				//return 1;
-			//case 13:
-				//ree_nodebq_all(p1);
-				//close_all();
+				return 1;
+			case 13:
+				//free_nodebq_all(p1);
+				close_all();
 		}
 	}
 	return proj_page;

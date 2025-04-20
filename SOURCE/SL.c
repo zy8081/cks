@@ -58,9 +58,12 @@ void gminfo_init(char* datpath,int t)
 
 	gameinfo->r_info_t=gameinfo->r_info;
 
-	gameinfo->people=0;
+	gameinfo->people=10;
 	gameinfo->happiness[0]=0;
 	gameinfo->happiness[1]=0;
+	gameinfo->construction=0;
+
+	gameinfo->fail=0;
 
 	//初始化地图
 	for (i=0;i<15;i++)
@@ -135,10 +138,9 @@ void node_init(char*pathnode)
 	free(pnode);
 }
 
-int quit(struct GameInfo *pgameinfo,nodebq *pnode1,WORKFILE work)//返回1表示项目管理，2表示登录，3关闭程序
+int quit(void)//返回11x表示项目管理，12x表示登录，13x关闭程序
 {
-	exit(1);
-	/*int c;
+	int c;
 	int page;
 	clrmous(MouseX,MouseY);
 	quit_prt();
@@ -152,17 +154,15 @@ int quit(struct GameInfo *pgameinfo,nodebq *pnode1,WORKFILE work)//返回1表示项目
 		else if(mouse_press(250,110,900,210)==1)
 		{
 			SaveBMP(330,293,697,478,12);
-			c=quit_savejudge(pgameinfo,pnode1,work);
+			c=quit_savejudge();
 			switch(c)
 			{
 				case 1:
-					save_gminfo(pgameinfo,work,5);
-					save_node(work,pnode1);
 					LoadBMP(330,293,697,478,12);
-					return 11;
+					return 111;
 				case 2:
 					LoadBMP(330,293,697,478,12);
-					return 11;
+					return 112;
 				case 3:
 					LoadBMP(330,293,697,478,12);
 					break;
@@ -171,17 +171,15 @@ int quit(struct GameInfo *pgameinfo,nodebq *pnode1,WORKFILE work)//返回1表示项目
 		else if(mouse_press(250,220,900,320)==1)
 		{
 			SaveBMP(330,293,697,478,12);
-			c=quit_savejudge(pgameinfo,pnode1,work);
+			c=quit_savejudge();
 			switch(c)
 			{
 				case 1:
-					save_gminfo(pgameinfo,work,5);
-					save_node(work,pnode1);
 					LoadBMP(330,293,697,478,12);
-					return 12;
+					return 121;
 				case 2:
 					LoadBMP(330,293,697,478,12);
-					return 12;
+					return 122;
 				case 3:
 					LoadBMP(330,293,697,478,12);
 					break;
@@ -190,23 +188,21 @@ int quit(struct GameInfo *pgameinfo,nodebq *pnode1,WORKFILE work)//返回1表示项目
 		else if(mouse_press(250,330,900,430)==1)
 		{
 			SaveBMP(330,293,697,478,12);
-			c=quit_savejudge(pgameinfo,pnode1,work);
+			c=quit_savejudge();
 			switch(c)
 			{
 				case 1:
-					save_gminfo(pgameinfo,work,5);
-					save_node(work,pnode1);
 					LoadBMP(330,293,697,478,12);
-					return 13;
+					return 131;
 				case 2:
 					LoadBMP(330,293,697,478,12);
-					return 13;
+					return 132;
 				case 3:
 					LoadBMP(330,293,697,478,12);
 					break;
 			}
 		}
-	}*/
+	}
 	
 }
 
