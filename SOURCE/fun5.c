@@ -5,6 +5,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
 	int page=5;
 	char *s[3]={"时间流动","模拟日志","保存游戏"};
 	int l=65;
+
 	draw_main_toolbotton_activate(866,0xBDBD,"时间","显示");
 	
 	draw_all_leftbuttons(3,65,s);
@@ -64,7 +65,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
-            page=proj_fun5_1(gameinfop,p,events);
+            page=proj_fun5_1(gameinfop,p,events,&work);
 
             return page;   
 		}
@@ -92,7 +93,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
 }
 
 
-int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
+int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2],WORKFILE *workfilep)
 {
 	char *text[10];
 	clrmous(MouseX,MouseY);
@@ -192,7 +193,7 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
 			}*/
 			//eventsc(events);
 			
-			time_flow(gameinfop,p);
+			time_flow(gameinfop,p,workfilep);
 			draw_time(gameinfop);
 			break;
 		}
@@ -205,7 +206,7 @@ void draw_fun5_1(void)
 	puthz(300,300,"下个月", 32,40, 1);
 }
 
-void time_flow(struct GameInfo *gameinfop,nodebq *p)
+void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 {
 	int data[8];
 	int i,j;
@@ -241,7 +242,8 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 		if (gameinfop->gametech[i].havepoints>=gameinfop->gametech[i].totalpoints&&gameinfop->gametech[i].research_flag==1)
 		{
 			gameinfop->gametech[i].research_flag=0;
-			change_techflag(gameinfop->gametech[i].type,gameinfop->gametech[i].id);
+			change_techflag(gameinfop->gametech[i].type,gameinfop->gametech[i].id,workfilep->path);
+			activate_research_effect(gameinfop->gametech[i].type,gameinfop->gametech[i].id,gameinfop,p,workfilep->path);
 		}
 	}
 

@@ -20,7 +20,7 @@ int proj_fun1(struct GameInfo* gameinfop,int*pxsel,int*pysel)
 	draw_all_leftbuttons(2,65,s);
     //draw_map2(300,105,954,759,7,7,gameinfop);
 	//draw_map(300,105,954,759,7,7,gameinfop);
-	//debug_map_id(*gameinfop);
+	
 	while (1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);

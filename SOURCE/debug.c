@@ -9,7 +9,7 @@ void debug_file_printf(char *str)
 	exit(0);
 }
 
-void debug_map_id(struct GameInfo gameinfo)
+void debug_map_id(struct GameInfo *gameinfo)
 {
 	int i,j;
 	CloseSVGA();
@@ -18,7 +18,7 @@ void debug_map_id(struct GameInfo gameinfo)
 	{
 		for (j=0;j<15;j++)
         {
-            printf("%d ",gameinfo.m_info[i][j].building.id);
+            printf("%d ",gameinfo->m_info[i][j].building.id);
         }
         printf("\n");
 	}

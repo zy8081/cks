@@ -45,7 +45,7 @@ void type_id_printf_techtxt(int type,int id);
 void get_tech_basic_info(tree *p,int type,int id,char *path);
 
 void type_id_get_tech_effect(int type, int id,char *effect);
-void change_techflag(int type,int id);
+void change_techflag(int type,int id,char *path);
 
 void start_research_tech(nodet *pp2,int i,struct GameInfo *gameinfop);
 

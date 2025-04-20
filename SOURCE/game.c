@@ -39,11 +39,13 @@ int project(struct workfile w,int*page)
 	
 	gameinfo.year=2031;
 	gameinfo.month=4;
-	gameinfo.techpoint=200;
+	gameinfo.techpoint=500;
 	gameinfo.gametech[0].research_flag=0;
 	
 	gameinfo.people=0;
-	gameinfo.happiness=0;
+	gameinfo.happiness[0]=0;
+	gameinfo.happiness[1]=100;
+
 
 	map_init(2,&gameinfo);
 	rocket_init(&(gameinfo.rocket));

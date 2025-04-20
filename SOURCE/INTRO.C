@@ -6,10 +6,11 @@ void intro_book(void)
     int newpage=1;
     int oldpage=1;
     int pageindex[6];
+    char temp;
     pageindex[0]=1;
-    pageindex[1]=3;
-    pageindex[2]=1;
-    pageindex[3]=1;
+    pageindex[1]=7;
+    pageindex[2]=11;
+    pageindex[3]=15;
     pageindex[4]=1;
     pageindex[5]=1;
     SaveBMP(0,0,1024,768,10);
@@ -19,9 +20,11 @@ void intro_book(void)
     Readbmp64k(0,0,"PICTURE\\login.bmp");
     draw_introbook(newpage);
     printf_intropage_from_txt(newpage);
+    clear_keyboard();
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
+        temp=renew_bookpage();
         if (newpage!=oldpage)
         {
             clrmous(MouseX,MouseY);
@@ -35,16 +38,16 @@ void intro_book(void)
             LoadBMP(0,0,1024,768,10);
             return ;
         }
-        if (mouse_press(120,710,220,760)==1)
+        if (mouse_press(120,710,220,760)==1 || temp==1)
         {
-            if (newpage>=1)
+            if (newpage>1)
             {
                 newpage -=2;
             }
         }
-        if (mouse_press(880,710,980,760)==1)
+        if (mouse_press(880,710,980,760)==1 || temp==2)
         {
-            if (newpage<3)
+            if (newpage<17)
             {
                 newpage +=2;
             }
@@ -58,6 +61,35 @@ void intro_book(void)
         }
     }
 }
+
+void clear_keyboard(void)
+{
+    char temp;
+    while(bioskey(1)!=0)
+    {
+        temp=bioskey(0);
+    }
+}
+int renew_bookpage(void)
+{
+    char temp=0;
+    if(bioskey(1)!=0)
+    {
+        temp=bioskey(0);
+    }
+
+    if(temp=='d'||temp=='D')
+    {
+        return 2;
+    }
+
+    if(temp=='a'||temp=='A')
+    {
+        return 1;
+    }
+    return 0;
+}
+
 
 void draw_introbook(int page)
 {
@@ -136,7 +168,7 @@ void printf_intropage_from_txt(int page)
         {
             str1[i]='\0';
             i=0;
-            puthz3(110,20+(line-1)*35,32,32,1,str1);
+            puthz(110,25+(line-1)*35,str1,32,32,1);
             line++;
             continue;
         }
@@ -149,7 +181,7 @@ void printf_intropage_from_txt(int page)
             }
             str2[j]='\0';
             sprintf(picpath,"PICTURE\\intro\\%s.bmp",str2);
-            Readbmp64k(110,20+(line-1)*35,picpath);
+            Readbmp64k(110,25+(line-1)*35,picpath);
             j=0;
             while((c=fgetc(file))!='\n')
             {
@@ -180,9 +212,24 @@ void printf_intropage_from_txt(int page)
             str2[j]='\0';
             fgets(str1,100,file);
             str1[strlen(str1)-1]='\0';
-            puthz2(110,20+(line-1)*35,32,32,atoi(str2),str1);
+            puthz2(110,25+(line-1)*35,32,32,atoi(str2),str1);
             i=0;
             line++;
+            continue;
+        }
+        if (c=='*')
+        {
+            j=0;
+            while((c=fgetc(file))!=' ')
+            {
+                str2[j++]=c;
+            }
+            str2[j]='\0';
+            fgets(str1,100,file);
+            str1[strlen(str1)-1]='\0';
+            puthz2(110,25+(line-1)*35,48,48,atoi(str2),str1);
+            i=0;
+            line+=2;
             continue;
         }
         if(c=='#')
@@ -203,7 +250,7 @@ void printf_intropage_from_txt(int page)
         {
             str1[i]='\0';
             i=0;
-            puthz3(560,20+(line-1)*35,32,32,1,str1);
+            puthz(560,25+(line-1)*35,str1,32,32,1);
             line++;
             continue;
         }
@@ -216,7 +263,7 @@ void printf_intropage_from_txt(int page)
             }
             str2[j]='\0';
             sprintf(picpath,"PICTURE\\intro\\%s.bmp",str2);
-            Readbmp64k(560,20+(line-1)*35,picpath);
+            Readbmp64k(560,25+(line-1)*35,picpath);
             j=0;
             while((c=fgetc(file))!='\n')
             {
@@ -247,9 +294,24 @@ void printf_intropage_from_txt(int page)
             str2[j]='\0';
             fgets(str1,100,file);
             str1[strlen(str1)-1]='\0';
-            puthz2(560,20+(line-1)*35,32,32,atoi(str2),str1);
+            puthz2(560,25+(line-1)*35,32,32,atoi(str2),str1);
             i=0;
             line++;
+            continue;
+        }
+        if (c=='*')
+        {
+            j=0;
+            while((c=fgetc(file))!=' ')
+            {
+                str2[j++]=c;
+            }
+            str2[j]='\0';
+            fgets(str1,100,file);
+            str1[strlen(str1)-1]='\0';
+            puthz2(560,25+(line-1)*35,48,48,atoi(str2),str1);
+            i=0;
+            line+=2;
             continue;
         }
         if(c=='#')

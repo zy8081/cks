@@ -145,7 +145,6 @@ void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo 
 			}
 		}
 	}
-	//huge_engineer
 }
 
 void draw_map_building(int i,int j,int n)

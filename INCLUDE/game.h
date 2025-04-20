@@ -1,6 +1,5 @@
 #ifndef __GAME_H
 #define __GAME_H
-#define HUGE_ENG_NUM 10
 
 struct Resource
 {
@@ -56,11 +55,6 @@ struct technologydata
 	int totalpoints;
 };
 
-struct hugeengineer
-{
-	int lock;
-	int time;
-};
 
 typedef struct RocketInfo
 {
@@ -86,7 +80,6 @@ struct GameInfo
 	int techpoint;
 	int year;
 	int month;
-    struct hugeengineer huge_engineering[HUGE_ENG_NUM];
 	int people;
 	int happiness[2];
 };

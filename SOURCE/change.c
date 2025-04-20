@@ -1,6 +1,6 @@
 #include <ALLFUNS.h>
 
-void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1)
+void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1,char *path)
 {
 	switch (type)
 	{
@@ -47,28 +47,43 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 					research_2_1(gameinfop);
 					break;
 				case 2:
-					research_2_2(gameinfop);
+					research_2_2(gameinfop,p1);
 					break;
 				case 3:
-					research_2_3(gameinfop);
+					research_2_3(gameinfop,p1);
 					break;
 				case 4:
-					research_2_4(gameinfop);
+					research_2_4(gameinfop,path);
 					break;
 				case 5:
-					research_2_5(gameinfop);
+					research_2_5(gameinfop,path);
 					break;
 				case 6:
-					research_2_6(gameinfop);
+					research_2_6(gameinfop,path);
 					break;
 				case 7:
-					research_2_7(gameinfop);
+					research_2_7(gameinfop,path);
 					break;
 				case 8:
-					research_2_8(gameinfop);
+					research_2_8(gameinfop,path);
 					break;
 				case 9:
-					research_2_9(gameinfop);
+					research_2_9(gameinfop,path);
+					break;
+				case 10:
+					research_2_10(gameinfop,path);
+					break;
+				case 11:
+					research_2_11(gameinfop,path);
+					break;
+				case 12:
+					research_2_12(gameinfop,path);
+					break;
+				case 13:
+					research_2_13(gameinfop,path);
+					break;
+				case 14:
+					research_2_14(gameinfop,path);
 					break;
 				
 			}
@@ -80,16 +95,31 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 					research_3_1(gameinfop);
 					break;
 				case 2:
-					research_3_2(gameinfop);
+					research_3_2(gameinfop,path);
 					break;
 				case 3:
-					research_3_3(gameinfop);
+					research_3_3(gameinfop,path);
 					break;
 				case 4:
-					research_3_4(gameinfop);
+					research_3_4(gameinfop,path);
 					break;
 				case 5:
-					research_3_5(gameinfop);
+					research_3_5(gameinfop,path);
+					break;
+				case 6:
+					research_3_6(gameinfop,path);
+					break;
+				case 7:
+					research_3_7(gameinfop,path);
+					break;
+				case 8:
+					research_3_8(gameinfop,path);
+					break;
+				case 9:
+					research_3_9(gameinfop,path);
+					break;
+				case 10:
+					research_3_10(gameinfop,path);
 					break;
 			}
 			break;
@@ -99,7 +129,7 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 /*
 根据id解锁建筑，高安全性
 */
-void unlock_building(int id)
+void unlock_building(int id,char *path)
 {
 	FILE *file1;
 	FILE *file2;
@@ -107,15 +137,17 @@ void unlock_building(int id)
 	int i,j;
 	char c;
 	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
+	char path1[35];
+	char path2[35];
+	sprintf(path1,"%s\\USERBLD.TXT",path);
+	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
 		printf("open error\n");
 		return;
 	}
-	
-	file2=fopen("./data/buildt.txt","w");
+	sprintf(path2,"%s\\buildt.TXT",path);
+	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
 		printf("open error\n");
@@ -169,524 +201,8 @@ void unlock_building(int id)
 	fclose(file1);
 	fclose(file2);
 	
-	
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-}
-
-void change_namo_add(struct GameInfo *gameinfop,int addnano,int addenergy)
-{
-	FILE *file1;
-	FILE *file2;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	for (i=0;i<3;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<5;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+addnano,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	for (i=0;i<4;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+addenergy,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==2)
-			{
-				gameinfop->m_info[i][j].building.res_add.nanomaterial +=addnano;
-				gameinfop->m_info[i][j].building.res_add.energy +=addenergy;
-			}
-		}
-	}
-}
-
-void change_building_add_nano(struct GameInfo *gameinfop,int id,int add_nano)
-{
-	FILE *file1;
-	FILE *file2;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<id-1;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<5;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+add_nano,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==id)
-			{
-				gameinfop->m_info[i][j].building.res_add.nanomaterial +=add_nano;
-			}
-		}
-	}
-}
-
-void change_building_add_energy(struct GameInfo *gameinfop,int id,int add_energy)
-{
-	FILE *file1;
-	FILE *file2;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<id-1;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<10;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+add_energy,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==id)
-			{
-				gameinfop->m_info[i][j].building.res_add.energy +=add_energy;
-			}
-		}
-	}
-}
-
-
-void change_building_add_rare(struct GameInfo *gameinfop,int id,int add_rare)
-{
-	FILE *file1;
-	FILE *file2;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<id-1;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<6;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+add_rare,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==id)
-			{
-				gameinfop->m_info[i][j].building.res_add.rarematerial +=add_rare;
-			}
-		}
-	}
-}
-
-void change_building_add_fuel(struct GameInfo *gameinfop,int id,int add_fuel)
-{
-	FILE *file1;
-	FILE *file2;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<id-1;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<11;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+add_fuel,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==id)
-			{
-				gameinfop->m_info[i][j].building.res_add.rarematerial +=add_fuel;
-			}
-		}
-	}
-}
-
-void change_building_add_food(struct GameInfo *gameinfop,int id,int add_food)
-{
-	FILE *file1;
-	FILE *file2;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	for (i=0;i<2;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<id-1;i++)
-	{
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	for (i=0;i<9;i++)
-	{
-		while((c=fgetc(file1))!=' ')
-		{
-			fputc(c,file2);
-		}
-		fputc(' ',file2);
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!=' ')
-	{
-		str[i++]=c;
-	}
-	str[i]='\0';
-	itoa(atoi(str)+add_food,str,10);
-	fputs(str,file2);
-	fputc(' ',file2);
-	
-	
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-	
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id==id)
-			{
-				gameinfop->m_info[i][j].building.res_add.rarematerial +=add_food;
-			}
-		}
-	}
+	remove(path1);
+	rename(path2,path1);
 }
 
 
@@ -697,22 +213,26 @@ void change_building_add_food(struct GameInfo *gameinfop,int id,int add_food)
 10.res_add:mineal  11.bui_time
 根据id修改建筑文件，适用于修改一切建筑的数据(包括地图上的)
 */
-void change_building_add_res(struct GameInfo *gameinfop,int id,int funcflag,int change)
+void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcflag,int change,char *path)
 {
 	FILE *file1;
 	FILE *file2;
 	int i,j;
 	char c;
 	char str[30]={'\0'};
+	char path1[35];
+	char path2[35];
+	int *resadd[8];
 	
-	file1=fopen("./data/building.txt","r");
+	sprintf(path1,"%s\\USERBLD.TXT",path);
+	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
 		printf("open error\n");
 		return;
 	}
-	
-	file2=fopen("./data/buildt.txt","w");
+	sprintf(path2,"%s\\buildt.TXT",path);
+	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
 		printf("open error\n");
@@ -765,9 +285,29 @@ void change_building_add_res(struct GameInfo *gameinfop,int id,int funcflag,int 
 	fclose(file1);
 	fclose(file2);
 	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
-
+	remove(path1);
+	rename(path2,path1);
+	for (i=0;i<15;i++)
+	{
+		for (j=0;j<15;j++)
+		{
+			if (gameinfop->m_info[i][j].building.id==id)
+			{
+				if (funcflag>=3 && funcflag<=10)
+				{
+					resadd[0]=&(gameinfop->m_info[i][j].building.res_add.nanomaterial);
+					resadd[1]=&(gameinfop->m_info[i][j].building.res_add.rarematerial);
+					resadd[2]=&(gameinfop->m_info[i][j].building.res_add.oxygen);
+					resadd[3]=&(gameinfop->m_info[i][j].building.res_add.water);
+					resadd[4]=&(gameinfop->m_info[i][j].building.res_add.food);
+					resadd[5]=&(gameinfop->m_info[i][j].building.res_add.energy);
+					resadd[6]=&(gameinfop->m_info[i][j].building.res_add.fuel);
+					resadd[7]=&(gameinfop->m_info[i][j].building.res_add.mineral);
+					(*resadd[funcflag-3]) += change;
+				}
+			}
+		}
+	}
 }
 
 //科研点+10
@@ -776,7 +316,7 @@ void research_1_1(struct GameInfo *gameinfop)
 	gameinfop->techpoint+=20;
 }
 
-//
+//家园建设值+10%，人民幸福度+10%
 void research_1_2(struct GameInfo *gameinfop)
 {
 	FILE *file1;
@@ -949,21 +489,19 @@ void research_1_4(struct GameInfo *gameinfop)
 //解锁建筑：火箭发射台
 void research_1_5(struct GameInfo *gameinfop)
 {
-	unlock_building(7);
+	//unlock_building(7);
 }
 
 //解锁大型工程项目：发射卫星
 void research_1_6(struct GameInfo *gameinfop)
 {
-	gameinfop->huge_engineering[0].lock=1;
-	gameinfop->huge_engineering[0].time=24;
+	
 }
 
 //解锁大型工程项目：载人航天
 void research_1_7(struct GameInfo *gameinfop)
 {
-	gameinfop->huge_engineering[1].lock=1;
-	gameinfop->huge_engineering[1].time=36;
+	
 }
 
 //每月科研点+50
@@ -975,14 +513,12 @@ void research_1_8(struct GameInfo *gameinfop)
 //解锁大型工程项目：太空聚光镜
 void research_1_9(struct GameInfo *gameinfop)
 {
-	gameinfop->huge_engineering[2].lock=1;
-	gameinfop->huge_engineering[2].time=120;
+	
 }
 
 void research_1_10(struct GameInfo *gameinfop)
 {
-	gameinfop->huge_engineering[2].lock=1;
-	gameinfop->huge_engineering[2].time=120;
+	
 }
 
 //每月科研点+20
@@ -991,87 +527,212 @@ void research_2_1(struct GameInfo *gameinfop)
 	gameinfop->techpoint +=20;
 }
 
-//纳米材料厂产出+10,能量维护+5
-void research_2_2(struct GameInfo *gameinfop)
+//机器人中枢能量维护+25，建造队列+1
+void research_2_2(struct GameInfo *gameinfop,nodebq *p1)
 {
-	change_building_add_res(gameinfop,2,1,-10);
-	change_building_add_res(gameinfop,2,6,-5);
+	p1->i++;
 }
 
-//解锁建筑：稀有材料厂
-void research_2_3(struct GameInfo *gameinfop)
+//机器人中枢能量维护+25，建造队列+1
+void research_2_3(struct GameInfo *gameinfop,nodebq *p1)
 {
-	unlock_building(9);
+	p1->i++;
 }
 
-//稀有材料厂产出+5，纳米材料厂产出+10，能量维护各+5
-void research_2_4(struct GameInfo *gameinfop)
+//机器人中枢能量维护+25，建造时长-2月
+void research_2_4(struct GameInfo *gameinfop,char *path)
 {
-	change_building_add_energy(gameinfop,2,-5);
-	change_building_add_energy(gameinfop,9,-5);
-	
-	change_building_add_nano(gameinfop,2,10);
-	change_building_add_rare(gameinfop,9,5);
+	int i;
+	for (i=0;i<18;i++)
+	{
+		change_building_info_onfilemap(gameinfop,i+1,11,-2,path);
+	}
 }
 
-//燃料合成+10
-void research_2_5(struct GameInfo *gameinfop)
+//建造时长-1月，住宅区人口+200
+void research_2_5(struct GameInfo *gameinfop,char *path)
 {
-	change_building_add_fuel(gameinfop,7,10);
+	int i;
+	for (i=0;i<18;i++)
+	{
+		change_building_info_onfilemap(gameinfop,i+1,11,-1,path);
+	}
 }
 
-//燃料合成+20,能量维护+5
-void research_2_6(struct GameInfo *gameinfop)
+//解锁建筑：娱乐设施
+void research_2_6(struct GameInfo *gameinfop,char *path)
 {
-	change_building_add_fuel(gameinfop,7,20);
-	change_building_add_energy(gameinfop,7,-5);
+	unlock_building(3,path);
+	unlock_building(4,path);
 }
 
-void research_2_7(struct GameInfo *gameinfop)
+//解锁建筑：火星之眼
+void research_2_7(struct GameInfo *gameinfop,char *path)
 {
-
+	unlock_building(15,path);
 }
 
-void research_2_8(struct GameInfo *gameinfop)
+//解锁建筑：许多生产设施
+void research_2_8(struct GameInfo *gameinfop,char *path)
 {
-
+	unlock_building(8,path);
+	unlock_building(10,path);
+	unlock_building(11,path);
+	unlock_building(13,path);
+	unlock_building(14,path);
 }
 
-void research_2_9(struct GameInfo *gameinfop)
+//解锁建筑：综合性工厂
+void research_2_9(struct GameInfo *gameinfop,char *path)
 {
-
-
+	unlock_building(16,path);
+}
+//解锁建筑：室外公园
+void research_2_10(struct GameInfo *gameinfop,char *path)
+{
+	unlock_building(2,path);
+}
+//解锁建筑：未来式公园
+void research_2_11(struct GameInfo *gameinfop,char *path)
+{
+	unlock_building(17,path);
+}
+//解锁建筑：火星之傲
+void research_2_12(struct GameInfo *gameinfop,char *path)
+{
+	unlock_building(18,path);
+}
+//建造花费纳米材料-30
+void research_2_13(struct GameInfo *gameinfop,char *path)
+{
+	int i;
+	for (i=0;i<18;i++)
+	{
+		change_building_info_onfilemap(gameinfop,i+1,1,-30,path);
+	}
+}
+//建造时长-1月
+void research_2_14(struct GameInfo *gameinfop,char *path)
+{
+	int i;
+	for (i=0;i<18;i++)
+	{
+		change_building_info_onfilemap(gameinfop,i+1,11,-1,path);
+	}
 }
 
-
-//水培农场食物+10，水维护+10
+//每月科研点+20
 void research_3_1(struct GameInfo *gameinfop)
 {
-	change_building_add_res(gameinfop,5,5,10);
-	change_building_add_res(gameinfop,5,4,-10);
+	gameinfop->techpoint +=20;
 }
 
-//解锁建筑：食物合成堆
-void research_3_2(struct GameInfo *gameinfop)
+//开采站产出+50，能量维护+10
+void research_3_2(struct GameInfo *gameinfop,char *path)
 {
-	unlock_building(8);
+	change_building_info_onfilemap(gameinfop,8,8,-10,path);
+	change_building_info_onfilemap(gameinfop,8,10,50,path);
 }
 
-//食物合成堆食物+5
-void research_3_3(struct GameInfo *gameinfop)
+//开采站产出+70，能量维护+10
+void research_3_3(struct GameInfo *gameinfop,char *path)
 {
-	change_building_add_res(gameinfop,8,5,5);
+	change_building_info_onfilemap(gameinfop,8,8,-10,path);
+	change_building_info_onfilemap(gameinfop,8,10,70,path);
 }
 
-//水培农场食物产出+10，水维护+5
-void research_3_4(struct GameInfo *gameinfop)
+//开采站产出+80，能量维护+10
+void research_3_4(struct GameInfo *gameinfop,char *path)
 {
-	change_building_add_res(gameinfop,5,5,10);
-	change_building_add_res(gameinfop,5,4,-5);
+	change_building_info_onfilemap(gameinfop,8,8,-10,path);
+	change_building_info_onfilemap(gameinfop,8,8,80,path);
 }
 
-//水培农场食物产出+10
-void research_3_5(struct GameInfo *gameinfop)
+//所有工厂型建筑产出+40%，消耗+40%
+void research_3_5(struct GameInfo *gameinfop,char *path)
 {
-	change_building_add_res(gameinfop,5,5,10);
+	//5水培
+	change_building_info_onfilemap(gameinfop,5,7,20,path);
+	change_building_info_onfilemap(gameinfop,5,6,-8,path);
+	change_building_info_onfilemap(gameinfop,5,8,-2,path);
+	//6淡水
+	change_building_info_onfilemap(gameinfop,6,6,20,path);
+	change_building_info_onfilemap(gameinfop,6,8,-2,path);
+	//7氧气
+	change_building_info_onfilemap(gameinfop,7,5,20,path);
+	change_building_info_onfilemap(gameinfop,7,8,-2,path);
+	//9火电
+	change_building_info_onfilemap(gameinfop,9,9,-10,path);
+	change_building_info_onfilemap(gameinfop,9,8,40,path);
+	//11燃料合成堆
+	change_building_info_onfilemap(gameinfop,11,9,8,path);
+	change_building_info_onfilemap(gameinfop,11,8,-40,path);
+	//13基础材料厂
+	change_building_info_onfilemap(gameinfop,13,3,20,path);
+	change_building_info_onfilemap(gameinfop,13,10,-30,path);
+	//14食物合成堆
+}
+
+//所有工厂型建筑产出+50%，消耗+30%
+void research_3_6(struct GameInfo *gameinfop,char *path)
+{
+	//5水培
+	change_building_info_onfilemap(gameinfop,5,7,20,path);
+	change_building_info_onfilemap(gameinfop,5,6,-8,path);
+	change_building_info_onfilemap(gameinfop,5,8,-2,path);
+	//6淡水
+	change_building_info_onfilemap(gameinfop,6,6,20,path);
+	change_building_info_onfilemap(gameinfop,6,8,-2,path);
+	//7氧气
+	change_building_info_onfilemap(gameinfop,7,5,20,path);
+	change_building_info_onfilemap(gameinfop,7,8,-2,path);
+	//9火电
+	change_building_info_onfilemap(gameinfop,9,9,-10,path);
+	change_building_info_onfilemap(gameinfop,9,8,40,path);
+	//11燃料合成堆
+	change_building_info_onfilemap(gameinfop,11,9,8,path);
+	change_building_info_onfilemap(gameinfop,11,8,-40,path);
+	//13基础材料厂
+	change_building_info_onfilemap(gameinfop,13,3,20,path);
+	change_building_info_onfilemap(gameinfop,13,10,-30,path);
+	//14食物合成堆
+}
+//所有工厂型建筑产出+60%，消耗+30%
+void research_3_7(struct GameInfo *gameinfop,char *path)
+{
+	//5水培
+	change_building_info_onfilemap(gameinfop,5,7,20,path);
+	change_building_info_onfilemap(gameinfop,5,6,-8,path);
+	change_building_info_onfilemap(gameinfop,5,8,-2,path);
+	//6淡水
+	change_building_info_onfilemap(gameinfop,6,6,20,path);
+	change_building_info_onfilemap(gameinfop,6,8,-2,path);
+	//7氧气
+	change_building_info_onfilemap(gameinfop,7,5,20,path);
+	change_building_info_onfilemap(gameinfop,7,8,-2,path);
+	//9火电
+	change_building_info_onfilemap(gameinfop,9,9,-10,path);
+	change_building_info_onfilemap(gameinfop,9,8,40,path);
+	//11燃料合成堆
+	change_building_info_onfilemap(gameinfop,11,9,8,path);
+	change_building_info_onfilemap(gameinfop,11,8,-40,path);
+	//13基础材料厂
+	change_building_info_onfilemap(gameinfop,13,3,20,path);
+	change_building_info_onfilemap(gameinfop,13,10,-30,path);
+	//14食物合成堆
+}
+//太阳能电池板产出+50
+void research_3_8(struct GameInfo *gameinfop,char *path)
+{
+	change_building_info_onfilemap(gameinfop,10,8,50,path);
+}
+//太阳能电池板产出+50
+void research_3_9(struct GameInfo *gameinfop,char *path)
+{
+	change_building_info_onfilemap(gameinfop,10,8,50,path);
+}
+//太阳能电池板产出+50
+void research_3_10(struct GameInfo *gameinfop,char *path)
+{
+	change_building_info_onfilemap(gameinfop,10,8,50,path);
 }

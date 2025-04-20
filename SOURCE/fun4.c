@@ -684,23 +684,24 @@ void type_id_get_tech_effect(int type, int id,char *effect)
 	fclose(file);
 }
 
-void change_techflag(int type,int id)
+void change_techflag(int type,int id,char *path)
 {
 	FILE *file1;
 	FILE *file2;
-	char str[30]={'\0'};
+	char path1[50]={'\0'};
+	char path2[50]={'\0'};
 	char c;
 	int i,j,k;
-	
-	file1=fopen("./data/tech.txt","r");
+	sprintf(path1,"%s\\USERTEC.TXT",path);
+	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
 		puthz(400,300,"´íÎó",32,32,1);
 		printf("open error");
 		return;
 	}
-	
-	file2=fopen("./data/techt.txt","w");
+	sprintf(path2,"%s\\techt.TXT",path);
+	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
 		puthz(400,300,"´íÎó",32,32,1);
@@ -747,8 +748,8 @@ void change_techflag(int type,int id)
 	
 	fclose(file1);
 	fclose(file2);
-	remove("./data/tech.txt");
-    rename("./data/techt.txt", "./data/tech.txt");
+	remove(path1);
+    rename(path2,path1);
 }
 
 
