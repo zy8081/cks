@@ -88,7 +88,7 @@ struct GameInfo
 	int month;
     struct hugeengineer huge_engineering[HUGE_ENG_NUM];
 	int people;
-	int happiness;
+	int happiness[2];
 };
 
 int project(struct workfile w,int*page);
