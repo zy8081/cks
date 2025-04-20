@@ -393,22 +393,26 @@ int prt_warning(int re,int t,int ret)
                 sprintf(s2,"稀有材料将于%d月后消耗尽",t);
                 break;
             case 2:
+                sprintf(s1,"上个月消耗了氧气%d",ret);
+                sprintf(s2,"氧气将于%d月后消耗尽",t);
+                break;
+            case 3:
                 sprintf(s1,"上个月消耗了水%d",ret);
                 sprintf(s2,"水将于%d月后消耗尽",t);
                 break;
-            case 3:
+            case 4:
                 sprintf(s1,"上个月消耗了食物%d",ret);
                 sprintf(s2,"食物将于%d月后消耗尽",t);
                 break;
-            case 4:
+            case 5:
                 sprintf(s1,"上个月消耗了能源%d",ret);
                 sprintf(s2,"能源将于%d月后消耗尽",t);
                 break;
-            case 5:
+            case 6:
                 sprintf(s1,"上个月消耗了燃料%d",ret);
                 sprintf(s2,"燃料将于%d月后消耗尽",t);
                 break;
-            case 6:
+            case 7:
                 sprintf(s1,"上个月消耗了矿物%d",ret);
                 sprintf(s2,"矿物将于%d月后消耗尽",t);
                 break;

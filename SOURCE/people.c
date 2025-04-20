@@ -27,11 +27,31 @@ void people_cost(struct GameInfo *pg)//资源充足输出0，不足输出1，
 int happiness_count(struct GameInfo *pg)
 {
     int i,j;
+    int ht=0;
     for(i=0;i<=15;i++)
     {
         for(j=0;j<=15;j++)
         {
-            if()
+            if(pg->m_info[i][j].building.id==2)
+            {
+                ht+=100;
+            }
+            if(pg->m_info[i][j].building.id==3)
+            {
+                ht+=150;
+            }
+            if(pg->m_info[i][j].building.id==3)
+            {
+                ht+=200;
+            }
+            if(pg->m_info[i][j].building.id==17)
+            {
+                ht+=500;
+            }
+            if(pg->m_info[i][j].building.id==18)
+            {
+                ht+=600;
+            }
         }
     }
 }
