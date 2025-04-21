@@ -62,8 +62,11 @@ void getinfo_nodet(nodet *p,int x,int *type,int *id,int *point);
 nodet *extract_nodet(nodet *p1,int num);
 int calculate_nodet_len(nodet *p);
 void free_nodet(nodet *p);
-void get_tech_file(nodet *p,char *str);
+
 void printf_nodet(nodet *p);
 void delete_nodet(nodet *p,int pos);
 
-int check_techflag_infile(WORKFILE *w,int type,int id);
+int check_techflag_infile(char *path,int type,int id);
+void calculate_monthly_techpoint(struct GameInfo *gameinfop,char *path);
+void calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path);
+void calculate_monthly_buildpointbuff(struct GameInfo *gameinfop,char *path);

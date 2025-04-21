@@ -505,7 +505,7 @@ int get_building_info(int localine,struct Building* building,struct workfile *wo
 	char str[20]={'\0'};
 	char path[50];
 	FILE *file;
-	sprintf(path,"%s\\USERBLD.TXT",workfilep->path);
+	sprintf(path,"%s\\buildt.TXT",workfilep->path);
 	file=fopen(path,"r");
 	if (file==NULL)
 	{

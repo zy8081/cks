@@ -11,7 +11,7 @@ int research_lifetech(struct GameInfo *gameinfop,struct workfile *workfilep)
 	char path[50];
 	int location[10][2];
 	tree *p;
-	sprintf(path,"%s\\USERTEC.TXT",workfilep->path);
+	sprintf(path,"%s\\techt.TXT",workfilep->path);
 	p=create_lifetech_tree(path);
 	for (i=0;i<10;i++)
 	{

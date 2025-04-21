@@ -74,7 +74,7 @@ int research_buildtech(struct GameInfo *gameinfop,struct workfile *workfilep)
 	char path[50];
 	int location[14][2];
 	tree* p;
-	sprintf(path,"%s\\USERTEC.TXT",workfilep->path);
+	sprintf(path,"%s\\techt.TXT",workfilep->path);
     p=create_buildtech_tree(path);
     for (i=0;i<14;i++)
 	{

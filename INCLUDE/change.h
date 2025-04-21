@@ -5,7 +5,7 @@ void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcfl
 
 void research_1_1(struct GameInfo *gameinfop);
 void research_1_2(struct GameInfo *gameinfop);
-void research_1_3(nodebq *p1);
+void research_1_3(struct GameInfo *gameinfop);
 void research_1_4(struct GameInfo *gameinfop);
 void research_1_5(struct GameInfo *gameinfop);
 void research_1_6(struct GameInfo *gameinfop);
@@ -39,3 +39,5 @@ void research_3_7(struct GameInfo *gameinfop,char *path);
 void research_3_8(struct GameInfo *gameinfop,char *path);
 void research_3_9(struct GameInfo *gameinfop,char *path);
 void research_3_10(struct GameInfo *gameinfop,char *path);
+void file_copy(char *path);
+void file_save(char *path);

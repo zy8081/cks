@@ -49,12 +49,12 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
             {
                 if(mouse_press_map(i,j)==1)
                 {
-                    if (gameinfop->m_info[i][j].building.id!=0&&gameinfop->m_info[i][j].building.bui_time!=0)
+                    if (gameinfop->m_info[i+*pysel][j+*pxsel].building.id!=0&&gameinfop->m_info[i+*pysel][j+*pxsel].building.bui_time!=0)
                     {
-                        SaveBMP(390,290,810,610,0);
                         clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
                         btn_bar_Draw(400,300,800,600);
-                        sprintf(str,"此地建筑：%s",gameinfop->m_info[i][j].building.name);
+                        sprintf(str,"此地建筑：%s",gameinfop->m_info[i+*pysel][j+*pxsel].building.name);
                         puthz3(410,310,24,24,1,str);
                         
                         puthz3(410,350,32,32,0xA000,"仍在建造中，无法拆除");
@@ -64,10 +64,10 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
                         delay(1500);
                         LoadBMP(390,290,810,610,0);
                     }
-                    else if(gameinfop->m_info[i][j].building.id==0)
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==0)
                     {
-                        SaveBMP(390,290,810,610,0);
                         clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
                         btn_bar_Draw(400,300,800,600);
                         puthz3(410,310,32,32,1,"此地并无建筑");
                         puthz3(410,360,32,32,0xA000,"无法拆除");
@@ -120,8 +120,9 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
 
 void draw_demolish_confirm(struct GameInfo *gameinfop,int i,int j)
 {
-    SaveBMP(390,290,810,610,0);
     clrmous(MouseX,MouseY);
+    SaveBMP(390,290,810,610,0);
+    
     btn_bar_Draw(400,300,800,600);
     btn_bar_Draw(400,550,500,600);
     puthz2(400,550,32,32,1,"取消");
@@ -209,8 +210,8 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
                 {
                     if (gameinfop->m_info[i][j].building.id==0)
                     {
-                        SaveBMP(390,290,810,610,0);
                         clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
                         btn_bar_Draw(400,300,800,600);
                         puthz3(410,310,24,24,0xA000,"此地啥建筑都没有！");
                         puthz2(410,350,32,32,0xA000,"禁用不了建筑！");
@@ -220,8 +221,8 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
                     }
                     else if(gameinfop->m_info[i][j].building.bui_time!=0)
                     {
-                        SaveBMP(390,290,810,610,0);
                         clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
                         btn_bar_Draw(400,300,800,600);
                         puthz3(410,310,24,24,0xA000,"此地建筑仍在建造中！");
                         puthz2(410,350,32,32,0xA000,"禁用不了建筑！");
@@ -307,8 +308,9 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
 void draw_ban_confirm(struct GameInfo *gameinfop,int i,int j,int pxsel,int pysel,int lock)
 {
     char str[30];
-    SaveBMP(390,290,810,610,0);
     clrmous(MouseX,MouseY);
+    SaveBMP(390,290,810,610,0);
+    
     btn_bar_Draw(400,300,800,600);
     btn_bar_Draw(400,550,500,600);
     puthz2(400,550,32,32,1,"取消");

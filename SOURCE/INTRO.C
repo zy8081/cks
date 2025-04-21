@@ -11,14 +11,14 @@ void intro_book(void)
     pageindex[1]=7;
     pageindex[2]=11;
     pageindex[3]=15;
-    pageindex[4]=1;
+    pageindex[4]=23;
     pageindex[5]=1;
     SaveBMP(0,0,1024,768,10);
     clear_main_all(); 
     clear_right_all();
     bar(0,0,1024,768,0xffff);
     Readbmp64k(0,0,"PICTURE\\login.bmp");
-    draw_introbook(newpage);
+    draw_introbook();
     printf_intropage_from_txt(newpage);
     clear_keyboard();
     while(1)
@@ -28,7 +28,7 @@ void intro_book(void)
         if (newpage!=oldpage)
         {
             clrmous(MouseX,MouseY);
-            draw_introbook(newpage);
+            draw_introbook();
             printf_intropage_from_txt(newpage);
             oldpage=newpage;
         }
@@ -47,7 +47,7 @@ void intro_book(void)
         }
         if (mouse_press(880,710,980,760)==1 || temp==2)
         {
-            if (newpage<17)
+            if (newpage<25)
             {
                 newpage +=2;
             }
@@ -91,7 +91,7 @@ int renew_bookpage(void)
 }
 
 
-void draw_introbook(int page)
+void draw_introbook(void)
 {
     btn_bar_Draw(100,20,550,700);
     btn_bar_Draw(550,20,1000,700);

@@ -692,7 +692,7 @@ void change_techflag(int type,int id,char *path)
 	char path2[50]={'\0'};
 	char c;
 	int i,j,k;
-	sprintf(path1,"%s\\USERTEC.TXT",path);
+	sprintf(path1,"%s\\techt.TXT",path);
 	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
@@ -700,7 +700,7 @@ void change_techflag(int type,int id,char *path)
 		printf("open error");
 		return;
 	}
-	sprintf(path2,"%s\\techt.TXT",path);
+	sprintf(path2,"%s\\techtt.TXT",path);
 	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
@@ -915,21 +915,16 @@ void free_nodet(nodet *p)
 	}
 }
 
-void get_tech_file(nodet *p,char *str)
-{
-	int len=calculate_nodet_len(p);
-	FILE *file=fopen("./data/tech.txt","r");
-	
-	fclose(file);
-}
 
-int check_techflag_infile(WORKFILE *w,int type,int id)
+int check_techflag_infile(char *path,int type,int id)
 {
-	FILE *file=fopen("./data/tech.txt","r");
+	char path1[40];
+	FILE *file;
 	char c;
 	char str[5];
 	int i;
-
+	sprintf(path1,"%s\\techt.TXT",path);
+	file=fopen(path1,"r");
 	if (file==NULL)
 	{
 		printf("open file error\n");
@@ -963,5 +958,104 @@ int check_techflag_infile(WORKFILE *w,int type,int id)
 	else
 	{
 		return 0;
+	}
+}
+
+void calculate_monthly_techpoint(struct GameInfo *gameinfop,char *path)
+{
+	int i,j;
+	int buff=100;
+	gameinfop->techpoint=0;
+	gameinfop->techpoint+=100;
+	
+	for (i=0;i<15;i++)
+	{
+		for (j=0;j<15;j++)
+		{
+			if (gameinfop->m_info[i][j].building.id==19 && gameinfop->m_info[i][j].building.bui_time==0)
+			{
+				gameinfop->techpoint+=50;
+			}
+		}
+	}
+	if (check_techflag_infile(path,1,1))
+	{
+		buff+=10;
+	}
+	if (check_techflag_infile(path,2,1))
+	{
+		buff+=10;
+	}
+	if (check_techflag_infile(path,3,1))
+	{
+		buff+=10;
+	}
+	gameinfop->techpoint = (gameinfop->techpoint)*buff;
+}
+
+void calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)
+{
+	int buff=100;
+	if (check_techflag_infile(path,1,2))
+	{
+		buff+=10;
+	}
+	if (check_techflag_infile(path,2,3))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,4))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,6))
+	{
+		buff+=10;
+	}
+	if (check_techflag_infile(path,3,7))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,8))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,9))
+	{
+		buff+=20;
+	}
+	gameinfop->happiness[1] = buff;
+}
+
+void calculate_monthly_buildpointbuff(struct GameInfo *gameinfop,char *path)
+{
+	int buff=100;
+	if (check_techflag_infile(path,1,2))
+	{
+		buff+=10;
+	}
+	if (check_techflag_infile(path,2,3))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,4))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,6))
+	{
+		buff+=10;
+	}
+	if (check_techflag_infile(path,3,7))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,8))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,3,9))
+	{
+		buff+=20;
 	}
 }

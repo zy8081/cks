@@ -11,6 +11,7 @@
 #include <MAP.h>
 #include <EVENT.h>
 #include <ROCKET.h>
+#include <change.h>
 /*
 项目中心换页控制
 */
@@ -27,7 +28,7 @@ int project(struct workfile w,int*page)
 	
 	//建筑队列
 	nodebq *p1=load_node(w);;
-	
+	file_copy(w.path);
 	gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
 	gameinfo.r_info.rarematerial=10000;
@@ -46,7 +47,7 @@ int project(struct workfile w,int*page)
 	gameinfo.happiness[0]=0;
 	gameinfo.happiness[1]=100;
 
-
+	
 	map_init(2,&gameinfo);
 	rocket_init(&(gameinfo.rocket));
 

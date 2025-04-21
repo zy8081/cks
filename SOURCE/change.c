@@ -14,7 +14,7 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 					research_1_2(gameinfop);
 					break;
 				case 3:
-					research_1_3(p1);
+					research_1_3(gameinfop);
 					break;
 				case 4:
 					research_1_4(gameinfop);
@@ -139,14 +139,14 @@ void unlock_building(int id,char *path)
 	char str[30]={'\0'};
 	char path1[35];
 	char path2[35];
-	sprintf(path1,"%s\\USERBLD.TXT",path);
+	sprintf(path1,"%s\\buildt.TXT",path);
 	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
 		printf("open error\n");
 		return;
 	}
-	sprintf(path2,"%s\\buildt.TXT",path);
+	sprintf(path2,"%s\\buildtt.TXT",path);
 	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
@@ -224,14 +224,14 @@ void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcfl
 	char path2[35];
 	int *resadd[8];
 	
-	sprintf(path1,"%s\\USERBLD.TXT",path);
+	sprintf(path1,"%s\\buildt.TXT",path);
 	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
 		printf("open error\n");
 		return;
 	}
-	sprintf(path2,"%s\\buildt.TXT",path);
+	sprintf(path2,"%s\\buildtt.TXT",path);
 	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
@@ -310,218 +310,68 @@ void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcfl
 	}
 }
 
-//科研点+10
+//科研点+10%
 void research_1_1(struct GameInfo *gameinfop)
 {
-	gameinfop->techpoint+=20;
+	return;
 }
 
 //家园建设值+10%，人民幸福度+10%
 void research_1_2(struct GameInfo *gameinfop)
 {
-	FILE *file1;
-	FILE *file2;
-	int total;
-	int i,j;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	
-	while ((c=fgetc(file1))!='\n')
-	{
-		fputc(c,file2);
-	}
-	fputc('\n',file2);
-	
-	i=0;
-	while ((c=fgetc(file1))!='\n')
-	{
-		fputc(c,file2);
-		str[i++]=c;
-	}
-	str[i]='\0';
-	fputc('\n',file2);
-	total= atoi(str);
-	
-	for (i=0;i<total;i++)
-	{
-		j=0;
-		while (j<13)
-		{
-			c=fgetc(file1);
-			if (c== ' ')
-			{
-				j++;
-			}
-			fputc(c,file2);
-		}
-		
-		i=0;
-		while ((c=fgetc(file1))!=' '&&c!='\n'&&c!=EOF)
-		{
-			str[i++]=c;
-		}
-		str[i]='\0';
-		itoa(atoi(str)-1,str,10);
-		fputs(str,file2);
-		fputc('\n',file2);
-	}
-	
-	while ((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
+	gameinfop->happiness[1]+=10;
 }
 
-//建造队列+1
-void research_1_3(nodebq *p1)
+//家园建设值+20%，人民幸福度+20%
+void research_1_3(struct GameInfo *gameinfop)
 {
-	p1->i++;
+	gameinfop->happiness[1]+=20;
+	
 }
 
-//所有建筑纳米材料-30
+//家园建设值+20%，人民幸福度+20%
 void research_1_4(struct GameInfo *gameinfop)
 {
-	FILE *file1;
-	FILE *file2;
-	int total;
-	int i,j,k;
-	char c;
-	char str[30]={'\0'};
-	
-	file1=fopen("./data/building.txt","r");
-	if (file1==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	file2=fopen("./data/buildt.txt","w");
-	if (file2==NULL)
-	{
-		printf("open error\n");
-		return;
-	}
-	
-	i=0;
-	while ((c=fgetc(file1))!='\n')
-	{
-		fputc(c,file2);
-	}
-	fputc('\n',file2);
-	
-	i=0;
-	while ((c=fgetc(file1))!='\n')
-	{
-		str[i++]=c;
-		fputc(c,file2);
-	}
-	str[i]='\0';
-	total=atoi(str);
-	fputc('\n',file2);
-	
-	
-	
-	for (i=0;i<total;i++)
-	{
-		j=0;
-		while(1)
-		{
-			while((c=fgetc(file1))!=' ')
-			{
-				fputc(c,file2);
-			}
-			fputc(' ',file2);
-			j++;
-			if (j==3)
-			{
-				k=0;
-				while((c=fgetc(file1))!=' ')
-				{
-					str[k++]=c;
-				}
-				str[k]='\0';
-				itoa(atoi(str)-30,str,10);
-				fputs(str,file2);
-				fputc(' ',file2);
-				break;
-			}
-		}
-		while((c=fgetc(file1))!='\n')
-		{
-			fputc(c,file2);
-		}
-		fputc('\n',file2);
-	}
-	
-	while((c=fgetc(file1))!=EOF)
-	{
-		fputc(c,file2);
-	}
-	
-	fclose(file1);
-	fclose(file2);
-	
-	remove("./data/building.txt");
-	rename("./data/buildt.txt","./data/building.txt");
+	gameinfop->happiness[1]+=20;
 }
 
-//解锁建筑：火箭发射台
+//家园建设值+20%
 void research_1_5(struct GameInfo *gameinfop)
 {
 	//unlock_building(7);
 }
 
-//解锁大型工程项目：发射卫星
+//人民幸福度+10%，住宅区人口+100
 void research_1_6(struct GameInfo *gameinfop)
 {
-	
+	gameinfop->happiness[1]+=10;
 }
 
-//解锁大型工程项目：载人航天
+//家园建设值+10%，人民幸福度+20%
 void research_1_7(struct GameInfo *gameinfop)
 {
-	
+	gameinfop->happiness[1]+=20;
 }
 
-//每月科研点+50
+//人民幸福度+20%
 void research_1_8(struct GameInfo *gameinfop)
 {
-	gameinfop->techpoint+=50;
+	gameinfop->happiness[1]+=20;
 }
 
-//解锁大型工程项目：太空聚光镜
+//人民幸福度+20%
 void research_1_9(struct GameInfo *gameinfop)
 {
-	
+	gameinfop->happiness[1]+=20;
 }
 
+//家园建设值+1000
 void research_1_10(struct GameInfo *gameinfop)
 {
 	
 }
 
-//每月科研点+20
+//科研点+10%
 void research_2_1(struct GameInfo *gameinfop)
 {
 	gameinfop->techpoint +=20;
@@ -621,7 +471,7 @@ void research_2_14(struct GameInfo *gameinfop,char *path)
 	}
 }
 
-//每月科研点+20
+//科研点+10%
 void research_3_1(struct GameInfo *gameinfop)
 {
 	gameinfop->techpoint +=20;
@@ -735,4 +585,68 @@ void research_3_9(struct GameInfo *gameinfop,char *path)
 void research_3_10(struct GameInfo *gameinfop,char *path)
 {
 	change_building_info_onfilemap(gameinfop,10,8,50,path);
+}
+
+void file_copy(char *path)
+{
+	FILE *file1;
+	FILE *file2;
+	char c;
+	char path1[35];
+	char path2[35];
+	sprintf(path1,"%s\\USERBLD.TXT",path);
+	file1=fopen(path1,"r");
+	if (file1==NULL)
+	{
+		printf("open error\n");
+		return;
+	}
+	sprintf(path2,"%s\\buildt.TXT",path);
+	file2=fopen(path2,"w");
+	if (file2==NULL)
+	{
+		printf("open error\n");
+		return;
+	}
+	
+	while((c=fgetc(file1))!=EOF)
+	{
+		fputc(c,file2);
+	}
+	
+	fclose(file1);
+	fclose(file2);
+	sprintf(path1,"%s\\USERTEC.TXT",path);
+	file1=fopen(path1,"r");
+	if (file1==NULL)
+	{
+		printf("open error\n");
+		return;
+	}
+	sprintf(path2,"%s\\techt.TXT",path);
+	file2=fopen(path2,"w");
+	if (file2==NULL)
+	{
+		printf("open error\n");
+		return;
+	}
+	while((c=fgetc(file1))!=EOF)
+	{
+		fputc(c,file2);
+	}
+	fclose(file1);
+	fclose(file2);
+}
+
+//保存文件
+void file_save(char *path)
+{
+	FILE *file1;
+	FILE *file2;
+	char path1[35];
+	char path2[35];
+	sprintf(path1,"%s\\USERBLD.TXT",path);
+	sprintf(path2,"%s\\buildt.TXT",path);
+	remove(path1);
+	rename(path2,path1);
 }
