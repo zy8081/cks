@@ -87,7 +87,7 @@ struct GameInfo
 	int fail;
 };
 
-int project(struct workfile w);
+int project(struct workfile *w,int *page);
 
 
 void get_all_resourceinfo(struct GameInfo *gameinfop);

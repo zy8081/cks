@@ -1,10 +1,12 @@
 #include<ALLFUNS.h>
-void time_flow(struct GameInfo *gameinfop,nodebq *p)
+void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 {
 	int data[8];
 	int i,j;
 	nodebq *temp=p;
 	calculate_monthly_income(gameinfop,data);
+	generate_building_log(gameinfop,p,1,workfilep->path);
+	generate_tech_log(gameinfop,1,workfilep->path);
 	gameinfop->r_info.nanomaterial+=data[0];
 	gameinfop->r_info.rarematerial+=data[1];
 	gameinfop->r_info.oxygen+=data[2];

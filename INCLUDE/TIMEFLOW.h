@@ -1,6 +1,6 @@
 #ifndef __TIMEFLOW_H
 #define __TIMEFLOW_H
-void time_flow(struct GameInfo *gameinfop,nodebq *p);
+void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep);
 void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n);
 //void backprtt();
 int time_warning();//0·ñ1ÊÇ2ÍË³ö

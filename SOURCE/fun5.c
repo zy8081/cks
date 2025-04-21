@@ -179,41 +179,6 @@ void draw_fun5_1(void)
 {
 	puthz(300,300,"ÏÂ¸öÔÂ", 32,40, 1);
 }
-/*
-void time_flow(struct GameInfo *gameinfop,nodebq *p,int (*event)[2])
-{
-	int data[8];
-	int i,j;
-	nodebq *temp=p;
-	calculate_monthly_income(gameinfop,data);
-	gameinfop->r_info.nanomaterial+=data[0];
-	gameinfop->r_info.rarematerial+=data[1];
-	gameinfop->r_info.oxygen+=data[2];
-	gameinfop->r_info.water+=data[3];
-	gameinfop->r_info.food+=data[4];
-	gameinfop->r_info.energy+=data[5];
-	gameinfop->r_info.fuel+=data[6];
-	gameinfop->r_info.mineral+=data[7];
-	
-	for (i=0;i<p->i;i++)
-	{
-		temp=temp->next;
-		if (temp==NULL)
-		{
-			break;
-		}
-		gameinfop->m_info[temp->i][temp->j].building.bui_time--;
-		if (gameinfop->m_info[temp->i][temp->j].building.bui_time==0)
-		{
-			headremove_nodebq(p);
-		}
-	}
-	eventshow(*event,gameinfop);
-	(*event)[0]=0;
-	(*event)[1]=0;
-	//bar(0,0,100,30,65535);
-}
-*/
 
 
 nodes *create_nodes(void)

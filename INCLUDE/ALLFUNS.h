@@ -55,4 +55,5 @@
 #include <intro.h>
 #include <RES.h>
 #include <TIMEFLOW.h>
+#include <log.h>
 #endif
