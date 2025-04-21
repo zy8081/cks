@@ -8,6 +8,7 @@
 #include <fun1.h>
 #include <fun2.h>
 #include <SL.h>
+#include<RES.h>
 
 
 int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
@@ -110,8 +111,8 @@ void proj_fun2_1(struct GameInfo *gameinfop)
 
 void get_all_resourceinfo(struct GameInfo *gameinfop)
 {
-	char *s[8]={"纳米材料","稀有材料","氧气","淡水","食物","能源","燃料","矿物"};
-	long int data1[8];
+	char *s[11]={"纳米材料","稀有材料","氧气","淡水","食物","能源","燃料","矿物","人口","幸福度","建设度"};
+	long int data1[11];
 	int data2[8];
 	
 	
@@ -125,11 +126,14 @@ void get_all_resourceinfo(struct GameInfo *gameinfop)
 	data1[5]=gameinfop->r_info.energy;
 	data1[6]=gameinfop->r_info.fuel;
 	data1[7]=gameinfop->r_info.mineral;
+	data1[8]=gameinfop->people;
+	data1[9]=happiness_count(gameinfop);
+	data1[10]=constrc_count(gameinfop);
 	calculate_monthly_income(gameinfop,data2);
 
 	puthz(240, 110,"资源统计：",48,48,1);
 	puthz(600, 110,"资源月收支：",48,48,1);
-	for (j=0;j<8;j++)
+	for (j=0;j<11;j++)
 	{
 		i=0;
 		while(str[i]!='\0')
@@ -138,7 +142,10 @@ void get_all_resourceinfo(struct GameInfo *gameinfop)
 		}
 		sprintf(str,"%s:%d",s[j],data1[j]);
 		put_hz24_asc32(260,190+j*55,str,1,"HZK\\Hzk24k");
-		
+	}
+	for (j=0;j<8;j++)
+	{	
+		i=0;
 		while(str[i]!='\0')
 		{
 			str[i++]='\0';

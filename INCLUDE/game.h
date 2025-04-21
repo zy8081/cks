@@ -76,15 +76,18 @@ struct GameInfo
 	RKTINFO rocket;
 	struct MapInfo m_info[15][15];
 	struct ResAllInfo r_info;
+	struct ResAllInfo r_info_t;
 	struct technologydata gametech[3];
 	int techpoint;
 	int year;
 	int month;
 	int people;
-	int happiness[2];
+	int happiness[2];//0为具体值，1为百分比
+	int construction;
+	int fail;
 };
 
-int project(struct workfile w,int*page);
+int project(struct workfile w);
 
 
 void get_all_resourceinfo(struct GameInfo *gameinfop);

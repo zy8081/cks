@@ -183,14 +183,13 @@ void drawworkmain(int workpage,int n,char* user)
 //void read
 
 
-void worksearch(int page,int n,char*path[],char*user)
+void worksearch(int page,int n,char*(path[]),char*user)
 {
-    char temp;
+    char temp=0;
     char*patht=malloc((size_t)60);
-    int i=0;
-    int j;
     int k=0;
     int g=(page-1)*4+n;
+    int i=0;
     FILE* f;
     char c;
     sprintf(patht,"WORKS\\%s\\CONTENT.TXT",user);
@@ -199,61 +198,23 @@ void worksearch(int page,int n,char*path[],char*user)
     {
         debug_file_printf(patht);
     }
-    //put_asc16_size(0,160,1,1,"opened",10000);
-    //put_asc16_size(0,180,1,1,patht,10000);
-    for (i=0;i<g;i++)
+    while(k!=g)
     {
-        while((c=fgetc(f))!='\n');
+        c=fgetc(f);
+        if(c=='\n')k++;
     }
-    i=0;
-    while((c=fgetc(f))!='#' )
+    while(1)
     {
-        (*path)[i++]=c;
+        temp=fgetc(f);
+        if(temp!='\n'&&temp!='#')
+        {
+            (*path)[i]=temp;
+            i++;
+        }
+        else break;
+        
     }
     (*path)[i]='\0';
-    
-    // while(1)
-    // {
-    //     temp=fgetc(f);
-    //     if(temp==':')k++;
-    //     if(g==k)
-    //     {
-    //         fseek(f,-2,1);
-    //         while(1)
-    //         {
-    //             temp=fgetc(f);
-    //             fseek(f,0,1);
-    //             if((temp>='0'&&temp<='9')||(temp>='a'&&temp<='z')||(temp>='A'&&temp<='Z')||temp=='\\'||temp==':'||temp=='.')
-    //             {
-    //                 if(temp=='.')
-    //                 {
-    //                     (*path)[i]=temp;
-    //                     i++;
-    //                     fseek(f,0,1);
-    //                     for(j=1;j<=3;j++,i++)
-    //                     {
-    //                         temp=fgetc(f);
-    //                         (*path)[i]=temp;
-    //                         fseek(f,0,1);
-    //                     }
-    //                     (*path)[i]='\0';
-    //                     break;
-    //                 }
-    //                 else 
-    //                 {
-    //                     (*path)[i]=temp;
-    //                 i++;
-    //                 }
-    //             }
-    //             else continue;    
-    //         }
-    //         break;
-    //     }
-    // }
-    //bar(0,250,100,320,65535);
-    //put_asc16_size(0,280,1,1,"searched",0);
-    //put_asc16_size(0,300,1,1,*path,25545);
-    rewind(f);
     fclose(f);
     free(patht);
     return;
