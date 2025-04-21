@@ -1,32 +1,40 @@
 #include<ALLFUNS.h>
 
-int people_max(struct GameInfo *pg)
+int people_max(struct GameInfo *pg,char *path)
 {
     int i,j;
-    int count=0;
+    int count=cal_one_house_population(path);
+    int num=0;
     for(i=0;i<15;i++)
     {
         for(j=0;j<15;j++)
         {
-            if(pg->m_info[i][j].building.id==1)
-                count+=100;//每个居住区容纳100人
+            if(pg->m_info[i][j].building.id==1 && pg->m_info[i][j].building.bui_time==0)
+            {
+                num+=count;//每个居住区容纳100人
+            }
         }
     }
-    return count;
+    num+=50;
+    return num;
 }
 
-void people_cost(struct GameInfo *pg)
+void people_cost(int *data,struct GameInfo *pg)
 {
-    int p=pg->people;
-    if(pg->r_info.water/p-300>=0)
-        pg->r_info.water-=p*60; 
-    else
-        pg->r_info.water-=p*30; 
-       
-    pg->r_info.oxygen-=p*50;
-    pg->r_info.water-=p*60;
-    pg->r_info.food-=p*50;
-    pg->r_info.energy-=p*50;
+    int i;
+    int population=pg->people;
+    // if(pg->r_info.water/p-300>=0)
+    //     pg->r_info.water-=p*60; 
+    // else
+    //     pg->r_info.water-=p*30; 
+    data[0]=0;
+    data[1]=0;
+    data[2]=-population;
+    data[3]=-population;
+    data[4]=-population;
+    data[5]=0;
+    data[6]=0;
+    data[7]=0;
 }
 
 int happiness_count(struct GameInfo *pg)
@@ -88,7 +96,7 @@ int happiness_rate_count(struct GameInfo *pg)
     return hr;
 }
 
-int constrc_count(struct GameInfo *pg)
+int constrc_count(struct GameInfo *pg,char *path)
 {
     int i,j;
     int ct=0;

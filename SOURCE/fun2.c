@@ -1,85 +1,45 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
-#include <fun1.h>
-#include <fun2.h>
-#include <SL.h>
-#include<RES.h>
+#include<ALLFUNS.h>
 
 
-int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
+int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel,WORKFILE *workfilep)
 {
 	int page=2;
-	int page2=0;
-	int now=0;
-	int flag=0;
 	int l=65;
 	int i;
-	char *s[4]={"资源统计","资源收支","火箭信息","矿物勘测"};
+	char *s[5]={"资源统计","资源预警","火箭信息","矿物勘测","家园概况"};
 	draw_main_toolbotton_activate(392,0xFFAA,"全局","资源");
 	
 	
-	draw_all_leftbuttons(4,65,s);
+	draw_all_leftbuttons(5,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
 	while (1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
-		if(main_toolbotton_mouse_press(1)==1)//now==66防止与下面主栏返回键被点中的情况冲突
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(392,0xFFAA,"全局","资源");
-            clear_main_all();
-			clear_right_all();
-            return 1;
-            
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(392,0xFFAA,"全局","资源");
-            clear_main_all();
-			clear_right_all();
-            return 2;
-
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(392,0xFFAA,"全局","资源");
-            clear_main_all();
-			clear_right_all();
-            return 3;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(392,0xFFAA,"全局","资源");
-            clear_main_all();
-			clear_right_all();
-            return 4;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(392,0xFFAA,"全局","资源");
-            clear_main_all();
-			clear_right_all();
-            return 5;
-        }
+		if (judge_press_mainbutton(2,&page))
+		{
+			return page;
+		}
 		
 		if (left_toolbotton_mouse_press(1) == 1) //左栏被点中的情况
         {
             clrmous(MouseX,MouseY);
-            //clear_main_all();
+            clear_main_all();
+			draw_all_leftbuttons(5,65,s);
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
             proj_fun2_1(gameinfop);
+            continue;
+		}
+		if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+            clear_main_all();
+			draw_all_leftbuttons(5,65,s);
+            draw_left_toolbotton_activate2(95 , l, s[1],2);//激活新的
+            clear_right_all();
+            resource_warning(gameinfop);
             continue;
 		}
 		if (left_toolbotton_mouse_press(3) == 1) //左栏被点中的情况
@@ -89,7 +49,7 @@ int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
             draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
             clear_right_all();
             rocket_info(gameinfop);
-            continue;
+            return 2;
 		}
 		if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
         {
@@ -98,7 +58,17 @@ int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
             draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
             clear_right_all();
             map_exp(gameinfop,pxsel,pysel);
-            continue;
+			return 2;
+		}
+		if (left_toolbotton_mouse_press(5) == 1) //左栏被点中的情况
+        {
+			clrmous(MouseX,MouseY);
+            clear_main_all();
+			draw_all_leftbuttons(5,65,s);
+            draw_left_toolbotton_activate2(95 , l, s[4],5);//激活新的
+            clear_right_all();
+            home_build_situation(gameinfop,workfilep->path);
+			continue;
 		}
 	}
 }
@@ -111,11 +81,12 @@ void proj_fun2_1(struct GameInfo *gameinfop)
 
 void get_all_resourceinfo(struct GameInfo *gameinfop)
 {
-	char *s[11]={"纳米材料","稀有材料","氧气","淡水","食物","能源","燃料","矿物","人口","幸福度","建设度"};
-	long int data1[11];
-	int data2[8];
-	
-	
+	char *s[8]={"纳米材料","稀有材料","氧气","淡水","食物","能源","燃料","矿物"};
+	long int data1[8];
+	int data_in[8];
+	int data_out[8];
+	int data_cal[8];
+	int data_peoplecost[8];
 	char str[30]={'\0'};
 	int i,j;
 	data1[0]=gameinfop->r_info.nanomaterial;
@@ -126,31 +97,97 @@ void get_all_resourceinfo(struct GameInfo *gameinfop)
 	data1[5]=gameinfop->r_info.energy;
 	data1[6]=gameinfop->r_info.fuel;
 	data1[7]=gameinfop->r_info.mineral;
-	data1[8]=gameinfop->people;
-	data1[9]=happiness_count(gameinfop);
-	data1[10]=constrc_count(gameinfop);
-	calculate_monthly_income(gameinfop,data2);
-
-	puthz(240, 110,"资源统计：",48,48,1);
-	puthz(600, 110,"资源月收支：",48,48,1);
-	for (j=0;j<11;j++)
+	
+	calculate_monthly_income(gameinfop,data_in);
+	calculate_monthly_outcome(gameinfop,data_out);
+	people_cost(data_peoplecost,gameinfop);
+	for (i=0;i<8;i++)
 	{
-		i=0;
-		while(str[i]!='\0')
-		{
-			str[i++]='\0';
-		}
-		sprintf(str,"%s:%d",s[j],data1[j]);
-		put_hz24_asc32(260,190+j*55,str,1,"HZK\\Hzk24k");
+		data_cal[i]=data_in[i]+data_out[i]+data_peoplecost[i];
 	}
+	puthz2(250, 110,48,48,1000,"资源统计：");
+	puthz2(620, 130,32,32,1000,"月变化：");
 	for (j=0;j<8;j++)
-	{	
-		i=0;
-		while(str[i]!='\0')
+	{
+		btn_bar_Draw(250,190+j*70,900,240+j*70);
+		sprintf(str,"%s：",s[j]);
+		puthz2(260,190+j*70,32,32,0xA000,str);
+		sprintf(str,"%d",data1[j]);
+		put_hz16_asc16_size(450,190+j*70,2,2,str,800,"HZK\\HZ16");
+		if (data_cal[j]>=0)
 		{
-			str[i++]='\0';
+			sprintf(str,"%d",data_cal[j]);
+			put_hz16_asc16_size(700,190+j*70,2,2,str,1000,"HZK\\HZ16");
 		}
-		sprintf(str,"%s:%d",s[j],data2[j]);
-		put_hz24_asc32(600,190+j*55,str,1,"HZK\\Hzk24k");
+		else
+		{
+			sprintf(str,"%d",data_cal[j]);
+			put_hz16_asc16_size(700,190+j*70,2,2,str,0xA000,"HZK\\HZ16");
+		}
 	}
+}
+
+void resource_warning(struct GameInfo *gameinfop)
+{
+	char *s[8]={"纳米材料","稀有材料","氧气","淡水","食物","能源","燃料","矿物"};
+	long int data1[8];
+	int data_in[8];
+	int data_out[8];
+	int data_cal[8];
+	int data_peoplecost[8];
+	int cal_month;
+	char str[30]={'\0'};
+	int i,j;
+	data1[0]=gameinfop->r_info.nanomaterial;
+	data1[1]=gameinfop->r_info.rarematerial;
+	data1[2]=gameinfop->r_info.oxygen;
+	data1[3]=gameinfop->r_info.water;
+	data1[4]=gameinfop->r_info.food;
+	data1[5]=gameinfop->r_info.energy;
+	data1[6]=gameinfop->r_info.fuel;
+	data1[7]=gameinfop->r_info.mineral;
+
+	calculate_monthly_income(gameinfop,data_in);
+	calculate_monthly_outcome(gameinfop,data_out);
+	people_cost(data_peoplecost,gameinfop);
+	for (i=0;i<8;i++)
+	{
+		data_cal[i]=data_in[i]+data_out[i]+data_peoplecost[i];
+	}
+	puthz2(250, 110,48,48,0xA000,"资源预警：");
+
+	for (j=0;j<8;j++)
+	{
+		btn_bar_Draw(250,190+j*70,900,240+j*70);
+		sprintf(str,"%s：",s[j]);
+		puthz2(260,190+j*70,32,32,0xA000,str);
+		if (data_cal[j]>=0)
+		{
+			puthz3(455,190+j*70,24,24,1000,"该资源很充裕");
+			continue;
+		}
+		cal_month=abs(data1[j]/data_cal[j]);
+		if (cal_month>60)
+		{
+			sprintf(str,"该资源将在%d个月后耗尽",cal_month);
+			put_hz16_asc16_size(450,190+j*70,2,2,str,1000,"HZK\\HZ16");
+			continue;
+		}
+		sprintf(str,"该资源将在%d个月后耗尽",cal_month);
+		put_hz16_asc16_size(450,190+j*70,2,2,str,0xA000,"HZK\\HZ16");
+	}
+}
+
+void home_build_situation(struct GameInfo *gameinfop,char *path)
+{
+	int happy=happiness_count(gameinfop);
+	int maxpopulation=people_max(gameinfop,path);
+	int buildpoint=constrc_count(gameinfop,path);
+	char str[40];
+	puthz2(250, 110,48,48,2000,"家园概况");
+	puthz3(250, 170,32,32,1000,"人口：");
+	sprintf(str,"%d/%d",gameinfop->people,maxpopulation);
+	put_hz16_asc16_size(350,170,2,2,str,1,"HZK\\HZ16");
+
+
 }

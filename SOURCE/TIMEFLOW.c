@@ -1,10 +1,19 @@
 #include<ALLFUNS.h>
 void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 {
+	int data1[8];
+	int data2[8];
+	int data3[8];
 	int data[8];
 	int i,j;
 	nodebq *temp=p;
-	calculate_monthly_income(gameinfop,data);
+	calculate_monthly_income(gameinfop,data1);
+	calculate_monthly_outcome(gameinfop,data2);
+	people_cost(data3,gameinfop);
+	for (i=0;i<8;i++)
+	{
+		data[i]=data1[i]+data2[i]+data3[i];
+	}
 	generate_building_log(gameinfop,p,1,workfilep->path);
 	generate_tech_log(gameinfop,1,workfilep->path);
 	gameinfop->r_info.nanomaterial+=data[0];
@@ -56,7 +65,16 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 			}
 		}
 	}
-	people_cost(gameinfop);
+	for (i=0;i<3;i++)
+	{
+		gameinfop->gametech[i].havepoints += gameinfop->techpoint;
+		if (gameinfop->gametech[i].havepoints>=gameinfop->gametech[i].totalpoints&&gameinfop->gametech[i].research_flag==1)
+		{
+			gameinfop->gametech[i].research_flag=0;
+			change_techflag(gameinfop->gametech[i].type,gameinfop->gametech[i].id,workfilep->path);
+			activate_research_effect(gameinfop->gametech[i].type,gameinfop->gametech[i].id,gameinfop,p,workfilep->path);
+		}
+	}
 	calculate_monthly_techpoint(gameinfop,workfilep->path);
 	calculate_monthly_happybuff(gameinfop,workfilep->path);
 }
@@ -411,7 +429,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
-		if(judge_press_mainbutton(5,&page)==1)
+		if(judge_press_mainbutton(5,&page))
 		{
 			return page;
 		}

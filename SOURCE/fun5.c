@@ -3,7 +3,7 @@
 int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[2])
 {
 	int page=5;
-	char *s[4]={"时间流动","模拟日志","保存游戏","退出"};
+	char *s[4]={"时间流动","模拟日志","保存游戏","退出游戏"};
 	int l=65;
 	draw_main_toolbotton_activate(866,0xBDBD,"时间","显示");
 	
@@ -91,6 +91,9 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
             clear_right_all();
             page = save_gminfo(gameinfop,pwork,5);
 			save_node(pwork,p);
+			file_save(pwork->path);
+			file_copy(pwork->path);
+			logfile_copy(pwork->path);
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
@@ -108,6 +111,9 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
 				{
 					save_gminfo(gameinfop,pwork,5);
 					save_node(pwork,p);
+					file_save(pwork->path);
+					file_copy(pwork->path);
+					logfile_copy(pwork->path);
 				}
 				return (restyle-restyle%10)/10;
 			}

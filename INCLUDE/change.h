@@ -41,3 +41,4 @@ void research_3_9(struct GameInfo *gameinfop,char *path);
 void research_3_10(struct GameInfo *gameinfop,char *path);
 void file_copy(char *path);
 void file_save(char *path);
+int cal_one_house_population(char *path);

@@ -6,6 +6,7 @@
 #include<WRKPLC.h>
 #include<DRAWWORK.h>
 #include<WRKADD.h>
+#include <MAP.h>
 #include<SL.h>
 void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
 {

@@ -6,6 +6,7 @@
 #include<WRKPLC.h>
 #include<DRAWWORK.h>
 #include<WRKADD.h>
+#include <MAP.h>
 #include<SL.h>
 
 int save_gminfo(struct GameInfo* pgameinfo,WORKFILE* pwork,int repage)

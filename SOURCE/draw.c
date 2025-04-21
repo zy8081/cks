@@ -143,6 +143,19 @@ void draw_left_toolbotton_activate(int y,int length,char*s)
 
 }
 
+void draw_left_toolbotton_activate2(int y,int length,char*s,int n)
+{
+	bar(0,y+1+length*(n-1),232,y+length-1+length*(n-1),0xBDBD);
+	line_thick(70,y+length*(n-1),103,y+length*(n-1), 1, 0xFF00 );
+	line_thick(70,y+length+length*(n-1),103,y+length+length*(n-1), 1,0xFF00 );
+	line_thick(113,y+length*(n-1),130,y+length*(n-1), 1, 0xFF00 );
+	line_thick(113,y+length+length*(n-1),130,y+length+length*(n-1), 1,0xFF00 );
+	line_thick(140,y+length*(n-1),220,y+length*(n-1), 1, 0xFF00 );
+	line_thick(140,y+length+length*(n-1),220,y+length+length*(n-1), 1,0xFF00 );
+	puthz(43,y+length/2-15+length*(n-1),s, 32,50, 0x000000);
+
+}
+
 //ª≠proΩÁ√Ê
 void draw_pro_origin(void)
 {

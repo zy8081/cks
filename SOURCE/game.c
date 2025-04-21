@@ -74,7 +74,7 @@ int project(struct workfile w)
 				proj_page=proj_fun1(&gameinfo,&xsel,&ysel);
 				break;
 			case 2:
-				proj_page=proj_fun2(&gameinfo,&xsel,&ysel);
+				proj_page=proj_fun2(&gameinfo,&xsel,&ysel,&w);
 				break;
 			case 3:
 				proj_page=proj_fun3(&gameinfo,p1,&xsel,&ysel,&w);
@@ -101,121 +101,106 @@ int project(struct workfile w)
 
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data)
 {
-	int i,j,k;
-	int income;
+	int i,j;
 	
-	k=0;
-	income=0;
-	for (i=0;i<7;i++)
+	for (i=0;i<8;i++)
 	{
-		for (j=0;j<7;j++)
+		data[i]=0;
+	}
+	
+	for (i=0;i<15;i++)
+	{
+		for (j=0;j<15;j++)
 		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
+			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0&&gameinfop->m_info[i][j].building.lock==0)
 			{
-				income+=gameinfop->m_info[i][j].building.res_add.nanomaterial;
+				if (gameinfop->m_info[i][j].building.res_add.nanomaterial>0)
+				{
+					data[0]+=gameinfop->m_info[i][j].building.res_add.nanomaterial;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.rarematerial>0)
+				{
+					data[1]+=gameinfop->m_info[i][j].building.res_add.rarematerial;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.oxygen>0)
+				{
+					data[2]+=gameinfop->m_info[i][j].building.res_add.oxygen;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.water>0)
+				{
+					data[3]+=gameinfop->m_info[i][j].building.res_add.water;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.food>0)
+				{
+					data[4]+=gameinfop->m_info[i][j].building.res_add.food;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.energy>0)
+				{
+					data[5]+=gameinfop->m_info[i][j].building.res_add.energy;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.fuel>0)
+				{
+					data[6]+=gameinfop->m_info[i][j].building.res_add.fuel;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.mineral>0)
+				{
+					data[7]+=gameinfop->m_info[i][j].building.res_add.mineral;
+				}
 			}
 		}
 	}
-	data[k]=income;
-	k++;
+}
+
+void calculate_monthly_outcome(struct GameInfo *gameinfop,int *data)
+{
+	int i,j;
 	
-	income=0;
-	for (i=0;i<7;i++)
+	for (i=0;i<8;i++)
 	{
-		for (j=0;j<7;j++)
+		data[i]=0;
+	}
+	
+	for (i=0;i<15;i++)
+	{
+		for (j=0;j<15;j++)
 		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
+			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0 &&gameinfop->m_info[i][j].building.lock==0)
 			{
-				income+=gameinfop->m_info[i][j].building.res_add.rarematerial;
+				if (gameinfop->m_info[i][j].building.res_add.nanomaterial<0)
+				{
+					data[0]+=gameinfop->m_info[i][j].building.res_add.nanomaterial;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.rarematerial<0)
+				{
+					data[1]+=gameinfop->m_info[i][j].building.res_add.rarematerial;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.oxygen<0)
+				{
+					data[2]+=gameinfop->m_info[i][j].building.res_add.oxygen;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.water<0)
+				{
+					data[3]+=gameinfop->m_info[i][j].building.res_add.water;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.food<0)
+				{
+					data[4]+=gameinfop->m_info[i][j].building.res_add.food;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.energy<0)
+				{
+					data[5]+=gameinfop->m_info[i][j].building.res_add.energy;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.fuel<0)
+				{
+					data[6]+=gameinfop->m_info[i][j].building.res_add.fuel;
+				}
+				if (gameinfop->m_info[i][j].building.res_add.mineral<0)
+				{
+					data[7]+=gameinfop->m_info[i][j].building.res_add.mineral;
+				}
 			}
 		}
 	}
-	data[k]=income;
-	k++;
-	
-	income=0;
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
-			{
-				income+=gameinfop->m_info[i][j].building.res_add.oxygen;
-			}
-		}
-	}
-	data[k]=income;
-	k++;
-	
-	income=0;
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
-			{
-				income+=gameinfop->m_info[i][j].building.res_add.water;
-			}
-		}
-	}
-	data[k]=income;
-	k++;
-	
-	income=0;
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
-			{
-				income+=gameinfop->m_info[i][j].building.res_add.food;
-			}
-		}
-	}
-	data[k]=income;
-	k++;
-	
-	income=0;
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
-			{
-				income+=gameinfop->m_info[i][j].building.res_add.energy;
-			}
-		}
-	}
-	data[k]=income;
-	k++;
-	
-	income=0;
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
-			{
-				income+=gameinfop->m_info[i][j].building.res_add.fuel;
-			}
-		}
-	}
-	data[k]=income;
-	k++;
-	
-	income=0;
-	for (i=0;i<7;i++)
-	{
-		for (j=0;j<7;j++)
-		{
-			if (gameinfop->m_info[i][j].building.id>0 && gameinfop->m_info[i][j].building.bui_time==0)
-			{
-				income+=gameinfop->m_info[i][j].building.res_add.mineral;
-			}
-		}
-	}
-	data[k]=income;
-	k++;
 }
 
 
@@ -260,23 +245,6 @@ int proj_origin(struct GameInfo* gameinfop)
     }
 
 }
-
-
-
-
-
-
-
-//void get_techflag_all(tree *p)
-//{
-//	if (p==NULL)
-//	{
-//		return;
-//	}
-//	get_techflag_all(p->leftchild);
-//	get_techflag_all(p->rightchild);
-//	get_techflag(p);
-//}
 
 
 int judge_press_mainbutton(int flag,int *page)

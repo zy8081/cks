@@ -92,7 +92,7 @@ int project(struct workfile w);
 
 void get_all_resourceinfo(struct GameInfo *gameinfop);
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data);
-
+void calculate_monthly_outcome(struct GameInfo *gameinfop,int *data);
 int proj_origin(struct GameInfo* gameinfop);
 
 

@@ -649,4 +649,28 @@ void file_save(char *path)
 	sprintf(path2,"%s\\buildt.TXT",path);
 	remove(path1);
 	rename(path2,path1);
+
+	sprintf(path1,"%s\\USERTEC.TXT",path);
+	sprintf(path2,"%s\\techt.TXT",path);
+	remove(path1);
+	rename(path2,path1);
+
+	sprintf(path1,"%s\\log.TXT",path);
+	sprintf(path2,"%s\\logt.TXT",path);
+	remove(path1);
+	rename(path2,path1);
+}
+
+int cal_one_house_population(char *path)
+{
+	int num=100;
+	if (check_techflag_infile(path,1,6))
+	{
+		num+=50;
+	}
+	if (check_techflag_infile(path,2,5))
+	{
+		num+=50;
+	}
+	return num;
 }

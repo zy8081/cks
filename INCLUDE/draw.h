@@ -13,6 +13,7 @@ int main_toolbotton_mouse_press(int x);
 int left_toolbotton_mouse_press(int x);
 int build_press(int x);
 void draw_left_toolbotton_activate(int y,int length,char*s);
+void draw_left_toolbotton_activate2(int y,int length,char*s,int n);
 void draw_main_toolbotton_activate(int x,int color,char*s1,char*s2);
 void draw_all_leftbuttons(int num,int len,char *s[]);
 void clear_main_all(void);
