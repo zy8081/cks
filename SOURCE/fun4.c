@@ -995,7 +995,7 @@ void calculate_monthly_techpoint(struct GameInfo *gameinfop,char *path)
 	{
 		buff+=10;
 	}
-	gameinfop->techpoint = (gameinfop->techpoint)*buff;
+	gameinfop->techpoint = (gameinfop->techpoint)*buff/100;
 }
 
 void calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)

@@ -340,7 +340,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel,
 						{
 							if(mouse_press_map(i,j)==1&&gameinfop->m_info[*pysel+i][*pxsel+j].building.id==0)
 							{
-								lastinsert_nodebq(p1,i,j);
+								lastinsert_nodebq(p1,*pysel+i,*pxsel+j);
 								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_cost.nanomaterial=building[k].res_cost.nanomaterial;
 								gameinfop->m_info[*pysel+i][*pxsel+j].building.res_cost.rarematerial=building[k].res_cost.rarematerial;
 								//char
@@ -413,7 +413,7 @@ int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct
 	int i=0,j=0;
 	int flag;
 	nodeb *p;
-	flag=get_building_info((newpage-1)*5+location,building,workfilep);
+	flag=get_building_info((newpage-1)*5+location,building,workfilep->path);
 	if(flag)
 	{
 		return 1;
@@ -497,16 +497,16 @@ int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct
 请注意，由于科技功能解锁建筑的加入，这个id变成了第id个建筑的意思，并非对应建筑的id
 详细可参考data文件夹中的building.txt文件
 */
-int get_building_info(int localine,struct Building* building,struct workfile *workfilep)
+int get_building_info(int localine,struct Building* building,char *path)
 {
 	int total;
 	int i;
 	char c;
 	char str[20]={'\0'};
-	char path[50];
+	char path1[50];
 	FILE *file;
-	sprintf(path,"%s\\buildt.TXT",workfilep->path);
-	file=fopen(path,"r");
+	sprintf(path1,"%s\\buildt.TXT",path);
+	file=fopen(path1,"r");
 	if (file==NULL)
 	{
 		debug_file_printf(path);

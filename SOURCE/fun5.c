@@ -75,7 +75,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[1]);//¼¤»îĞÂµÄ
             clear_right_all();
-            //page=build(gameinfop);
+            page=log_display(work.path);
             return page;   
 		}
 		
@@ -212,6 +212,8 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 	int i,j;
 	nodebq *temp=p;
 	calculate_monthly_income(gameinfop,data);
+	generate_building_log(gameinfop,p,1,workfilep->path);
+	generate_tech_log(gameinfop,1,workfilep->path);
 	gameinfop->r_info.nanomaterial+=data[0];
 	gameinfop->r_info.rarematerial+=data[1];
 	gameinfop->r_info.oxygen+=data[2];
@@ -246,7 +248,9 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 			activate_research_effect(gameinfop->gametech[i].type,gameinfop->gametech[i].id,gameinfop,p,workfilep->path);
 		}
 	}
-
+	calculate_monthly_techpoint(gameinfop,workfilep->path);
+	calculate_monthly_happybuff(gameinfop,workfilep->path);
+	//calculate_monthly_buildpointbuff(gameinfop,workfilep->path);
 }
 
 
