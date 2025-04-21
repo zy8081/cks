@@ -79,7 +79,7 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[1]);//¼¤»îĞÂµÄ
             clear_right_all();
-            //page=build(gameinfop);
+            page=log_display(pwork->path);
             return page;   
 		}
 		

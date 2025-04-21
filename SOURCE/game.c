@@ -16,7 +16,7 @@
 /*
 项目中心换页控制
 */
-int project(struct workfile *w,int*page)
+int project(struct workfile w)
 {
 	int proj_page=0;
 	char path[20]={'\0'};
@@ -28,9 +28,9 @@ int project(struct workfile *w,int*page)
 	struct Resource res_earns;
 	
 	//建筑队列
-	nodebq *p1=load_node(&w);
-	file_copy(w->path);
-	logfile_copy(w->path);
+	nodebq *p1=load_node(w);
+	file_copy(w.path);
+	logfile_copy(w.path);
 	gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
 	gameinfo.r_info.rarematerial=10000;
@@ -53,7 +53,7 @@ int project(struct workfile *w,int*page)
 	map_init(2,&gameinfo);
 	rocket_init(&(gameinfo.rocket));
 
-	load_gminfo(*w,&gameinfo);
+	load_gminfo(w,&gameinfo);
 	/*
 	这里预留空间通过文件读取操作访问存档
 	
@@ -83,7 +83,7 @@ int project(struct workfile *w,int*page)
 				proj_page=proj_fun4(&gameinfo,&w);
 				break;
 			case 5:
-				proj_page=proj_fun5(&gameinfo,p1,w,&events);
+				proj_page=proj_fun5(&gameinfo,p1,&w,&events);
 				eventshow(events,&gameinfo);
 				events[0]=0;
 				events[1]=0;

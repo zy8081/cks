@@ -57,10 +57,11 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 		}
 	}
 	people_cost(gameinfop);
-	
+	calculate_monthly_techpoint(gameinfop,workfilep->path);
+	calculate_monthly_happybuff(gameinfop,workfilep->path);
 }
 
-void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
+void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n,WORKFILE *workfilep)
 {
 	int i,j;
 	int events[36][2];
@@ -82,7 +83,7 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 	}
 	for(i=0;i<n;i++)
 	{
-		time_flow(gameinfop,p);
+		time_flow(gameinfop,p,workfilep);
 		eventsc(&temp);
 		events[i][0]=temp[0];
 		events[i][1]=temp[1];
@@ -419,7 +420,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			if(time_comf(1)==1)
 			{
 				eventsc(event);
-				time_flow(pg,p);
+				time_flow(pg,p,pw);
 				eventshow(*event,pg);
 				(*event)[0]=0;
 				(*event)[1]=0;
@@ -440,7 +441,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 		{
 			if(time_comf(3)==1)
 			{
-				timeflow_more(pg,p,3);
+				timeflow_more(pg,p,3,pw);
 				//eventshow(*event,gameinfop);
 				clear_time();
 				draw_time(pg);
@@ -462,7 +463,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			{
 				if(time_warning()==1)
 				{
-					timeflow_more(pg,p,6);
+					timeflow_more(pg,p,6,pw);
 					clear_time();
 					draw_time(pg);
 				//eventshow(*event,gameinfop);
@@ -484,7 +485,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			{
 				if(time_warning()==1)
 				{
-					timeflow_more(pg,p,12);
+					timeflow_more(pg,p,12,pw);
 					clear_time();
 					draw_time(pg);
 					clear_right_all();
@@ -513,7 +514,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					if(time_warning()==1)
 					{
 						LoadBMP(317,300,707,520,13);
-						timeflow_more(pg,p,n);
+						timeflow_more(pg,p,n,pw);
 						clear_time();
 						draw_time(pg);
 						clear_right_all();
@@ -532,7 +533,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				}
 				else
 				{
-					timeflow_more(pg,p,n);
+					timeflow_more(pg,p,n,pw);
 					clear_time();
 					draw_time(pg);
 					clear_right_all();
