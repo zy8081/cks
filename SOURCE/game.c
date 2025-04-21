@@ -27,7 +27,7 @@ int project(struct workfile w)
 	
 	//建筑队列
 	nodebq *p1=load_node(w);
-	
+/*	
 	gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
 	gameinfo.r_info.rarematerial=10000;
@@ -46,18 +46,22 @@ int project(struct workfile w)
 	gameinfo.happiness[0]=0;
 
 	map_init(2,&gameinfo);
-	rocket_init(&(gameinfo.rocket));
-
+	rocket_init(&(gameinfo.rocket));/
+*/
 	load_gminfo(w,&gameinfo);
-	/*
-	这里预留空间通过文件读取操作访问存档
 	
-	
-	*/
 	clrmous(MouseX,MouseY); 
 	delay(100); 
 	cleardevice();
 	
+	gameinfo.r_info.oxygen=0;
+
+	if(fail_judge(&gameinfo)==1)
+	{
+		event_fail(&gameinfo,&w);
+		return 4;
+	}
+
 	while (1)
 	{
 		switch(proj_page)
@@ -78,8 +82,8 @@ int project(struct workfile w)
 				proj_page=proj_fun4(&gameinfo,&w);
 				break;
 			case 5:
-				proj_page=proj_fun5(&gameinfo,p1,w,&events);
-				bar(0,0,100,30,65535);
+				proj_page=proj_fun5(&gameinfo,p1,&w,&events);
+				//bar(0,0,100,30,65535);
 				//put_hz24_asc32(0,0,"done2",0,"HZK\\HZK24");
 				//getch();
 				

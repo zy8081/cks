@@ -94,6 +94,19 @@ void eventshow(int events[2],struct GameInfo* pgameinfo)
 
 void event_scb(struct GameInfo* pgameinfo)
 {
+    scb_show();
+    scb_data(pgameinfo);
+    while(1)
+    {
+        mouse_renew(&MouseX,&MouseY,&press);
+        if(mouse_press(0,0,1024,768)==1)break;
+    }
+    return;
+}
+
+void scb_show()
+{
+    clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\scb.bmp");//换贴图
     bar(277,565,747,720,0);
@@ -105,11 +118,18 @@ void event_scb(struct GameInfo* pgameinfo)
     put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 
-    //pgameinfo->r_info.nanomaterial=-100;
+}
+
+void scb_data(struct GameInfo* pgameinfo)
+{
     pgameinfo->r_info.mineral-=100;
     pgameinfo->r_info.energy-=100;
     pgameinfo->r_info.oxygen-=30;
     pgameinfo->r_info.water-=30;
+}
+
+void event_yj(struct GameInfo* pgameinfo)
+{
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
@@ -119,8 +139,9 @@ void event_scb(struct GameInfo* pgameinfo)
     return;
 }
 
-void event_yj(struct GameInfo* pgameinfo)
+void yj_show()
 {
+    clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\yj.bmp");//换贴图
     bar(277,565,747,720,0);
@@ -131,24 +152,33 @@ void event_yj(struct GameInfo* pgameinfo)
     put_hz24(300,635,"极大地推动了火星家园的建设",65535,"HZK\\HZK24",0);
     put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+}
+
+void yj_data(struct GameInfo* pgameinfo)
+{
     pgameinfo->r_info.mineral+=100;
     pgameinfo->r_info.energy+=100;
     pgameinfo->r_info.oxygen+=100;
     pgameinfo->r_info.water+=100;
     pgameinfo->r_info.rarematerial+=100;
     pgameinfo->r_info.nanomaterial+=100;
+}
 
+void event_dz(struct GameInfo* pgameinfo)
+{
+    dz_show();
+    dz_data(pgameinfo);
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
         if(mouse_press(0,0,1024,768)==1)break;
     }
-
     return;
 }
 
-void event_dz(struct GameInfo* pgameinfo)
+void dz_show()
 {
+    clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
     //bar(277,125,747,595,0);//换贴图
     Readbmp64k(277,105,"PICTURE\\dz.bmp");
@@ -161,6 +191,10 @@ void event_dz(struct GameInfo* pgameinfo)
     put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 
+}
+
+void dz_data(struct GameInfo* pgameinfo)
+{
     pgameinfo->r_info.mineral-=200;
     pgameinfo->r_info.energy-=1000;
     pgameinfo->r_info.oxygen-=20;
@@ -169,6 +203,12 @@ void event_dz(struct GameInfo* pgameinfo)
     pgameinfo->r_info.nanomaterial-=60;
     pgameinfo->r_info.food-=60;
     pgameinfo->r_info.fuel-=60;
+}
+
+void event_yq(struct GameInfo* pgameinfo)
+{
+    yq_show();
+    yq_data(pgameinfo);
 
     while(1)
     {
@@ -179,8 +219,9 @@ void event_dz(struct GameInfo* pgameinfo)
     return;
 }
 
-void event_yq(struct GameInfo* pgameinfo)
+void yq_show()
 {
+    clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\yq.bmp");//换贴图
     bar(277,565,747,720,0);
@@ -191,12 +232,21 @@ void event_yq(struct GameInfo* pgameinfo)
     put_hz24(300,635,"由于未知的故障，氧气不断地泄露",65535,"HZK\\HZK24",0);
     put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+}
+    
 
+void yq_data(struct GameInfo* pgameinfo)
+{
     pgameinfo->r_info.energy-=100;
     pgameinfo->r_info.oxygen-=500;
     pgameinfo->r_info.rarematerial-=50;
     pgameinfo->r_info.nanomaterial-=50;
+}
 
+void event_sbgz(struct GameInfo* pgameinfo)
+{
+    sbgz_show();
+    sbgz_data(pgameinfo);
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
@@ -206,7 +256,7 @@ void event_yq(struct GameInfo* pgameinfo)
     return;
 }
 
-void event_sbgz(struct GameInfo* pgameinfo)
+void sbgz_show()
 {
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\sbgz.bmp");//换贴图
@@ -218,12 +268,20 @@ void event_sbgz(struct GameInfo* pgameinfo)
     put_hz24(300,635,"从地球远道而来的小问题也略显棘手",65535,"HZK\\HZK24",0);
     put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+}
 
+void sbgz_data(struct GameInfo* pgameinfo)
+{
     pgameinfo->r_info.energy-=100;
     pgameinfo->r_info.rarematerial-=100;
     pgameinfo->r_info.nanomaterial-=100;
     pgameinfo->r_info.fuel-=60;
+}
 
+void event_yz(struct GameInfo* pgameinfo)
+{
+    yz_show();
+    yz_data(pgameinfo);
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
@@ -233,20 +291,12 @@ void event_sbgz(struct GameInfo* pgameinfo)
     return;
 }
 
-void event_yz(struct GameInfo* pgameinfo)
+void yz_show()
 {
+    clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\yz.bmp");//换贴图
     bar(277,565,747,720,0);
-
-    pgameinfo->r_info.mineral+=200;
-    pgameinfo->r_info.energy+=1000;
-    pgameinfo->r_info.oxygen+=200;
-    pgameinfo->r_info.water+=200;
-    pgameinfo->r_info.rarematerial+=300;
-    pgameinfo->r_info.nanomaterial+=300;
-    pgameinfo->r_info.food+=300;
-    pgameinfo->r_info.fuel+=300;
 
     put_hz24(270,70,"国际援助",65535,"HZK\\HZK24",0);
     put_hz24(300,575,"来自他国的援助不期而至",65535,"HZK\\HZK24",0);
@@ -255,30 +305,55 @@ void event_yz(struct GameInfo* pgameinfo)
     put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 
-    while(1)
-    {
-        mouse_renew(&MouseX,&MouseY,&press);
-        if(mouse_press(0,0,1024,768)==1)break;
-    }
+}
 
-    return;
+void yz_data(struct GameInfo* pgameinfo)
+{
+    pgameinfo->r_info.mineral+=200;
+    pgameinfo->r_info.energy+=1000;
+    pgameinfo->r_info.oxygen+=200;
+    pgameinfo->r_info.water+=200;
+    pgameinfo->r_info.rarematerial+=300;
+    pgameinfo->r_info.nanomaterial+=300;
+    pgameinfo->r_info.food+=300;
+    pgameinfo->r_info.fuel+=300;
 }
 
 void event_rocket(struct GameInfo* pgameinfo)
 {
     if(pgameinfo->rocket.apply!=-1&&pgameinfo->year==pgameinfo->rocket.year&&pgameinfo->month==pgameinfo->rocket.month)
     {
-        btn_bar_Draw(250,50,774,740);
-        Readbmp64k(277,105,"PICTURE\\hj.bmp");//换贴图
-        bar(277,565,747,720,0);
+        rocket_show();
+        rocket_data(pgameinfo);
 
-        put_hz24(270,70,"火箭到达",65535,"HZK\\HZK24",0);
-        put_hz24(300,575,"在沸腾的火焰中",65535,"HZK\\HZK24",0);
-        put_hz24(300,605,"火箭从空中缓缓降落",65535,"HZK\\HZK24",0);
-        put_hz24(300,635,"地球与火星，永远同在",65535,"HZK\\HZK24",0);
-        put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
-        put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+        while(1)
+        {
+            mouse_renew(&MouseX,&MouseY,&press);
+            if(mouse_press(0,0,1024,768)==1)break;
+        }
+    }
+    
+    return;
+}
 
+void rocket_show()
+{
+    btn_bar_Draw(250,50,774,740);
+    Readbmp64k(277,105,"PICTURE\\hj.bmp");//换贴图
+    bar(277,565,747,720,0);
+
+    put_hz24(270,70,"火箭到达",65535,"HZK\\HZK24",0);
+    put_hz24(300,575,"在沸腾的火焰中",65535,"HZK\\HZK24",0);
+    put_hz24(300,605,"火箭从空中缓缓降落",65535,"HZK\\HZK24",0);
+    put_hz24(300,635,"地球与火星，永远同在",65535,"HZK\\HZK24",0);
+    put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
+}
+
+void rocket_data(struct GameInfo* pgameinfo)
+{
+    if(pgameinfo->rocket.apply!=-1&&pgameinfo->year==pgameinfo->rocket.year&&pgameinfo->month==pgameinfo->rocket.month)
+    {
         pgameinfo->r_info.nanomaterial+=pgameinfo->rocket.resadd.nanomaterial;
         pgameinfo->r_info.rarematerial+=pgameinfo->rocket.resadd.rarematerial;
         pgameinfo->r_info.oxygen+=pgameinfo->rocket.resadd.oxygen;
@@ -289,16 +364,9 @@ void event_rocket(struct GameInfo* pgameinfo)
         pgameinfo->r_info.mineral+=pgameinfo->rocket.resadd.mineral;
 
         pgameinfo->people+=pgameinfo->rocket.peopleadd;
-        
+
         rocket_init(&(pgameinfo->rocket));
-        while(1)
-        {
-            mouse_renew(&MouseX,&MouseY,&press);
-            if(mouse_press(0,0,1024,768)==1)break;
-        }
     }
-    
-    return;
 }
 
 void event_warning(struct GameInfo* pgameinfo)
@@ -438,3 +506,39 @@ int prt_warning(int re,int t,int ret)
 //{
 
 //}
+
+void event_fail(struct GameInfo *pg,WORKFILE* pw)
+{
+    clrmous(MouseX,MouseY);
+    btn_bar_Draw(250,50,774,740);
+    Readbmp64k(277,105,"PICTURE\\hj.bmp");//换贴图
+    bar(277,565,747,720,0);
+
+    put_hz24(270,70,"项目失败",63776,"HZK\\HZK24",0);
+    put_hz24(300,575,"由于相关资源耗尽",65535,"HZK\\HZK24",0);
+    put_hz24(300,605,"本项目遗憾失败",65535,"HZK\\HZK24",0);
+    put_hz24(300,635,"但我们探索宇宙的脚步",65535,"HZK\\HZK24",0);
+    put_hz24(300,665,"不会停止",65535,"HZK\\HZK24",0);
+    //put_hz24(300,695,"（）",65535,"HZK\\HZK24",0);
+    btn_bar_Draw(420,695,620,725);
+    put_hz24(425,695,"点击保存并退出至项目管理",65535,"HZK\\HZK24",0);
+    
+    while(1)
+    {
+        mouse_renew(&MouseX,&MouseY,&press);
+        if(mouse_press(420,695,620,725)==1)
+        {
+            save_gminfo(pg,pw,1);
+            return;
+        }
+    }
+}
+
+int fail_judge(struct GameInfo* pg)
+{
+    if(pg->r_info.oxygen<=0)return 1;
+    else if(pg->r_info.food<=0)return 1;
+    else if(pg->r_info.water<=0)return 1;
+    else if(pg->r_info.energy<=0)return 1;
+    else return 0;
+}

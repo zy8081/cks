@@ -326,6 +326,8 @@ void draw_block(int x,int y,struct MapInfo* mi,int form)
     
 }
 
+
+
 void draw_mainmap(struct GameInfo *gf,int xsel,int ysel)
 {
     int i,j;
@@ -462,17 +464,35 @@ void draw_minimap(struct GameInfo *gf,int xsel,int ysel)
 
 }
 
-/*void mine_exp()
+void draw_otherblock(int x,int y)
 {
+    int x1=300+x*92;
+    int y1=105+y*92;
+    int x2=390+x*92;
+    int y2=195+y*92;
+    char bmppath[30];
+    line_thick(x1, y1, x2, y1, 2,0);
+    line_thick(x2, y1, x2, y2, 2,0);
+    line_thick(x1, y2, x2, y2, 2,0);
+    line_thick(x1, y1, x1, y2, 2,0);
+    bar(x1+3,y1+3,x2-3,y2-3,38770);
+}
 
-}*/
+
 void draw_expblock(struct GameInfo* gf,int xsel,int ysel,int i,int j)
 {
     int x1=300+i*92;
     int y1=105+j*92;
     int x2=390+i*92;
     int y2=195+j*92;
-    draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
+    if(gf->m_info[xsel+i][ysel+j].building.id==0)
+    {
+        draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
+    }
+    else
+    {
+        draw_otherblock(i,j);
+    }
     if(gf->m_info[xsel+i][ysel+j].exp==0&&gf->m_info[xsel+i][ysel+j].building.id==0)
     {
         put_hz24(x1+10,(y1+y2)/2-10,"未勘测",0,"HZK\\HZK24",0);
@@ -603,8 +623,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
     line_thick(x2, y1, x2, y2, 2,0);
     line_thick(x1, y2, x2, y2, 2,0);
     line_thick(x1, y1, x1, y2, 2,0);
-    if(pg->m_info[*pxsel+i][*pysel+j].building.id==0)
-    {
+
         if(pg->m_info[*pxsel+i][*pysel+j].exp==0)
         {
             char s[15];
@@ -672,26 +691,5 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
                 }
             }
         }                    
-    }
-    else
-    {
-        SaveBMP(390,293,637,478,20);
-        menuprt(390,293,637,478);
-        put_hz24_asc32(400,303,"该处有建筑无法勘探！",0,"HZK\\HZK24");
-        put_hz24_asc32(400,333,"(点击任意处继续)",0,"HZK\\HZK24");
-        press=0;
-        delay(300);
-        while(1)
-        {
-            mouse_renew(&MouseX,&MouseY,&press);
-            if(mouse_press(0,0,1024,768)==1)
-            {
-                press=0;
-                delay(300);
-                cleankey();
-                LoadBMP(390,293,637,478,20);
-                return;
-            }
-        }
-    }
+    
 }

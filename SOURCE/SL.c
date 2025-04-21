@@ -8,10 +8,10 @@
 #include<WRKADD.h>
 #include<SL.h>
 
-int save_gminfo(struct GameInfo* pgameinfo,WORKFILE work,int repage)
+int save_gminfo(struct GameInfo* pgameinfo,WORKFILE* pwork,int repage)
 {
 	
-	FILE *file=fopen(work.path_dat,"wb");
+	FILE *file=fopen(pwork->path_dat,"wb");
 	struct GameInfo* t=malloc(sizeof(struct GameInfo));
 	*t=*pgameinfo;
 	//strcpy(pathdat,work.path_dat);
@@ -84,12 +84,12 @@ void gminfo_init(char* datpath,int t)
 
 }
 
-void save_node(WORKFILE work,nodebq* pnode1)
+void save_node(WORKFILE* work,nodebq* pnode1)
 {
 	char pathnode[50];
 	FILE* fnode;
 	nodebq* pnode=pnode1;
-	strcpy(pathnode,work.path);
+	strcpy(pathnode,work->path);
 	strcat(pathnode,"\\usernode.nod");
 	fnode=fopen(pathnode,"rb+");
 	while(pnode!=NULL)

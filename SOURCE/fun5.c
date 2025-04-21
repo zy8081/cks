@@ -1,6 +1,6 @@
 #include<ALLFUNS.h>
 
-int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2])
+int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[2])
 {
 	int page=5;
 	char *s[4]={"时间流动","模拟日志","保存游戏","退出"};
@@ -64,7 +64,8 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
-            page=proj_fun5_1(gameinfop,p,events);
+            page=timeflow(gameinfop,p,events);
+			
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
@@ -83,8 +84,8 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
             clear_right_all();
-            page = save_gminfo(gameinfop,work,5);
-			save_node(work,p);
+            page = save_gminfo(gameinfop,pwork,5);
+			save_node(pwork,p);
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
@@ -100,8 +101,8 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE work,int(*events)[2]
 			{
 				if(restyle%10==1)
 				{
-					save_gminfo(gameinfop,work,5);
-					save_node(work,p);
+					save_gminfo(gameinfop,pwork,5);
+					save_node(pwork,p);
 				}
 				return (restyle-restyle%10)/10;
 			}
@@ -165,26 +166,6 @@ int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
             return 5;
         }
 		
-		if (mouse_press(300,300,390,330)==1)
-		{
-			int cevent;
-			
-			gameinfop->month++;
-			if(gameinfop->month==13)
-			{
-				gameinfop->month=1;
-				gameinfop->year++;
-			}
-			clrmous(MouseX,MouseY); 
-			clear_right_all();
-			clear_time();
-			
-			eventsc(events);
-			
-			time_flow(gameinfop,p,events);
-			draw_time(gameinfop);
-			break;
-		}
 	}
 	return 5;
 }
@@ -193,7 +174,7 @@ void draw_fun5_1(void)
 {
 	puthz(300,300,"下个月", 32,40, 1);
 }
-
+/*
 void time_flow(struct GameInfo *gameinfop,nodebq *p,int (*event)[2])
 {
 	int data[8];
@@ -227,7 +208,7 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,int (*event)[2])
 	(*event)[1]=0;
 	//bar(0,0,100,30,65535);
 }
-
+*/
 
 
 nodes *create_nodes(void)
