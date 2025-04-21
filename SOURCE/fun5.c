@@ -64,8 +64,13 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
             clear_main_all(); 
             draw_left_toolbotton_activate(95 , l, s[0]);//激活新的
             clear_right_all();
-            page=timeflow(gameinfop,p,events);
-			
+            page=timeflow(gameinfop,p,events,pwork);
+			if(page==666)
+			{
+				event_fail(gameinfop,pwork);
+				save_gminfo(gameinfop,pwork,5);
+				return 11;
+			}
             return page;   
 		}
 		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况

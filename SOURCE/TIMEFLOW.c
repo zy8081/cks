@@ -53,58 +53,69 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p)
 				} 
 			}
 		}
-	}	
+	}
+	people_cost(gameinfop);
+	
 }
 
 void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 {
 	int i,j;
 	int events[36][2];
-	int page=0;
+	
+	int temp[2];
+	char t[20];
+	int page=1;
 	int nx=0;
 	int year=gameinfop->year;
 	int month=gameinfop->month;
+	int tyear=year;
+	int tmonth=month;
 	int pagemax;
-	
-	if(n<36)
+	srand(time(NULL));
+	for(i=0;i<36;i++)
 	{
-		for(i=0;i<n;i++)
+		events[i][0]=0;
+		events[i][1]=0;
+	}
+	for(i=0;i<n;i++)
+	{
+		time_flow(gameinfop,p);
+		eventsc(&temp);
+		events[i][0]=temp[0];
+		events[i][1]=temp[1];
+		rocket_data(gameinfop);
+		for(j=0;j<2;j++)
 		{
-			time_flow(gameinfop,p);
-			eventsc(events[i]);
-			rocket_data(gameinfop);
-			for(j=0;j<2;j++)
+			switch(events[i][j])
 			{
-				switch(events[i][j])
-				{
-					case 1:
-						scb_data(gameinfop);
-						break;
-					case 2:
-						yj_data(gameinfop);
-						break;
-					case 3:
-						dz_data(gameinfop);
-						break;
-					case 4:
-						yq_data(gameinfop);
-						break;
-					case 5:
-						sbgz_data(gameinfop);
-						break;
-					case 6:
-						yz_data(gameinfop);
-						break;
-				}
+				case 1:
+					scb_data(gameinfop);
+					break;
+				case 2:
+					yj_data(gameinfop);
+					break;
+				case 3:
+					dz_data(gameinfop);
+					break;
+				case 4:						
+					yq_data(gameinfop);
+					break;
+				case 5:
+					sbgz_data(gameinfop);
+					break;
+				case 6:
+					yz_data(gameinfop);
+					break;				
 			}
 		}
+	}
+		//sprintf(t,"%d,%d,%d,%d,%d,%d",events[0][0],events[0][1],events[1][0],events[1][1],events[2][0],events[2][1]);
+		
 		for(i=0;i<36;i++)
 		{
-			for(j=0;j<36;j++)
-			{
-				if(events[i*2]!=0||events[i*2+1]!=0||(year==gameinfop->rocket.year&&month==gameinfop->rocket.month))
+			if(events[i][0]!=0||events[i][1]!=0||(year==gameinfop->rocket.year&&month==gameinfop->rocket.month))
 				nx++;
-			}
 			month++;
 			if(month==13)
 			{
@@ -112,18 +123,22 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 				year++;
 			}
 		}
-		if(n%5==0)pagemax=nx/5;
+			
+		
+		if(nx%5==0)pagemax=nx/5;
 		else pagemax=nx/5+1;
+		sprintf(t,"%d",nx);
+		put_hz24_asc32(0,0,t,0,"HZK//HZK24");
 		clrmous(MouseX,MouseY);
 		SaveBMP(238,568,1024,768,16);
 		menuprt(238,568,1024,768);
 		btn_bar_Draw(240,570,290,610);
-    	line_thick(240,290,570,610,2,0);
-    	line_thick(240,610,570,290,2,0);
+    	line_thick(240,570,290,610,2,0);
+    	line_thick(240,610,290,570,2,0);
 		//bar(240,570,290,610,0);
 		clear_time();
 		draw_time(gameinfop);
-		//event_prt(gameinfop,events,page,nx);
+		event_prt(gameinfop,events,page,nx,tyear,tmonth);
 		while(1)
 		{
 			mouse_renew(&MouseX,&MouseY,&press);
@@ -136,7 +151,7 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 				if(page<pagemax)
 				{
 					page++;
-					//event_prt(gameinfop,pevent,page,nx);
+					event_prt(gameinfop,events,page,nx+1,tyear,tmonth);
 				}
 			}
 			else if(mouse_press(800,720,890,750)==1)
@@ -144,43 +159,75 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 				if(page>1)
 				{
 					page--;
-					//event_prt(gameinfop,pevent,page,nx);
+					event_prt(gameinfop,events,page,nx+1,tyear,tmonth);
 				}
 			}
 		}
-	}
 	return;
 }
 
-void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n)
+void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,int tmonth)
 {	
 	int i=0;
 	int j;
-	int k;
-	int tyear=pg->year;
-	int tmonth=pg->month;
+	int k=0;
 	int pagemax;
 	char*e[6]={"沙尘暴","技术突破","地震","氧气泄露","设备故障","国际援助"};
 	char cpage[10];
-	
+	int range=0;
 	if(n%5==0)pagemax=n/5;
 	else pagemax=n/5+1;
 	clrmous(MouseX,MouseY);
 	menuprt(238,568,1024,768);
-	puthz2(280,570,24,40,65535,"期间事件：");
+	put_hz24_asc32(300,570,"期间事件：",65535,"HZK//HZK24");
 	btn_bar_Draw(240,570,290,610);
-    line_thick(240,290,570,610,2,0);
+    line_thick(240,570,290,610,2,0);
     line_thick(240,610,290,570,2,0);
-	for(k=0,j=0;k<5;k++)
+	while(i<n&&k<5)
 	{
-		while(i<36)
+		if(i>(page-1)*5)
 		{
-			if(allevent[i*2]!=0||allevent[i*2+1]!=0||(tyear==pg->rocket.year&&tmonth==pg->rocket.month))
+			char s[30];
+			int range=0;
+			sprintf(s,"%d年%d月",tyear,tmonth);
+			put_hz24_asc32(238,600+k*30,s,65535,"HZK\\HZK24");
+			if(tyear==pg->rocket.year&&tmonth==pg->rocket.month)
 			{
-				j++;
+				put_hz24_asc32(388+range*120,600+k*30,"火箭到达",65535,"HZK\\HZK24");
+				range++;
+			}
+			if(allevent[i][0]!=0)
+			{
+				put_hz24_asc32(388+range*120,600+k*30,e[allevent[i][0]-1],65535,"HZK\\HZK24");
+				range++;
+			}
+			if(allevent[i][1]!=0)
+			{
+				put_hz24_asc32(388+range*120,600+k*30,e[allevent[i][1]-1],65535,"HZK\\HZK24");
+				range++;
+			}
+			k++;
+			range=0;
+		}
+		tmonth++;
+		if(tmonth==13)
+		{
+			tyear++;
+			tmonth=1;
+		}
+		i++;
+		
+
+			/*
 				if(j<(page-1)*5+1)
 				{
 					i++;
+					tmonth++;
+				if(tmonth==13)
+				{
+					tyear++;
+					tmonth=1;
+				}
 					continue;
 				}
 				else
@@ -206,18 +253,9 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n)
 							range++;
 						}
 					}
-				}
-				
-			}	
-			i++;
-			tmonth++;
-			if(tmonth==13)
-			{
-				tyear++;
-				tmonth=1;
-			}
-		}	
+					break;*/
 	}
+
 	sprintf(cpage,"第%d页",page);
 	put_hz24_asc32(950,700,cpage,65535,"HZK\\HZK24");
 	if(page==1)
@@ -228,24 +266,28 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n)
 		{
 			btn_bar_Draw(900,720,990,750);
 			put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
+			btn_bar_Draw1(800,720,890,750);
+			put_hz24_asc32(810,700,"上一页",65535,"HZK\\HZK24");
 		}
 		else
 		{
 			btn_bar_Draw1(900,720,990,750);
 			put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
+			btn_bar_Draw1(800,720,890,750);
+			put_hz24_asc32(810,700,"上一页",65535,"HZK\\HZK24");
 		}
 		
 	}
 	else if(page==pagemax)
 	{
-		btn_bar_Draw(900,720,990,750);
+		btn_bar_Draw(800,720,890,750);
 		put_hz24_asc32(910,700,"上一页",65535,"HZK\\HZK24");
 		btn_bar_Draw1(900,720,990,750);
 		put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
 	}
 	else
 	{
-		btn_bar_Draw(900,720,990,750);
+		btn_bar_Draw(800,720,890,750);
 		put_hz24_asc32(910,700,"上一页",65535,"HZK\\HZK24");
 		btn_bar_Draw(900,720,990,750);
 		put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
@@ -350,7 +392,6 @@ void timeflow_prt()
 	puthz2(270,360,32,40,0,"时间流动六个月");
 	puthz2(270,470,32,40,0,"时间流动一年");
 	puthz2(270,580,32,40,0,"自定义流动时间");
-
 }
 
 void test()
@@ -358,7 +399,7 @@ void test()
 	return;
 }
 
-int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
+int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 {
 	int t_flow=0;
 	int page=5;
@@ -383,6 +424,11 @@ int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				clear_time();
 				draw_time(pg);
 				clear_right_all();
+				//if(fail_judge(pg)==1)
+					//{
+						//pg->fail=1;
+						//return 666;
+					//}
 				return 5;
 			}
 			clear_right_all();
@@ -397,7 +443,11 @@ int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				clear_time();
 				draw_time(pg);
 				clear_right_all();
-
+				//if(fail_judge(pg)==1)
+					//{
+						//pg->fail=1;
+						//return 666;
+					//}
 				return 5;
 			}
 			clear_right_all();
@@ -415,6 +465,11 @@ int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					draw_time(pg);
 				//eventshow(*event,gameinfop);
 					clear_right_all();
+					//if(fail_judge(pg)==1)
+					//{
+						//pg->fail=1;
+						//return 666;
+					//}
 					return 5;
 				}
 			}
@@ -431,7 +486,12 @@ int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					clear_time();
 					draw_time(pg);
 					clear_right_all();
-				//eventshow(*event,gameinfop);
+					//eventshow(*event,gameinfop);
+					//if(fail_judge(pg)==1)
+					//{
+						//pg->fail=1;
+						//return 666;
+					//}
 					return 5;
 				}
 			}
@@ -455,6 +515,11 @@ int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 						clear_time();
 						draw_time(pg);
 						clear_right_all();
+						//if(fail_judge(pg)==1)
+						//{
+							//pg->fail=1;
+							//return 666;
+						//}
 						return 5;
 					}
 					else 
@@ -469,6 +534,11 @@ int timeflow(struct GanmeInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					clear_time();
 					draw_time(pg);
 					clear_right_all();
+					//if(fail_judge(pg)==1)
+					//{
+					//	pg->fail=1;
+					//	return 666;
+					//}
 					return 5;
 				}
 					

@@ -54,13 +54,13 @@ int project(struct workfile w)
 	delay(100); 
 	cleardevice();
 	
-	gameinfo.r_info.oxygen=0;
+	gameinfo.r_info.oxygen=10;
 
-	if(fail_judge(&gameinfo)==1)
-	{
-		event_fail(&gameinfo,&w);
-		return 4;
-	}
+	//if(fail_judge(&gameinfo)==1||gameinfo.fail==1)
+	//{
+		//event_fail(&gameinfo,&w);
+		//return 4;
+	//}
 
 	while (1)
 	{

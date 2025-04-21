@@ -54,4 +54,5 @@
 #include <change.h>
 #include <intro.h>
 #include <RES.h>
+#include <TIMEFLOW.h>
 #endif
