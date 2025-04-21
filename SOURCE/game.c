@@ -12,6 +12,7 @@
 #include <EVENT.h>
 #include <ROCKET.h>
 #include <change.h>
+#include<log.h>
 /*
 项目中心换页控制
 */
@@ -27,8 +28,9 @@ int project(struct workfile w,int*page)
 	struct Resource res_earns;
 	
 	//建筑队列
-	nodebq *p1=load_node(w);;
+	nodebq *p1=load_node(w);
 	file_copy(w.path);
+	logfile_copy(w.path);
 	gameinfo.r_info.energy=10000;
 	gameinfo.r_info.nanomaterial=10000;
 	gameinfo.r_info.rarematerial=10000;

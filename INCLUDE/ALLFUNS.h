@@ -53,4 +53,5 @@
 #include<ROCKET.h>
 #include <change.h>
 #include <intro.h>
+#include <log.h>
 #endif

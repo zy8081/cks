@@ -1,10 +1,10 @@
 #include <ALLFUNS.h>
 
-void intro_book(void)
+void intro_book(int page)
 {
     int i;
-    int newpage=1;
-    int oldpage=1;
+    int newpage=page;
+    int oldpage=page;
     int pageindex[6];
     char temp;
     pageindex[0]=1;

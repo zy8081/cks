@@ -72,7 +72,7 @@ int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct 
 		else if (left_toolbotton_mouse_press(5) == 1) //左栏被点中的情况
         {
             clrmous(MouseX,MouseY);
-			intro_book();
+			intro_book(15);
 		}
 	}
 }

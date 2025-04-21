@@ -1,4 +1,4 @@
-void intro_book(void);
+void intro_book(int page);
 int shuqian_judge_press(int i);
 void clear_keyboard(void);
 int renew_bookpage(void);

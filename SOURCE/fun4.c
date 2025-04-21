@@ -15,9 +15,9 @@
 int proj_fun4(struct GameInfo* gameinfop,struct workfile *workfilep)
 {
 	int page=4;
-	char *s[3]={"民生科技","建设科技","生产科技"};
+	char *s[4]={"民生科技","建设科技","生产科技","说明文档"};
 	draw_main_toolbotton_activate(708,0xFF19,"科技","研究");
-	draw_all_leftbuttons(3,65,s);
+	draw_all_leftbuttons(4,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
@@ -55,6 +55,11 @@ int proj_fun4(struct GameInfo* gameinfop,struct workfile *workfilep)
             clear_right_all();
             page=research_manutech(gameinfop,workfilep);
             return page;  
+		}
+		else if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+			intro_book(23);
 		}
 	}
 }
@@ -1058,4 +1063,16 @@ void calculate_monthly_buildpointbuff(struct GameInfo *gameinfop,char *path)
 	{
 		buff+=20;
 	}
+}
+
+void research_complete_toast(int type)
+{
+	
+}
+
+int calculate_tech_complete_time(struct GameInfo *gameinfop,int type)
+{
+	int point=(gameinfop->gametech[type-1].totalpoints) - (gameinfop->gametech[type-1].havepoints);
+	int time=(point/(gameinfop->techpoint))+1;
+	return time;
 }
