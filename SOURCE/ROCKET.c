@@ -37,7 +37,7 @@ void rocket_a_prt1()
     btn_bar_Draw1(60,60,280,600);
     puthz2(115,75,24,28,63488,"火箭信息");
     
-    put_hz24_asc32(80,125,"最大返程人数:10",65535,"HZK\\HZK24");
+    put_hz24_asc32(80,125,"最大返程人数:50",65535,"HZK\\HZK24");
     put_hz24_asc32(80,160,"返程燃料:20000",65535,"HZK\\HZK24");
 
     put_hz24(100,220,"选择是否返航",65535,"HZK\\HZK24",0);
@@ -107,12 +107,12 @@ void rocket_a_prt2()
 
     put_hz24(360,115+8*60,"人口：",65535,"HZK\\HZK24",0);
     blankprt(480,115+8*60,650,145+8*60);
-    put_asc16(360,139+8*60,"x1000",65535);
+    put_hz16_asc16_size(360,139+8*60,1,1,"x50,最多50",65535,"HZK\\Hzk16");
 
     put_hz24(370,655,"当前货物量：",65535,"HZK\\HZK24",0);
 
     btn_bar_Draw(430,695,570,730);
-    put_hz24(460,700,"确定",65535,"HZK\\HZK24",0);
+    put_hz24(473,700,"确定",65535,"HZK\\HZK24",0);
 
 }
 
@@ -127,7 +127,7 @@ void rocket_a_prt3()
     put_hz24(750,210,"预支燃料：",65535,"HZK\\HZK24",0);
 
     btn_bar_Draw(810,280,930,315);
-    put_hz24(850,285,"确定",65535,"HZK\\HZK24",0);
+    put_hz24(850,284,"确定",65535,"HZK\\HZK24",0);
 
 }
 
@@ -248,7 +248,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         else 
         {
             infoblock_prt();
-            put_hz24(740,520,"存在非法字符",65535,"HZK\\HZK24",0);
+            put_hz24(727,520,"存在非法字符",65535,"HZK\\HZK24",0);
             free(inputnum);
             return -1;
         }
@@ -265,7 +265,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         {
             
             infoblock_prt();
-            put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
+            put_hz24(727,520,"数字过大",65535,"HZK\\HZK24",0);
             free(inputnum);
             return -1;
         }
@@ -281,7 +281,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
             else
             {
                 infoblock_prt();
-                put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
+                put_hz24(727,520,"数字过大",65535,"HZK\\HZK24",0);
                 free(inputnum);
                 return -1;
             }
@@ -291,7 +291,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
     else if(in>5)
     {
          infoblock_prt();
-        put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
+        put_hz24(727,520,"数字过大",65535,"HZK\\HZK24",0);
         free(inputnum);
         return -1;
     }
@@ -308,7 +308,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         else
         {
             infoblock_prt();
-            put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
+            put_hz24(727,520,"数字过大",65535,"HZK\\HZK24",0);
             free(inputnum);
             return -1;
         }
@@ -381,7 +381,7 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
             (*pcom)[1]=0;
             clrmous(MouseX,MouseY);
             bar(120,360,225,395,0);
-            peoplenum=rocket_input(120,360,225,395,10,1);
+            peoplenum=rocket_input(120,360,225,395,50,1);
             if(peoplenum==-1)
             {
                 bar(120,360,225,395,0);
@@ -421,7 +421,7 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
             itoa(max,cmax,10);
             //bar(0,0,250,30,0);
             infoblock_prt();
-            put_hz24(740,520,"成功！",65535,"HZK\\HZK24",0);
+            put_hz24(727,520,"成功！",65535,"HZK\\HZK24",0);
             bar(530,54,680,80,27469);
             put_hz24_asc32(530,54,cmax,65535,"HZK\\HZK24");
             free(cmax);
@@ -431,7 +431,7 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
             (*pcom)[0]=0;
             bar(520,50,680,80,27469);
             infoblock_prt();
-            put_hz24(740,520,"信息不完整!",65535,"HZK\\HZK24",0);
+            put_hz24_asc32(727,520,"信息不完整!",65535,"HZK\\HZK24");
         }
     }
 }
@@ -547,10 +547,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
     temp=0;
     while(temp<people)
     {
-        if(load+1000<=max)
+        if(load+50<=max)
         {
             temp++;
-            load+=1000;
+            load+=50;
         }
         else return -1;
     }
@@ -817,7 +817,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
             if(mouse_press(350,10,680,755)==1)
             {
                 infoblock_prt();
-                put_hz24(740,520,"请先填写并确认火箭信息",65535,"HZK\\HZK24",0);
+                put_hz24(720,520,"请先填写并确认火箭信息",65535,"HZK\\HZK24",0);
             }
         }
         else
@@ -849,7 +849,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
                     bar(900,500,1000,525,0);
                     complete[1]=1; 
                     infoblock_prt();
-                    put_hz24(740,520,"设置成功！",65535,"HZK\\HZK24",0);
+                    put_hz24(727,520,"设置成功！",65535,"HZK\\HZK24",0);
                     pr->load=rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax);
                     sprintf(time,"%d年%d月",nyear,nmonth);
                     put_hz24_asc32(850,170,time,65535,"HZK\\HZK24");
@@ -860,13 +860,13 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
                 else
                 {
                     infoblock_prt();
-                    put_hz24(740,520,"超重",65535,"HZK\\HZK24",0);
+                    put_hz24(727,520,"超重",65535,"HZK\\HZK24",0);
                 }
             }
             else
             {
                 infoblock_prt();
-                put_hz24(740,520,"请补充数据！",65535,"HZK\\HZK24",0);
+                put_hz24(727,520,"请补充数据！",65535,"HZK\\HZK24",0);
             }
         }  
         if(mouse_press(810,280,930,315)==1)
@@ -888,12 +888,12 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
                 }
                 else
                 infoblock_prt();
-                put_hz24(740,520,"燃料不足！",65535,"HZK\\HZK24",0);
+                put_hz24(727,520,"燃料不足！",65535,"HZK\\HZK24",0);
             }
             else
             {
                 infoblock_prt();
-                put_hz24(740,520,"请先填好信息！",65535,"HZK\\HZK24",0);
+                put_hz24(720,520,"请先填好信息！",65535,"HZK\\HZK24",0);
             }
         } 
     }
