@@ -33,8 +33,9 @@ int rocket_time(struct GameInfo gf,int *pyear,int*pmonth)
 
 void rocket_a_prt1()
 {
-    menuprt(60,60,280,600);
-    put_hz24(115,75,"火箭信息",65535,"HZK\\HZK24",0);
+    clrmous(MouseX,MouseY);
+    btn_bar_Draw1(60,60,280,600);
+    puthz2(115,75,24,28,63488,"火箭信息");
     
     put_hz24_asc32(80,125,"最大返程人数:10",65535,"HZK\\HZK24");
     put_hz24_asc32(80,160,"返程燃料:20000",65535,"HZK\\HZK24");
@@ -65,10 +66,12 @@ void rocket_a_prt1_p(int form)
 
 void rocket_a_prt2()
 {
-    menuprt(350,10,680,755);
-    put_hz24(450,15,"货物信息",65535,"HZK\\HZK24",0);
+    clrmous(MouseX,MouseY);
+    btn_bar_Draw1(350,5,680,755);
     
-    put_hz24(370,50,"货物最大总量：",65535,"HZK\\HZK24",0);
+    puthz2(450,15,24,28,26620,"货物信息");
+    
+    put_hz24(370,60,"货物最大总量：",65535,"HZK\\HZK24",0);
     
     put_hz24(360,115,"纳米材料：",65535,"HZK\\HZK24",0);
     blankprt(480,115+0*60,650,145+0*60);
@@ -115,8 +118,9 @@ void rocket_a_prt2()
 
 void rocket_a_prt3()
 {
-    menuprt(740,70,990,350);
-    put_hz24(830,75,"总计",65535,"HZK\\HZK24",0);
+    clrmous(MouseX,MouseY);
+    btn_bar_Draw1(740,70,990,350);
+    puthz2(830,75,24,28,2016,"总计");
     
     put_hz24(750,140,"预计到达时间：",65535,"HZK\\HZK24",0);
 
@@ -130,6 +134,7 @@ void rocket_a_prt3()
 void rocket_a_prtall()
 {
     backprt1();
+    infoblock_prt();
     rocket_a_prt1();
     rocket_a_prt2();
     rocket_a_prt3();
@@ -174,6 +179,12 @@ void nobtn(int form)
 void blankprt(int x1,int y1,int x2,int y2)
 {
     bar(x1,y1,x2,y2,0);
+}
+
+void infoblock_prt()
+{
+    btn_bar_Draw1(710,470,1000,560);
+    puthz2(810,480,24,28,65504,"信息栏");
 }
 
 int rocket_ifreturn(RKTINFO*pr)
@@ -236,7 +247,8 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         if(inputnum[i]>='0'&&inputnum[i]<='9')i++;
         else 
         {
-            put_hz24(800,0,"存在非法字符",65535,"HZK\\HZK24",0);
+            infoblock_prt();
+            put_hz24(740,520,"存在非法字符",65535,"HZK\\HZK24",0);
             free(inputnum);
             return -1;
         }
@@ -251,7 +263,9 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
     {
         if(inputnum[0]>='5')
         {
-            put_hz24(800,0,"数字过大",65535,"HZK\\HZK24",0);
+            
+            infoblock_prt();
+            put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
             free(inputnum);
             return -1;
         }
@@ -266,7 +280,8 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         
             else
             {
-                put_hz24(800,0,"数字过大",65535,"HZK\\HZK24",0);
+                infoblock_prt();
+                put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
                 free(inputnum);
                 return -1;
             }
@@ -275,7 +290,8 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
 
     else if(in>5)
     {
-        put_hz24(800,0,"数字过大",65535,"HZK\\HZK24",0);
+         infoblock_prt();
+        put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
         free(inputnum);
         return -1;
     }
@@ -291,7 +307,8 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         
         else
         {
-            put_hz24(800,0,"数字过大",65535,"HZK\\HZK24",0);
+            infoblock_prt();
+            put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
             free(inputnum);
             return -1;
         }
@@ -402,18 +419,19 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
             (*pcom)[0]=1;
             pr->loadmax=max;
             itoa(max,cmax,10);
-            bar(0,0,250,30,0);
-            put_hz24_asc32(0,0,"成功！",65535,"HZK\\HZK24");
-            bar(525,50,680,80,27469);
-            put_hz24_asc32(525,50,cmax,65535,"HZK\\HZK24");
+            //bar(0,0,250,30,0);
+            infoblock_prt();
+            put_hz24(740,520,"成功！",65535,"HZK\\HZK24",0);
+            bar(530,54,680,80,27469);
+            put_hz24_asc32(530,54,cmax,65535,"HZK\\HZK24");
             free(cmax);
         }
         else
         {
             (*pcom)[0]=0;
             bar(520,50,680,80,27469);
-            bar(0,0,250,30,0);
-            put_hz24_asc32(0,0,"信息不完整!",65535,"HZK\\HZK24");
+            infoblock_prt();
+            put_hz24(740,520,"信息不完整!",65535,"HZK\\HZK24",0);
         }
     }
 }
@@ -640,7 +658,7 @@ int rocket_check2(RKTINFO r)
     else return 0;
 }
 
-void rocket_info(struct GameInfo* pg)
+int rocket_info(struct GameInfo* pg)
 {
     
     int tyear,tmonth;
@@ -651,7 +669,7 @@ void rocket_info(struct GameInfo* pg)
     while(1)
     {
         mouse_renew(&MouseX,&MouseY,&press);
-        if(judge_press_mainbutton(2,&repage)!=0)
+        if(judge_press_mainbutton(2,&repage))
             return repage;
         
         if(pg->rocket.apply==-1)
@@ -798,14 +816,15 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
         {
             if(mouse_press(350,10,680,755)==1)
             {
-                bar(0,0,30,100,0);
-                put_hz24(0,0,"请先填写并确认火箭信息",65535,"HZK\\HZK24",0);
+                infoblock_prt();
+                put_hz24(740,520,"请先填写并确认火箭信息",65535,"HZK\\HZK24",0);
             }
         }
         else
             rocket_a_fun2(pr,&complete);
         if(mouse_press(15,15,55,55)==1)
         {
+            clrmous(MouseX,MouseY);
             LoadBMP(0,0,1024,768,9);
             rocket_init(pr);
             return;
@@ -828,8 +847,9 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
                 if(rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax)!=-1)
                 {
                     bar(900,500,1000,525,0);
-                    complete[1]=1;
-                    put_hz24_asc32(900,500,"设置成功！",65535,"HZK\\HZK24");
+                    complete[1]=1; 
+                    infoblock_prt();
+                    put_hz24(740,520,"设置成功！",65535,"HZK\\HZK24",0);
                     pr->load=rocket_loadcom(pr->resadd,pr->peopleadd,pr->loadmax);
                     sprintf(time,"%d年%d月",nyear,nmonth);
                     put_hz24_asc32(850,170,time,65535,"HZK\\HZK24");
@@ -839,34 +859,41 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
                 }
                 else
                 {
-                    bar(900,500,1000,525,0);
-                    put_hz24_asc32(900,500,"超重",65535,"HZK\\HZK24");
+                    infoblock_prt();
+                    put_hz24(740,520,"超重",65535,"HZK\\HZK24",0);
                 }
             }
             else
             {
-                bar(900,500,1000,525,0);
-                put_hz24_asc32(900,500,"请补充数据！",65535,"HZK\\HZK24");
+                infoblock_prt();
+                put_hz24(740,520,"请补充数据！",65535,"HZK\\HZK24",0);
             }
         }  
         if(mouse_press(810,280,930,315)==1)
         {
             if(complete[0]==1&&complete[1]==1)
             {
-                clrmous(MouseX,MouseY);
-                LoadBMP(0,0,1024,768,9);
-                pg->r_info.fuel-=pr->refuelpay;
-                bar(238,99,1024,768,65535);
-                pr->month=nmonth;
-                pr->year=nyear;
+                if(pg->r_info.fuel>=pr->refuelpay)
+                {
+                    char t[20];
+                    clrmous(MouseX,MouseY);
+                    LoadBMP(0,0,1024,768,9);
+                    pg->r_info.fuel-=pr->refuelpay;
+                    bar(238,99,1024,768,65535);
+                    pr->month=nmonth;
+                    pr->year=nyear;
                 //rocket_info_draw(*pg);
                 //rocket_init(pr);
-                return;
+                    return;
+                }
+                else
+                infoblock_prt();
+                put_hz24(740,520,"燃料不足！",65535,"HZK\\HZK24",0);
             }
             else
             {
-                bar(0,100,30,100,0);
-                put_hz24(0,0,"请先填好信息！",65535,"HZK\\HZK24",0);
+                infoblock_prt();
+                put_hz24(740,520,"请先填好信息！",65535,"HZK\\HZK24",0);
             }
         } 
     }

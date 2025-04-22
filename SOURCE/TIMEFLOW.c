@@ -111,7 +111,8 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 		}
 	}
 		//sprintf(t,"%d,%d,%d,%d,%d,%d",events[0][0],events[0][1],events[1][0],events[1][1],events[2][0],events[2][1]);
-		
+		//put_hz24_asc32(0,0,t,0,"HZK\\HZK24");
+		//getch();
 		for(i=0;i<36;i++)
 		{
 			if(events[i][0]!=0||events[i][1]!=0||(year==gameinfop->rocket.year&&month==gameinfop->rocket.month))
@@ -123,46 +124,47 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n)
 				year++;
 			}
 		}
-			
 		
-		if(nx%5==0)pagemax=nx/5;
-		else pagemax=nx/5+1;
-		sprintf(t,"%d",nx);
+		
+		if(n%5==0)pagemax=n/5;
+		else pagemax=n/5+1;
+		sprintf(t,"%d",n);
 		put_hz24_asc32(0,0,t,0,"HZK//HZK24");
 		clrmous(MouseX,MouseY);
 		SaveBMP(238,568,1024,768,16);
 		menuprt(238,568,1024,768);
-		btn_bar_Draw(240,570,290,610);
-    	line_thick(240,570,290,610,2,0);
-    	line_thick(240,610,290,570,2,0);
+		btn_bar_Draw(940,570,990,610);
+    	line_thick(940,570,990,610,2,0);
+    	line_thick(940,610,990,570,2,0);
 		//bar(240,570,290,610,0);
 		clear_time();
 		draw_time(gameinfop);
-		event_prt(gameinfop,events,page,nx,tyear,tmonth);
+		event_prt(gameinfop,events,page,n,tyear,tmonth);
 		while(1)
 		{
 			mouse_renew(&MouseX,&MouseY,&press);
-			if(mouse_press(240,570,290,610)==1)
+			if(mouse_press(940,570,990,610)==1)
 			{
 				return;
 			}
-			else if(mouse_press(900,720,990,750)==1)
+			else if(mouse_press(900,710,990,750)==1)
 			{
 				if(page<pagemax)
 				{
 					page++;
-					event_prt(gameinfop,events,page,nx+1,tyear,tmonth);
+					event_prt(gameinfop,events,page,n,tyear,tmonth);
 				}
 			}
-			else if(mouse_press(800,720,890,750)==1)
+			else if(mouse_press(800,710,890,750)==1)
 			{
 				if(page>1)
 				{
 					page--;
-					event_prt(gameinfop,events,page,nx+1,tyear,tmonth);
+					event_prt(gameinfop,events,page,n,tyear,tmonth);
 				}
 			}
 		}
+	//gameinfop->r_info_t.
 	return;
 }
 
@@ -180,9 +182,15 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,i
 	clrmous(MouseX,MouseY);
 	menuprt(238,568,1024,768);
 	put_hz24_asc32(300,570,"期间事件：",65535,"HZK//HZK24");
-	btn_bar_Draw(240,570,290,610);
-    line_thick(240,570,290,610,2,0);
-    line_thick(240,610,290,570,2,0);
+	btn_bar_Draw(940,570,990,610);
+    line_thick(940,570,990,610,2,0);
+    line_thick(940,610,990,570,2,0);
+	tmonth++;
+	if(tmonth==13)
+	{
+		tmonth=1;
+		tyear++;
+	}
 	while(i<n&&k<5)
 	{
 		if(i>(page-1)*5)
@@ -191,6 +199,7 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,i
 			int range=0;
 			sprintf(s,"%d年%d月",tyear,tmonth);
 			put_hz24_asc32(238,600+k*30,s,65535,"HZK\\HZK24");
+
 			if(tyear==pg->rocket.year&&tmonth==pg->rocket.month)
 			{
 				put_hz24_asc32(388+range*120,600+k*30,"火箭到达",65535,"HZK\\HZK24");
@@ -216,7 +225,7 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,i
 			tmonth=1;
 		}
 		i++;
-		
+	}
 
 			/*
 				if(j<(page-1)*5+1)
@@ -254,43 +263,42 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,i
 						}
 					}
 					break;*/
-	}
 
 	sprintf(cpage,"第%d页",page);
-	put_hz24_asc32(950,700,cpage,65535,"HZK\\HZK24");
+	put_hz24_asc32(950,660,cpage,65535,"HZK\\HZK24");
 	if(page==1)
 	{
-		btn_bar_Draw1(800,720,890,750);
-		put_hz24_asc32(810,700,"上一页",65535,"HZK\\HZK24");
+		btn_bar_Draw1(800,710,890,750);
+		put_hz24_asc32(810,713,"上一页",65535,"HZK\\HZK24");
 		if(pagemax>1)
 		{
-			btn_bar_Draw(900,720,990,750);
-			put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
-			btn_bar_Draw1(800,720,890,750);
-			put_hz24_asc32(810,700,"上一页",65535,"HZK\\HZK24");
+			btn_bar_Draw(900,710,990,750);
+			put_hz24_asc32(910,713,"下一页",65535,"HZK\\HZK24");
+			btn_bar_Draw1(800,710,890,750);
+			put_hz24_asc32(810,713,"上一页",65535,"HZK\\HZK24");
 		}
 		else
 		{
-			btn_bar_Draw1(900,720,990,750);
-			put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
-			btn_bar_Draw1(800,720,890,750);
-			put_hz24_asc32(810,700,"上一页",65535,"HZK\\HZK24");
+			btn_bar_Draw1(900,710,990,750);
+			put_hz24_asc32(910,713,"下一页",65535,"HZK\\HZK24");
+			btn_bar_Draw1(800,710,890,750);
+			put_hz24_asc32(810,713,"上一页",65535,"HZK\\HZK24");
 		}
 		
 	}
 	else if(page==pagemax)
 	{
-		btn_bar_Draw(800,720,890,750);
-		put_hz24_asc32(910,700,"上一页",65535,"HZK\\HZK24");
-		btn_bar_Draw1(900,720,990,750);
-		put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
+		btn_bar_Draw(800,710,890,750);
+		put_hz24_asc32(810,713,"上一页",65535,"HZK\\HZK24");
+		btn_bar_Draw1(900,710,990,750);
+		put_hz24_asc32(910,713,"下一页",65535,"HZK\\HZK24");
 	}
 	else
 	{
-		btn_bar_Draw(800,720,890,750);
-		put_hz24_asc32(910,700,"上一页",65535,"HZK\\HZK24");
-		btn_bar_Draw(900,720,990,750);
-		put_hz24_asc32(910,700,"下一页",65535,"HZK\\HZK24");
+		btn_bar_Draw(800,710,890,750);
+		put_hz24_asc32(810,713,"上一页",65535,"HZK\\HZK24");
+		btn_bar_Draw(900,710,990,750);
+		put_hz24_asc32(910,713,"下一页",65535,"HZK\\HZK24");
 	}
 	return;		
 }
@@ -408,7 +416,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
-		if(judge_press_mainbutton(5,&page)==1)
+		if(judge_press_mainbutton(5,&page))
 		{
 			return page;
 		}
@@ -424,11 +432,6 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				clear_time();
 				draw_time(pg);
 				clear_right_all();
-				//if(fail_judge(pg)==1)
-					//{
-						//pg->fail=1;
-						//return 666;
-					//}
 				return 5;
 			}
 			clear_right_all();

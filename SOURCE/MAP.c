@@ -404,6 +404,59 @@ void cleankey()
     while(bioskey(1))clean=bioskey(0);
 }
 
+void draw_sign()
+{
+    line_thick(9+40,199,9+40,226,1,0);
+    line_thick(36+40,199,36+40,226,1,0);
+    line_thick(9+40,199,36+40,199,1,0);
+    line_thick(9+40,226,36+40,226,1,0);
+    bar(10+40,200,35+40,225,64526);
+    puthz2(40+40,200,16,20,64526,"平原");
+
+    line_thick(89+40,199,89+40,226,1,0);
+    line_thick(116+40,199,116+40,226,1,0);
+    line_thick(89+40,199,116+40,199,1,0);
+    line_thick(89+40,226,116+40,226,1,0);
+    bar(90+40,200,115+40,225,64264);
+    puthz2(120+40,200,16,20,64264,"凹地");
+
+    line_thick(9+40,239,9+40,266,1,0);
+    line_thick(36+40,239,36+40,266,1,0);
+    line_thick(9+40,239,36+40,239,1,0);
+    line_thick(9+40,266,36+40,266,1,0);
+    bar(10+40,240,35+40,265,45316);
+    puthz2(40+40,240,16,20,45316,"坑地");
+
+    line_thick(89+40,239,89+40,266,1,0);
+    line_thick(116+40,239,116+40,266,1,0);
+    line_thick(89+40,239,116+40,239,1,0);
+    line_thick(89+40,266,116+40,266,1,0);
+    bar(90+40,240,115+40,265,32768);
+    puthz2(120+40,240,16,20,32768,"深坑");
+
+    line_thick(9+40,279,9+40,306,1,0);
+    line_thick(36+40,279,36+40,306,1,0);
+    line_thick(9+40,279,36+40,279,1,0);
+    line_thick(9+40,306,36+40,306,1,0);
+    bar(10+40,280,35+40,305,64531);
+    puthz2(40+40,280,16,20,64531,"坡地");
+
+    line_thick(89+40,279,89+40,306,1,0);
+    line_thick(116+40,279,116+40,306,1,0);
+    line_thick(89+40,279,116+40,279,1,0);
+    line_thick(89+40,306,116+40,306,1,0);
+    bar(90+40,280,115+40,305,65244);
+    puthz2(120+40,280,16,20,65244,"山地");
+
+    line_thick(9+40,319,9+40,346,1,0);
+    line_thick(36+40,319,36+40,346,1,0);
+    line_thick(9+40,319,36+40,319,1,0);
+    line_thick(9+40,346,36+40,346,1,0);
+    bar(9+40,320,36+40,345,65340);
+    puthz2(40+40,320,16,20,65340,"山峰");
+
+}
+
 void draw_minimap(struct GameInfo *gf,int xsel,int ysel)
 {
     int i,j;
@@ -421,6 +474,9 @@ void draw_minimap(struct GameInfo *gf,int xsel,int ysel)
     line_thick(x2, y1, x2, y2, 2,0);
     line_thick(x1, y2, x2, y2, 2,0);
     line_thick(x1, y1, x1, y2, 2,0);
+
+    draw_sign();
+
 
     for(i=0;i<15;i++)
     {
@@ -485,22 +541,22 @@ void draw_expblock(struct GameInfo* gf,int xsel,int ysel,int i,int j)
     int y1=105+j*92;
     int x2=390+i*92;
     int y2=195+j*92;
-    if(gf->m_info[xsel+i][ysel+j].building.id==0)
+    if(gf->m_info[ysel+j][xsel+i].building.id==0)
     {
-        draw_block(i,j,&(gf->m_info[xsel+i][ysel+j]),0);
+        draw_block(i,j,&(gf->m_info[ysel+j][xsel+i]),0);
     }
     else
     {
         draw_otherblock(i,j);
     }
-    if(gf->m_info[xsel+i][ysel+j].exp==0&&gf->m_info[xsel+i][ysel+j].building.id==0)
+    if(gf->m_info[ysel+j][xsel+i].exp==0)
     {
         put_hz24(x1+10,(y1+y2)/2-10,"未勘测",0,"HZK\\HZK24",0);
     }
     else
     {
         char m[10];
-        itoa(gf->m_info[xsel+i][ysel+j].mineral,m,10);
+        itoa(gf->m_info[ysel+j][xsel+i].mineral,m,10);
         put_hz24_asc32(x1+10,(y1+y2)/2-10,m,0,"HZK\\HZK24");
     }
 }
@@ -536,13 +592,15 @@ void draw_expminimap(struct GameInfo *gf,int xsel,int ysel)
     line_thick(x1, y2, x2, y2, 2,0);
     line_thick(x1, y1, x1, y2, 2,0);
 
+    draw_sign();
+
     for(i=0;i<15;i++)
     {
         for(j=0;j<15;j++)
         {
-            if(gf->m_info[i][j].building.id==0&&gf->m_info[i][j].exp==0)
+            if(gf->m_info[j][i].building.id==0&&gf->m_info[j][i].exp==0)
             {
-                switch(gf->m_info[i][j].terrain)
+                switch(gf->m_info[j][i].terrain)
                 {
                     case py:
                         bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,64526);
@@ -567,9 +625,9 @@ void draw_expminimap(struct GameInfo *gf,int xsel,int ysel)
                         break;
                 }
             }
-            else if(gf->m_info[i][j].building.id!=0)
+            else if(gf->m_info[j][i].building.id!=0)
                 bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,38770);
-            else if(gf->m_info[i][j].exp!=0)
+            else if(gf->m_info[j][i].exp!=0)
                 bar(i*15+5,j*15+400,(i+1)*15+4,(j+1)*15+400,65184);
         }
     }
@@ -580,7 +638,7 @@ void draw_expminimap(struct GameInfo *gf,int xsel,int ysel)
 
 }
 
-void map_exp(struct GameInfo* pg, int* pxsel,int *pysel)
+int map_exp(struct GameInfo* pg, int* pxsel,int *pysel)
 {
     int page;
     int i,j;
@@ -624,7 +682,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
     line_thick(x1, y2, x2, y2, 2,0);
     line_thick(x1, y1, x1, y2, 2,0);
 
-        if(pg->m_info[*pxsel+i][*pysel+j].exp==0)
+        if(pg->m_info[*pysel+i][*pxsel+j].exp==0)
         {
             char s[15];
             int page;
@@ -635,27 +693,54 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
             line_thick(x1, y2, x2, y2, 2,26620);
             line_thick(x1, y1, x1, y2, 2,26620);
             bar((*pxsel+i)*15+5,(*pysel+j)*15+400,(*pxsel+i+1)*15+4,(*pysel+j+1)*15+400,26620);
-            menuprt(390,293,637,478);
-            put_hz24_asc32(400,298,"是否花费200能源勘探",65535,"HZK//HZK24");
+            btn_bar_Draw1(385,293,642,478);
+            put_hz24_asc32(395,298,"是否花费200能源勘探",65535,"HZK//HZK24");
             put_hz24_asc32(470,333,s,65535,"HZK//HZK24");
             btn_bar_Draw(430,400,500,438);
             btn_bar_Draw(537,400,607,438);
-            put_hz24(425,407,"是",65535,"HZK//HZK24",0);
-            put_hz24(564,407,"否",65535,"HZK//HZK24",0);
+            put_hz24(453,407,"是",65535,"HZK//HZK24",0);
+            put_hz24(560,407,"否",65535,"HZK//HZK24",0);
             while(1)
             {
                 mouse_renew(&MouseX,&MouseY,&press);
                 if(mouse_press(430,400,500,438)==1)
                 {
                     clrmous(MouseX,MouseY);
-                    pg->r_info.energy-=200;
-                    pg->m_info[*pxsel+i][*pysel+j].exp=1;
-                    draw_expmap(pg,*pxsel,*pysel);
-                    draw_expminimap(pg,*pxsel,*pysel);
-                    press=0;
-                    cleankey();
-                    delay(300);
-                    return;
+                    if(pg->r_info.energy>=200)
+                    {
+                        pg->r_info.energy-=200;
+                        pg->m_info[*pysel+i][*pxsel+j].exp=1;
+                        draw_expmap(pg,*pxsel,*pysel);
+                        draw_expminimap(pg,*pxsel,*pysel);
+                        press=0;
+                        cleankey();
+                        delay(300);
+                        return;
+                    }
+                    else
+                    {   
+                        clrmous(MouseX,MouseY);
+                        btn_bar_Draw1(385,293,642,478);
+                        put_hz24_asc32(400,303,"能源不足！",0,"HZK\\HZK24");
+                        put_hz24_asc32(400,333,"(点击任意处继续)",0,"HZK\\HZK24");
+                        press=0;
+                        delay(300);
+                        while(1)
+                        {
+                            mouse_renew(&MouseX,&MouseY,&press);
+                            if(mouse_press(0,0,1024,768)==1)
+                            {
+                                clrmous(MouseX,MouseY);
+                                draw_expmap(pg,*pxsel,*pysel);
+                                draw_expminimap(pg,*pxsel,*pysel);
+                                press=0;
+                                cleankey();
+                                delay(300);
+                                return;
+                            }           
+                        }
+                    }
+                        
                 }
                 if(mouse_press(537,400,607,438)==1)
                 {
@@ -672,7 +757,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
         else
         {
             clrmous(MouseX,MouseY);
-            menuprt(390,293,637,478);
+            btn_bar_Draw1(385,293,642,478);
             put_hz24_asc32(400,303,"该处已被勘测！",0,"HZK\\HZK24");
             put_hz24_asc32(400,333,"(点击任意处继续)",0,"HZK\\HZK24");
             press=0;

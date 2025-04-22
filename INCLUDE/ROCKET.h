@@ -40,8 +40,9 @@ int rocket_max(RKTINFO pr);
 int rocket_check1(RKTINFO r);
 int rocket_loadcom(struct Resource re,int people,int max);
 void rocket_a_fun2(RKTINFO* pr,int (*pcom)[3]);
-void rocket_info(struct GameInfo* pg);
+int rocket_info(struct GameInfo* pg);
 void rocket_info_draw(struct GameInfo* gf);
 int rocket_check2(RKTINFO r);
+void infoblock_prt();
 
 #endif

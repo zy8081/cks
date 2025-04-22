@@ -184,13 +184,13 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
 void title1prt()
 {
     btn_bar_Draw(412,35,612,75);
-    put_hz24(412+10,55+3,"项目管理",0,"HZK\\HZK24",0);
+    put_hz24(412+50,55-6,"项目管理",0,"HZK\\HZK24",0);
 }
 
 void backprt()
 {
     btn_bar_Draw(50,50,150,90);
-    put_hz24(50+20,70+3,"返回",0,"HZK\\HZK24",0);
+    put_hz24(70,56,"返回",0,"HZK\\HZK24",0);
 }
 
 void addprt()
@@ -204,12 +204,12 @@ void openprt(int form)
     if(form==0)
     {
         btn_bar_Draw1(842,190,962,240);
-        put_hz24(842,215,"打开项目",0,"HZK\\HZK24",0);
+        put_hz24(852,200,"打开项目",0,"HZK\\HZK24",0);
     }
     else
     {
         btn_bar_Draw(842,190,962,240);
-        put_hz24(842,215,"打开项目",0,"HZK\\HZK24",0);        
+        put_hz24(852,200,"打开项目",0,"HZK\\HZK24",0);        
     }
 }
 
@@ -218,12 +218,12 @@ void dltprt(int form)
     if(form==0)
     {
         btn_bar_Draw1(842,270,962,320);
-        put_hz24(842+40,305+3,"删除项目",0,"HZK\\HZK24",0);
+        put_hz24(852,280,"删除项目",0,"HZK\\HZK24",0);
     }
     else
     {
         btn_bar_Draw(842,270,962,320);
-        put_hz24(842+40,305+3,"删除项目",0,"HZK\\HZK24",0);
+        put_hz24(852,280,"删除项目",0,"HZK\\HZK24",0);
     }    
 }
 

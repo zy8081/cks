@@ -88,8 +88,8 @@ int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 			clear_main_all();
             draw_left_toolbotton_activate(95 , l, s[2]);//激活新的
             clear_right_all();
-            rocket_info(gameinfop);
-            continue;
+            return rocket_info(gameinfop);
+            
 		}
 		if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
         {
@@ -97,8 +97,8 @@ int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 			clear_main_all();
             draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
             clear_right_all();
-            map_exp(gameinfop,pxsel,pysel);
-            continue;
+            return map_exp(gameinfop,pxsel,pysel);
+            
 		}
 	}
 }

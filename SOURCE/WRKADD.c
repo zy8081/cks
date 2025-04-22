@@ -167,7 +167,7 @@ void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
 void placeprt(int placenum)
 {
     btn_bar_Draw(240,280,400,330);
-    put_hz24(240+44,305+3,"选择地点",0,"HZK\\HZK24",0);
+    put_hz24(240+40,305-15,"选择地点",0,"HZK\\HZK24",0);
     bar(400,280,700,330,0);
     switch(placenum)
     {
@@ -198,7 +198,7 @@ void nameprt(char* name)
     //strcpy(name,"ssss");
     btn_bar_Draw(240,160,400,210);
     //hzplace(&namebtn,32,32);
-    put_hz24(240+30,185+3,"项目名称",0,"HZK\\HZK24",0);
+    put_hz24(240+30,185-2,"项目名称",0,"HZK\\HZK24",0);
     bar(400,160,740,210,0);
     if(strcmp(name,"\0")==0)
         put_hz16_asc16_size(410,172,1,1,"点击输入项目名称,仅限英文与数字,8字以内",65535,"HZK\\hzk16");
@@ -209,13 +209,13 @@ void nameprt(char* name)
 void compprt()//??????????
 {
     btn_bar_Draw(442,420,582,480);
-    put_hz24(442+24,450,"完成",0,"HZK\\HZK24",0);
+    put_hz24(442+30,445,"完成",0,"HZK\\HZK24",0);
 }
 
 void title2prt()//
 {
     btn_bar_Draw(412,35,612,75);
-    put_hz24(412,55+3,"新建项目",0,"HZK\\HZK24",0);
+    put_hz24(412+50,55-6,"新建项目",0,"HZK\\HZK24",0);
 }
 
 void hiscreate(char* pathhis)
