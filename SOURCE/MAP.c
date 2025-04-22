@@ -763,7 +763,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
                     if(pg->r_info.energy>=200)
                     {
                         pg->r_info.energy-=200;
-                        pg->m_info[*pysel+i][*pxsel+j].exp=1;
+                        pg->m_info[*pysel+j][*pxsel+i].exp=1;
                         draw_expmap(pg,*pxsel,*pysel);
                         draw_expminimap(pg,*pxsel,*pysel);
                         press=0;

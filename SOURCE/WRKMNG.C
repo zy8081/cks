@@ -184,7 +184,7 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
 void title1prt()
 {
     btn_bar_Draw(412,35,612,75);
-    put_hz24(412+50,55-6,"项目管理",0,"HZK\\HZK24",0);
+    put_hz24(412+50,55-10,"项目管理",0,"HZK\\HZK24",0);
 }
 
 void backprt()

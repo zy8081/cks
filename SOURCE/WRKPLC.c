@@ -60,11 +60,11 @@ void sureprt(int i)
     if(i==0)
     {
         btn_bar_Draw1(387,675,637,725);
-        put_hz24(387,700,"确定",0,"HZK\\HZK24",0);
+        put_hz24(487,690,"确定",0,"HZK\\HZK24",0);
     }
     if(i==1)
     {
         btn_bar_Draw(387,675,637,725);
-        put_hz24(387,700,"完成",0,"HZK\\HZK24",0);
+        put_hz24(487,690,"确定",0,"HZK\\HZK24",0);
     }
 }

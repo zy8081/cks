@@ -152,55 +152,68 @@ int quit(void)//返回11x表示项目管理，12x表示登录，13x关闭程序
 		mouse_renew(&MouseX,&MouseY,&press);
 		if(judge_press_mainbutton(5,&page))
 		{
+			clrmous(MouseX,MouseY);
 			return page;
 		}
 		else if(mouse_press(250,110,900,210)==1)
 		{
+			clrmous(MouseX,MouseY);
 			SaveBMP(330,293,697,478,12);
 			c=quit_savejudge();
 			switch(c)
 			{
 				case 1:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					return 111;
 				case 2:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					return 112;
 				case 3:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					break;
 			}
 		}
 		else if(mouse_press(250,220,900,320)==1)
 		{
+			clrmous(MouseX,MouseY);
 			SaveBMP(330,293,697,478,12);
 			c=quit_savejudge();
 			switch(c)
 			{
 				case 1:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					return 121;
 				case 2:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					return 122;
 				case 3:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					break;
 			}
 		}
 		else if(mouse_press(250,330,900,430)==1)
 		{
+			clrmous(MouseX,MouseY);
 			SaveBMP(330,293,697,478,12);
 			c=quit_savejudge();
 			switch(c)
 			{
 				case 1:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					return 131;
 				case 2:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					return 132;
 				case 3:
+					clrmous(MouseX,MouseY);
 					LoadBMP(330,293,697,478,12);
 					break;
 			}
@@ -211,6 +224,7 @@ int quit(void)//返回11x表示项目管理，12x表示登录，13x关闭程序
 
 void quit_prt()
 {
+	clrmous(MouseX,MouseY);
 	btn_bar_Draw(250,110,900,210);	
 	btn_bar_Draw(250,220,900,320);
 	btn_bar_Draw(250,330,900,430);

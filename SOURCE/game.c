@@ -88,6 +88,12 @@ int project(struct workfile w)
 				events[0]=0;
 				events[1]=0;
 				break;
+			case 11:
+				return 4;
+			case 12:
+				return 1;
+			case 13:
+				close_all();
 
 		}
 	}

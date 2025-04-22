@@ -199,7 +199,7 @@ void nameprt(char* name)
     //strcpy(name,"ssss");
     btn_bar_Draw(240,160,400,210);
     //hzplace(&namebtn,32,32);
-    put_hz24(240+30,185-2,"项目名称",0,"HZK\\HZK24",0);
+    put_hz24(240+30,185-10,"项目名称",0,"HZK\\HZK24",0);
     bar(400,160,740,210,0);
     if(strcmp(name,"\0")==0)
         put_hz16_asc16_size(410,172,1,1,"点击输入项目名称,仅限英文与数字,8字以内",65535,"HZK\\hzk16");
@@ -216,7 +216,7 @@ void compprt()//??????????
 void title2prt()//
 {
     btn_bar_Draw(412,35,612,75);
-    put_hz24(412+50,55-6,"新建项目",0,"HZK\\HZK24",0);
+    put_hz24(412+50,55-10,"新建项目",0,"HZK\\HZK24",0);
 }
 
 void hiscreate(char* pathhis)
