@@ -59,25 +59,25 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 					research_2_5(gameinfop,path);
 					break;
 				case 6:
-					research_2_6(gameinfop,path);
+					research_2_6(path);
 					break;
 				case 7:
-					research_2_7(gameinfop,path);
+					research_2_7(path);
 					break;
 				case 8:
-					research_2_8(gameinfop,path);
+					research_2_8(path);
 					break;
 				case 9:
-					research_2_9(gameinfop,path);
+					research_2_9(path);
 					break;
 				case 10:
-					research_2_10(gameinfop,path);
+					research_2_10(path);
 					break;
 				case 11:
-					research_2_11(gameinfop,path);
+					research_2_11(path);
 					break;
 				case 12:
-					research_2_12(gameinfop,path);
+					research_2_12(path);
 					break;
 				case 13:
 					research_2_13(gameinfop,path);
@@ -92,7 +92,7 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 			switch (id)
 			{
 				case 1:
-					research_3_1(gameinfop);
+					research_3_1();
 					break;
 				case 2:
 					research_3_2(gameinfop,path);
@@ -379,12 +379,14 @@ void research_2_1(void)
 //机器人中枢能量维护+25，建造队列+1
 void research_2_2(struct GameInfo *gameinfop,nodebq *p1)
 {
+	gameinfop->m_info[2][3].building.res_add.energy-=25;
 	p1->i++;
 }
 
 //机器人中枢能量维护+25，建造队列+1
 void research_2_3(struct GameInfo *gameinfop,nodebq *p1)
 {
+	gameinfop->m_info[2][3].building.res_add.energy-=25;
 	p1->i++;
 }
 
@@ -392,13 +394,14 @@ void research_2_3(struct GameInfo *gameinfop,nodebq *p1)
 void research_2_4(struct GameInfo *gameinfop,char *path)
 {
 	int i;
+	gameinfop->m_info[2][3].building.res_add.energy-=25;
 	for (i=0;i<18;i++)
 	{
 		change_building_info_onfilemap(gameinfop,i+1,11,-2,path);
 	}
 }
 
-//建造时长-1月，住宅区人口+200
+//建造时长-1月，住宅区人口+50
 void research_2_5(struct GameInfo *gameinfop,char *path)
 {
 	int i;
@@ -409,20 +412,20 @@ void research_2_5(struct GameInfo *gameinfop,char *path)
 }
 
 //解锁建筑：娱乐设施
-void research_2_6(struct GameInfo *gameinfop,char *path)
+void research_2_6(char *path)
 {
 	unlock_building(3,path);
 	unlock_building(4,path);
 }
 
 //解锁建筑：火星之眼
-void research_2_7(struct GameInfo *gameinfop,char *path)
+void research_2_7(char *path)
 {
 	unlock_building(15,path);
 }
 
 //解锁建筑：许多生产设施
-void research_2_8(struct GameInfo *gameinfop,char *path)
+void research_2_8(char *path)
 {
 	unlock_building(8,path);
 	unlock_building(10,path);
@@ -432,22 +435,22 @@ void research_2_8(struct GameInfo *gameinfop,char *path)
 }
 
 //解锁建筑：综合性工厂
-void research_2_9(struct GameInfo *gameinfop,char *path)
+void research_2_9(char *path)
 {
 	unlock_building(16,path);
 }
 //解锁建筑：室外公园
-void research_2_10(struct GameInfo *gameinfop,char *path)
+void research_2_10(char *path)
 {
 	unlock_building(2,path);
 }
 //解锁建筑：未来式公园
-void research_2_11(struct GameInfo *gameinfop,char *path)
+void research_2_11(char *path)
 {
 	unlock_building(17,path);
 }
 //解锁建筑：火星之傲
-void research_2_12(struct GameInfo *gameinfop,char *path)
+void research_2_12(char *path)
 {
 	unlock_building(18,path);
 }
@@ -471,9 +474,9 @@ void research_2_14(struct GameInfo *gameinfop,char *path)
 }
 
 //科研点+10%
-void research_3_1(struct GameInfo *gameinfop)
+void research_3_1(void)
 {
-	gameinfop->techpoint +=20;
+	return;
 }
 
 //开采站产出+50，能量维护+10

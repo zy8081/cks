@@ -406,7 +406,6 @@ void draw_ban_confirm(struct GameInfo *gameinfop,int i,int j,int pxsel,int pysel
 
 void ban_unban_on_map(struct GameInfo *gameinfop,int i,int j,int pxsel,int pysel,int lock)
 {
-    int id=gameinfop->m_info[i+pysel][j+pxsel].building.id;
 
     if (lock==0)
     {

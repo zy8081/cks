@@ -4,7 +4,6 @@ int rocket_time(struct GameInfo gf,int *pyear,int*pmonth)
 {
     int wyear=2029;
     int wmonth=5;
-    char*temp=malloc((size_t)30);
     int dt;
     while(1)
     {
@@ -31,7 +30,7 @@ int rocket_time(struct GameInfo gf,int *pyear,int*pmonth)
 
 
 
-void rocket_a_prt1()
+void rocket_a_prt1(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw1(60,60,280,600);
@@ -64,7 +63,7 @@ void rocket_a_prt1_p(int form)
     }
 }
 
-void rocket_a_prt2()
+void rocket_a_prt2(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw1(350,5,680,755);
@@ -116,7 +115,7 @@ void rocket_a_prt2()
 
 }
 
-void rocket_a_prt3()
+void rocket_a_prt3(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw1(740,70,990,350);
@@ -131,7 +130,7 @@ void rocket_a_prt3()
 
 }
 
-void rocket_a_prtall()
+void rocket_a_prtall(void)
 {
     backprt1();
     infoblock_prt();
@@ -141,7 +140,7 @@ void rocket_a_prtall()
 }
 
 
-void backprt1()
+void backprt1(void)
 {
     btn_bar_Draw(15,15,55,55);
     line_thick(20,20,50,50,2,0);
@@ -181,7 +180,7 @@ void blankprt(int x1,int y1,int x2,int y2)
     bar(x1,y1,x2,y2,0);
 }
 
-void infoblock_prt()
+void infoblock_prt(void)
 {
     btn_bar_Draw1(710,470,1000,560);
     puthz2(810,480,24,28,65504,"ÐÅÏ¢À¸");
@@ -210,23 +209,23 @@ void rocket_ifreturn_draw(int restyle)
     {
         yesbtn(1);
         nobtn(0);
-        return 1;
+        return ;
     }
     if(restyle==2)
     {
         yesbtn(0);
         nobtn(1);
-        return 2;
+        return ;
     }
 
 }
 
-int rocket_pressyes()
+int rocket_pressyes(void)
 {
     return mouse_press(100,255,140,295);
 }
 
-int rocket_pressno()
+int rocket_pressno(void)
 {
     return mouse_press(170,255,210,295);
 }
@@ -678,12 +677,12 @@ int rocket_info(struct GameInfo* pg)
             {
                 if(tyear!=pg->year||tmonth!=pg->month)
                 {
-                    rocket_apply(pg,pg,tyear,tmonth);
+                    rocket_apply(&(pg->rocket),pg,tyear,tmonth);
                 }
                 else
                 {
                     int tyear1=tyear+1,tmonth1=tmonth+1;
-                    rocket_apply(pg,pg,tyear1,tmonth1);
+                    rocket_apply(&(pg->rocket),pg,tyear1,tmonth1);
                 }
                 
                 rocket_info_draw(pg);

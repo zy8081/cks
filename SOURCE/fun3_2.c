@@ -332,7 +332,6 @@ void draw_buildqueue(int page,struct GameInfo *gameinfop,nodebq *p,int func)
 {
 	char str[30]={'\0'};
 	int i,j;
-	int firstnum=(page-1)*5+1;
 	int buildqueue=p->i;
 	nodebq *temp;
 	p=p->next;

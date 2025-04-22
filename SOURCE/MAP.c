@@ -311,6 +311,7 @@ int mine_block_init(int place,int terrain)
                     return (int)(10.0*px);
             }
     }
+    return 0;
 }
 
 void draw_block(int x,int y,struct MapInfo* mi,int form)
@@ -452,13 +453,12 @@ int renew_map(int* pxsel,int*pysel)
     return 0;
 }
 
-void cleankey()
+void cleankey(void)
 {
-    char clean;
-    while(bioskey(1))clean=bioskey(0);
+    while(bioskey(1))bioskey(0);
 }
 
-void draw_sign()
+void draw_sign(void)
 {
     line_thick(9+40,199,9+40,226,1,0);
     line_thick(36+40,199,36+40,226,1,0);
@@ -593,7 +593,7 @@ void draw_expblock(struct GameInfo* gf,int xsel,int ysel,int i,int j)
 {
     int x1=300+i*92;
     int y1=105+j*92;
-    int x2=390+i*92;
+    //int x2=390+i*92;
     int y2=195+j*92;
     if(gf->m_info[ysel+j][xsel+i].building.id==0)
     {

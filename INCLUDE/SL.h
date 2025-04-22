@@ -8,11 +8,11 @@ void gminfo_init(char* pathdat,int t);
 void save_node(WORKFILE *work,nodebq* pnode1);
 nodebq* load_node(WORKFILE work);
 void node_init(char*pathnode);
-void quit_prt();
+void quit_prt(void);
 int quit(void);
-void quit_prt();
-int quit_savejudge();
-void close_all();
+void quit_prt(void);
+int quit_savejudge(void);
+void close_all(void);
 void free_nodebq_all(nodebq*p);
 
 #endif

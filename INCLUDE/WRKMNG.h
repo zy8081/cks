@@ -24,10 +24,10 @@ typedef struct timework
 
 void wrkmng_main(int *fpage,char*user,WORKFILE* pwork);
 void wrkmng_menu(int *fpage1,char*user,WORKFILE* pwork);
-void title1prt();
-void backprt();
-void menu1prt();
-void addprt();
+void title1prt(void);
+void backprt(void);
+void menu1prt(void);
+void addprt(void);
 void openprt(int form);
 void dltprt(int form);
 void exchprt(int form);

@@ -106,7 +106,7 @@ void event_scb(struct GameInfo* pgameinfo)
     return;
 }
 
-void scb_show()
+void scb_show(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
@@ -141,7 +141,7 @@ void event_yj(struct GameInfo* pgameinfo)
     return;
 }
 
-void yj_show()
+void yj_show(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
@@ -178,7 +178,7 @@ void event_dz(struct GameInfo* pgameinfo)
     return;
 }
 
-void dz_show()
+void dz_show(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
@@ -221,7 +221,7 @@ void event_yq(struct GameInfo* pgameinfo)
     return;
 }
 
-void yq_show()
+void yq_show(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
@@ -258,7 +258,7 @@ void event_sbgz(struct GameInfo* pgameinfo)
     return;
 }
 
-void sbgz_show()
+void sbgz_show(void)
 {
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\sbgz.bmp");//»»ÌùÍ¼
@@ -293,7 +293,7 @@ void event_yz(struct GameInfo* pgameinfo)
     return;
 }
 
-void yz_show()
+void yz_show(void)
 {
     clrmous(MouseX,MouseY);
     btn_bar_Draw(250,50,774,740);
@@ -338,7 +338,7 @@ void event_rocket(struct GameInfo* pgameinfo)
     return;
 }
 
-void rocket_show()
+void rocket_show(void)
 {
     btn_bar_Draw(250,50,774,740);
     Readbmp64k(277,105,"PICTURE\\hj.bmp");//»»ÌùÍ¼

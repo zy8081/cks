@@ -11,6 +11,7 @@
 #include<time.h>
 #include<draw.h>
 #include<io.h>
+#include <direct.h>
 
 
 #endif

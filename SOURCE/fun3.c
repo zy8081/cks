@@ -120,7 +120,7 @@ void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *
 /*public函数
 画红色的大地图
 */
-void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop)
+void draw_map2(struct GameInfo *gameinfop)
 {
 	int i,j;
 	for (i=0;i<7;i++)
@@ -311,8 +311,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel,
 				clear_right_all();
 				btn_bar_Draw(50,250,150,300);
 				puthz2(50,250,32,32,1,"返回");
-				//draw_map2(300,105,954,759,7,7,gameinfop);
-				//draw_map(300,105,954,759,7,7,gameinfop);
+				
 				draw_buildmap(gameinfop,*pxsel,*pysel);
 				draw_minimap(gameinfop,*pxsel,*pysel);
 				

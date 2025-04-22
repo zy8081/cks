@@ -1,16 +1,4 @@
-#include <common.h>
-#include <draw.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
-#include <fun4_1.h>
-#include <fun4_2.h>
-#include <fun4_3.h>
-#include <nodet.h>
-#include <ORDFUNS.h>
+#include <ALLFUNS.h>
 
 int proj_fun4(struct GameInfo* gameinfop,struct workfile *workfilep)
 {
@@ -497,7 +485,7 @@ int type_id_find_totalpoint(int type,int id)
 	if (file==NULL)
 	{
 		printf("open file error\n");
-		return;
+		return 0;
 	}
 	
 	for (i=0;i<type;i++)
@@ -932,8 +920,7 @@ int check_techflag_infile(char *path,int type,int id)
 	file=fopen(path1,"r");
 	if (file==NULL)
 	{
-		printf("open file error\n");
-		return;
+		debug_file_printf(path1);
 	}
 	
 	for (i=0;i<type;i++)
@@ -1064,7 +1051,7 @@ int calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)
 	return buff;
 }
 
-int calculate_monthly_buildpointbuff(struct GameInfo *gameinfop,char *path)
+int calculate_monthly_buildpointbuff(char *path)
 {
 	int buff=0;
 	if (check_techflag_infile(path,1,2))

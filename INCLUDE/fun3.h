@@ -11,7 +11,7 @@ typedef struct NodeBuilding
 int proj_fun3(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep);
 
 void draw_map(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop);
-void draw_map2(int x1,int y1,int x2,int y2,int width,int height,struct GameInfo *gameinfop);
+void draw_map2(struct GameInfo *gameinfop);
 void draw_map_building(int i,int j,int n);
 int mouse_press_map(int i,int j);
 

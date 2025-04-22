@@ -9,7 +9,7 @@ int people_max(struct GameInfo *pg,char *path)
     {
         for(j=0;j<15;j++)
         {
-            if(pg->m_info[i][j].building.id==1 && pg->m_info[i][j].building.bui_time==0)
+            if(pg->m_info[i][j].building.id==1 && pg->m_info[i][j].building.bui_time==0 && pg->m_info[i][j].building.lock==0)
             {
                 num+=count;//每个居住区容纳100人
             }
@@ -100,7 +100,7 @@ long int constrc_count(struct GameInfo *pg,char *path)
 {
     int i,j;
     long int cblock=0;
-    int buff=calculate_monthly_buildpointbuff(pg,path);
+    int buff=calculate_monthly_buildpointbuff(path);
     for(i=0;i<15;i++)
     {
         for(j=0;j<15;j++)

@@ -186,18 +186,19 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n,WORKFILE *workfile
 			}
 		}
 	//gameinfop->r_info_t.
-	return;
+	//return;
 }
 
 void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,int tmonth)
 {	
 	int i=0;
 	int j;
+	int range=0;
 	int k=0;
 	int pagemax;
 	char*e[6]={"沙尘暴","技术突破","地震","氧气泄露","设备故障","国际援助"};
 	char cpage[10];
-	int range=0;
+	
 	if(n%5==0)pagemax=n/5;
 	else pagemax=n/5+1;
 	clrmous(MouseX,MouseY);
@@ -328,7 +329,7 @@ void event_prt(struct GameInfo *pg,int (*allevent)[2],int page,int n,int tyear,i
 	
 
 
-int time_warning()//0否1是2退出
+int time_warning(void)//0否1是2退出
 {
 	clrmous(MouseX,MouseY);
 	SaveBMP(277,300,747,620,13);
@@ -408,7 +409,7 @@ int time_comf(int t)
 	}
 }
 
-void timeflow_prt()
+void timeflow_prt(void)
 {
 	btn_bar_Draw(250,110,900,210);	
 	btn_bar_Draw(250,220,900,320);
@@ -430,7 +431,6 @@ void test()
 
 int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 {
-	int t_flow=0;
 	int page=5;
 	clrmous(MouseX,MouseY);
 	timeflow_prt();
@@ -581,7 +581,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 	}
 }
 
-int time_set()
+int time_set(void)
 {
 	int renum=-1;
 	clrmous(MouseX,MouseY);
