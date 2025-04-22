@@ -4,11 +4,9 @@ void eventsc(int (*events)[2])
 {
     int cevent;
     clrmous(MouseX,MouseY); 
-    cevent=rand()%4;
+    cevent=rand()%20;
     switch(cevent)
     {
-        case 0:
-            break;
         case 1:
         case 2:
             (*events)[0]=rand()%6+1;
@@ -29,6 +27,10 @@ void eventsc(int (*events)[2])
             //eventshow(revent1);
             //eventshow(revent2);
             break;
+        default:
+            (*events)[0]=0;
+            (*events)[1]=0;
+            
     }
     
 }
@@ -115,7 +117,7 @@ void scb_show()
     put_hz24(300,575,"一场令人震撼的沙尘暴正席卷而来",65535,"HZK\\HZK24",0);
     put_hz24(300,605,"掀起的沙尘吞噬了火星的天空",65535,"HZK\\HZK24",0);
     put_hz24(300,635,"漫无边际的昏暗中看不见光明",65535,"HZK\\HZK24",0);
-    put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,665,"（矿物、氧气、能源、水减少）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 
 }
@@ -150,7 +152,7 @@ void yj_show()
     put_hz24(300,575,"是意想不到的偶然，也是历史进程的必然",65535,"HZK\\HZK24",0);
     put_hz24(300,605,"相关技术在意料之外地取得了突破",65535,"HZK\\HZK24",0);
     put_hz24(300,635,"极大地推动了火星家园的建设",65535,"HZK\\HZK24",0);
-    put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,665,"（各种资源增加）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 }
 
@@ -188,15 +190,15 @@ void dz_show()
     put_hz24(300,575,"一阵剧烈的震动打破了这片净土",65535,"HZK\\HZK24",0);
     put_hz24(300,605,"火星板块间的应力在长期积累后终于爆发",65535,"HZK\\HZK24",0);
     put_hz24(300,635,"一场地震席卷了火星基地",65535,"HZK\\HZK24",0);
-    put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,665,"（所有资源减少）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 
 }
 
 void dz_data(struct GameInfo* pgameinfo)
 {
-    pgameinfo->r_info.mineral-=200;
-    pgameinfo->r_info.energy-=1000;
+    pgameinfo->r_info.mineral-=70;
+    pgameinfo->r_info.energy-=200;
     pgameinfo->r_info.oxygen-=20;
     pgameinfo->r_info.water-=70;
     pgameinfo->r_info.rarematerial-=50;
@@ -230,15 +232,15 @@ void yq_show()
     put_hz24(300,575,"“没有不透风的墙”",65535,"HZK\\HZK24",0);
     put_hz24(300,605,"遗憾的是火星基地的厚屏障也没有例外",65535,"HZK\\HZK24",0);
     put_hz24(300,635,"由于未知的故障，氧气不断地泄露",65535,"HZK\\HZK24",0);
-    put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,665,"（氧气及其他资源减少）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 }
     
 
 void yq_data(struct GameInfo* pgameinfo)
 {
-    pgameinfo->r_info.energy-=100;
-    pgameinfo->r_info.oxygen-=500;
+    pgameinfo->r_info.energy-=30;
+    pgameinfo->r_info.oxygen-=200;
     pgameinfo->r_info.rarematerial-=50;
     pgameinfo->r_info.nanomaterial-=50;
 }
@@ -266,15 +268,15 @@ void sbgz_show()
     put_hz24(300,575,"再精密的设备也会有故障的时候",65535,"HZK\\HZK24",0);
     put_hz24(300,605,"只是在遥远的火星",65535,"C:HZK\\HZK24",0);
     put_hz24(300,635,"从地球远道而来的小问题也略显棘手",65535,"HZK\\HZK24",0);
-    put_hz24(300,665,"（损害内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,665,"（一些资源减少）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 }
 
 void sbgz_data(struct GameInfo* pgameinfo)
 {
-    pgameinfo->r_info.energy-=100;
-    pgameinfo->r_info.rarematerial-=100;
-    pgameinfo->r_info.nanomaterial-=100;
+    pgameinfo->r_info.energy-=30;
+    pgameinfo->r_info.rarematerial-=30;
+    pgameinfo->r_info.nanomaterial-=30;
     pgameinfo->r_info.fuel-=60;
 }
 
@@ -302,7 +304,7 @@ void yz_show()
     put_hz24(300,575,"来自他国的援助不期而至",65535,"HZK\\HZK24",0);
     put_hz24(300,605,"在这茫茫的赤色沙漠",65535,"HZK\\HZK24",0);
     put_hz24(300,635,"在国籍之前，首先我们同样是人类",65535,"HZK\\HZK24",0);
-    put_hz24(300,665,"（增益内容）",63776,"HZK\\HZK24",0);
+    put_hz24(300,665,"（各种资源增加）",63776,"HZK\\HZK24",0);
     put_hz24(300,695,"（点击任意处继续）",65535,"HZK\\HZK24",0);
 
 }
@@ -310,7 +312,7 @@ void yz_show()
 void yz_data(struct GameInfo* pgameinfo)
 {
     pgameinfo->r_info.mineral+=200;
-    pgameinfo->r_info.energy+=1000;
+    pgameinfo->r_info.energy+=100;
     pgameinfo->r_info.oxygen+=200;
     pgameinfo->r_info.water+=200;
     pgameinfo->r_info.rarematerial+=300;
@@ -377,7 +379,7 @@ void event_warning(struct GameInfo* pgameinfo)
     int i;
     long int repast[8];
     long int renow[8];
-    press =0;
+    press=0;
    
     repast[0]=pgameinfo->r_info_t.nanomaterial;
     repast[1]=pgameinfo->r_info_t.rarematerial;
