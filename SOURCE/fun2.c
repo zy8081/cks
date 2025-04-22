@@ -195,13 +195,13 @@ void home_build_situation(struct GameInfo *gameinfop,char *path)
 	sprintf(str,"%d",happy);
 	put_hz16_asc16_size(350,230,2,2,str,1,"HZK\\HZ16");
 
-	puthz3(250, 230,32,32,1000,"家园建设值：");
+	puthz3(250, 270,32,32,1000,"家园建设值：");
 	sprintf(str,"%d",gameinfop->construction);
 	put_hz16_asc16_size(350,270,2,2,str,1,"HZK\\HZ16");
 
-	puthz3(250, 230,32,32,1000,"已建成建筑数量：");
+	puthz3(250, 350,32,32,1000,"已建成建筑数量：");
 	sprintf(str,"%d",build_count);
-	put_hz16_asc16_size(350,310,2,2,str,1,"HZK\\HZ16");
+	put_hz16_asc16_size(350,350,2,2,str,1,"HZK\\HZ16");
 }
 
 int cal_map_building_num(struct GameInfo *gameinfop)

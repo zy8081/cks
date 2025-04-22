@@ -490,11 +490,19 @@ int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct
 	puthz2(250,125+(location-1)*130,32,32,1,building->name);
 	if(building->id==1)
 	{
-		puthz3(340,125+(location-1)*130,24,24,0x03C0,"提供人口容纳数");
+		puthz3(340,165+(location-1)*130,24,24,0x03C0,"提供人口容纳数");
 	}
 	if(building->id==19)
 	{
 		put_hz24_asc32(340,165+(location-1)*130,"提供50科研点",0x03C0,"HZK\\Hzk24k");
+	}
+	if(building->id==3 || building->id==4 || building->id==2||building->id==15)
+	{
+		puthz3(340,165+(location-1)*130,24,24,0x03C0,"娱乐建筑");
+	}
+	if(building->id==18)
+	{
+		puthz3(340,165+(location-1)*130,24,24,0x03C0,"奇观建筑");
 	}
 	return 0;
 }

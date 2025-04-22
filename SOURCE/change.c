@@ -268,14 +268,14 @@ void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcfl
 	}
 	
 	i=0;
-	while ((c=fgetc(file1))!=' ')
+	while ((c=fgetc(file1))!=' ' && c!='\n')
 	{
 		str[i++]=c;
 	}
 	str[i]='\0';
 	itoa(atoi(str)+change,str,10);
 	fputs(str,file2);
-	fputc(' ',file2);
+	fputc(c,file2);
 	
 	while((c=fgetc(file1))!=EOF)
 	{
