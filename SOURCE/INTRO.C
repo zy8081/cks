@@ -64,10 +64,9 @@ void intro_book(int page)
 
 void clear_keyboard(void)
 {
-    char temp;
     while(bioskey(1)!=0)
     {
-        temp=bioskey(0);
+        bioskey(0);
     }
 }
 int renew_bookpage(void)

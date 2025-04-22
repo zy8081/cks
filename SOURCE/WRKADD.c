@@ -11,7 +11,7 @@
 void wrkmng_add(int *fpage1,int* pplacenum,char*(pname0[]),char*user)
 {
     int i;
-    WORKFILE filetemp={"\0",0,"\0","\0",0};
+    //WORKFILE filetemp={"\0",0,"\0","\0",0};
     Readbmp64k(0,0,"PICTURE\\WLCMpage.bmp");
     backprt();
     title2prt();
@@ -207,13 +207,13 @@ void nameprt(char* name)
         put_hz16_asc16_size(410,172,1,1,name,65535,"HZK\\hzk16");
 }
 
-void compprt()//??????????
+void compprt(void)//??????????
 {
     btn_bar_Draw(442,420,582,480);
     put_hz24(442+30,445,"完成",0,"HZK\\HZK24",0);
 }
 
-void title2prt()//
+void title2prt(void)//
 {
     btn_bar_Draw(412,35,612,75);
     put_hz24(412+50,55-10,"新建项目",0,"HZK\\HZK24",0);
@@ -234,7 +234,7 @@ void hiscreate(char* pathhis)
 
 void datacreate(char *filen)
 {
-    int t=0;
+    //int t=0;
     FILE* fpbuild,* fptech,*fpnode;
     FILE* fbuild,*ftech;
     char* pathbuild=malloc((size_t)50);

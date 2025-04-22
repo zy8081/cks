@@ -181,19 +181,19 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
     }
 }
 
-void title1prt()
+void title1prt(void)
 {
     btn_bar_Draw(412,35,612,75);
     put_hz24(412+50,55-10,"项目管理",0,"HZK\\HZK24",0);
 }
 
-void backprt()
+void backprt(void)
 {
     btn_bar_Draw(50,50,150,90);
     put_hz24(70,56,"返回",0,"HZK\\HZK24",0);
 }
 
-void addprt()
+void addprt(void)
 {
     btn_bar_Draw(842,110,962,160);
     put_hz24(852,120,"新建项目",0,"HZK\\HZK24",0);
@@ -305,7 +305,6 @@ void pageprt(int page,int pagemax)
 void dltfile(int page,int n,char*user)
 {
     int i=0;
-    int j;
     char*pathbas=malloc((size_t)50);
     char*pathdat=malloc((size_t)50);
     char*pathhis=malloc((size_t)50);
@@ -328,7 +327,6 @@ void dltfile(int page,int n,char*user)
         }
         else
         {
-            j=i;
             pathdat[i]='\0';
             pathhis[i]='\0';
             strcat(pathdat,".dat");
@@ -374,7 +372,6 @@ void wrkdelete(int page,int n,char*user)
 {
     int g=(page-1)*4+n;
     int k=0;
-    int i=0;
     char test[3];
     char ctemp;
     char*pathbas=malloc((size_t)60);

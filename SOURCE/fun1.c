@@ -7,8 +7,6 @@ int proj_fun1(struct GameInfo* gameinfop,int*pxsel,int*pysel)
 	char *s[2]={"查看建筑","还没想好"};
 	draw_main_toolbotton_activate(234,0xBD32,"地图","显示");
 	draw_all_leftbuttons(2,65,s);
-    //draw_map2(300,105,954,759,7,7,gameinfop);
-	//draw_map(300,105,954,759,7,7,gameinfop);
 	
 	while (1)
 	{

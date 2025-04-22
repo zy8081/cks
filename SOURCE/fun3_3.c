@@ -75,9 +75,39 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
                         delay(1500);
                         LoadBMP(390,290,810,610,0);
                     }
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==20)
+                    {
+                        clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
+                        btn_bar_Draw(400,300,800,600);
+                        puthz3(410,310,32,32,0xA000,"该建筑无法拆除！");
+                        puthz3(410,360,32,32,0xA000,"无法拆除！");
+                        delay(1500);
+                        LoadBMP(390,290,810,610,0);
+                    }
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==21)
+                    {
+                        clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
+                        btn_bar_Draw(400,300,800,600);
+                        puthz3(410,310,32,32,0xA000,"该建筑无法拆除！");
+                        puthz3(410,360,32,32,0xA000,"无法拆除！");
+                        delay(1500);
+                        LoadBMP(390,290,810,610,0);
+                    }
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==22)
+                    {
+                        clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
+                        btn_bar_Draw(400,300,800,600);
+                        puthz3(410,310,32,32,0xA000,"该建筑无法拆除！");
+                        puthz3(410,360,32,32,0xA000,"无法拆除！");
+                        delay(1500);
+                        LoadBMP(390,290,810,610,0);
+                    }
                     else
                     {
-                        draw_demolish_confirm(gameinfop,i,j);
+                        draw_demolish_confirm();
                         confirm_flag=0;
                         while(1)
                         {
@@ -118,7 +148,7 @@ int demolish_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
 	}
 }
 
-void draw_demolish_confirm(struct GameInfo *gameinfop,int i,int j)
+void draw_demolish_confirm(void)
 {
     clrmous(MouseX,MouseY);
     SaveBMP(390,290,810,610,0);
@@ -145,29 +175,35 @@ int judge_press_demolish_confirm(int pos)
 void demolish_on_map(struct GameInfo *gameinfop,int i,int j,int pxsel,int pysel)
 {
     int k;
-    gameinfop->m_info[i][j].building.res_add.nanomaterial=0;
-    gameinfop->m_info[i][j].building.res_add.rarematerial=0;
-    gameinfop->m_info[i][j].building.res_add.oxygen=0;
-    gameinfop->m_info[i][j].building.res_add.water=0;
-    gameinfop->m_info[i][j].building.res_add.food=0;
-    gameinfop->m_info[i][j].building.res_add.energy=0;
-    gameinfop->m_info[i][j].building.res_add.fuel=0;
-    gameinfop->m_info[i][j].building.res_add.mineral=0;
+    int nano,rare;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.nanomaterial=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.rarematerial=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.oxygen=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.water=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.food=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.energy=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.fuel=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_add.mineral=0;
 
-    gameinfop->m_info[i][j].building.lock=0;              
-    gameinfop->m_info[i][j].building.id=0;
-    gameinfop->m_info[i][j].building.bui_time=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.lock=0;              
+    gameinfop->m_info[i+pysel][j+pxsel].building.id=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.bui_time=0;
 
-    gameinfop->m_info[i][j].building.res_cost.nanomaterial=0;
-    gameinfop->m_info[i][j].building.res_cost.rarematerial=0;
+    nano=gameinfop->m_info[i+pysel][j+pxsel].building.res_add.nanomaterial;
+    rare=gameinfop->m_info[i+pysel][j+pxsel].building.res_add.rarematerial;
+    gameinfop->r_info.nanomaterial+=nano;
+    gameinfop->r_info.rarematerial+=rare;
 
-    for (k=0;k<strlen(gameinfop->m_info[i][j].building.name);k++)
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_cost.nanomaterial=0;
+    gameinfop->m_info[i+pysel][j+pxsel].building.res_cost.rarematerial=0;
+
+    for (k=0;k<strlen(gameinfop->m_info[i+pysel][j+pxsel].building.name);k++)
     {
-        gameinfop->m_info[i][j].building.name[k]=0;
+        gameinfop->m_info[i+pysel][j+pxsel].building.name[k]=0;
     }
-    for (k=0;k<strlen(gameinfop->m_info[i][j].building.pic_path);k++)
+    for (k=0;k<strlen(gameinfop->m_info[i+pysel][j+pxsel].building.pic_path);k++)
     {
-        gameinfop->m_info[i][j].building.pic_path[k]=0;
+        gameinfop->m_info[i+pysel][j+pxsel].building.pic_path[k]=0;
     }
 }
 
@@ -208,7 +244,7 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
             {
                 if(mouse_press_map(i,j)==1)
                 {
-                    if (gameinfop->m_info[i][j].building.id==0)
+                    if (gameinfop->m_info[i+*pysel][j+*pxsel].building.id==0)
                     {
                         clrmous(MouseX,MouseY);
                         SaveBMP(390,290,810,610,0);
@@ -219,7 +255,7 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
                         delay(1500);
                         LoadBMP(390,290,810,610,0);
                     }
-                    else if(gameinfop->m_info[i][j].building.bui_time!=0)
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.bui_time!=0)
                     {
                         clrmous(MouseX,MouseY);
                         SaveBMP(390,290,810,610,0);
@@ -230,9 +266,42 @@ int ban_building(struct GameInfo *gameinfop,int *pxsel,int *pysel)
                         delay(1500);
                         LoadBMP(390,290,810,610,0);
                     }
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==20)
+                    {
+                        clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
+                        btn_bar_Draw(400,300,800,600);
+                        puthz3(410,310,24,24,0xA000,"该建筑无法禁用！");
+                        puthz2(410,350,32,32,0xA000,"禁用不了建筑！");
+                        
+                        delay(1500);
+                        LoadBMP(390,290,810,610,0);
+                    }
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==21)
+                    {
+                        clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
+                        btn_bar_Draw(400,300,800,600);
+                        puthz3(410,310,24,24,0xA000,"该建筑无法禁用！");
+                        puthz2(410,350,32,32,0xA000,"禁用不了建筑！");
+                        
+                        delay(1500);
+                        LoadBMP(390,290,810,610,0);
+                    }
+                    else if(gameinfop->m_info[i+*pysel][j+*pxsel].building.id==22)
+                    {
+                        clrmous(MouseX,MouseY);
+                        SaveBMP(390,290,810,610,0);
+                        btn_bar_Draw(400,300,800,600);
+                        puthz3(410,310,24,24,0xA000,"该建筑无法禁用！");
+                        puthz2(410,350,32,32,0xA000,"禁用不了建筑！");
+                        
+                        delay(1500);
+                        LoadBMP(390,290,810,610,0);
+                    }
                     else
                     {
-                        if (gameinfop->m_info[i][j].building.lock==0)
+                        if (gameinfop->m_info[i+*pysel][j+*pxsel].building.lock==0)
                         {
                             draw_ban_confirm(gameinfop,i,j,*pxsel,*pysel,0);
                             confirm_flag=0;
@@ -337,6 +406,7 @@ void draw_ban_confirm(struct GameInfo *gameinfop,int i,int j,int pxsel,int pysel
 
 void ban_unban_on_map(struct GameInfo *gameinfop,int i,int j,int pxsel,int pysel,int lock)
 {
+
     if (lock==0)
     {
         gameinfop->m_info[i+pysel][j+pxsel].building.lock=1;

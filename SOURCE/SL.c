@@ -222,7 +222,7 @@ int quit(void)//返回11x表示项目管理，12x表示登录，13x关闭程序
 	
 }
 
-void quit_prt()
+void quit_prt(void)
 {
 	clrmous(MouseX,MouseY);
 	btn_bar_Draw(250,110,900,210);	
@@ -234,7 +234,7 @@ void quit_prt()
 	puthz2(270,360,32,40,0,"退出程序");
 }
 
-int quit_savejudge()
+int quit_savejudge(void)
 {
 	clrmous(MouseX,MouseY);
 	menuprt(330,293,697,478);
@@ -273,7 +273,7 @@ int quit_savejudge()
 	}
 }
 
-void close_all()
+void close_all(void)
 {
 	exit(1);
 }

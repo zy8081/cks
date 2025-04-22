@@ -8,9 +8,9 @@ void placeprt(int placenum);//绘制选择地点的按钮
 
 void nameprt(char*);//绘制命名部分，尚有缺陷，再次点击无法从起点开始
 
-void compprt();//绘制完成按钮
+void compprt(void);//绘制完成按钮
 
-void title2prt();//绘制标题
+void title2prt(void);//绘制标题
 
 void wrkmng_add_place(int* page1,int* placetemp);//进入选择地点部分
 

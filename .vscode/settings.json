@@ -38,6 +38,8 @@
         "tuple": "c",
         "type_traits": "c",
         "utility": "c",
-        "sstream": "c"
+        "sstream": "c",
+        "io.h": "c",
+        "IO.H": "cpp"
     }
 }
