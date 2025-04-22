@@ -324,7 +324,7 @@ int time_warning()//0否1是2退出
 {
 	clrmous(MouseX,MouseY);
 	SaveBMP(277,300,747,620,13);
-	menuprt(277,300,747,620,0);
+	menuprt(277,300,747,620);
 	puthz2(470,310,32,40,53744,"警告");
     
     put_hz24(290,350,"时间流动过快会一次性消耗大量资源",65535,"HZK\\HZK24",0);
@@ -437,6 +437,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 		{
 			if(time_comf(1)==1)
 			{
+				clrmous(MouseX,MouseY);
 				eventsc(event);
 				time_flow(pg,p,pw);
 				eventshow(*event,pg);
@@ -459,6 +460,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 		{
 			if(time_comf(3)==1)
 			{
+				clrmous(MouseX,MouseY);
 				timeflow_more(pg,p,3,pw);
 				//eventshow(*event,gameinfop);
 				clear_time();
@@ -481,6 +483,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			{
 				if(time_warning()==1)
 				{
+					clrmous(MouseX,MouseY);
 					timeflow_more(pg,p,6,pw);
 					clear_time();
 					draw_time(pg);
@@ -503,6 +506,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			{
 				if(time_warning()==1)
 				{
+					clrmous(MouseX,MouseY);
 					timeflow_more(pg,p,12,pw);
 					clear_time();
 					draw_time(pg);
@@ -522,6 +526,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 		else if(mouse_press(250,550,900,650)==1)
 		{
 			int n;
+			clrmous(MouseX,MouseY);
 			SaveBMP(317,300,707,520,13);
 			
 			n=time_set();
@@ -531,6 +536,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				{
 					if(time_warning()==1)
 					{
+						clrmous(MouseX,MouseY);
 						LoadBMP(317,300,707,520,13);
 						timeflow_more(pg,p,n,pw);
 						clear_time();
@@ -551,6 +557,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				}
 				else
 				{
+					clrmous(MouseX,MouseY);
 					timeflow_more(pg,p,n,pw);
 					clear_time();
 					draw_time(pg);
@@ -576,7 +583,7 @@ int time_set()
 	int renum=-1;
 	clrmous(MouseX,MouseY);
 	
-	menuprt(317,300,707,470,0);
+	menuprt(317,300,707,470);
 	
 	btn_bar_Draw(430,420,500,458);
     btn_bar_Draw(537,420,607,458);

@@ -5,7 +5,7 @@ void draw_button_fill(int x1,int y1,int x2,int y2,unsigned int color);
 void draw_button_frame(int x1,int y1,int x2,int y2,unsigned int color);
 void draw_toast(void);
 void clear_toast(void);
-
+void draw_button1(int x1,int y1,int x2,int y2,int colorf,int colorb);
 void draw_left_toolbotton(int y,int length,char*s);
 void draw_main_toolbotton(int x,int color,char*s1,char*s2);
 void draw_pro_origin(void);

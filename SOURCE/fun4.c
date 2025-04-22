@@ -998,71 +998,92 @@ void calculate_monthly_techpoint(struct GameInfo *gameinfop,char *path)
 	gameinfop->techpoint = (gameinfop->techpoint)*buff/100;
 }
 
-void calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)
+int calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)
 {
-	int buff=100;
+	int buff=0;
+	int i,j;
 	if (check_techflag_infile(path,1,2))
 	{
 		buff+=10;
 	}
-	if (check_techflag_infile(path,2,3))
+	if (check_techflag_infile(path,1,3))
 	{
 		buff+=20;
 	}
-	if (check_techflag_infile(path,3,4))
+	if (check_techflag_infile(path,1,4))
 	{
 		buff+=20;
 	}
-	if (check_techflag_infile(path,3,6))
+	if (check_techflag_infile(path,1,6))
 	{
 		buff+=10;
 	}
-	if (check_techflag_infile(path,3,7))
+	if (check_techflag_infile(path,1,7))
 	{
 		buff+=20;
 	}
-	if (check_techflag_infile(path,3,8))
+	if (check_techflag_infile(path,1,8))
 	{
 		buff+=20;
 	}
-	if (check_techflag_infile(path,3,9))
+	if (check_techflag_infile(path,1,9))
 	{
 		buff+=20;
 	}
+	for(i=0;i<15;i++)
+    {
+        for(j=0;j<15;j++)
+        {
+            if(gameinfop->m_info[i][j].building.id==2)
+            {
+                buff+=2;
+            }
+            if(gameinfop->m_info[i][j].building.id==3)
+            {
+                buff+=3;
+            }
+            if(gameinfop->m_info[i][j].building.id==4)
+            {
+				buff+=4;
+            }
+            if(gameinfop->m_info[i][j].building.id==15)
+            {
+                buff+=10;
+            }
+            if(gameinfop->m_info[i][j].building.id==17)
+            {
+                buff+=12;
+            }
+            if(gameinfop->m_info[i][j].building.id==18)
+            {
+                buff+=15;
+            }
+        }
+    }
 	gameinfop->happiness[1] = buff;
+	return buff;
 }
 
-void calculate_monthly_buildpointbuff(struct GameInfo *gameinfop,char *path)
+int calculate_monthly_buildpointbuff(struct GameInfo *gameinfop,char *path)
 {
-	int buff=100;
+	int buff=0;
 	if (check_techflag_infile(path,1,2))
 	{
 		buff+=10;
 	}
-	if (check_techflag_infile(path,2,3))
+	if (check_techflag_infile(path,1,3))
 	{
 		buff+=20;
 	}
-	if (check_techflag_infile(path,3,4))
+	if (check_techflag_infile(path,1,4))
 	{
 		buff+=20;
-	}
-	if (check_techflag_infile(path,3,6))
-	{
-		buff+=10;
 	}
 	if (check_techflag_infile(path,3,7))
 	{
-		buff+=20;
+		buff+=10;
 	}
-	if (check_techflag_infile(path,3,8))
-	{
-		buff+=20;
-	}
-	if (check_techflag_infile(path,3,9))
-	{
-		buff+=20;
-	}
+	return buff;
 }
 
 void research_complete_toast(int type)

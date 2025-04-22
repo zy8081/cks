@@ -3,18 +3,18 @@ void unlock_building(int id,char *path);
 
 void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcflag,int add_res,char *path);
 
-void research_1_1(struct GameInfo *gameinfop);
-void research_1_2(struct GameInfo *gameinfop);
-void research_1_3(struct GameInfo *gameinfop);
-void research_1_4(struct GameInfo *gameinfop);
-void research_1_5(struct GameInfo *gameinfop);
-void research_1_6(struct GameInfo *gameinfop);
-void research_1_7(struct GameInfo *gameinfop);
-void research_1_8(struct GameInfo *gameinfop);
-void research_1_9(struct GameInfo *gameinfop);
-void research_1_10(struct GameInfo *gameinfop);
+void research_1_1(void);
+void research_1_2(void);
+void research_1_3(void);
+void research_1_4(void);
+void research_1_5(void);
+void research_1_6(void);
+void research_1_7(void);
+void research_1_8(void);
+void research_1_9(void);
+void research_1_10(void);
 
-void research_2_1(struct GameInfo *gameinfop);
+void research_2_1(void);
 void research_2_2(struct GameInfo *gameinfop,nodebq *p1);
 void research_2_3(struct GameInfo *gameinfop,nodebq *p1);
 void research_2_4(struct GameInfo *gameinfop,char *path);

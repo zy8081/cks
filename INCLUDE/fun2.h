@@ -4,3 +4,4 @@ void proj_fun2_1(struct GameInfo *gameinfop);
 void get_all_resourceinfo(struct GameInfo *gameinfop);
 void resource_warning(struct GameInfo *gameinfop);
 void home_build_situation(struct GameInfo *gameinfop,char *path);
+int cal_map_building_num(struct GameInfo *gameinfop);

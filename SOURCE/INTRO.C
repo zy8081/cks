@@ -326,8 +326,3 @@ void printf_intropage_from_txt(int page)
 
     fclose(file);
 }
-
-void fly_page(int page)
-{
-
-}

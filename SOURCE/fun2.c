@@ -180,14 +180,43 @@ void resource_warning(struct GameInfo *gameinfop)
 
 void home_build_situation(struct GameInfo *gameinfop,char *path)
 {
+	int happybuff=calculate_monthly_happybuff(gameinfop,path);
 	int happy=happiness_count(gameinfop);
 	int maxpopulation=people_max(gameinfop,path);
-	int buildpoint=constrc_count(gameinfop,path);
+	long int buildpoint=constrc_count(gameinfop,path);
 	char str[40];
+	int build_count=cal_map_building_num(gameinfop);
 	puthz2(250, 110,48,48,2000,"家园概况");
 	puthz3(250, 170,32,32,1000,"人口：");
 	sprintf(str,"%d/%d",gameinfop->people,maxpopulation);
 	put_hz16_asc16_size(350,170,2,2,str,1,"HZK\\HZ16");
 
+	puthz3(250, 230,32,32,1000,"幸福度：");
+	sprintf(str,"%d",happy);
+	put_hz16_asc16_size(350,230,2,2,str,1,"HZK\\HZ16");
 
+	puthz3(250, 230,32,32,1000,"家园建设值：");
+	sprintf(str,"%d",gameinfop->construction);
+	put_hz16_asc16_size(350,270,2,2,str,1,"HZK\\HZ16");
+
+	puthz3(250, 230,32,32,1000,"已建成建筑数量：");
+	sprintf(str,"%d",build_count);
+	put_hz16_asc16_size(350,310,2,2,str,1,"HZK\\HZ16");
+}
+
+int cal_map_building_num(struct GameInfo *gameinfop)
+{
+	int i,j;
+	int count=0;
+	for (i=0;i<15;i++)
+	{
+		for (j=0;j<15;j++)
+		{
+			if (gameinfop->m_info[i][j].building.id!=0&&gameinfop->m_info[i][j].building.bui_time!=0)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
 }

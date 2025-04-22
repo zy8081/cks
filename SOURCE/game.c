@@ -88,6 +88,7 @@ int project(struct workfile w)
 				events[0]=0;
 				events[1]=0;
 				break;
+
 		}
 	}
 	return proj_page;

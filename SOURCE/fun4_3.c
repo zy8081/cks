@@ -12,8 +12,8 @@ tree *create_manufacturetech_tree(char *path)
 	{
 		p->parent[i]=NULL;
 	}
+	
     get_tech_basic_info(p,p->type,p->id,path);
-
 
     temp=p;
 	for (i=2;i<5;i++)

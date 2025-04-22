@@ -54,12 +54,13 @@ void gminfo_init(char* datpath,int t)
 	
 	gameinfo->year=2030;
 	gameinfo->month=1;
-	gameinfo->techpoint=200;
+	gameinfo->techpoint=100;
 	gameinfo->gametech[0].research_flag=0;
-
+	gameinfo->gametech[1].research_flag=0;
+	gameinfo->gametech[2].research_flag=0;
 	gameinfo->r_info_t=gameinfo->r_info;
 
-	gameinfo->people=10;
+	gameinfo->people=30;
 	gameinfo->happiness[0]=0;
 	gameinfo->happiness[1]=0;
 	gameinfo->construction=0;
@@ -74,6 +75,7 @@ void gminfo_init(char* datpath,int t)
 			gameinfo->m_info[i][j].building.id=0;
 			gameinfo->m_info[i][j].building.bui_time=0;
 			gameinfo->m_info[i][j].terrain=0;
+			gameinfo->m_info[i][j].building.lock=0;
 		}
 	}
 	map_init(t,gameinfo);

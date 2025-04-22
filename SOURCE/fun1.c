@@ -1,15 +1,4 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include <fun3.h>
-#include <WRKMNG.h>
-#include <fun5.h>
-#include <fun4.h>
-#include <fun4_2.h>
-#include <fun1.h>
-#include <ORDFUNS.h>
-#include <MAP.h>
-#include <debug.h>
+#include<ALLFUNS.h>
 int proj_fun1(struct GameInfo* gameinfop,int*pxsel,int*pysel)
 {
 	int page=1;
@@ -55,9 +44,7 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 {
     int page=1;
 	int i,j;
-	int l=65;
-    //draw_map2(300,105,954,759,7,7,gameinfop);
-	//draw_map(300,105,954,759,7,7,gameinfop);
+	
     draw_buildmap(gameinfop,*pxsel,*pysel);
 	draw_minimap(gameinfop,*pxsel,*pysel);
     while (1)
@@ -85,7 +72,7 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
                     while(1)
                     {
                         mouse_renew(&MouseX,&MouseY,&press);
-                        if(mouse_press(500,500,800,600)==1)
+                        if(mouse_press(400,650,500,700)==1)
                         {
                             clrmous(MouseX,MouseY);
                             load_check_mapbuild_toast();
@@ -105,33 +92,136 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
 
 void draw_check_mapbuild_toast(struct Building building)
 {
+    int i=0,j=0;
     char str[50];
-    SaveBMP(490,290,810,610,0);
+    SaveBMP(390,290,810,710,0);
     clrmous(MouseX,MouseY);
-    btn_bar_Draw(500,300,800,600);
-    btn_bar_Draw(500,500,650,600);
-    btn_bar_Draw(650,500,800,600);
-    puthz(500,500,"取消",32,32,1);
-    puthz(650,500,"确定",32,32,1);
+    btn_bar_Draw(400,300,800,700);
+    btn_bar_Draw(400,650,500,700);
+    //btn_bar_Draw(700,650,800,700);
+    puthz2(400,650,32,32,1,"取消");
+    //puthz2(700,650,32,32,1,"确定");
     if (building.id==0)
     {
-        puthz(510,310,"此处并无建筑",24,24,1);
+        puthz2(510,310,32,32,0xA000,"此处并无建筑！");
     }
 
     else if (building.bui_time!=0)
     {
-        puthz(510,310,building.name,24,24,1);
-        puthz(510,340,"仍在建造中",24,24,1);
-        put_asc16_number_size(540,370,2,2,building.id,1);
+        puthz3(410,310,24,24,1,building.name);
+        puthz2(410,350,32,32,0xA000,"仍在建造中");
+        //put_asc16_number_size(540,370,2,2,building.id,1);
     }
     else
     {
-        puthz3(510,310,24,24,1,building.name);
-        put_asc16_number_size(510,340,2,2,building.id,1);
+        puthz3(410,310,24,24,1,building.name);
+        puthz3(410,440,24,24,0xA000,"维护：");
+        puthz3(410,480,24,24,1000,"产出：");
+        if (building.res_add.energy<0)
+        {
+            sprintf(str,"能源%d",building.res_add.energy);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.food<0)
+        {
+            sprintf(str,"食物%d",building.res_add.food);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.fuel<0)
+        {
+            sprintf(str,"燃料%d",building.res_add.fuel);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.mineral<0)
+        {
+            sprintf(str,"矿物%d",building.res_add.mineral);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.nanomaterial<0)
+        {
+            sprintf(str,"纳米材料%d",building.res_add.nanomaterial);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.oxygen<0)
+        {
+            sprintf(str,"氧气%d",building.res_add.oxygen);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.rarematerial<0)
+        {
+            sprintf(str,"稀有材料%d",building.res_add.rarematerial);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+        if (building.res_add.water<0)
+        {
+            sprintf(str,"淡水%d",building.res_add.water);
+            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            i++;
+        }
+
+
+
+        if (building.res_add.energy>0)
+        {
+            sprintf(str,"能源%d",building.res_add.energy);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.food>0)
+        {
+            sprintf(str,"食物%d",building.res_add.food);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.fuel>0)
+        {
+            sprintf(str,"燃料%d",building.res_add.fuel);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.mineral>0)
+        {
+            sprintf(str,"矿物%d",building.res_add.mineral);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.nanomaterial>0)
+        {
+            sprintf(str,"纳米材料%d",building.res_add.nanomaterial);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.oxygen>0)
+        {
+            sprintf(str,"氧气%d",building.res_add.oxygen);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.rarematerial>0)
+        {
+            sprintf(str,"稀有材料%d",building.res_add.rarematerial);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+        if (building.res_add.water>0)
+        {
+            sprintf(str,"淡水%d",building.res_add.water);
+            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            j++;
+        }
+
+        //put_asc16_number_size(510,340,2,2,building.id,1);
     }
 }
 
 void load_check_mapbuild_toast(void)
 {
-    LoadBMP(490,290,810,610,0);
+    LoadBMP(390,290,810,710,0);
 }

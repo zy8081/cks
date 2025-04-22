@@ -8,34 +8,34 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 			switch (id)
 			{
 				case 1:
-					research_1_1(gameinfop);
+					research_1_1();
 					break;
 				case 2:
-					research_1_2(gameinfop);
+					research_1_2();
 					break;
 				case 3:
-					research_1_3(gameinfop);
+					research_1_3();
 					break;
 				case 4:
-					research_1_4(gameinfop);
+					research_1_4();
 					break;
 				case 5:
-					research_1_5(gameinfop);
+					research_1_5();
 					break;
 				case 6:
-					research_1_6(gameinfop);
+					research_1_6();
 					break;
 				case 7:
-					research_1_7(gameinfop);
+					research_1_7();
 					break;
 				case 8:
-					research_1_8(gameinfop);
+					research_1_8();
 					break;
 				case 9:
-					research_1_9(gameinfop);
+					research_1_9();
 					break;
 				case 10:
-					research_1_10(gameinfop);
+					research_1_10();
 					break;
 				
 			}
@@ -44,7 +44,7 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 			switch (id)
 			{
 				case 1:
-					research_2_1(gameinfop);
+					research_2_1();
 					break;
 				case 2:
 					research_2_2(gameinfop,p1);
@@ -311,70 +311,69 @@ void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcfl
 }
 
 //科研点+10%
-void research_1_1(struct GameInfo *gameinfop)
+void research_1_1(void)
 {
 	return;
 }
 
 //家园建设值+10%，人民幸福度+10%
-void research_1_2(struct GameInfo *gameinfop)
+void research_1_2(void)
 {
-	gameinfop->happiness[1]+=10;
+	return;
 }
 
 //家园建设值+20%，人民幸福度+20%
-void research_1_3(struct GameInfo *gameinfop)
+void research_1_3(void)
 {
-	gameinfop->happiness[1]+=20;
-	
+	return;
 }
 
 //家园建设值+20%，人民幸福度+20%
-void research_1_4(struct GameInfo *gameinfop)
+void research_1_4(void)
 {
-	gameinfop->happiness[1]+=20;
+	return;
 }
 
 //家园建设值+20%
-void research_1_5(struct GameInfo *gameinfop)
+void research_1_5(void)
 {
-	//unlock_building(7);
+	return;
 }
 
 //人民幸福度+10%，住宅区人口+100
-void research_1_6(struct GameInfo *gameinfop)
+void research_1_6(void)
 {
-	gameinfop->happiness[1]+=10;
+	return;
 }
 
 //家园建设值+10%，人民幸福度+20%
-void research_1_7(struct GameInfo *gameinfop)
+void research_1_7(void)
 {
-	gameinfop->happiness[1]+=20;
+	return;
 }
 
 //人民幸福度+20%
-void research_1_8(struct GameInfo *gameinfop)
+void research_1_8(void)
 {
-	gameinfop->happiness[1]+=20;
+	return;
 }
 
 //人民幸福度+20%
-void research_1_9(struct GameInfo *gameinfop)
+void research_1_9(void)
 {
-	gameinfop->happiness[1]+=20;
+	return;
 }
 
 //家园建设值+1000
-void research_1_10(struct GameInfo *gameinfop)
+void research_1_10(void)
 {
-	
+	return;
 }
 
 //科研点+10%
-void research_2_1(struct GameInfo *gameinfop)
+void research_2_1(void)
 {
-	gameinfop->techpoint +=20;
+	return;
 }
 
 //机器人中枢能量维护+25，建造队列+1

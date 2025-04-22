@@ -54,7 +54,7 @@ int happiness_count(struct GameInfo *pg)
         htr[3]=(pg->r_info.oxygen)/(pg->people);
         pg->happiness[0]=(int)((float)(htr[0]-200+htr[1]-300+htr[2]-200+htr[3]-300)*(1.0+((float)(pg->happiness[1])/100.0)));
         return pg->happiness[0];
-    } 
+    }
 }
 
 int happiness_rate_count(struct GameInfo *pg)
@@ -96,24 +96,98 @@ int happiness_rate_count(struct GameInfo *pg)
     return hr;
 }
 
-int constrc_count(struct GameInfo *pg,char *path)
+long int constrc_count(struct GameInfo *pg,char *path)
 {
     int i,j;
-    int ct=0;
-    int cblock=0;
-    int ckind;
-    float crate;
+    long int cblock=0;
+    int buff=calculate_monthly_buildpointbuff(pg,path);
     for(i=0;i<15;i++)
     {
         for(j=0;j<15;j++)
         {
-            if(pg->m_info[i][j].building.id!=0)
-                cblock++;
+            if (pg->m_info[i][j].building.id!=0 && pg->m_info[i][j].building.bui_time==0)
+            {
+                switch (pg->m_info[i][j].building.id)
+                {
+                    case 1:
+                        cblock+=30;
+                        break;
+                    case 2:
+                        cblock+=50;
+                        break;
+                    case 3:
+                        cblock+=100;
+                        break;
+                    case 4:
+                        cblock+=100;
+                        break;
+                    case 5:
+                        cblock+=10;
+                        break;
+                    case 6:
+                        cblock+=10;
+                        break;
+                    case 7:
+                        cblock+=10;
+                        break;
+                    case 8:
+                        cblock+=10;
+                        break;
+                    case 9:
+                        cblock+=10;
+                        break;
+                    case 10:
+                        cblock+=15;
+                        break;
+                    case 11:
+                        cblock+=10;
+                        break;
+                    case 12:
+                        cblock+=50;
+                        break;
+                    case 13:
+                        cblock+=10;
+                        break;
+                    case 14:
+                        cblock+=10;
+                        break;
+                    case 15:
+                        cblock+=400;
+                        break;
+                    case 16:
+                        cblock+=50;
+                        break;
+                    case 17:
+                        cblock+=300;
+                        break;
+                    case 18:
+                        cblock+=1000;
+                        break;
+                    case 19:
+                        cblock+=10;
+                        break;
+                    case 20:
+                        cblock+=50;
+                        break;
+                    case 21:
+                        cblock+=10;
+                        break;
+                    case 22:
+                        cblock+=10;
+                        break;
+            
+                    default:
+                        break;
+                }
+            }
+            
         }
     }
-    crate=(float)cblock/225.0;
-    pg->construction=(int)(100.0*crate);
-    return (int)(100.0*crate);
+    if (check_techflag_infile(path,1,10))
+    {
+        cblock+=1000;
+    }
+    
+    pg->construction=((double)(cblock))*(buff+100)/100;
+    return pg->construction;
 }
-
-//int res_costwarning()

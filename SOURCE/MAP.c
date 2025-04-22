@@ -3,7 +3,7 @@
 void map_init(int place,struct GameInfo *pg)
 {
     int i,j;
-
+    char str[30];
     int temp1[15][15]=
     {
         {py,py,py,py,wd,py,py,py,py,py,py,py,py,py,py},
@@ -159,11 +159,57 @@ void map_init(int place,struct GameInfo *pg)
         for(j=0;j<15;j++)
             pg->m_info[i][j].mineral=mine_block_init(place,pg->m_info[i][j].terrain);
     }
-    pg->m_info[3][3].building.id=100;
-    pg->m_info[3][2].building.id=101;
-    pg->m_info[3][4].building.id=102;
+    pg->m_info[3][3].building.id=20;
+    pg->m_info[3][3].building.bui_time=0;
+    pg->m_info[3][3].building.res_add.energy=-20;
+    pg->m_info[3][3].building.res_add.nanomaterial=0;
+    pg->m_info[3][3].building.res_add.rarematerial=0;
+    pg->m_info[3][3].building.res_add.oxygen=0;
+    pg->m_info[3][3].building.res_add.water=0;
+    pg->m_info[3][3].building.res_add.food=0;
+    pg->m_info[3][3].building.res_add.mineral=0;
+    pg->m_info[3][3].building.res_add.fuel=0;
+    pg->m_info[3][3].building.pic_path[0]='2';
+    pg->m_info[3][3].building.pic_path[1]='0';
+    pg->m_info[3][3].building.pic_path[2]='\0';
+    pg->m_info[3][3].building.lock=0;
 
+    strcpy(pg->m_info[3][3].building.name,"火星基地");
 
+    pg->m_info[3][2].building.id=21;
+    pg->m_info[3][2].building.bui_time=0;
+    pg->m_info[3][2].building.res_add.energy=-100;
+    pg->m_info[3][2].building.res_add.nanomaterial=0;
+    pg->m_info[3][2].building.res_add.rarematerial=0;
+    pg->m_info[3][2].building.res_add.oxygen=0;
+    pg->m_info[3][2].building.res_add.water=0;
+    pg->m_info[3][2].building.res_add.food=0;
+    pg->m_info[3][2].building.res_add.mineral=0;
+    pg->m_info[3][2].building.res_add.fuel=0;
+    pg->m_info[3][2].building.pic_path[0]='2';
+    pg->m_info[3][2].building.pic_path[1]='1';
+    pg->m_info[3][2].building.pic_path[2]='\0';
+    pg->m_info[3][2].building.lock=0;
+
+    strcpy(pg->m_info[3][2].building.name,"机器人中枢");
+
+    pg->m_info[3][4].building.id=22;
+    pg->m_info[3][4].building.id=21;
+    pg->m_info[3][4].building.bui_time=0;
+    pg->m_info[3][4].building.res_add.energy=-30;
+    pg->m_info[3][4].building.res_add.nanomaterial=0;
+    pg->m_info[3][4].building.res_add.rarematerial=0;
+    pg->m_info[3][4].building.res_add.oxygen=0;
+    pg->m_info[3][4].building.res_add.water=0;
+    pg->m_info[3][4].building.res_add.food=0;
+    pg->m_info[3][4].building.res_add.mineral=0;
+    pg->m_info[3][4].building.res_add.fuel=0;
+    pg->m_info[3][4].building.pic_path[0]='2';
+    pg->m_info[3][4].building.pic_path[1]='2';
+    pg->m_info[3][4].building.pic_path[2]='\0';
+    pg->m_info[3][4].building.lock=0;
+
+    strcpy(pg->m_info[3][4].building.name,"自动化仓库");
 }
 
 int mine_block_init(int place,int terrain)
@@ -318,10 +364,18 @@ void draw_block(int x,int y,struct MapInfo* mi,int form)
     
     //itoa(mi.mineral,cm,10);
     //put_hz24_asc32((x1+x2)/2-30,(y1+y2)/2,cm,1,"HZK\\Hzk24k");
-    if(mi->building.id>=1&&mi->building.id<=18||mi->building.id>=100&&mi->building.id<=102)
+    if(mi->building.id>=1&&mi->building.id<=22)
     {
-        sprintf(bmppath,"PICTURE\\build\\%d.bmp",mi->building.id);
+        sprintf(bmppath,"PICTURE\\build\\%d.bmp",atoi(mi->building.pic_path));
         Readbmp64k(x1+3,y1+3,bmppath);
+        if (mi->building.bui_time!=0)
+        {
+            puthz2(x1+3,y1+3,32,32,0xA000,"建造中");
+        }
+        if (mi->building.lock!=0)
+        {
+            puthz2(x1+3,y1+3,32,32,0xA000,"已停用");
+        }
     }
     
 }

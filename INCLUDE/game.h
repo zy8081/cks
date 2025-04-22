@@ -83,7 +83,7 @@ struct GameInfo
 	int month;
 	int people;
 	int happiness[2];//0为具体值，1为百分比
-	int construction;
+	long int construction;
 	int fail;
 };
 
