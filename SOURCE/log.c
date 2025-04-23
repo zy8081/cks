@@ -73,11 +73,11 @@ void generate_building_log(struct GameInfo *gameinfop,nodebq *p,int funcflag,cha
     for (i=0;i<count;i++)
     {
         id=gameinfop->m_info[temp->i][temp->j].building.id;
-        get_building_info(id,buildp+i,path);
+        id_get_building_fileinfo(id,buildp+i,path);
         sprintf(str,"%d年%d月：",gameinfop->year,gameinfop->month);
         fputs(str,file);
         fputs((buildp+i)->name,file);
-        sprintf(str,"在（%d，%d）处建成",temp->i,temp->j);
+        sprintf(str,"在（%d，%d）处建成",(temp->i)+1,(temp->j)+1);
         fputs(str,file);
         fputc('\n',file);
         temp=temp->next;
@@ -160,8 +160,8 @@ int log_display(char *path)
     sprintf(str,"%s\\logt.txt",path);
     clrmous(MouseX,MouseY);
     draw_log_one_page(newpage,path);
-    totalpage=calculate_fileline(str);
-    
+    totalpage=calculate_fileline(str)/15+1;
+
     while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -173,16 +173,18 @@ int log_display(char *path)
         {
             clrmous(MouseX,MouseY);
             draw_log_one_page(newpage,path);
+            // put_asc16_number_size(300,300,3,3,totalpage,1);
+            // put_asc16_number_size(300,400,3,3,newpage,1);   
             oldpage=newpage;
         }
-        if (mouse_press(50,300,150,350)==1)
+        if (mouse_press(75,400,175,450)==1)
         {
             if (newpage>1)
             {
                 newpage--;
             }
         }
-        if (mouse_press(50,400,150,450)==1)
+        if (mouse_press(75,550,175,600)==1)
         {
             if (newpage<totalpage)
             {
@@ -199,9 +201,11 @@ void draw_log_one_page(int newpage,char *path)
     char content[50];
     char totalpath[50];
     char *errorflag;
-    btn_bar_Draw(270,160,1000,740);
+    btn_bar_Draw(270,140,1000,740);
     btn_bar_Draw(75,400,175,450);
+    puthz2(75,400,32,32,1,"上一页");
     btn_bar_Draw(75,550,175,600);
+    puthz2(75,550,32,32,1,"下一页");
 
     sprintf(totalpath,"%s\\logt.txt",path);
     file=fopen(totalpath,"r");
@@ -214,13 +218,14 @@ void draw_log_one_page(int newpage,char *path)
         for (j=0;j<15;j++)
         {
             errorflag=fgets(content,50,file);
-            if(errorflag==NULL)
+            if (errorflag==NULL)
             {
                 fclose(file);
                 return;
             }
         }
     }
+
     for (i=0;i<15;i++)
     {
         errorflag=fgets(content,50,file);
@@ -230,7 +235,7 @@ void draw_log_one_page(int newpage,char *path)
             return;
         }
         content[strlen(content)-1]='\0';
-        put_hz16_asc16_size(270,160+i*30,2,2,content,1,"HZK\\HZ16");
+        put_hz16_asc16_size(270,145+i*35,2,2,content,1,"HZK\\HZ16");
     }
     fclose(file);
 }

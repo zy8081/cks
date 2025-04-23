@@ -532,7 +532,6 @@ void free_nodebq(nodebq *p)
 */
 void clear_map_building_data(struct GameInfo *gameinfop,int i,int j)
 {
-	char str[30]={'\0'};
 	int k=0;
 	gameinfop->m_info[i][j].building.id=0;
 	while(gameinfop->m_info[i][j].building.name[k]!='\0')

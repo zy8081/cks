@@ -834,23 +834,23 @@ void puthz(int x, int y,char *s,int flag,int part,int color)
 	fclose(hzk_p);
 }
 
-//void puthz_coverd(int x, int y,char *s,int n,int flag,int part,int color)
-//{
-//	int i=0;
-//	for(i=0;i<part*n;i++)
-//	{
-//		Line_Thick(x+i,y,x+i,y+flag+1,1,Getpixel64k(x+i,y-1));
-//	}
-//	puthz( x,  y, s, flag, part, color);
-//
-//}
-//void puthz_coverd2(int x, int y,char *s,int n,int flag,int part,int color,int backcolor)
-//{
-//	int i=0;
-//	for(i=0;i<part*n;i++)
-//	{
-//		Line_Thick(x+i,y,x+i,y+flag+1,1,backcolor);
-//	}
-//	puthz( x,  y, s, flag, part, color);
-//
-//}
+void puthz_coverd(int x, int y,char *s,int n,int flag,int part,int color)
+{
+	int i=0;
+	for(i=0;i<part*n;i++)
+	{
+		line_thick(x+i,y,x+i,y+flag+1,1,Getpixel64k(x+i,y-1));
+	}
+	puthz( x,  y, s, flag, part, color);
+
+}
+void puthz_coverd2(int x, int y,char *s,int n,int flag,int part,int color,int backcolor)
+{
+	int i=0;
+	for(i=0;i<part*n;i++)
+	{
+		line_thick(x+i,y,x+i,y+flag+1,1,backcolor);
+	}
+	puthz( x,  y, s, flag, part, color);
+
+}

@@ -19,11 +19,11 @@ int build(struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct work
 int buildlist(int x,struct GameInfo *gameinfop,nodebq *p,int* pxsel,int* pysel,struct workfile *workfilep);
 int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct GameInfo *gameinfop,struct Building *building,struct workfile *workfilep);
 int get_building_info(int id,struct Building* building,char *path);
-
+int id_get_building_fileinfo(int id,struct Building* building,char *path);
 
 nodeb *create_nodeb(void);
 void headinsert1_cost_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop);
-void headinsert1_add_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop);
-void headinsert1_maintfee_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop);
+void headinsert1_add_nodeb(nodeb *p,struct Building building);
+void headinsert1_maintfee_nodeb(nodeb *p,struct Building building);
 void free_nodeb(nodeb *p);
 void free_nodeb_list(nodeb *p[3][5]);

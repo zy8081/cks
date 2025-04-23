@@ -1,13 +1,4 @@
-#include <common.h>
-#include <game.h>
-#include <fun3_2.h>
-#include<ORDFUNS.h>
-#include<WRKMNG.h>
-#include<WRKPLC.h>
-#include<DRAWWORK.h>
-#include<WRKADD.h>
-#include <MAP.h>
-#include<SL.h>
+#include<ALLFUNS.h>
 
 int save_gminfo(struct GameInfo* pgameinfo,WORKFILE* pwork,int repage)
 {
@@ -43,14 +34,14 @@ void gminfo_init(char* datpath,int t)
 	//struct Resource res_earns;
     FILE* ft=fopen(datpath,"wb+");
 	
-	gameinfo->r_info.energy=10000;
-	gameinfo->r_info.nanomaterial=10000;
-	gameinfo->r_info.rarematerial=10000;
-	gameinfo->r_info.oxygen=10000;
-	gameinfo->r_info.water=10000;
-	gameinfo->r_info.food=10000;
-	gameinfo->r_info.fuel=10000;
-	gameinfo->r_info.mineral=10000;
+	gameinfo->r_info.energy=5000;
+	gameinfo->r_info.nanomaterial=2000;
+	gameinfo->r_info.rarematerial=500;
+	gameinfo->r_info.oxygen=2500;
+	gameinfo->r_info.water=2500;
+	gameinfo->r_info.food=2500;
+	gameinfo->r_info.fuel=500;
+	gameinfo->r_info.mineral=0;
 	
 	gameinfo->year=2030;
 	gameinfo->month=1;
@@ -278,19 +269,19 @@ void close_all(void)
 	exit(1);
 }
 
-void free_nodebq_all(nodebq*q)
-{
-	nodebq*t;
-	t=q;
-	while(1)
-	{
-		if(q!=NULL)
-		{
-			t=q->next;
-			free(q);
-			q=t;
-		}
-	}
-	free(t);
-	t=NULL;
-}
+// void free_nodebq_all(nodebq*q)
+// {
+// 	nodebq*t;
+// 	t=q;
+// 	while(1)
+// 	{
+// 		if(q!=NULL)
+// 		{
+// 			t=q->next;
+// 			free(q);
+// 			q=t;
+// 		}
+// 	}
+// 	free(t);
+// 	t=NULL;
+// }

@@ -101,66 +101,66 @@ void draw_check_mapbuild_toast(struct Building building)
     //puthz2(700,650,32,32,1,"确定");
     if (building.id==0)
     {
-        puthz2(510,310,32,32,0xA000,"此处并无建筑！");
+        puthz2(410,310,32,32,0xA000,"此处并无建筑！");
     }
 
     else if (building.bui_time!=0)
     {
-        puthz3(410,310,24,24,1,building.name);
+        puthz2(410,310,32,32,1,building.name);
         puthz2(410,350,32,32,0xA000,"仍在建造中");
         //put_asc16_number_size(540,370,2,2,building.id,1);
     }
     else
     {
-        puthz3(410,310,24,24,1,building.name);
+        puthz3(410,310,32,32,1,building.name);
         puthz3(410,440,24,24,0xA000,"维护：");
         puthz3(410,480,24,24,1000,"产出：");
         if (building.res_add.energy<0)
         {
             sprintf(str,"能源%d",building.res_add.energy);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.food<0)
         {
             sprintf(str,"食物%d",building.res_add.food);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.fuel<0)
         {
             sprintf(str,"燃料%d",building.res_add.fuel);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.mineral<0)
         {
             sprintf(str,"矿物%d",building.res_add.mineral);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.nanomaterial<0)
         {
             sprintf(str,"纳米材料%d",building.res_add.nanomaterial);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.oxygen<0)
         {
             sprintf(str,"氧气%d",building.res_add.oxygen);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.rarematerial<0)
         {
             sprintf(str,"稀有材料%d",building.res_add.rarematerial);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
         if (building.res_add.water<0)
         {
             sprintf(str,"淡水%d",building.res_add.water);
-            put_hz24_asc32(410+i*(80),440,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+i*(80),440,str,0xA000,"HZK\\Hzk24k");
             i++;
         }
 
@@ -169,49 +169,49 @@ void draw_check_mapbuild_toast(struct Building building)
         if (building.res_add.energy>0)
         {
             sprintf(str,"能源%d",building.res_add.energy);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.food>0)
         {
             sprintf(str,"食物%d",building.res_add.food);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.fuel>0)
         {
             sprintf(str,"燃料%d",building.res_add.fuel);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.mineral>0)
         {
             sprintf(str,"矿物%d",building.res_add.mineral);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.nanomaterial>0)
         {
             sprintf(str,"纳米材料%d",building.res_add.nanomaterial);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.oxygen>0)
         {
             sprintf(str,"氧气%d",building.res_add.oxygen);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.rarematerial>0)
         {
             sprintf(str,"稀有材料%d",building.res_add.rarematerial);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
         if (building.res_add.water>0)
         {
             sprintf(str,"淡水%d",building.res_add.water);
-            put_hz24_asc32(410+j*(80),480,str,0xA000,"HZK\\Hzk24k");
+            put_hz24_asc32(490+j*(80),480,str,1000,"HZK\\Hzk24k");
             j++;
         }
 

@@ -411,11 +411,11 @@ int time_comf(int t)
 
 void timeflow_prt(void)
 {
-	btn_bar_Draw(250,110,900,210);	
-	btn_bar_Draw(250,220,900,320);
-	btn_bar_Draw(250,330,900,430);
-	btn_bar_Draw(250,440,900,540);
-	btn_bar_Draw(250,550,900,650);
+	btn_bar_Draw(250,110,600,210);	
+	btn_bar_Draw(250,220,600,320);
+	btn_bar_Draw(250,330,600,430);
+	btn_bar_Draw(250,440,600,540);
+	btn_bar_Draw(250,550,600,650);
 
 	puthz2(270,140,32,40,0,"时间流动一个月");
 	puthz2(270,250,32,40,0,"时间流动三个月");
@@ -433,7 +433,9 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 {
 	int page=5;
 	clrmous(MouseX,MouseY);
+	draw_timeflow_remind(pg,p,pw->path);
 	timeflow_prt();
+	//put_asc16_number_size(300,300,4,4,pg->rocket.apply,1);
 	while(1)
 	{
 		mouse_renew(&MouseX,&MouseY,&press);
@@ -441,7 +443,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 		{
 			return page;
 		}
-		else if(mouse_press(250,110,900,210)==1)
+		else if(mouse_press(250,110,600,210)==1)
 		{
 			if(time_comf(1)==1)
 			{
@@ -459,7 +461,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			clear_right_all();
 			return 5;
 		}
-		else if(mouse_press(250,220,900,320)==1)
+		else if(mouse_press(250,220,600,320)==1)
 		{
 			if(time_comf(3)==1)
 			{
@@ -480,7 +482,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			return 5;
 				
 		}
-		else if(mouse_press(250,320,900,420)==1)
+		else if(mouse_press(250,320,600,420)==1)
 		{
 			if(time_comf(6)==1)
 			{
@@ -503,7 +505,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			clear_right_all();
 			return 5;		
 		}
-		else if(mouse_press(250,420,900,520)==1)
+		else if(mouse_press(250,420,600,520)==1)
 		{
 			if(time_comf(12)==1)
 			{
@@ -526,7 +528,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			clear_right_all();
 			return 5;
 		}
-		else if(mouse_press(250,550,900,650)==1)
+		else if(mouse_press(250,550,600,650)==1)
 		{
 			int n;
 			clrmous(MouseX,MouseY);

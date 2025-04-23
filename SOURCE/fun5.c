@@ -123,67 +123,77 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
 	}
 }
 
-
-int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2])
+void draw_timeflow_remind(struct GameInfo* gameinfop,nodebq *p,char *path)
 {
-	char *text[10];
-	clrmous(MouseX,MouseY);
-	draw_fun5_1();
-	
-	while (1)
+	char str[40];
+	char name[30];
+	int i,j,k;
+	int month;
+	nodebq *temp=p->next;
+	char *tech[3]={"民生科技","建造科技","生产科技"};
+	puthz2(650,130,32,32,0xA000,"待做项提示：");
+	for (i=0,j=0;i<3;i++)
 	{
-		mouse_renew(&MouseX,&MouseY,&press);
-		
-		if(main_toolbotton_mouse_press(1)==1)//now==66防止与下面主栏返回键被点中的情况冲突
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(866,0xBDBD,"时间","显示");
-            clear_main_all();
-			clear_right_all();
-            return 1;
-            
-        }
-        else if(main_toolbotton_mouse_press(2)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(866,0xBDBD,"时间","显示");
-            clear_main_all();
-			clear_right_all();
-            return 2;
-
-        }
-        else if(main_toolbotton_mouse_press(3)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(866,0xBDBD,"时间","显示");
-            clear_main_all();
-			clear_right_all();
-            return 3;
-        }
-        else if(main_toolbotton_mouse_press(4)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(866,0xBDBD,"时间","显示");
-            clear_main_all();
-			clear_right_all();
-            return 4;
-        }
-        else if(main_toolbotton_mouse_press(5)==1)
-        {
-            clrmous(MouseX,MouseY); 
-            draw_main_toolbotton(866,0xBDBD,"时间","显示");
-            clear_main_all();
-			clear_right_all();
-            return 5;
-        }
-		
+		if (gameinfop->gametech[i].research_flag==0)
+		{
+			sprintf(str,"%s未进行研究",tech[i]);
+			puthz3(650,170+j*50,32,32,0xA000,str);
+			j++;
+		}
+		else
+		{
+			month=(gameinfop->gametech[i].totalpoints-gameinfop->gametech[i].havepoints)/gameinfop->techpoint+1;
+			sprintf(str,"%s研究中：",tech[i]);
+			puthz3(650,170+j*50,32,32,1000,str);
+			j++;
+			// type_id_find_name(gameinfop->gametech[i].type,gameinfop->gametech[i].id,name);
+			// sprintf(str,"“%s”",name);
+			// puthz3(650,170+j*50,32,32,1000,str);
+			// j++;
+			sprintf(str,"还需研究%d个月",month);
+			put_hz24_asc32(650,170+j*50,str,1000,"HZK\\Hzk24k");
+			j++;
+		}
 	}
-	return 5;
-}
-
-void draw_fun5_1(void)
-{
-	puthz(300,300,"下个月", 32,40, 1);
+	
+	if (gameinfop->rocket.apply==-1)
+	{
+		puthz3(650,170+j*50,32,32,0xA000,"还未申请地球支援火箭");
+		j++;
+		// sprintf(str,"窗口期在%d年%d月",gameinfop->rocket.year,gameinfop->rocket.month);
+		// put_hz24_asc32(650,170+j*50,str,0xA000,"HZK\\Hzk24k");
+	}
+	else if(gameinfop->rocket.apply==1 ||gameinfop->rocket.apply==2)
+	{
+		puthz3(650,170+j*50,32,32,1000,"已申请地球支援火箭");
+		j++;
+		sprintf(str,"支援将在%d年%d月到达",gameinfop->rocket.year,gameinfop->rocket.month);
+		put_hz24_asc32(650,170+j*50,str,1000,"HZK\\Hzk24k");
+		j++;
+	}
+	for (i=0,k=0;i<p->i;i++)
+	{
+		if (temp!=NULL)
+		{
+			k++;
+			temp=temp->next;
+		}
+		else
+		{
+			break;
+		}
+	}
+	if (k<p->i)
+	{
+		sprintf(str,"建造队列未满%d/%d",k,p->i);
+		put_hz24_asc32(650,170+j*50,str,0xa000,"HZK\\Hzk24k");
+	}
+	if(k==p->i)
+	{
+		printf(str,"建造队列已满%d/%d",k,p->i);
+		put_hz24_asc32(650,170+j*50,str,1000,"HZK\\Hzk24k");
+	}
+	
 }
 
 

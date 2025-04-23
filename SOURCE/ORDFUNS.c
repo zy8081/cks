@@ -83,7 +83,6 @@ void inputs(int x ,int y ,char *content,int n)
 {
 	int i=0;
     int time;
-	int temp;
 	char key;
 	
 	//for (i=0;content[i]!='\0';i++);
@@ -97,7 +96,7 @@ void inputs(int x ,int y ,char *content,int n)
         line(x+10+i*12,y+6,x+10+i*12,y+20,65535);
 		while (bioskey(1))
 		{
-			temp=bioskey(0);
+			bioskey(0);
 		}	
 		
 		key=bioskey(0);
@@ -153,15 +152,3 @@ void inputs(int x ,int y ,char *content,int n)
 	}
 	//delay(100);		
 }
-
-/*void draw_toast(void)
-{
-	SaveBMP(400,300,624,468,0);
-	bar(400,300,624,468,0);
-	bar_frame(400,300,624,468,0);
-}
-
-void clear_toast(void)
-{
-	LoadBMP(400,300,624,468,0);
-}*/

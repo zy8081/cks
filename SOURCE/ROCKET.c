@@ -74,19 +74,19 @@ void rocket_a_prt2(void)
     
     put_hz24(360,115,"纳米材料：",65535,"HZK\\HZK24",0);
     blankprt(480,115+0*60,650,145+0*60);
-    put_asc16(360,139,"x3",65535);
+    put_asc16(360,139,"x5",65535);
 
     put_hz24(360,115+1*60,"稀有材料：",65535,"HZK\\HZK24",0);
     blankprt(480,115+1*60,650,145+1*60);
-    put_asc16(360,139+1*60,"x3",65535);
+    put_asc16(360,139+1*60,"x10",65535);
 
     put_hz24(360,115+2*60,"氧气：",65535,"HZK\\HZK24",0);
     blankprt(480,115+2*60,650,145+2*60);
-    put_asc16(360,139+2*60,"x1",65535);
+    put_asc16(360,139+2*60,"x2",65535);
 
     put_hz24(360,115+3*60,"淡水：",65535,"HZK\\HZK24",0);
     blankprt(480,115+3*60,650,145+3*60);
-    put_asc16(360,139+3*60,"x1",65535);
+    put_asc16(360,139+3*60,"x5",65535);
 
     put_hz24(360,115+4*60,"食物：",65535,"HZK\\HZK24",0);
     blankprt(480,115+4*60,650,145+4*60);
@@ -94,7 +94,7 @@ void rocket_a_prt2(void)
 
     put_hz24(360,115+5*60,"能源：",65535,"HZK\\HZK24",0);
     blankprt(480,115+5*60,650,145+5*60);
-    put_asc16(360,139+5*60,"x3",65535);
+    put_asc16(360,139+5*60,"x5",65535);
 
     put_hz24(360,115+6*60,"燃料：",65535,"HZK\\HZK24",0);
     blankprt(480,115+6*60,650,145+6*60);
@@ -106,7 +106,7 @@ void rocket_a_prt2(void)
 
     put_hz24(360,115+8*60,"人口：",65535,"HZK\\HZK24",0);
     blankprt(480,115+8*60,650,145+8*60);
-    put_asc16(360,139+8*60,"x1000",65535);
+    put_asc16(360,139+8*60,"x50",65535);
 
     put_hz24(370,655,"当前货物量：",65535,"HZK\\HZK24",0);
 
@@ -430,7 +430,7 @@ void rocket_a_fun1(RKTINFO* pr,int (*pcom)[3])
             (*pcom)[0]=0;
             bar(520,50,680,80,27469);
             infoblock_prt();
-            put_hz24(740,520,"信息不完整!",65535,"HZK\\HZK24",0);
+            put_hz24(740,520,"信息不完整！",65535,"HZK\\HZK24",0);
         }
     }
 }
@@ -458,10 +458,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
 
     while(temp<re.nanomaterial)
     {
-        if(load+3<=max)
+        if(load+5<=max)
         {
             temp++;
-            load+=3;
+            load+=5;
         }
         else return -1;
     }
@@ -469,10 +469,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
     temp=0;
     while(temp<re.rarematerial)
     {
-        if(load+3<=max)
+        if(load+10<=max)
         {
             temp++;
-            load+=3;
+            load+=10;
         }
         else return -1;
     }
@@ -480,10 +480,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
     temp=0;
     while(temp<re.oxygen)
     {
-        if(load+1<=max)
+        if(load+2<=max)
         {
             temp++;
-            load+=1;
+            load+=2;
         }
         else return -1;
     }
@@ -491,10 +491,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
     temp=0;
     while(temp<re.water)
     {
-        if(load+1<=max)
+        if(load+5<=max)
         {
             temp++;
-            load+=1;
+            load+=5;
         }
         else return -1;
     }
@@ -513,10 +513,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
     temp=0;
     while(temp<re.energy)
     {
-        if(load+3<=max)
+        if(load+5<=max)
         {
             temp++;
-            load+=3;
+            load+=5;
         }
         else return -1;
     }
@@ -546,10 +546,10 @@ int rocket_loadcom(struct Resource re,int people,int max)//比较载荷与最大容量
     temp=0;
     while(temp<people)
     {
-        if(load+1000<=max)
+        if(load+50<=max)
         {
             temp++;
-            load+=1000;
+            load+=50;
         }
         else return -1;
     }
@@ -567,7 +567,7 @@ void rocket_a_fun2(RKTINFO* pr,int (*pcom)[3])
     int num;
     int load;
     //struct Resource temp={-1,-1,-1,-1,-1,-1,-1,-1};
-    int remax[9]={30000,30000,30000,30000,30000,30000,30000,30000,10};
+    int remax[9]={30000,30000,30000,30000,30000,30000,30000,30000,600};
     int ren[9]={5,5,5,5,5,5,5,5,2};
     int sumtemp=0;
 
@@ -632,7 +632,7 @@ void rocket_a_fun2(RKTINFO* pr,int (*pcom)[3])
                     put_hz24_asc32(500,655,"超重",65535,"HZK\\HZK24");
                 }
             }
-    }
+        }
     
     }
     

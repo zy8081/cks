@@ -309,8 +309,8 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel,
 				clrmous(MouseX,MouseY);
 				clear_main_all2(1);
 				clear_right_all();
-				btn_bar_Draw(50,250,150,300);
-				puthz2(50,250,32,32,1,"返回");
+				btn_bar_Draw(50,650,150,700);
+				puthz2(50,650,32,32,1,"返回");
 				
 				draw_buildmap(gameinfop,*pxsel,*pysel);
 				draw_minimap(gameinfop,*pxsel,*pysel);
@@ -324,7 +324,7 @@ int buildlist(int x,struct GameInfo *gameinfop,nodebq *p1,int* pxsel,int* pysel,
 						draw_buildmap(gameinfop,*pxsel,*pysel);
 						draw_minimap(gameinfop,*pxsel,*pysel);
 					}
-					if (mouse_press(50,250,150,300)==1)
+					if (mouse_press(50,650,150,700)==1)
 					{
 						clrmous(MouseX,MouseY);
 						clear_main_all2(1);
@@ -453,7 +453,7 @@ int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct
 	i=0;
 	puthz3(250,165+(location-1)*130,24,24,1,"月收益：");
 	p=p2;
-	headinsert1_add_nodeb(p,*building,gameinfop);
+	headinsert1_add_nodeb(p,*building);
 	p=p->next;
 	while(p!=NULL)
 	{
@@ -471,7 +471,7 @@ int dlist_building(int newpage,int location,nodeb *p1,nodeb *p2,nodeb *p3,struct
 	i=0;
 	puthz3(250,195+(location-1)*130,24,24,1,"月维护：");
 	p=p3;
-	headinsert1_maintfee_nodeb(p,*building,gameinfop);
+	headinsert1_maintfee_nodeb(p,*building);
 	p=p->next;
 	while(p!=NULL)
 	{
@@ -712,7 +712,178 @@ int get_building_info(int localine,struct Building* building,char *path)
 	return 0;
 }
 
+int id_get_building_fileinfo(int id,struct Building* building,char *path)
+{
+	int total;
+	int i;
+	char c;
+	char str[20]={'\0'};
+	char path1[50];
+	FILE *file;
+	sprintf(path1,"%s\\buildt.TXT",path);
+	file=fopen(path1,"r");
+	if (file==NULL)
+	{
+		debug_file_printf(path);
+	}
+	
+	while ((c=fgetc(file))!='\n');
 
+	i=0;
+	while ((c=fgetc(file))!='\n')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	total= atoi(str);
+	
+	if(total<id)
+	{
+		fclose(file);
+		return 1;
+	}
+	
+	for (i=0;i<id-1;i++)
+	{
+		while ((c=fgetc(file))!='\n')
+		{
+			if (c=='$')
+			{
+				fclose(file);
+				return 1;
+			}
+		}
+
+	}
+	
+	//id
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->id= atoi(str);
+	
+	//name
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		building->name[i++]=c;
+	}
+	building->name[i]='\0';
+	
+	//path
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		building->pic_path[i++]=c;
+	}
+	building->pic_path[i]='\0';
+	
+	//cost nanomaterial
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_cost.nanomaterial= atoi(str);
+	
+	//cost rarematerial
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_cost.rarematerial= atoi(str);
+	
+	//add nanomaterial
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.nanomaterial= atoi(str);
+	
+	//add rarematerial
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.rarematerial= atoi(str);
+	
+	//add oxygen
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.oxygen= atoi(str);
+	
+	//add water
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.water= atoi(str);
+	
+	//add food
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.food= atoi(str);
+	
+	//add energy
+	i=0;
+	while ((c=fgetc(file))!=' ')
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.energy= atoi(str);
+	
+	//add fuel
+	i=0;
+	while ((c=fgetc(file))!=' '&&c!='\n'&&c!=EOF)
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.fuel= atoi(str);
+	
+	//add mineral
+	i=0;
+	while ((c=fgetc(file))!=' '&&c!='\n'&&c!=EOF)
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->res_add.mineral= atoi(str);
+	
+	//bui_time
+	i=0;
+	while ((c=fgetc(file))!=' '&&c!='\n'&&c!=EOF)
+	{
+		str[i++]=c;
+	}
+	str[i]='\0';
+	building->bui_time= atoi(str);
+	
+	fclose(file);
+	
+	return 0;
+}
 
 /*private函数
 nodeb（单个建筑的链表）创建链表函数
@@ -773,7 +944,7 @@ void headinsert1_cost_nodeb(nodeb *p,struct Building building,struct GameInfo *g
 nodeb（单个建筑的链表）头插法插入 建筑月收益 数值 的节点
 其中，收益的数字将会标为绿色
 */
-void headinsert1_add_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop)
+void headinsert1_add_nodeb(nodeb *p,struct Building building)
 {
 	nodeb *temp;
 	char *s[8]={"纳米材料","稀有材料","氧气","淡水","食物","矿物","燃料","能源"};
@@ -805,7 +976,7 @@ void headinsert1_add_nodeb(nodeb *p,struct Building building,struct GameInfo *ga
 /*private函数
 nodeb（单个建筑的链表）头插法插入 建筑月维护 数值 的节点
 */
-void headinsert1_maintfee_nodeb(nodeb *p,struct Building building,struct GameInfo *gameinfop)
+void headinsert1_maintfee_nodeb(nodeb *p,struct Building building)
 {
 	nodeb *temp;
 	char *s[8]={"纳米材料","稀有材料","氧气","淡水","食物","矿物","燃料","能源"};

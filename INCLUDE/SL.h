@@ -13,6 +13,6 @@ int quit(void);
 void quit_prt(void);
 int quit_savejudge(void);
 void close_all(void);
-void free_nodebq_all(nodebq*p);
+//void free_nodebq_all(nodebq*p);
 
 #endif

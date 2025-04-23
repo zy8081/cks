@@ -112,7 +112,7 @@ void get_all_resourceinfo(struct GameInfo *gameinfop)
 		btn_bar_Draw(250,190+j*70,900,240+j*70);
 		sprintf(str,"%s：",s[j]);
 		puthz2(260,190+j*70,32,32,0xA000,str);
-		sprintf(str,"%d",data1[j]);
+		sprintf(str,"%ld",data1[j]);
 		put_hz16_asc16_size(450,190+j*70,2,2,str,800,"HZK\\HZ16");
 		if (data_cal[j]>=0)
 		{
@@ -188,22 +188,25 @@ void home_build_situation(struct GameInfo *gameinfop,char *path)
 	
 	constrc_count(gameinfop,path);
 	
-	puthz2(250, 110,48,48,2000,"家园概况");
-	puthz3(250, 170,32,32,1000,"人口：");
+	puthz2(250, 110,48,48,0xFA80,"家园概况");
+	puthz3(250, 200,32,32,1000,"人口：");
 	sprintf(str,"%d/%d",gameinfop->people,maxpopulation);
-	put_hz16_asc16_size(400,170,2,2,str,1,"HZK\\HZ16");
+	put_hz16_asc16_size(500,200,2,2,str,1,"HZK\\HZ16");
 
-	puthz3(250, 230,32,32,1000,"幸福度：");
+	puthz3(250, 260,32,32,1000,"幸福度：");
 	sprintf(str,"%d",happy);
-	put_hz16_asc16_size(400,230,2,2,str,1,"HZK\\HZ16");
+	put_hz16_asc16_size(500,260,2,2,str,1,"HZK\\HZ16");
 
-	puthz3(250, 270,32,32,1000,"家园建设值：");
+	puthz3(250, 320,32,32,1000,"家园建设值：");
 	sprintf(str,"%d",gameinfop->construction);
-	put_hz16_asc16_size(400,270,2,2,str,1,"HZK\\HZ16");
+	put_hz16_asc16_size(500,320,2,2,str,1,"HZK\\HZ16");
 
-	puthz3(250, 350,32,32,1000,"已建成建筑数量：");
+	puthz3(250, 380,32,32,1000,"已建成建筑数量：");
 	sprintf(str,"%d",build_count);
-	put_hz16_asc16_size(400,350,2,2,str,1,"HZK\\HZ16");
+	put_hz16_asc16_size(500,380,2,2,str,1,"HZK\\HZ16");
+
+	puthz3(250, 440,32,32,1000,"家园介绍：");
+	draw_buildpoint_txt(gameinfop->construction);
 }
 
 int cal_map_building_num(struct GameInfo *gameinfop)
@@ -214,11 +217,36 @@ int cal_map_building_num(struct GameInfo *gameinfop)
 	{
 		for (j=0;j<15;j++)
 		{
-			if (gameinfop->m_info[i][j].building.id!=0&&gameinfop->m_info[i][j].building.bui_time!=0)
+			if (gameinfop->m_info[i][j].building.id!=0&&gameinfop->m_info[i][j].building.bui_time==0)
 			{
 				count++;
 			}
 		}
 	}
 	return count;
+}
+
+void draw_buildpoint_txt(long int construction)
+{
+	if (construction<500)
+	{
+		puthz3(250, 500,32,32,1,"这只是一个小型火星基地");
+	}
+	else if (construction<1000)
+	{
+		puthz3(250, 500,32,32,1,"一个小型的火星家园");
+	}
+	else if (construction<2000)
+	{
+		puthz3(250, 500,32,32,1,"火星家园颇具规模");
+	}
+	else if (construction<3000)
+	{
+		puthz3(250, 500,32,32,1,"一个中型火星家园");
+	}
+	else
+	{
+		puthz3(250, 500,32,32,1,"一个大型的火星家园");
+		puthz3(250, 540,32,32,1,"这是人类探索太空历史的奇迹");
+	}
 }

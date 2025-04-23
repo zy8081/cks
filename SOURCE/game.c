@@ -19,7 +19,6 @@
 int project(struct workfile w)
 {
 	int proj_page=0;
-	char path[20]={'\0'};
 	int i,j;
 	int events[2]={0,0};
 	int xsel=0;
@@ -31,28 +30,28 @@ int project(struct workfile w)
 	nodebq *p1=load_node(w);
 	file_copy(w.path);
 	logfile_copy(w.path);
-	gameinfo.r_info.energy=10000;
-	gameinfo.r_info.nanomaterial=10000;
-	gameinfo.r_info.rarematerial=10000;
-	gameinfo.r_info.oxygen=10000;
-	gameinfo.r_info.water=10000;
-	gameinfo.r_info.food=10000;
-	gameinfo.r_info.fuel=10000;
-	gameinfo.r_info.mineral=10000;
+	gameinfo.r_info.energy=5000;
+	gameinfo.r_info.nanomaterial=2000;
+	gameinfo.r_info.rarematerial=500;
+	gameinfo.r_info.oxygen=2500;
+	gameinfo.r_info.water=2500;
+	gameinfo.r_info.food=2500;
+	gameinfo.r_info.fuel=500;
+	gameinfo.r_info.mineral=0;
 	
-	gameinfo.year=2031;
-	gameinfo.month=4;
-	gameinfo.techpoint=500;
+	gameinfo.year=2030;
+	gameinfo.month=1;
+	gameinfo.techpoint=100;
 	gameinfo.gametech[0].research_flag=0;
-	
-	gameinfo.people=0;
+	gameinfo.gametech[1].research_flag=0;
+	gameinfo.gametech[2].research_flag=0;
+	gameinfo.people=30;
 	gameinfo.happiness[0]=0;
 	gameinfo.happiness[1]=100;
 
 	
 	map_init(2,&gameinfo);
 	rocket_init(&(gameinfo.rocket));
-
 	load_gminfo(w,&gameinfo);
 	/*
 	这里预留空间通过文件读取操作访问存档
@@ -97,7 +96,7 @@ int project(struct workfile w)
 
 		}
 	}
-	return proj_page;
+	//return proj_page;
 }
 
 

@@ -60,5 +60,7 @@ void put_hz24_asc32(int x, int y,char *s, unsigned int color, char * name);
 /*画整数倍12*24人民币符号￥函数*/
 void RMB(int x,int y,int xsize,int ysize,unsigned color);
 void puthz(int x, int y,char *s,int flag,int part,int color);
+void puthz_coverd(int x, int y,char *s,int n,int flag,int part,int color);
 
+void puthz_coverd2(int x, int y,char *s,int n,int flag,int part,int color,int backcolor);
 #endif

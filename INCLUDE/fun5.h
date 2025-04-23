@@ -6,13 +6,10 @@ typedef struct Nodesave
 }nodes;
 
 int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[2]);
-int proj_fun5_1(struct GameInfo *gameinfop,nodebq *p,int (*events)[2]);
-void draw_fun5_1(void);
-
+void draw_timeflow_remind(struct GameInfo* gameinfop,nodebq *p,char *path);
 int save(struct GameInfo *GameInfop,char*pathdat);
 
 nodes *create_nodes(void);
 void headinsert_nodes(nodes *p,int i,int j);
 void fputdata_nodes(nodes *p,struct GameInfo *GameInfop,FILE *file);
 void free_nodes(nodes *p);
-//void time_flow(struct GameInfo *gameinfop,nodebq *p,int (*event)[2]);
