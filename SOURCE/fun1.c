@@ -4,9 +4,9 @@ int proj_fun1(struct GameInfo* gameinfop,int*pxsel,int*pysel)
 	int page=1;
 	int i;
 	int l=65;
-	char *s[1]={"查看建筑"};
+	char *s[2]={"查看建筑","说明文档"};
 	draw_main_toolbotton_activate(234,0xBD32,"地图","显示");
-	draw_all_leftbuttons(1,65,s);
+	draw_all_leftbuttons(2,65,s);
 	
 	while (1)
 	{
@@ -26,15 +26,11 @@ int proj_fun1(struct GameInfo* gameinfop,int*pxsel,int*pysel)
             page=check_mapbuild(gameinfop,pxsel,pysel);
             return page;   
 		}
-		// else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
-        // {
-        //     clrmous(MouseX,MouseY);
-        //     clear_main_all(); 
-        //     draw_left_toolbotton_activate(95 , l, s[1]);//激活新的
-        //     clear_right_all();
-        //     page=build_queue(gameinfop,p);
-        //     return page;   
-		// }
+		else if (left_toolbotton_mouse_press(2) == 1) //左栏被点中的情况
+        {
+            clrmous(MouseX,MouseY);
+            intro_book(7);
+		}
 	}
 }
 
@@ -67,6 +63,9 @@ int check_mapbuild(struct GameInfo* gameinfop,int *pxsel,int *pysel)
                 {
                     clrmous(MouseX,MouseY);
                     draw_check_mapbuild_toast(gameinfop->m_info[*pysel+i][*pxsel+j].building);
+                    //put_asc16_number_size(510,400,2,2,gameinfop->m_info[i+*pysel][j+*pxsel].exp,1);
+                    //put_asc16_number_size(510,440,2,2,gameinfop->m_info[i+*pysel][j+*pxsel].terrain,1);
+
                     while(1)
                     {
                         mouse_renew(&MouseX,&MouseY,&press);
@@ -221,8 +220,9 @@ void draw_check_mapbuild_toast(struct Building building)
         {
             puthz2(410,370,32,32,0xA000,"该建筑已停止运行");
         }
+        
 
-        //put_asc16_number_size(510,340,2,2,building.id,1);
+        //put_asc16_number_size(510,400,2,2,building.id,1);
     }
 }
 

@@ -3,7 +3,7 @@
 
 enum landname{OlymMon=1,MariVal,ArabTer,UtopPla,ElysPla};
 enum landscape{py=1,pd,sd,sf,wd,kd,sk};
-
+//平原 坡地 山地 山峰 洼地 坑地  深坑
 
 typedef struct workfile
 {

@@ -3,11 +3,11 @@
 int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[2])
 {
 	int page=5;
-	char *s[4]={"时间流动","模拟日志","保存游戏","退出游戏"};
+	char *s[5]={"时间流动","模拟日志","保存游戏","退出游戏","说明文档"};
 	int l=65;
 	draw_main_toolbotton_activate(866,0xBDBD,"时间","显示");
 	
-	draw_all_leftbuttons(4,65,s);
+	draw_all_leftbuttons(5,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
@@ -119,6 +119,11 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
 			}
 			else return restyle;
 			
+		}
+		else if (left_toolbotton_mouse_press(5) == 1) //左栏被点中的情况
+        {
+			clrmous(MouseX,MouseY);
+			intro_book(1);
 		}
 	}
 }

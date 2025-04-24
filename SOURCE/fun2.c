@@ -6,11 +6,11 @@ int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel,WORKFILE *workfil
 	int page=2;
 	int l=65;
 	int i;
-	char *s[5]={"资源统计","资源预警","火箭信息","矿物勘测","家园概况"};
+	char *s[6]={"资源统计","资源预警","火箭信息","矿物勘测","家园概况","说明文档"};
 	draw_main_toolbotton_activate(392,0xFFAA,"全局","资源");
 	
 	
-	draw_all_leftbuttons(5,65,s);
+	draw_all_leftbuttons(6,65,s);
 	
 	//drawmous(MouseX,MouseY);
 	
@@ -69,6 +69,11 @@ int proj_fun2(struct GameInfo* gameinfop,int *pxsel,int *pysel,WORKFILE *workfil
             clear_right_all();
             home_build_situation(gameinfop,workfilep->path);
 			continue;
+		}
+		if (left_toolbotton_mouse_press(6) == 1) //左栏被点中的情况
+        {
+			clrmous(MouseX,MouseY);
+            intro_book(9);
 		}
 	}
 }
