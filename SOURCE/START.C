@@ -3,7 +3,7 @@
 #include<game.h>
 #include<WRKMNG.h>
 #include<START.h>
-#include<mouse.h>
+#include<mouset.h>
 #include <intro.h>
 //开始界面函数
 void start(int *fpage)
