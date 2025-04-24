@@ -7,7 +7,14 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 	int data[8];
 	int i,j;
 	nodebq *temp=p;
+	int happy=happiness_count(gameinfop,workfilep->path);
+	int resbuff1=cal_happiness_resbuff(happy);
+	int resbuff2=cal_buildpoint_resbuff(gameinfop,workfilep->path);
 	calculate_monthly_income(gameinfop,data1);
+	for (i=0;i<8;i++)
+	{
+		data1[i]=data1[i]*(1.0+(double)resbuff1/100.0+(double)resbuff2/100.0);
+	}
 	calculate_monthly_outcome(gameinfop,data2);
 	people_cost(data3,gameinfop);
 	for (i=0;i<8;i++)
@@ -63,6 +70,10 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 					gameinfop->r_info.mineral+=0;
 				} 
 			}
+			if(gameinfop->m_info[i][j].building.bui_time<0)
+			{
+				gameinfop->m_info[i][j].building.bui_time=0;
+			}
 		}
 	}
 	for (i=0;i<3;i++)
@@ -93,6 +104,7 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n,WORKFILE *workfile
 	int tyear=year;
 	int tmonth=month;
 	int pagemax;
+	//LoadBMP(317,300,707,520,13);
 	srand(time(NULL));
 	for(i=0;i<36;i++)
 	{
@@ -166,6 +178,7 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n,WORKFILE *workfile
 			mouse_renew(&MouseX,&MouseY,&press);
 			if(mouse_press(940,570,990,610)==1)
 			{
+				clrmous(MouseX,MouseY);
 				return;
 			}
 			else if(mouse_press(900,710,990,750)==1)
@@ -432,9 +445,11 @@ void test()
 int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 {
 	int page=5;
+	int flag;
 	clrmous(MouseX,MouseY);
 	draw_timeflow_remind(pg,p,pw->path);
 	timeflow_prt();
+	SaveBMP(317,300,707,520,13);
 	//put_asc16_number_size(300,300,4,4,pg->rocket.apply,1);
 	while(1)
 	{
@@ -445,7 +460,8 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 		}
 		else if(mouse_press(250,110,600,210)==1)
 		{
-			if(time_comf(1)==1)
+			flag=time_comf(1);
+			if(flag==1)
 			{
 				clrmous(MouseX,MouseY);
 				eventsc(event);
@@ -458,14 +474,19 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 				clear_right_all();
 				return 5;
 			}
-			clear_right_all();
-			return 5;
+			if (flag==0)
+			{
+				LoadBMP(317,300,707,520,13);
+				continue;
+			}
 		}
 		else if(mouse_press(250,220,600,320)==1)
 		{
-			if(time_comf(3)==1)
+			flag=time_comf(3);
+			if(flag==1)
 			{
 				clrmous(MouseX,MouseY);
+				LoadBMP(317,300,707,520,13);
 				timeflow_more(pg,p,3,pw);
 				//eventshow(*event,gameinfop);
 				clear_time();
@@ -478,17 +499,23 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					//}
 				return 5;
 			}
-			clear_right_all();
-			return 5;
+			if (flag==0)
+			{
+				LoadBMP(317,300,707,520,13);
+				continue;
+			}
 				
 		}
 		else if(mouse_press(250,320,600,420)==1)
 		{
-			if(time_comf(6)==1)
+			flag=time_comf(6);
+			if(flag==1)
 			{
+				LoadBMP(317,300,707,520,13);
 				if(time_warning()==1)
 				{
 					clrmous(MouseX,MouseY);
+					
 					timeflow_more(pg,p,6,pw);
 					clear_time();
 					draw_time(pg);
@@ -502,16 +529,22 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					return 5;
 				}
 			}
-			clear_right_all();
-			return 5;		
+			if (flag==0)
+			{
+				LoadBMP(317,300,707,520,13);
+				continue;
+			}		
 		}
 		else if(mouse_press(250,420,600,520)==1)
 		{
-			if(time_comf(12)==1)
+			flag=time_comf(12);
+			if(flag==1)
 			{
+				LoadBMP(317,300,707,520,13);
 				if(time_warning()==1)
 				{
 					clrmous(MouseX,MouseY);
+					
 					timeflow_more(pg,p,12,pw);
 					clear_time();
 					draw_time(pg);
@@ -525,8 +558,12 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					return 5;
 				}
 			}
-			clear_right_all();
-			return 5;
+			if (flag==0)
+			{
+				LoadBMP(317,300,707,520,13);
+				continue;
+			}	
+			
 		}
 		else if(mouse_press(250,550,600,650)==1)
 		{
@@ -535,14 +572,19 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			SaveBMP(317,300,707,520,13);
 			
 			n=time_set();
+			if (n==0)
+			{
+				LoadBMP(317,300,707,520,13);
+				continue;
+			}
 			if(n>0)
 			{
 				if(n>=6)
 				{
+					LoadBMP(317,300,707,520,13);
 					if(time_warning()==1)
 					{
 						clrmous(MouseX,MouseY);
-						LoadBMP(317,300,707,520,13);
 						timeflow_more(pg,p,n,pw);
 						clear_time();
 						draw_time(pg);
@@ -556,8 +598,8 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 					}
 					else 
 					{
-						clear_right_all();
-						return 5;
+						LoadBMP(317,300,707,520,13);
+						continue;
 					}
 				}
 				else
@@ -616,7 +658,11 @@ int time_set(void)
 			}
 		}
 		else if(mouse_press(537,420,607,458)==1)
+		{
+			clrmous(MouseX,MouseY);
 			return 0;
+		}
+			
 	}
 }
 

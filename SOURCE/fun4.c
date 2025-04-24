@@ -982,7 +982,7 @@ void calculate_monthly_techpoint(struct GameInfo *gameinfop,char *path)
 	{
 		buff+=10;
 	}
-	gameinfop->techpoint = (gameinfop->techpoint)*buff/100;
+	gameinfop->techpoint = (double)(gameinfop->techpoint)*(double)buff/100.0;
 }
 
 int calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)
@@ -1017,36 +1017,7 @@ int calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path)
 	{
 		buff+=20;
 	}
-	for(i=0;i<15;i++)
-    {
-        for(j=0;j<15;j++)
-        {
-            if(gameinfop->m_info[i][j].building.id==2)
-            {
-                buff+=2;
-            }
-            if(gameinfop->m_info[i][j].building.id==3)
-            {
-                buff+=3;
-            }
-            if(gameinfop->m_info[i][j].building.id==4)
-            {
-				buff+=4;
-            }
-            if(gameinfop->m_info[i][j].building.id==15)
-            {
-                buff+=10;
-            }
-            if(gameinfop->m_info[i][j].building.id==17)
-            {
-                buff+=12;
-            }
-            if(gameinfop->m_info[i][j].building.id==18)
-            {
-                buff+=15;
-            }
-        }
-    }
+	
 	gameinfop->happiness[1] = buff;
 	return buff;
 }
@@ -1066,7 +1037,11 @@ int calculate_monthly_buildpointbuff(char *path)
 	{
 		buff+=20;
 	}
-	if (check_techflag_infile(path,3,7))
+	if (check_techflag_infile(path,1,5))
+	{
+		buff+=20;
+	}
+	if (check_techflag_infile(path,1,7))
 	{
 		buff+=10;
 	}

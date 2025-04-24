@@ -185,12 +185,14 @@ void draw_timeflow_remind(struct GameInfo* gameinfop,nodebq *p,char *path)
 	}
 	if (k<p->i)
 	{
+		j++;
 		sprintf(str,"建造队列未满%d/%d",k,p->i);
 		put_hz24_asc32(650,170+j*50,str,0xa000,"HZK\\Hzk24k");
 	}
 	if(k==p->i)
 	{
-		printf(str,"建造队列已满%d/%d",k,p->i);
+		j++;
+		sprintf(str,"建造队列已满%d/%d",k,p->i);
 		put_hz24_asc32(650,170+j*50,str,1000,"HZK\\Hzk24k");
 	}
 	

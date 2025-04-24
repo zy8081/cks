@@ -591,26 +591,26 @@ void draw_otherblock(int x,int y)
 
 void draw_expblock(struct GameInfo* gf,int xsel,int ysel,int i,int j)
 {
-    int x1=300+i*92;
-    int y1=105+j*92;
+    int x1=300+j*92;
+    int y1=105+i*92;
     //int x2=390+i*92;
-    int y2=195+j*92;
-    if(gf->m_info[ysel+j][xsel+i].building.id==0)
+    int y2=195+i*92;
+    if(gf->m_info[ysel+i][xsel+j].building.id==0)
     {
         draw_block(i,j,&(gf->m_info[ysel+j][xsel+i]),0);
     }
     else
     {
-        draw_otherblock(i,j);
+        draw_otherblock(j,i);
     }
-    if(gf->m_info[ysel+j][xsel+i].exp==0)
+    if(gf->m_info[ysel+i][xsel+j].exp==0)
     {
         put_hz24(x1+10,(y1+y2)/2-10,"Î´¿±²â",0,"HZK\\HZK24",0);
     }
     else
     {
         char m[10];
-        itoa(gf->m_info[ysel+j][xsel+i].mineral,m,10);
+        itoa(gf->m_info[ysel+i][xsel+j].mineral,m,10);
         put_hz24_asc32(x1+10,(y1+y2)/2-10,m,0,"HZK\\HZK24");
     }
 }

@@ -2,7 +2,7 @@ void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq 
 void unlock_building(int id,char *path);
 
 void change_building_info_onfilemap(struct GameInfo *gameinfop,int id,int funcflag,int add_res,char *path);
-
+void change_building_info_onfilemap_rate(struct GameInfo *gameinfop,int id,int funcflag,int rate,char *path);
 void research_1_1(void);
 void research_1_2(void);
 void research_1_3(void);

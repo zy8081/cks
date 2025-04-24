@@ -2,6 +2,7 @@
 #include<ORDFUNS.h>
 #include<START.h>
 #include<mouse.h>
+#include <intro.h>
 //开始界面函数
 void start(int *fpage)
 {
@@ -28,6 +29,11 @@ void start(int *fpage)
             *fpage=0;
             return;
         }//返回
+        if (mouse_press(312,454,712,494)==1)
+        {
+            clrmous(MouseX,MouseY);
+            intro_book(1);
+        }
         if(mouse_press(312,360,712,400)==1)
         {
             *fpage=4;

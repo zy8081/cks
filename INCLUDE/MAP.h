@@ -14,6 +14,7 @@ void draw_expmap(struct GameInfo *gf,int xsel,int ysel);
 void draw_expblock(struct GameInfo* gf,int xsel,int ysel,int i,int j);
 void draw_sign(void);
 int mine_block_init(int place,int terrain);
+void draw_otherblock(int x,int y);
 //void mine_exp()
 
 #endif

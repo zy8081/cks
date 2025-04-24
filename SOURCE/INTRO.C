@@ -9,9 +9,9 @@ void intro_book(int page)
     char temp;
     pageindex[0]=1;
     pageindex[1]=7;
-    pageindex[2]=11;
-    pageindex[3]=15;
-    pageindex[4]=23;
+    pageindex[2]=9;
+    pageindex[3]=13;
+    pageindex[4]=21;
     pageindex[5]=1;
     SaveBMP(0,0,1024,768,10);
     clear_main_all(); 
@@ -47,7 +47,7 @@ void intro_book(int page)
         }
         if (mouse_press(880,710,980,760)==1 || temp==2)
         {
-            if (newpage<25)
+            if (newpage<23)
             {
                 newpage +=2;
             }

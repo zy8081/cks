@@ -5,7 +5,7 @@
 #include<WRKPLC.h>
 #include<DRAWWORK.h>
 #include<WRKADD.h>
-
+#include <intro.h>
 void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
 {
     int page1=0;
@@ -312,6 +312,7 @@ void dltfile(int page,int n,char*user)
     char*pathbld=malloc((size_t)50);
     char*pathtec=malloc((size_t)50);
     char*pathnod=malloc((size_t)50);
+    char pathlog[50];
 
     worksearch(page,n,&pathbas,user);
     //put_asc16_size(0,100,1,1,"searched",10);
@@ -347,15 +348,29 @@ void dltfile(int page,int n,char*user)
     strcpy(pathnod,pathdir);
     strcpy(pathbld,pathdir);
     strcpy(pathtec,pathdir);
+    strcpy(pathlog,pathdir);
     strcat(pathbld,"\\USERBLD.txt");
     strcat(pathtec,"\\USERTEC.txt");
     strcat(pathnod,"\\USERNODE.nod");
+    strcat(pathlog,"\\LOG.TXT");
     remove(pathnod);
     remove(pathdat);
     remove(pathbas);
     remove(pathhis);
     remove(pathbld);
     remove(pathtec);
+    remove(pathlog);
+
+    strcpy(pathbld,pathdir);
+    strcpy(pathtec,pathdir);
+    strcpy(pathlog,pathdir);
+    strcat(pathbld,"\\BUILDT.txt");
+    strcat(pathtec,"\\TECHT.txt");
+    strcat(pathlog,"\\LOGT.TXT");
+    remove(pathbld);
+    remove(pathtec);
+    remove(pathlog);
+
     rmdir(pathdir);
     free(pathdat);
     free(pathbas);

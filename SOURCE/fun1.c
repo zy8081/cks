@@ -4,9 +4,9 @@ int proj_fun1(struct GameInfo* gameinfop,int*pxsel,int*pysel)
 	int page=1;
 	int i;
 	int l=65;
-	char *s[2]={"查看建筑","还没想好"};
+	char *s[1]={"查看建筑"};
 	draw_main_toolbotton_activate(234,0xBD32,"地图","显示");
-	draw_all_leftbuttons(2,65,s);
+	draw_all_leftbuttons(1,65,s);
 	
 	while (1)
 	{
@@ -92,9 +92,9 @@ void draw_check_mapbuild_toast(struct Building building)
 {
     int i=0,j=0;
     char str[50];
-    SaveBMP(390,290,810,710,0);
+    SaveBMP(390,290,960,710,0);
     clrmous(MouseX,MouseY);
-    btn_bar_Draw(400,300,800,700);
+    btn_bar_Draw(400,300,950,700);
     btn_bar_Draw(400,650,500,700);
     //btn_bar_Draw(700,650,800,700);
     puthz2(400,650,32,32,1,"取消");
@@ -108,7 +108,9 @@ void draw_check_mapbuild_toast(struct Building building)
     {
         puthz2(410,310,32,32,1,building.name);
         puthz2(410,350,32,32,0xA000,"仍在建造中");
-        //put_asc16_number_size(540,370,2,2,building.id,1);
+        sprintf(str,"仍需建造%d个月",building.bui_time);
+        put_hz24_asc32(410,390,str,1,"HZK\\Hzk24k");
+        //put_asc16_number_size(540,370,2,2,building.bui_time,1);
     }
     else
     {
@@ -215,11 +217,16 @@ void draw_check_mapbuild_toast(struct Building building)
             j++;
         }
 
+        if (building.lock==1)
+        {
+            puthz2(410,370,32,32,0xA000,"该建筑已停止运行");
+        }
+
         //put_asc16_number_size(510,340,2,2,building.id,1);
     }
 }
 
 void load_check_mapbuild_toast(void)
 {
-    LoadBMP(390,290,810,710,0);
+    LoadBMP(390,290,960,710,0);
 }

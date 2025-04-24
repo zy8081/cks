@@ -37,24 +37,98 @@ void people_cost(int *data,struct GameInfo *pg)
     data[7]=0;
 }
 
-int happiness_count(struct GameInfo *pg)
+int happiness_count(struct GameInfo *pg,char *path)
 {
-    int i,j;
-    int htr[8];
-    if(pg->people==0)
+    int i,j,k;
+    int combinnation[6];
+    int happyadd=0;
+    int happyminus=0;
+    int peoplemax=people_max(pg,path);
+    happyadd+=((pg->r_info.food)/(pg->people)-30)<30?(pg->r_info.food)/(pg->people):30;
+    happyadd+=((pg->r_info.water)/(pg->people)-30)<30?(pg->r_info.water)/(pg->people):30;
+    happyadd+=((pg->r_info.energy)/(pg->people)-30)<30?(pg->r_info.energy)/(pg->people):30;
+    happyadd+=((pg->r_info.oxygen)/(pg->people)-30)<30?(pg->r_info.oxygen)/(pg->people):30;
+    
+    for (i=0;i<6;i++)
     {
-        pg->happiness[0]=0;
-        return 0;
+        combinnation[i]=0;
     }
-    else
+    for(i=0;i<15;i++)
     {
-        htr[0]=(pg->r_info.food)/(pg->people);
-        htr[1]=(pg->r_info.water)/(pg->people);
-        htr[2]=(pg->r_info.energy)/(pg->people);
-        htr[3]=(pg->r_info.oxygen)/(pg->people);
-        pg->happiness[0]=(int)((float)(htr[0]-200+htr[1]-300+htr[2]-200+htr[3]-300)*(1.0+((float)(pg->happiness[1])/100.0)));
-        return pg->happiness[0];
+        for(j=0;j<15;j++)
+        {
+            k=0;
+            if(pg->m_info[i][j].building.id==2 && pg->m_info[i][j].building.bui_time!=0)
+            {
+                happyadd+=20;
+                combinnation[k++]++;
+            }
+            if(pg->m_info[i][j].building.id==3&& pg->m_info[i][j].building.bui_time!=0)
+            {
+                happyadd+=25;
+                combinnation[k++]++;
+            }
+            if(pg->m_info[i][j].building.id==4&& pg->m_info[i][j].building.bui_time!=0)
+            {
+                happyadd+=25;
+                combinnation[k++]++;
+            }
+            if(pg->m_info[i][j].building.id==15&& pg->m_info[i][j].building.bui_time!=0)
+            {
+                happyadd+=100;
+                combinnation[k++]++;
+            }
+            if(pg->m_info[i][j].building.id==17&& pg->m_info[i][j].building.bui_time!=0)
+            {
+                happyadd+=100;
+                combinnation[k++]++;
+            }
+            if(pg->m_info[i][j].building.id==18&& pg->m_info[i][j].building.bui_time!=0)
+            {
+                happyadd+=250;
+                combinnation[k++]++;
+            }
+        }
     }
+    for (i=0,j=0;i<6;i++)
+    {
+        if (combinnation[i]>0)
+        {
+            j++;
+        }
+    }
+    happyadd=happyadd+(50+j*5)*j;
+    calculate_monthly_happybuff(pg,path);
+    happyadd=happyadd*(1.0+(double)pg->happiness[1]/100.0);
+    // CloseSVGA();
+	// printf("%d %d %d %d",happyadd,rate,basic,atoi(str));
+	// getchar();
+	// exit(0);
+    if (pg->people>peoplemax)
+    {
+        happyminus-=(peoplemax-pg->people)*1;
+    }
+    if (pg->people<=100)
+    {
+        happyminus=happyminus-(pg->people)*4;
+    }
+    else if (pg->people<=200)
+    {
+        happyminus=happyminus-(pg->people)*3;
+    }
+    else if (pg->people<=400)
+    {
+        happyminus=happyminus-(pg->people)*2;
+    }
+    else if (pg->people<=1000)
+    {
+        happyminus=happyminus-(pg->people)*1;
+    }
+    
+    pg->happiness[0]=happyadd+happyminus;
+    //pg->happiness[0]=(int)((float)(htr[0]-200+htr[1]-300+htr[2]-200+htr[3]-300)*(1.0+((float)(pg->happiness[1])/100.0)));
+    return pg->happiness[0];
+    
 }
 
 int happiness_rate_count(struct GameInfo *pg)
@@ -187,6 +261,7 @@ long int constrc_count(struct GameInfo *pg,char *path)
     {
         cblock+=1000;
     }
+    
     
     pg->construction=((double)(cblock))*(buff+100)/100;
     return pg->construction;

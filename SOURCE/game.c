@@ -83,7 +83,6 @@ int project(struct workfile w)
 				break;
 			case 5:
 				proj_page=proj_fun5(&gameinfo,p1,&w,&events);
-				eventshow(events,&gameinfo);
 				events[0]=0;
 				events[1]=0;
 				break;
