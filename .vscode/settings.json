@@ -40,6 +40,9 @@
         "utility": "c",
         "sstream": "c",
         "io.h": "c",
-        "IO.H": "cpp"
+        "IO.H": "cpp",
+        "svga.h": "c",
+        "stdlib.h": "c",
+        "input.h": "c"
     }
 }

@@ -1,3 +1,5 @@
+#ifndef CHANGE_H 
+#define CHANGE_H
 void activate_research_effect(int type,int id,struct GameInfo *gameinfop,nodebq *p1,char *path);
 void unlock_building(int id,char *path);
 
@@ -42,3 +44,4 @@ void research_3_10(struct GameInfo *gameinfop,char *path);
 void file_copy(char *path);
 void file_save(char *path);
 int cal_one_house_population(char *path);
+#endif

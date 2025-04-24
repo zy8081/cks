@@ -1,5 +1,6 @@
 #include <common.h>
 #include <game.h>
+#include <WRKMNG.h>
 #include <debug.h>
 void debug_file_printf(char *str)
 {

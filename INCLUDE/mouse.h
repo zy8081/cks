@@ -1,3 +1,5 @@
+#ifndef MOUSE_H 
+#define MOUSE_H 
 extern int MouseX;
 extern int MouseY;
 extern int MouseS;
@@ -11,3 +13,4 @@ void save_bk_mou(int mx,int my);
 void clrmous(int mx,int my);
 void drawmous(int mx,int my);
 int mouse_press(int x1, int y1, int x2, int y2);
+#endif

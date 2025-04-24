@@ -11,7 +11,7 @@ void wrkmng_main(int *fpage,char *user,WORKFILE* pwork)
     int page1=0;
     int i;
     int placetemp=0;
-    char*nametemp;
+    char *nametemp;
         //if(nametemp==NULL)
         /*{
             printf("No enough memory");

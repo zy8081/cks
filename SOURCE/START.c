@@ -1,5 +1,7 @@
 #include<common.h>
 #include<ORDFUNS.h>
+#include<game.h>
+#include<WRKMNG.h>
 #include<START.h>
 #include<mouse.h>
 #include <intro.h>

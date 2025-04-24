@@ -1,5 +1,5 @@
-#ifndef __ALLFUNS_H
-#define __ALLFUNS_H
+#ifndef ALLFUNS_H
+#define ALLFUNS_H
 
 #include <SVGA.h>
 #include<stdio.h> 
@@ -14,18 +14,18 @@
 #include<io.h>
 #include<string.h>
 #include <math.h>
+#include<game.h>
 
-#include <debug.h>
 
 #include<login.h>
 #include<input.h>
 
-#include<game.h>
+
 #include<START.h>
 #include<WRKMNG.h>
 #include<WRKADD.h>
 #include <WRKPLC.h>
-
+#include <debug.h>
 
 //#include<ghz.h>
 #include<ORDFUNS.h>

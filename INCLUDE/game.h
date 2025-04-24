@@ -1,5 +1,5 @@
-#ifndef __GAME_H
-#define __GAME_H
+#ifndef GAME_H
+#define GAME_H
 
 struct Resource
 {
@@ -94,10 +94,7 @@ int project(struct workfile w);
 void calculate_monthly_income(struct GameInfo *gameinfop,int *data);
 void calculate_monthly_outcome(struct GameInfo *gameinfop,int *data);
 int proj_origin(struct GameInfo* gameinfop);
-
-
-
 int judge_press_mainbutton(int flag,int *page);
-void left_button_clear_activate(int n,char *s[]);
+
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef __SL_H
-#define __SL_H
+#ifndef SL_H
+#define SL_H
 //#include<ALLFUNS.h>
 
 int save_gminfo(struct GameInfo* pgameinfo,WORKFILE* work,int repage);

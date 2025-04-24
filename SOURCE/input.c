@@ -1,5 +1,7 @@
 #include <common.h>
 #include <draw.h>
+#include <game.h>
+#include <WRKMNG.h>
 #include <input.h>
 #include <login.h>
 /*登录界面输入函数，输入的字符可见
@@ -10,7 +12,6 @@ void input_vis(int x ,int y ,char *content,int pattern )
 {
 	int i=0;
 	char key;
-	int temp;
 	static flag=0;
 	for (i=0;content[i]!='\0';i++);
 	clrmous(MouseX,MouseY);
@@ -26,7 +27,7 @@ void input_vis(int x ,int y ,char *content,int pattern )
 	{
 		while (bioskey(1))
 		{
-			temp=bioskey(0);
+			bioskey(0);
 		}	
 		
 		key=bioskey(0);
@@ -115,7 +116,6 @@ void input_invis(int x ,int y ,char *content,int pattern)
 {
 	int i=0;
 	char key;
-	int temp;
 	static flag=0;
 	for (i=0;content[i]!='\0';i++); 
 	clrmous(MouseX,MouseY);
@@ -130,7 +130,7 @@ void input_invis(int x ,int y ,char *content,int pattern)
 	{
 		while (bioskey(1))
 		{
-			temp=bioskey(0);
+			bioskey(0);
 		}	
 		
 		key=bioskey(0);

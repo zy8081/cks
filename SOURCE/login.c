@@ -1,5 +1,7 @@
 #include <common.h>
 #include <draw.h>
+#include<game.h>
+#include <WRKMNG.h>
 #include <input.h>
 #include <login.h>
 #include <ORDFUNS.h>

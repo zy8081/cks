@@ -1,3 +1,5 @@
+#ifndef FUN4_H 
+#define FUN4_H
 #define CHILD_NUM 3
 #define PARENT_NUM 3
 typedef struct NodeTech
@@ -71,3 +73,4 @@ void calculate_monthly_techpoint(struct GameInfo *gameinfop,char *path);
 int calculate_monthly_happybuff(struct GameInfo *gameinfop,char *path);
 int calculate_monthly_buildpointbuff(char *path);
 int calculate_tech_complete_time(struct GameInfo *gameinfop,int type);
+#endif

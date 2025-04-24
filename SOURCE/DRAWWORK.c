@@ -1,10 +1,4 @@
-#include<common.h>
-#include <game.h>
-#include<ORDFUNS.h>
-
-#include<WRKMNG.h>
-#include<WRKPLC.h>
-#include<DRAWWORK.h>
+#include<ALLFUNS.h>
 int workcount(char *user)
 {
     char temp;
@@ -31,6 +25,8 @@ int workcount(char *user)
             fclose(f);
             put_asc16_size(0,20,1,1,"No enough memory",10);
             getch();
+            free(path);
+            free(patht);
             return 0;
         }
         while(1)
@@ -127,7 +123,8 @@ void drawworkbar(char*path,int n,int form)
 void drawworkmain(int workpage,int n,char* user)
 {
     char temp;
-    char*patht=malloc((size_t)60);
+    char patht[60];
+    char path[50];
     int i=0;
     int j=0;
     int k=0;
@@ -136,7 +133,6 @@ void drawworkmain(int workpage,int n,char* user)
     f=fopen(patht,"rt+");
     while(k<n)
     {
-        char* path=malloc((size_t)50);
         while(1)
         {
             temp=fgetc(f);
@@ -166,17 +162,20 @@ void drawworkmain(int workpage,int n,char* user)
                 
                 k++; 
                 i=0;
-                free(path);
+                //free(path);
                 break;  
             }
-            else if(temp=='#')break;
+            else if(temp=='#')
+            {
+                break;
+            }
         }
         if(temp=='#')
             break;
     }
     rewind(f);
     fclose(f);
-    free(patht);
+    //free(patht);
     return;
 }
 

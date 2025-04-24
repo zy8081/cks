@@ -111,7 +111,7 @@ void LoadBMP(int x1, int y1, int x2, int y2,int n);     //¼ÓÔØÍ¼Ïñ
 void Get_image(int x0,int y0,int x1,int y1,unsigned int far *save);
 
 void Put_image(int x0,int y0,int x1,int y1,unsigned int far *save);
-
+unsigned int Getpixel64k(int x, int y);
 int GenerateBMP(int x1, int y1, int x2, int y2);
 void cleardevice(void);
 #endif

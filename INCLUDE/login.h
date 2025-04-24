@@ -1,3 +1,5 @@
+#ifndef LOGIN_H 
+#define LOGIN_H 
 void draw_login(void);
 void draw_regist(void);
 int login(char *puser);
@@ -6,3 +8,4 @@ void draw_login_toast(void);
 int regist(void);
 int judge_regist(char *user,char *password,char *confirm);
 int judge_login(char *user,char *password);
+#endif

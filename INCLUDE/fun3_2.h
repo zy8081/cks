@@ -1,3 +1,5 @@
+#ifndef FUN3_2_H
+#define FUN3_2_H 
 typedef struct NodeBuildQueue
 {
 	struct NodeBuildQueue *next;
@@ -17,3 +19,4 @@ void delete_nodebq(nodebq *p,int x);
 void getdata_nodebq(nodebq *p,int x,int *i,int *j);
 void free_nodebq(nodebq *p);
 void clear_map_building_data(struct GameInfo *gameinfop,int i,int j);
+#endif

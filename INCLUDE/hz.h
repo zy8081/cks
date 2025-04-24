@@ -8,7 +8,7 @@
 #include<fcntl.h>
 #include<io.h>
 #include<string.h>
-#include "SVGA.h"
+#include <SVGA.h>
 
 /*调用16汉字库输出16*16点阵汉字*/
 void put_hz16(int x, int y, char *s, unsigned int color, char * name,int flag);

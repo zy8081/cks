@@ -1,3 +1,5 @@
+#ifndef FUN5_H 
+#define FUN5_H 
 typedef struct Nodesave
 {
 	struct Nodesave *next;
@@ -13,3 +15,4 @@ nodes *create_nodes(void);
 void headinsert_nodes(nodes *p,int i,int j);
 void fputdata_nodes(nodes *p,struct GameInfo *GameInfop,FILE *file);
 void free_nodes(nodes *p);
+#endif

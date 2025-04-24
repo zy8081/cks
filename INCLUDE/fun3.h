@@ -1,3 +1,5 @@
+#ifndef FUN3_H 
+#define FUN3_H 
 typedef struct NodeBuilding
 {
 	struct NodeBuilding *next;
@@ -27,3 +29,4 @@ void headinsert1_add_nodeb(nodeb *p,struct Building building);
 void headinsert1_maintfee_nodeb(nodeb *p,struct Building building);
 void free_nodeb(nodeb *p);
 void free_nodeb_list(nodeb *p[3][5]);
+#endif

@@ -232,7 +232,7 @@ int rocket_pressno(void)
 
 int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
 {
-    char*inputnum=malloc((size_t)40);
+    char inputnum[40];
     int i=0;
     int in=0;
     long unsigned int renum;
@@ -248,7 +248,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         {
             infoblock_prt();
             put_hz24(740,520,"存在非法字符",65535,"HZK\\HZK24",0);
-            free(inputnum);
+            //free(inputnum);
             return -1;
         }
     }
@@ -265,7 +265,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
             
             infoblock_prt();
             put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
-            free(inputnum);
+            //free(inputnum);
             return -1;
         }
         else
@@ -273,7 +273,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
             renum=atoi(inputnum);
             if(renum<=max&&atoi(inputnum)>=0)
             {
-                free(inputnum);
+                //free(inputnum);
                 return renum;
             }
         
@@ -281,7 +281,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
             {
                 infoblock_prt();
                 put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
-                free(inputnum);
+                //free(inputnum);
                 return -1;
             }
         }
@@ -291,7 +291,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
     {
          infoblock_prt();
         put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
-        free(inputnum);
+        //free(inputnum);
         return -1;
     }
 
@@ -300,7 +300,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         renum=atoi(inputnum);
         if(renum<=max&&atoi(inputnum)>=0)
         {
-            free(inputnum);
+            //free(inputnum);
             return renum;
         }
         
@@ -308,7 +308,7 @@ int rocket_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         {
             infoblock_prt();
             put_hz24(740,520,"数字过大",65535,"HZK\\HZK24",0);
-            free(inputnum);
+            //free(inputnum);
             return -1;
         }
     }

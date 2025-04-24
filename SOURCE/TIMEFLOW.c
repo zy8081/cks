@@ -668,7 +668,7 @@ int time_set(void)
 
 int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
 {
-    char*inputnum=malloc((size_t)40);
+    char inputnum[40];
     int i=0;
     int in=0;
     long unsigned int renum;
@@ -684,7 +684,7 @@ int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         {
             bar(x1,y1,x2,y2,0);
             put_hz24(x1+5,y1+2,"字符非法",65535,"HZK\\HZK24",0);
-            free(inputnum);
+            //free(inputnum);
             return -1;
         }
     }
@@ -698,7 +698,7 @@ int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         {
 			bar(x1,y1,x2,y2,0);
             put_hz24(x1+5,y1+2,"数字过大",65535,"HZK\\HZK24",0);
-            free(inputnum);
+            //free(inputnum);
             return -1;
         }
         else
@@ -706,7 +706,7 @@ int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
             renum=atoi(inputnum);
             if(renum<=max&&atoi(inputnum)>=0)
             {
-                free(inputnum);
+                //free(inputnum);
                 return renum;
             }
         
@@ -714,7 +714,7 @@ int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
             {
                 bar(x1,y1,x2,y2,0);
             	put_hz24(x1+5,y1+2,"数字过大",65535,"HZK\\HZK24",0);
-                free(inputnum);
+                //free(inputnum);
                 return -1;
             }
         }
@@ -723,7 +723,7 @@ int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
     {
         bar(x1,y1,x2,y2,0);
         put_hz24(x1+5,y1+2,"数字过大",65535,"HZK\\HZK24",0);
-        free(inputnum);
+        //free(inputnum);
         return -1;
 	}
     else
@@ -731,14 +731,14 @@ int time_input(int x1,int y1,int x2,int y2,int max,int n)//-1表示未输入
         renum=atoi(inputnum);
         if(renum<=max&&atoi(inputnum)>=0)
         {
-            free(inputnum);
+            //free(inputnum);
             return renum;
         }   
         else
         {
             bar(x1,y1,x2,y2,0);
             put_hz24(x1+5,y1+2,"数字过大",65535,"HZK\\HZK24",0);
-            free(inputnum);
+            //free(inputnum);
             return -1;
         }
     }

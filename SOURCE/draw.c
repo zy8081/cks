@@ -35,19 +35,6 @@ void clear_toast(void)
 }
 
 
-void draw_dialog(int x1,int y1,int x2,int y2,unsigned int color_fill,unsigned int color_frame)
-{
-	SaveBMP(x1,y1,x2,y2,0);
-	bar(x1,y1,x2,y2,color_fill);
-	bar_frame(x1,y1,x2,y2,color_frame);
-}
-
-
-void clear_dialog(int x1,int y1,int x2,int y2)
-{
-	LoadBMP(x1,y1,x2,y2,0);
-}
-
 void draw_left_toolbotton(int y,int length,char*s)
 {
 	bar(0,y+1,232,y+length-1,0xFFFFBB);
@@ -81,6 +68,26 @@ void draw_main_toolbotton(int x,int color,char*s1,char*s2)
 	puthz(x+42,49,s2, 32,40, color);
 }
 
+void draw_main_toolbotton_activate(int x,int color,char*s1,char*s2)
+{
+	bar(x+1,0,x+157,93,color);
+	line_thick(x, 0,x,87, 1, 0x000000 );
+	line_thick(x+158,0,x+158,87, 1, 0x000000 );
+	line_thick(x+8,95,x+150,95, 2, color );
+
+	puthz(x+41,7,s1, 32,40, 0xFFFFFF);
+	puthz(x+41,9,s1, 32,40, 0xFFFFFF);
+	puthz(x+43,7,s1, 32,40, 0xFFFFFF); 
+	puthz(x+43,9,s1, 32,40, 0xFFFFFF); 
+	puthz(x+42,8,s1, 32,40, 0x000000); 
+
+	puthz(x+41,48,s2, 32,40, 0xFFFFFF);
+	puthz(x+41,50,s2, 32,40, 0xFFFFFF);
+	puthz(x+43,48,s2, 32,40, 0xFFFFFF);
+	puthz(x+43,50,s2, 32,40, 0xFFFFFF);
+	puthz(x+42,49,s2, 32,40, 0x000000);
+}
+
 void puthz2(int x,int y,int flag,int part,int color,char*s1)
 {
 	puthz(x,y,s1, flag,part, 0x000000);
@@ -109,25 +116,7 @@ void draw_button1(int x1,int y1,int x2,int y2,int colorf,int colorb)
     bar(x1+2,y1+2,x2-2,y2-2,colorb);
 }
 
-void draw_main_toolbotton_activate(int x,int color,char*s1,char*s2)
-{
-	bar(x+1,0,x+157,93,color);
-	line_thick(x, 0,x,87, 1, 0x000000 );
-	line_thick(x+158,0,x+158,87, 1, 0x000000 );
-	line_thick(x+8,95,x+150,95, 2, color );
 
-	puthz(x+41,7,s1, 32,40, 0xFFFFFF);
-	puthz(x+41,9,s1, 32,40, 0xFFFFFF);
-	puthz(x+43,7,s1, 32,40, 0xFFFFFF); 
-	puthz(x+43,9,s1, 32,40, 0xFFFFFF); 
-	puthz(x+42,8,s1, 32,40, 0x000000); 
-
-	puthz(x+41,48,s2, 32,40, 0xFFFFFF);
-	puthz(x+41,50,s2, 32,40, 0xFFFFFF);
-	puthz(x+43,48,s2, 32,40, 0xFFFFFF);
-	puthz(x+43,50,s2, 32,40, 0xFFFFFF);
-	puthz(x+42,49,s2, 32,40, 0x000000);
-}
 
 
 void draw_left_toolbotton_activate(int y,int length,char*s)
@@ -218,11 +207,6 @@ int left_toolbotton_mouse_press(int x)
     return mouse_press(0, y, 234, y + 65);
 }
 
-//建造键返回函数
-int build_press(int x)
-{
-	return mouse_press(920,130+(x-1)*130,1000,240+(x-1)*130);
-}
 
 //清除左端工具栏1
 void clear_main_all(void)

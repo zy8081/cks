@@ -1,5 +1,5 @@
-#ifndef __ROCKET_H
-#define __ROCKET_H
+#ifndef ROCKET_H
+#define ROCKET_H
 /*
 typedef struct RocketInfo
 {

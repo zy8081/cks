@@ -305,11 +305,3 @@ int judge_press_mainbutton(int flag,int *page)
    	}
 	return 0;
 }
-
-void left_button_clear_activate(int n,char *s[])
-{
-	clrmous(MouseX,MouseY);
-    clear_main_all(); 
-    draw_left_toolbotton_activate(95 , 65, s[n-1]);//¼¤»îÐÂµÄ
-    clear_right_all();
-}

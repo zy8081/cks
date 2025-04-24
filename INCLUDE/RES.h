@@ -1,5 +1,5 @@
-#ifndef __RES_H
-#define __RES_H
+#ifndef RES_H
+#define RES_H
 int people_max(struct GameInfo *pg,char *path);
 void people_cost(int *data,struct GameInfo *pg);
 int happiness_count(struct GameInfo *pg,char *path);

@@ -1,5 +1,5 @@
-#ifndef __TIMEFLOW_H
-#define __TIMEFLOW_H
+#ifndef TIMEFLOW_H
+#define TIMEFLOW_H
 void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep);
 void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n,WORKFILE *workfilep);
 //void backprtt();
