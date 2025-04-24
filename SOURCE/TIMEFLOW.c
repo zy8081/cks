@@ -501,6 +501,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			}
 			if (flag==0)
 			{
+				clrmous(MouseX,MouseY);
 				LoadBMP(317,300,707,520,13);
 				continue;
 			}
@@ -511,6 +512,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			flag=time_comf(6);
 			if(flag==1)
 			{
+				clrmous(MouseX,MouseY);
 				LoadBMP(317,300,707,520,13);
 				if(time_warning()==1)
 				{
@@ -540,6 +542,7 @@ int timeflow(struct GameInfo*pg, nodebq* p,int (*event)[2],WORKFILE* pw)
 			flag=time_comf(12);
 			if(flag==1)
 			{
+				clrmous(MouseX,MouseY);
 				LoadBMP(317,300,707,520,13);
 				if(time_warning()==1)
 				{
