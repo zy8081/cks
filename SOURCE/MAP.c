@@ -736,7 +736,7 @@ void expblock(struct GameInfo* pg, int* pxsel,int *pysel,int i,int j)
     line_thick(x1, y2, x2, y2, 2,0);
     line_thick(x1, y1, x1, y2, 2,0);
 
-        if(pg->m_info[*pysel+i][*pxsel+j].exp==0)
+        if(pg->m_info[*pysel+j][*pxsel+i].exp==0)
         {
             char s[15];
             int page;
