@@ -6,7 +6,7 @@
 #include<stdlib.h> 
 #include<bios.h> 
 #include<dos.h> 
-#include<mouse.h>
+#include<mouset.h>
 #include<conio.h>
 #include<hz.h>
 #include<time.h>

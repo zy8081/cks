@@ -98,27 +98,31 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
 		}
 		else if (left_toolbotton_mouse_press(4) == 1) //左栏被点中的情况
         {
-			//exit(1);
-			int restyle;
-            clrmous(MouseX,MouseY);
-            clear_main_all(); 
-            draw_left_toolbotton_activate(95 , l, s[3]);//激活新的
-            clear_right_all();
-			restyle=quit();
-			if(restyle>100)
+			draw_quit_confirm();
+			while(1)
 			{
-				if(restyle%10==1)
+				mouse_renew(&MouseX,&MouseY,&press);
+				if (mouse_press(400,550,500,600)==1)
 				{
 					save_gminfo(gameinfop,pwork,5);
 					save_node(pwork,p);
 					file_save(pwork->path);
 					file_copy(pwork->path);
 					logfile_copy(pwork->path);
+					delay(200);
+					exit(0);
 				}
-				return (restyle-restyle%10)/10;
+				else if(mouse_press(550,550,650,600)==1)
+				{
+					exit(0);
+				}
+				else if(mouse_press(700,550,800,600)==1)
+				{
+					clrmous(MouseX,MouseY);
+					LoadBMP(395,295,805,605,0);
+					break;
+				}
 			}
-			else return restyle;
-			
 		}
 		else if (left_toolbotton_mouse_press(5) == 1) //左栏被点中的情况
         {
@@ -126,6 +130,20 @@ int proj_fun5(struct GameInfo* gameinfop,nodebq *p,WORKFILE* pwork,int(*events)[
 			intro_book(1);
 		}
 	}
+}
+
+void draw_quit_confirm(void)
+{
+	SaveBMP(395,295,805,605,0);
+	btn_bar_Draw(400,300,800,600);
+	btn_bar_Draw(400,550,500,600);
+	puthz2(400,550,32,32,1,"是");
+	btn_bar_Draw(700,550,800,600);
+	puthz2(700,550,32,32,1,"取消");
+	btn_bar_Draw(550,550,650,600);
+	puthz2(550,550,32,32,1,"否");
+
+	puthz2(410,300,32,32,0xA000,"是否保存后退出？");
 }
 
 void draw_timeflow_remind(struct GameInfo* gameinfop,nodebq *p,char *path)

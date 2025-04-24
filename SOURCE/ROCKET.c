@@ -803,7 +803,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
     int complete[3]={0,0,0};
     char time[30];
     clrmous(MouseX,MouseY);
-    SaveBMP(0,0,1024,768,9);
+    SaveBMP(10,10,1014,758,9);
     rocket_a_prtall();
     rocket_init(pr);
     while(1)
@@ -824,7 +824,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
         if(mouse_press(15,15,55,55)==1)
         {
             clrmous(MouseX,MouseY);
-            LoadBMP(0,0,1024,768,9);
+            LoadBMP(10,10,1014,758,9);
             rocket_init(pr);
             return;
         }
@@ -876,7 +876,7 @@ void rocket_apply(RKTINFO* pr,struct GameInfo* pg, int nyear,int nmonth)
                 {
                     char t[20];
                     clrmous(MouseX,MouseY);
-                    LoadBMP(0,0,1024,768,9);
+                    LoadBMP(10,10,1014,758,9);
                     pg->r_info.fuel-=pr->refuelpay;
                     bar(238,99,1024,768,65535);
                     pr->month=nmonth;

@@ -772,14 +772,14 @@ void file_copy(char *path)
 	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
-		printf("open error\n");
+		debug_file_printf(path1);
 		return;
 	}
 	sprintf(path2,"%s\\buildt.TXT",path);
 	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
-		printf("open error\n");
+		debug_file_printf(path2);
 		return;
 	}
 	
@@ -794,14 +794,14 @@ void file_copy(char *path)
 	file1=fopen(path1,"r");
 	if (file1==NULL)
 	{
-		printf("open error\n");
+		debug_file_printf(path1);
 		return;
 	}
 	sprintf(path2,"%s\\techt.TXT",path);
 	file2=fopen(path2,"w");
 	if (file2==NULL)
 	{
-		printf("open error\n");
+		debug_file_printf(path2);
 		return;
 	}
 	while((c=fgetc(file1))!=EOF)

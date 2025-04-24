@@ -1,4 +1,4 @@
-#include<mouse.h>
+#include<mouset.h>
 #include <dos.h>
 #include <stdio.h>
 #include <conio.h>

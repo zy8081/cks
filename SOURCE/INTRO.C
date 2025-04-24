@@ -13,10 +13,10 @@ void intro_book(int page)
     pageindex[3]=13;
     pageindex[4]=21;
     pageindex[5]=1;
-    SaveBMP(0,0,1024,768,10);
-    clear_main_all(); 
-    clear_right_all();
-    bar(0,0,1024,768,0xffff);
+    SaveBMP(10,10,1014,758,10);
+    //clear_main_all(); 
+    //clear_right_all();
+    //bar(0,0,1024,768,0xffff);
     Readbmp64k(0,0,"PICTURE\\login.bmp");
     draw_introbook();
     printf_intropage_from_txt(newpage);
@@ -35,7 +35,7 @@ void intro_book(int page)
         if (mouse_press(475,710,625,760)==1)
         {
             clrmous(MouseX,MouseY);
-            LoadBMP(0,0,1024,768,10);
+            LoadBMP(10,10,1014,758,10);
             return ;
         }
         if (mouse_press(120,710,220,760)==1 || temp==1)

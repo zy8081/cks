@@ -130,10 +130,14 @@ void wrkmng_menu(int *fpage1,char*user,WORKFILE*pwork)
         {
             wrkdelete(workpage,sel,user);
             n=workcount(user);
-
+            clrmous(MouseX,MouseY);
+            menuprt(202,100,802,700);
+            drawworkmain(workpage,n,user);
+            form=0;
+            continue;
             //test();
-            *fpage1=0;
-            return;
+            //*fpage1=0;
+            //return;
             
         }
         if(form==1&&mouse_press(842,190,962,240)==1)

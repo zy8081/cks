@@ -102,7 +102,7 @@ void inputs(int x ,int y ,char *content,int n)
 		key=bioskey(0);
 		if ((key>='A' && key<='Z') || (key>='a' && key<='z') || (key>='0' && key<='9'))
 		{
-			if (i<=8)
+			if (i<8)
 			{
 				content[i]=key;
 				content[i+1]='\0';

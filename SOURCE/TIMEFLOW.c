@@ -164,7 +164,7 @@ void timeflow_more(struct GameInfo *gameinfop,nodebq *p,int n,WORKFILE *workfile
 		sprintf(t,"%d",n);
 		put_hz24_asc32(0,0,t,0,"HZK//HZK24");
 		clrmous(MouseX,MouseY);
-		SaveBMP(238,568,1024,768,16);
+		SaveBMP(238,568,1014,758,16);
 		menuprt(238,568,1024,768);
 		btn_bar_Draw(940,570,990,610);
     	line_thick(940,570,990,610,2,0);
