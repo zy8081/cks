@@ -124,6 +124,10 @@ int happiness_count(struct GameInfo *pg,char *path)
     {
         happyminus=happyminus-(pg->people)*1;
     }
+    else
+    {
+        happyminus-=1100;
+    }
     
     pg->happiness[0]=happyadd+happyminus;
     //pg->happiness[0]=(int)((float)(htr[0]-200+htr[1]-300+htr[2]-200+htr[3]-300)*(1.0+((float)(pg->happiness[1])/100.0)));

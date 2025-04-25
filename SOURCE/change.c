@@ -319,6 +319,7 @@ void change_building_info_onfilemap_rate(struct GameInfo *gameinfop,int id,int f
 	int basic;
 	int after_modify;
 	char c;
+	int flag=0;
 	char str[30]={'\0'};
 	char path1[35];
 	char path2[35];
@@ -354,6 +355,10 @@ void change_building_info_onfilemap_rate(struct GameInfo *gameinfop,int id,int f
 	}
 	str[i]='\0';
 	basic=atoi(str);
+	if (basic<0)
+	{
+		flag=1;
+	}
 	fclose(file1);
 
 	sprintf(path1,"%s\\buildt.TXT",path);
@@ -411,7 +416,7 @@ void change_building_info_onfilemap_rate(struct GameInfo *gameinfop,int id,int f
 	// getchar();
 	// exit(0);
 	after_modify=change+atoi(str);
-	if (after_modify<=0)
+	if (after_modify<=0 && flag==0)
 	{
 		fputs(str,file2);
 		fputc(c,file2);
@@ -645,7 +650,7 @@ void research_3_3(struct GameInfo *gameinfop,char *path)
 void research_3_4(struct GameInfo *gameinfop,char *path)
 {
 	change_building_info_onfilemap(gameinfop,8,8,-10,path);
-	change_building_info_onfilemap(gameinfop,8,8,80,path);
+	change_building_info_onfilemap(gameinfop,8,10,80,path);
 }
 
 //所有工厂型建筑产出+40%，消耗+40%
@@ -653,32 +658,32 @@ void research_3_5(struct GameInfo *gameinfop,char *path)
 {
 	//5水培
 	change_building_info_onfilemap_rate(gameinfop,5,7,40,path);
-	change_building_info_onfilemap_rate(gameinfop,5,6,-40,path);
-	change_building_info_onfilemap_rate(gameinfop,5,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,5,6,40,path);
+	change_building_info_onfilemap_rate(gameinfop,5,8,40,path);
 	//6淡水
 	change_building_info_onfilemap_rate(gameinfop,6,6,40,path);
-	change_building_info_onfilemap_rate(gameinfop,6,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,6,8,40,path);
 	//7氧气
 	change_building_info_onfilemap_rate(gameinfop,7,5,40,path);
-	change_building_info_onfilemap(gameinfop,7,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,7,8,40,path);
 	//9火电
-	change_building_info_onfilemap(gameinfop,9,9,-40,path);
-	change_building_info_onfilemap(gameinfop,9,8,40,path);
+	change_building_info_onfilemap_rate(gameinfop,9,9,40,path);
+	change_building_info_onfilemap_rate(gameinfop,9,8,40,path);
 	//11燃料合成堆
-	change_building_info_onfilemap(gameinfop,11,9,40,path);
-	change_building_info_onfilemap(gameinfop,11,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,11,9,40,path);
+	change_building_info_onfilemap_rate(gameinfop,11,8,40,path);
 	//13基础材料厂
-	change_building_info_onfilemap(gameinfop,13,3,40,path);
-	change_building_info_onfilemap(gameinfop,13,10,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,13,3,40,path);
+	change_building_info_onfilemap_rate(gameinfop,13,10,40,path);
 	//14食物合成堆
-	change_building_info_onfilemap(gameinfop,14,7,40,path);
-	change_building_info_onfilemap(gameinfop,14,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,14,7,40,path);
+	change_building_info_onfilemap_rate(gameinfop,14,8,40,path);
 	//16综合性工厂
-	change_building_info_onfilemap(gameinfop,16,3,40,path);
-	change_building_info_onfilemap(gameinfop,16,5,40,path);
-	change_building_info_onfilemap(gameinfop,16,6,40,path);
-	change_building_info_onfilemap(gameinfop,16,8,-40,path);
-	change_building_info_onfilemap(gameinfop,16,10,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,3,40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,5,40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,6,40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,8,40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,10,40,path);
 }
 
 //所有工厂型建筑产出+50%，消耗+40%
@@ -686,64 +691,64 @@ void research_3_6(struct GameInfo *gameinfop,char *path)
 {
 	//5水培
 	change_building_info_onfilemap_rate(gameinfop,5,7,50,path);
-	change_building_info_onfilemap_rate(gameinfop,5,6,-40,path);
-	change_building_info_onfilemap_rate(gameinfop,5,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,5,6,40,path);
+	change_building_info_onfilemap_rate(gameinfop,5,8,40,path);
 	//6淡水
 	change_building_info_onfilemap_rate(gameinfop,6,6,50,path);
-	change_building_info_onfilemap_rate(gameinfop,6,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,6,8,40,path);
 	//7氧气
 	change_building_info_onfilemap_rate(gameinfop,7,5,50,path);
-	change_building_info_onfilemap(gameinfop,7,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,7,8,40,path);
 	//9火电
-	change_building_info_onfilemap(gameinfop,9,9,-40,path);
-	change_building_info_onfilemap(gameinfop,9,8,50,path);
+	change_building_info_onfilemap_rate(gameinfop,9,9,40,path);
+	change_building_info_onfilemap_rate(gameinfop,9,8,50,path);
 	//11燃料合成堆
-	change_building_info_onfilemap(gameinfop,11,9,50,path);
-	change_building_info_onfilemap(gameinfop,11,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,11,9,50,path);
+	change_building_info_onfilemap_rate(gameinfop,11,8,40,path);
 	//13基础材料厂
-	change_building_info_onfilemap(gameinfop,13,3,50,path);
-	change_building_info_onfilemap(gameinfop,13,10,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,13,3,50,path);
+	change_building_info_onfilemap_rate(gameinfop,13,10,40,path);
 	//14食物合成堆
-	change_building_info_onfilemap(gameinfop,14,7,50,path);
-	change_building_info_onfilemap(gameinfop,14,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,14,7,50,path);
+	change_building_info_onfilemap_rate(gameinfop,14,8,40,path);
 	//16综合性工厂
-	change_building_info_onfilemap(gameinfop,16,3,50,path);
-	change_building_info_onfilemap(gameinfop,16,5,50,path);
-	change_building_info_onfilemap(gameinfop,16,6,50,path);
-	change_building_info_onfilemap(gameinfop,16,8,-40,path);
-	change_building_info_onfilemap(gameinfop,16,10,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,3,50,path);
+	change_building_info_onfilemap_rate(gameinfop,16,5,50,path);
+	change_building_info_onfilemap_rate(gameinfop,16,6,50,path);
+	change_building_info_onfilemap_rate(gameinfop,16,8,40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,10,40,path);
 }
 //所有工厂型建筑产出+60%，消耗+40%
 void research_3_7(struct GameInfo *gameinfop,char *path)
 {
 	//5水培
 	change_building_info_onfilemap_rate(gameinfop,5,7,60,path);
-	change_building_info_onfilemap_rate(gameinfop,5,6,-40,path);
-	change_building_info_onfilemap_rate(gameinfop,5,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,5,6,40,path);
+	change_building_info_onfilemap_rate(gameinfop,5,8,40,path);
 	//6淡水
 	change_building_info_onfilemap_rate(gameinfop,6,6,60,path);
-	change_building_info_onfilemap_rate(gameinfop,6,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,6,8,40,path);
 	//7氧气
 	change_building_info_onfilemap_rate(gameinfop,7,5,60,path);
-	change_building_info_onfilemap(gameinfop,7,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,7,8,40,path);
 	//9火电
-	change_building_info_onfilemap(gameinfop,9,9,-40,path);
-	change_building_info_onfilemap(gameinfop,9,8,60,path);
+	change_building_info_onfilemap_rate(gameinfop,9,9,40,path);
+	change_building_info_onfilemap_rate(gameinfop,9,8,60,path);
 	//11燃料合成堆
-	change_building_info_onfilemap(gameinfop,11,9,60,path);
-	change_building_info_onfilemap(gameinfop,11,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,11,9,60,path);
+	change_building_info_onfilemap_rate(gameinfop,11,8,40,path);
 	//13基础材料厂
-	change_building_info_onfilemap(gameinfop,13,3,60,path);
-	change_building_info_onfilemap(gameinfop,13,10,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,13,3,60,path);
+	change_building_info_onfilemap_rate(gameinfop,13,10,40,path);
 	//14食物合成堆
-	change_building_info_onfilemap(gameinfop,14,7,60,path);
-	change_building_info_onfilemap(gameinfop,14,8,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,14,7,60,path);
+	change_building_info_onfilemap_rate(gameinfop,14,8,40,path);
 	//16综合性工厂
-	change_building_info_onfilemap(gameinfop,16,3,60,path);
-	change_building_info_onfilemap(gameinfop,16,5,60,path);
-	change_building_info_onfilemap(gameinfop,16,6,60,path);
-	change_building_info_onfilemap(gameinfop,16,8,-40,path);
-	change_building_info_onfilemap(gameinfop,16,10,-40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,3,60,path);
+	change_building_info_onfilemap_rate(gameinfop,16,5,60,path);
+	change_building_info_onfilemap_rate(gameinfop,16,6,60,path);
+	change_building_info_onfilemap_rate(gameinfop,16,8,40,path);
+	change_building_info_onfilemap_rate(gameinfop,16,10,40,path);
 }
 //太阳能电池板产出+50
 void research_3_8(struct GameInfo *gameinfop,char *path)

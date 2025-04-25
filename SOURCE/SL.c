@@ -78,58 +78,168 @@ void gminfo_init(char* datpath,int t)
 
 }
 
-void save_node(WORKFILE* work,nodebq* pnode1)
+// void save_node(WORKFILE* work,nodebq* pnode1)
+// {
+// 	char pathnode[50];
+// 	FILE* fnode;
+// 	nodebq* pnode=pnode1;
+// 	strcpy(pathnode,work->path);
+// 	strcat(pathnode,"\\usernode.nod");
+// 	fnode=fopen(pathnode,"wb");
+// 	while(pnode!=NULL)
+// 	{
+// 		fwrite(pnode,sizeof(nodebq),(size_t)1,fnode);
+// 		pnode=pnode->next;
+// 	}
+// 	fclose(fnode);
+// 	return;
+// }
+
+
+void save_node(WORKFILE* work, nodebq* head) 
 {
-	char pathnode[50];
+    char pathnode[50];
 	FILE* fnode;
-	nodebq* pnode=pnode1;
+    // 计算节点数量
+    int count = 0;
+    nodebq* current = head;
+    while (current!=NULL) 
+	{
+        count++;
+        current = current->next;
+    }
 	strcpy(pathnode,work->path);
 	strcat(pathnode,"\\usernode.nod");
-	fnode=fopen(pathnode,"rb+");
-	while(pnode!=NULL)
+
+    fnode = fopen(pathnode, "wb");
+    if (fnode==NULL) 
 	{
-		fwrite(pnode,sizeof(nodebq),(size_t)1,fnode);
-		pnode=pnode->next;
-	}
-	fclose(fnode);
-	free(pathnode);
-	return;
+        return;
+    }
+
+    // 写入节点数量
+    fwrite(&count, sizeof(int), 1, fnode);
+
+    // 写入数据 (仅i和j)
+    current = head;
+    while (current!=NULL) 
+	{
+        fwrite(&current->i, sizeof(int), 1, fnode);
+        fwrite(&current->j, sizeof(int), 1, fnode);
+        current = current->next;
+    }
+
+    fclose(fnode);
 }
 
-nodebq* load_node(WORKFILE work)
-{
-	char*pathnode=malloc((size_t)50);
+nodebq* load_node(WORKFILE work) {
+    // 1. 安全拼接路径
+    char pathnode[50];
 	FILE* fnode;
-	nodebq* pnode=create_nodebq();
-	nodebq* pnodetemp=pnode;
+	int count;
+	int i;
+	nodebq* head = NULL;
+    nodebq** current_ptr = &head; // 二级指针简化链表链接
+    //snprintf(pathnode, sizeof(pathnode), "%s/usernode.nod", work->path);
 	strcpy(pathnode,work.path);
 	strcat(pathnode,"\\usernode.nod");
-	fnode=fopen(pathnode,"rb+");
-	while(1)
+    // 2. 打开文件
+    fnode = fopen(pathnode, "rb");
+    if (fnode==NULL) 
 	{
-		fread(pnode,sizeof(nodebq),(size_t)1,fnode);
-		if(pnode->next==NULL)break;
-		else
-		{
-			pnode->next=create_nodebq();
-			pnode=pnode->next;
-		}
+        // perror("Error loading file");
+        // return NULL;
+		exit(0);
+    }
 
-	}
-	fclose(fnode);
-	free(pathnode);
-	return pnodetemp;
+    // 3. 读取节点数量
+    
+    if (fread(&count, sizeof(int), 1, fnode) != 1) 
+	{
+        // fclose(fnode);
+        // return NULL;
+		exit(0);
+    }
+
+    // 4. 重建链表
+    
+
+    for (i = 0; i < count; i++)
+	{
+        // 创建新节点
+        nodebq* new_node = (nodebq*)malloc(sizeof(nodebq));
+        if (new_node==NULL) 
+		{
+            // perror("Memory allocation failed");
+            // break; // 需清理已分配节点（略）
+			exit(0);
+        }
+        new_node->next = NULL;
+
+        // 读取数据
+        if (fread(&new_node->i, sizeof(int), 1, fnode) != 1 ||fread(&new_node->j, sizeof(int), 1, fnode) != 1) 
+		{
+            free(new_node);
+            break; // 文件损坏或读取错误
+        }
+
+        // 链接到链表
+        *current_ptr = new_node;
+        current_ptr = &(new_node->next);
+    }
+
+    fclose(fnode);
+    return head;
 }
 
-void node_init(char*pathnode)
+// nodebq* load_node(WORKFILE work)
+// {
+// 	char*pathnode=malloc((size_t)50);
+// 	FILE* fnode;
+// 	nodebq* pnode=create_nodebq();
+// 	nodebq* pnodetemp=pnode;
+// 	strcpy(pathnode,work.path);
+// 	strcat(pathnode,"\\usernode.nod");
+// 	fnode=fopen(pathnode,"rb+");
+// 	while(1)
+// 	{
+// 		fread(pnode,sizeof(nodebq),(size_t)1,fnode);
+// 		if(pnode->next==NULL)break;
+// 		else
+// 		{
+// 			pnode->next=create_nodebq();
+// 			pnode=pnode->next;
+// 		}
+
+// 	}
+// 	fclose(fnode);
+// 	free(pathnode);
+// 	return pnodetemp;
+// }
+
+// void node_init(char*pathnode)
+// {
+// 	FILE* f;
+// 	nodebq* pnode=create_nodebq();
+// 	f=fopen(pathnode,"rb+");
+// 	fwrite(pnode,sizeof(nodebq),(size_t)1,f);
+// 	fclose(f);
+// 	//free(paehnode);
+// 	free(pnode);
+// }
+
+void node_init(char* pathnode) 
 {
-	FILE* f;
-	nodebq* pnode=create_nodebq();
-	f=fopen(pathnode,"rb+");
-	fwrite(pnode,sizeof(nodebq),(size_t)1,f);
-	fclose(f);
-	//free(paehnode);
-	free(pnode);
+    FILE* f;
+	int count=1;
+    nodebq* pnode = create_nodebq();
+    f = fopen(pathnode, "wb");
+	fwrite(&count,sizeof(int), (size_t)1, f);
+    fwrite(&(pnode->i), sizeof(int), (size_t)1, f);
+    fwrite(&(pnode->j), sizeof(int), (size_t)1, f);
+
+    fclose(f);
+    free(pnode);
 }
 
 int quit(void)//返回11x表示项目管理，12x表示登录，13x关闭程序

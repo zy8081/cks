@@ -398,6 +398,7 @@ nodebq* create_nodebq(void)
 	nodebq *p=(nodebq*)malloc(sizeof(nodebq));
 	p->next=NULL;
 	p->i=1;
+	p->j=1;
 	return p;
 }
 

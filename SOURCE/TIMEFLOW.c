@@ -7,6 +7,8 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 	int data[8];
 	int i,j;
 	nodebq *temp=p;
+	nodebq *temp2;
+	int *flag;
 	int happy=happiness_count(gameinfop,workfilep->path);
 	int resbuff1=cal_happiness_resbuff(happy);
 	int resbuff2=cal_buildpoint_resbuff(gameinfop,workfilep->path);
@@ -40,11 +42,36 @@ void time_flow(struct GameInfo *gameinfop,nodebq *p,WORKFILE *workfilep)
 			break;
 		}
 		gameinfop->m_info[temp->i][temp->j].building.bui_time--;
+	}
+	//i是链表有效长度
+	flag=(int *)malloc(i*sizeof(int));
+
+	temp=p;
+	for (j=0;j<i;j++)
+	{
+		temp=temp->next;
+		if (temp==NULL)
+		{
+			break;
+		}
 		if (gameinfop->m_info[temp->i][temp->j].building.bui_time==0)
 		{
-			headremove_nodebq(p);
+			flag[j]=1;
+		}
+		else
+		{
+			flag[j]=0;
 		}
 	}
+
+	for (j=i;j>0;j--)
+	{
+		if (flag[j-1]==1)
+		{
+			delete_nodebq(p,j);
+		}
+	}
+	free(flag);
 	clear_time();
 	gameinfop->month++;
 	if(gameinfop->month==13)

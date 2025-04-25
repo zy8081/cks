@@ -55,8 +55,6 @@ int project(struct workfile w)
 	load_gminfo(w,&gameinfo);
 	/*
 	这里预留空间通过文件读取操作访问存档
-	
-	
 	*/
 	clrmous(MouseX,MouseY); 
 	delay(100); 

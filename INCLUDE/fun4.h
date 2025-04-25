@@ -10,18 +10,18 @@ typedef struct NodeTech
 	int point;
 }nodet;
 
-typedef struct TreeTechnology
+typedef struct TreeTechnology   //用于科技研究中科技树节点的数据结构
 {
-	int id;
-	int type;
-	int flag;
-	int point;
-	struct TreeTechnology *child[CHILD_NUM];
-	struct TreeTechnology *parent[PARENT_NUM];
-	char name[20];
-	int floor;
-	int x;
-	int y;
+	int id;          //科技id
+	int type;		 //科技种类
+	int flag;			//科技是否已经被研究
+	int point;			//研究完该科技所需的科研点
+	struct TreeTechnology *child[CHILD_NUM];  //指向子节点的指针
+	struct TreeTechnology *parent[PARENT_NUM];	//指向父节点的指针
+	char name[20];		//科技名
+	int floor;			//科技所在的树层数
+	int x;				//画科技节点的X位置
+	int y;				//画科技节点的Y位置
 }tree;
 
 int proj_fun4(struct GameInfo* gameinfop,struct workfile *workfilep);
